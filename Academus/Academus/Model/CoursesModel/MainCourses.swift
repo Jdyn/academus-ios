@@ -1,5 +1,5 @@
 //
-//  MainCourse.swift
+//  MainCourses.swift
 //  Academus
 //
 //  Created by Jaden Moore on 2/12/18.
@@ -8,11 +8,9 @@
 
 import Foundation
 
-struct MainCourse {
+struct MainCourses {
     public private(set) var courseName : String!
     public private(set) var courseLetter : String!
-    public private(set) var coursePercent : Float
+    public private(set) var coursePercent : Float!
     public private(set) var coursePeriod : String!
-
 }
-

@@ -27,9 +27,13 @@
 		D72A2793202EE92D00B0AA8E /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72A2792202EE92D00B0AA8E /* CreateAccountVC.swift */; };
 		D72A2795202EE94000B0AA8E /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72A2794202EE94000B0AA8E /* LogInVC.swift */; };
 		D72A2797202EEDEB00B0AA8E /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72A2796202EEDEB00B0AA8E /* WelcomeVC.swift */; };
-		D72A279B202FC56700B0AA8E /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72A279A202FC56700B0AA8E /* UserDataService.swift */; };
-		D7816D4420327EF100EAB48D /* MainCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7816D4320327EF100EAB48D /* MainCourse.swift */; };
-		D7816D4820328B4700EAB48D /* GradesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7816D4720328B4700EAB48D /* GradesController.swift */; };
+		D77AFE832032C1FF00CDE130 /* MainCourses.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE822032C1FF00CDE130 /* MainCourses.swift */; };
+		D77AFE852032CF1B00CDE130 /* AssignmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE842032CF1B00CDE130 /* AssignmentService.swift */; };
+		D77AFE892032D17600CDE130 /* Assignments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE882032D17600CDE130 /* Assignments.swift */; };
+		D77AFE8B2032D1F600CDE130 /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE8A2032D1F600CDE130 /* Assignment.swift */; };
+		D77AFE8D2032D25400CDE130 /* AssignmentEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE8C2032D25400CDE130 /* AssignmentEntry.swift */; };
+		D77AFE8F2032D30F00CDE130 /* AssignmentScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE8E2032D30F00CDE130 /* AssignmentScore.swift */; };
+		D77AFE912032D37E00CDE130 /* AssignmentCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE902032D37E00CDE130 /* AssignmentCourse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,9 +80,13 @@
 		D72A2792202EE92D00B0AA8E /* CreateAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountVC.swift; sourceTree = "<group>"; };
 		D72A2794202EE94000B0AA8E /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
 		D72A2796202EEDEB00B0AA8E /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
-		D72A279A202FC56700B0AA8E /* UserDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataService.swift; sourceTree = "<group>"; };
-		D7816D4320327EF100EAB48D /* MainCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCourse.swift; sourceTree = "<group>"; };
-		D7816D4720328B4700EAB48D /* GradesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradesController.swift; sourceTree = "<group>"; };
+		D77AFE822032C1FF00CDE130 /* MainCourses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCourses.swift; sourceTree = "<group>"; };
+		D77AFE842032CF1B00CDE130 /* AssignmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentService.swift; sourceTree = "<group>"; };
+		D77AFE882032D17600CDE130 /* Assignments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assignments.swift; sourceTree = "<group>"; };
+		D77AFE8A2032D1F600CDE130 /* Assignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assignment.swift; sourceTree = "<group>"; };
+		D77AFE8C2032D25400CDE130 /* AssignmentEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentEntry.swift; sourceTree = "<group>"; };
+		D77AFE8E2032D30F00CDE130 /* AssignmentScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentScore.swift; sourceTree = "<group>"; };
+		D77AFE902032D37E00CDE130 /* AssignmentCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentCourse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,11 +135,8 @@
 		D7023EBF2030511A00BFED4B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D7023ED5203152E700BFED4B /* Courses.swift */,
-				D7023ED7203152F100BFED4B /* Course.swift */,
-				D7023ED92031530000BFED4B /* Integration.swift */,
-				D7023EDB2031530D00BFED4B /* Grade.swift */,
-				D7816D4320327EF100EAB48D /* MainCourse.swift */,
+				D77AFE872032CF8800CDE130 /* AssignmentsModel */,
+				D77AFE862032CF5B00CDE130 /* CoursesModel */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -185,8 +190,8 @@
 			isa = PBXGroup;
 			children = (
 				D70D8960202E72E00051BDF2 /* AuthService.swift */,
-				D72A279A202FC56700B0AA8E /* UserDataService.swift */,
 				D7023EBB2030502400BFED4B /* CourseService.swift */,
+				D77AFE842032CF1B00CDE130 /* AssignmentService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -209,9 +214,32 @@
 				D72A2792202EE92D00B0AA8E /* CreateAccountVC.swift */,
 				D72A2794202EE94000B0AA8E /* LogInVC.swift */,
 				D72A2796202EEDEB00B0AA8E /* WelcomeVC.swift */,
-				D7816D4720328B4700EAB48D /* GradesController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		D77AFE862032CF5B00CDE130 /* CoursesModel */ = {
+			isa = PBXGroup;
+			children = (
+				D77AFE822032C1FF00CDE130 /* MainCourses.swift */,
+				D7023ED5203152E700BFED4B /* Courses.swift */,
+				D7023ED7203152F100BFED4B /* Course.swift */,
+				D7023ED92031530000BFED4B /* Integration.swift */,
+				D7023EDB2031530D00BFED4B /* Grade.swift */,
+			);
+			path = CoursesModel;
+			sourceTree = "<group>";
+		};
+		D77AFE872032CF8800CDE130 /* AssignmentsModel */ = {
+			isa = PBXGroup;
+			children = (
+				D77AFE882032D17600CDE130 /* Assignments.swift */,
+				D77AFE8A2032D1F600CDE130 /* Assignment.swift */,
+				D77AFE8C2032D25400CDE130 /* AssignmentEntry.swift */,
+				D77AFE902032D37E00CDE130 /* AssignmentCourse.swift */,
+				D77AFE8E2032D30F00CDE130 /* AssignmentScore.swift */,
+			);
+			path = AssignmentsModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -410,17 +438,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7023EDA2031530000BFED4B /* Integration.swift in Sources */,
-				D7816D4820328B4700EAB48D /* GradesController.swift in Sources */,
+				D77AFE912032D37E00CDE130 /* AssignmentCourse.swift in Sources */,
 				D70D895F202E72D30051BDF2 /* Constants.swift in Sources */,
 				D70D8924202E54F20051BDF2 /* PlannerVC.swift in Sources */,
 				D7023ED6203152E700BFED4B /* Courses.swift in Sources */,
 				D72A2795202EE94000B0AA8E /* LogInVC.swift in Sources */,
 				D70D895D202E5F9F0051BDF2 /* SettingsVC.swift in Sources */,
 				D70D8961202E72E00051BDF2 /* AuthService.swift in Sources */,
-				D7816D4420327EF100EAB48D /* MainCourse.swift in Sources */,
 				D72A2793202EE92D00B0AA8E /* CreateAccountVC.swift in Sources */,
-				D72A279B202FC56700B0AA8E /* UserDataService.swift in Sources */,
+				D77AFE8B2032D1F600CDE130 /* Assignment.swift in Sources */,
+				D77AFE892032D17600CDE130 /* Assignments.swift in Sources */,
+				D77AFE832032C1FF00CDE130 /* MainCourses.swift in Sources */,
 				D7023EBA20304D5700BFED4B /* MainController.swift in Sources */,
+				D77AFE852032CF1B00CDE130 /* AssignmentService.swift in Sources */,
+				D77AFE8F2032D30F00CDE130 /* AssignmentScore.swift in Sources */,
+				D77AFE8D2032D25400CDE130 /* AssignmentEntry.swift in Sources */,
 				D7023EBC2030502400BFED4B /* CourseService.swift in Sources */,
 				D7023EDC2031530D00BFED4B /* Grade.swift in Sources */,
 				D7023EC82031284800BFED4B /* CourseCell.swift in Sources */,

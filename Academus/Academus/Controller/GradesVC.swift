@@ -14,7 +14,6 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     static var instance = GradesVC()
-    var mainCourse = [MainCourse]()
     var refreshControl: UIRefreshControl = UIRefreshControl()
     var timer: Timer!
     
@@ -24,15 +23,15 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.dataSource = self
         self.tableView.decelerationRate = UIScrollViewDecelerationRateNormal
         
-        self.getCourses { (success) in
-            print(success)
+        CourseService.instance.getCourses { (success) in
             self.tableView.reloadData()
+            print("GradesVC: Data loaded onGradesViewLoad")
         }
+        
         refreshControl.addTarget(self, action: #selector(GradesVC.refreshData), for: UIControlEvents.valueChanged)
         refreshControl.tintColor = UIColor.white
         refreshControl.backgroundColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
-//        refreshControl.attributedTitle = NSAttributedString(string: "What text should I put here", attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
-        
+
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
@@ -41,10 +40,9 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func refreshData() {
-        self.getCourses { (success) in
+        CourseService.instance.getCourses { (success) in
             self.aTimer()
-            //self.refreshControl.endRefreshing()
-            print(true)
+            print("Data refreshed")
         }
     }
     
@@ -59,40 +57,11 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         timer = nil
     }
     
-    func getCourses(completion: @escaping CompletetionHandler) {
-        Alamofire.request(URL_COURSE!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
-            
-            guard let data = response.data else {return}
-            if response.result.error == nil {
-                do {
-                    
-                    let courses = try JSONDecoder().decode(Courses.self, from: data)
-                    
-                    for eachCourse in courses.result {
-                        let name = eachCourse.name
-                        let letter = eachCourse.grade.letter
-                        let grade = eachCourse.grade.percent
-                        let period = String(eachCourse.period)
-                        let aCourse = MainCourse(courseName: name, courseLetter: letter, coursePercent: grade, coursePeriod: period)
-                        self.mainCourse.append(aCourse)
-                        
-                    }
-                    
-                } catch let error {
-                    debugPrint(error)
-                }
-                completion(true)
-            } else {
-                
-                completion(false)
-            }
-        }
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "courseCell", for: indexPath) as? CourseCell {
-            cell.configureCell(mainCourse: mainCourse[indexPath.row])
+            cell.configureCell(mainCourses: CourseService.instance.mainCourses[indexPath.row])
             return cell
         } else {
             return UITableViewCell()
@@ -104,8 +73,17 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mainCourse.count
+        return CourseService.instance.mainCourses.count
     }
     
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "toCourseDetails", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //if let destination = segue.destination as?
+    }
+    
+    
+    
 }

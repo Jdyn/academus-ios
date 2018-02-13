@@ -43,11 +43,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="597"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleAspectFit" directionalLockEnabled="YES" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="black" delaysContentTouches="NO" dataMode="prototypes" style="plain" separatorInsetReference="fromAutomaticInsets" rowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="HTo-Ve-Wb4">
+                            <tableView clipsSubviews="YES" contentMode="scaleAspectFit" directionalLockEnabled="YES" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" indicatorStyle="black" delaysContentTouches="NO" dataMode="prototypes" style="plain" rowHeight="60" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="HTo-Ve-Wb4">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                                 <color key="backgroundColor" red="0.18823529411764706" green="0.18823529411764706" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" red="0.38823529411764707" green="0.38823529411764707" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
-                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="tcq-g1-7J5">
                                     <rect key="frame" x="0.0" y="88" width="375" height="0.66666666666666663"/>
@@ -122,11 +121,27 @@
                     <navigationItem key="navigationItem" title="Academus" id="mmi-pC-vqs"/>
                     <connections>
                         <outlet property="tableView" destination="HTo-Ve-Wb4" id="yEB-l1-0fm"/>
+                        <segue destination="ghY-uv-vf5" kind="show" identifier="toCourseDetails" id="IN1-Sk-Wo4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GRV-oA-KwG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="492" y="739.65517241379314"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="9RJ-ta-WsZ">
+            <objects>
+                <viewController id="ghY-uv-vf5" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hph-dZ-WGm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="597"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="fH2-Ui-bN1"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n4h-PB-5XK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1218" y="740"/>
         </scene>
         <!--PlannerVC-->
         <scene sceneID="Pbb-Hu-BB8">
@@ -194,6 +209,7 @@
         <!--Grades-->
         <scene sceneID="akz-ez-6a4">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hHN-h7-2jX" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="GradesNavController" automaticallyAdjustsScrollViewInsets="NO" id="XJ0-QO-qbJ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Grades" image="grades" selectedImage="grades" id="n6s-H0-jWT">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-5"/>
@@ -202,6 +218,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="uUt-bz-42F">
                         <rect key="frame" x="0.0" y="-44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.70196078429999997" green="0.86274509799999999" blue="0.71372549019999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.13725490196078433" green="0.13725490196078433" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="20"/>
@@ -213,7 +230,6 @@
                         <segue destination="vAp-yT-HGc" kind="relationship" relationship="rootViewController" id="KoQ-ac-OT2"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hHN-h7-2jX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-314" y="741"/>
         </scene>
@@ -621,6 +637,7 @@
         <!--Navigation Controller-->
         <scene sceneID="BGi-cx-q3u">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vIQ-LO-tcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="WelcomeNavController" id="mXB-jS-HMg" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Vpe-3d-XXS">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -632,7 +649,6 @@
                         <segue destination="JEF-aA-3Lr" kind="relationship" relationship="rootViewController" id="avg-gM-kSi"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vIQ-LO-tcc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3657" y="679"/>
         </scene>

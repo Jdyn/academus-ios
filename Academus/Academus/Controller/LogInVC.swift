@@ -23,14 +23,12 @@ class LogInVC: UIViewController {
         if (fieldCheck) {
             logInUser()
         }
-        CourseService.instance.getCourses { (success) in
-            print(success)
-        }
+
     }
     
     func userFieldCheck() {
         if (emailTextField.text?.isEmpty)! || (passwordTextField.text?.isEmpty)! {
-            alertMessage(userMessage: "Missing field.")
+            alertMessage(userMessage: "You are  a Missing field.")
             fieldCheck = false
             return
         } else {
@@ -42,10 +40,10 @@ class LogInVC: UIViewController {
         AuthService.instance.logInUser(email: emailTextField.text!, password: passwordTextField.text!)
         { (success) in
             if success {
-                print("logged in user")
+                print("LogInVC: User Log in successful")
                 self.performSegue(withIdentifier: "toMainApp", sender: nil)
             } else {
-                print("log in failure")
+                print("LogInVC: User Log in failure")
                 self.alertMessage(userMessage: "Wrong username or password.")
             }
         }
