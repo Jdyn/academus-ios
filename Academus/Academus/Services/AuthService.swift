@@ -14,6 +14,7 @@ class AuthService {
     
     static let instance = AuthService()
     let defaults = UserDefaults.standard
+    //let logInVC = LogInVC()
     
     var isLoggedIn : Bool {
         get {
@@ -38,9 +39,6 @@ class AuthService {
         }
     }
     
-
-    
-    
     func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String,
                     completion: @escaping CompletetionHandler) {
         
@@ -55,10 +53,10 @@ class AuthService {
                 "email": lowerCaseEmail,
                 "password": password,
                 ]
-            ] //as [String: String]
+            ]
         
         Alamofire.request(URL_REGISTER!, method: .post, parameters: body, encoding: JSONEncoding.default, headers: HEADER).responseString { (response) in
-            
+        
             if response.result.error == nil {
                 completion(true)
                 print(response)
@@ -73,7 +71,7 @@ class AuthService {
         let lowerCaseEmail = email.lowercased()
         
         let body: Parameters = [
-            "user":[
+            "user":[    
                 "email": lowerCaseEmail,
                 "password": password
                 ]
@@ -84,11 +82,15 @@ class AuthService {
             if response.result.error == nil {
                 guard let data = response.data else {return}
                 let json = try! JSON(data: data)
-                self.userEmail = json["user"].stringValue
-                self.authToken = json["token"].stringValue
-                self.isLoggedIn = true
-                print(response.result.value as Any)
-                completion(true)
+                let success = json["success"].boolValue
+                if (success) {
+                    self.userEmail = json["result"]["user"].stringValue
+                    self.authToken = json["result"]["token"].stringValue
+                    self.isLoggedIn = true
+                    completion(true)
+                } else {
+                    completion(false)
+                }
             } else {
                 completion(false)
                 debugPrint(response.result.error as Any)

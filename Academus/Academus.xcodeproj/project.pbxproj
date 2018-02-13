@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		8C14EC20C642B46CF38F36CC /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7530CA73679DDCA3091DBF4E /* Pods_Academus.framework */; };
+		D7023EBA20304D5700BFED4B /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023EB920304D5700BFED4B /* MainController.swift */; };
+		D7023EBC2030502400BFED4B /* CourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023EBB2030502400BFED4B /* CourseService.swift */; };
+		D7023EC82031284800BFED4B /* CourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023EC72031284800BFED4B /* CourseCell.swift */; };
+		D7023ED6203152E700BFED4B /* Courses.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023ED5203152E700BFED4B /* Courses.swift */; };
+		D7023ED8203152F100BFED4B /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023ED7203152F100BFED4B /* Course.swift */; };
+		D7023EDA2031530000BFED4B /* Integration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023ED92031530000BFED4B /* Integration.swift */; };
+		D7023EDC2031530D00BFED4B /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023EDB2031530D00BFED4B /* Grade.swift */; };
 		D70D8922202E54F20051BDF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70D8921202E54F20051BDF2 /* AppDelegate.swift */; };
 		D70D8924202E54F20051BDF2 /* PlannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70D8923202E54F20051BDF2 /* PlannerVC.swift */; };
 		D70D8927202E54F20051BDF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D70D8925202E54F20051BDF2 /* Main.storyboard */; };
@@ -21,6 +28,8 @@
 		D72A2795202EE94000B0AA8E /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72A2794202EE94000B0AA8E /* LogInVC.swift */; };
 		D72A2797202EEDEB00B0AA8E /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72A2796202EEDEB00B0AA8E /* WelcomeVC.swift */; };
 		D72A279B202FC56700B0AA8E /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72A279A202FC56700B0AA8E /* UserDataService.swift */; };
+		D7816D4420327EF100EAB48D /* MainCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7816D4320327EF100EAB48D /* MainCourse.swift */; };
+		D7816D4820328B4700EAB48D /* GradesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7816D4720328B4700EAB48D /* GradesController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +53,13 @@
 		645DDA5B3EBC8931E59E2632 /* Pods-Academus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.debug.xcconfig"; sourceTree = "<group>"; };
 		7530CA73679DDCA3091DBF4E /* Pods_Academus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Academus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8B69FAF6B3DA64B5D15F6AC /* Pods-Academus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.release.xcconfig"; sourceTree = "<group>"; };
+		D7023EB920304D5700BFED4B /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		D7023EBB2030502400BFED4B /* CourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseService.swift; sourceTree = "<group>"; };
+		D7023EC72031284800BFED4B /* CourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCell.swift; sourceTree = "<group>"; };
+		D7023ED5203152E700BFED4B /* Courses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Courses.swift; sourceTree = "<group>"; };
+		D7023ED7203152F100BFED4B /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		D7023ED92031530000BFED4B /* Integration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Integration.swift; sourceTree = "<group>"; };
+		D7023EDB2031530D00BFED4B /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
 		D70D891E202E54F20051BDF2 /* Academus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Academus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D70D8921202E54F20051BDF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D70D8923202E54F20051BDF2 /* PlannerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerVC.swift; sourceTree = "<group>"; };
@@ -61,6 +77,8 @@
 		D72A2794202EE94000B0AA8E /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
 		D72A2796202EEDEB00B0AA8E /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		D72A279A202FC56700B0AA8E /* UserDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataService.swift; sourceTree = "<group>"; };
+		D7816D4320327EF100EAB48D /* MainCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCourse.swift; sourceTree = "<group>"; };
+		D7816D4720328B4700EAB48D /* GradesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradesController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +124,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D7023EBF2030511A00BFED4B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D7023ED5203152E700BFED4B /* Courses.swift */,
+				D7023ED7203152F100BFED4B /* Course.swift */,
+				D7023ED92031530000BFED4B /* Integration.swift */,
+				D7023EDB2031530D00BFED4B /* Grade.swift */,
+				D7816D4320327EF100EAB48D /* MainCourse.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D7023EC22031223700BFED4B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D7023EC72031284800BFED4B /* CourseCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		D70D8915202E54F20051BDF2 = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +167,8 @@
 		D70D8920202E54F20051BDF2 /* Academus */ = {
 			isa = PBXGroup;
 			children = (
+				D7023EC22031223700BFED4B /* View */,
+				D7023EBF2030511A00BFED4B /* Model */,
 				D70D8951202E55A60051BDF2 /* Controller */,
 				D70D8950202E558F0051BDF2 /* Utilities */,
 				D70D894F202E55840051BDF2 /* Services */,
@@ -146,6 +186,7 @@
 			children = (
 				D70D8960202E72E00051BDF2 /* AuthService.swift */,
 				D72A279A202FC56700B0AA8E /* UserDataService.swift */,
+				D7023EBB2030502400BFED4B /* CourseService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -161,12 +202,14 @@
 		D70D8951202E55A60051BDF2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				D7023EB920304D5700BFED4B /* MainController.swift */,
 				D70D8923202E54F20051BDF2 /* PlannerVC.swift */,
 				D70D895A202E5F950051BDF2 /* GradesVC.swift */,
 				D70D895C202E5F9F0051BDF2 /* SettingsVC.swift */,
 				D72A2792202EE92D00B0AA8E /* CreateAccountVC.swift */,
 				D72A2794202EE94000B0AA8E /* LogInVC.swift */,
 				D72A2796202EEDEB00B0AA8E /* WelcomeVC.swift */,
+				D7816D4720328B4700EAB48D /* GradesController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -366,14 +409,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7023EDA2031530000BFED4B /* Integration.swift in Sources */,
+				D7816D4820328B4700EAB48D /* GradesController.swift in Sources */,
 				D70D895F202E72D30051BDF2 /* Constants.swift in Sources */,
 				D70D8924202E54F20051BDF2 /* PlannerVC.swift in Sources */,
+				D7023ED6203152E700BFED4B /* Courses.swift in Sources */,
 				D72A2795202EE94000B0AA8E /* LogInVC.swift in Sources */,
 				D70D895D202E5F9F0051BDF2 /* SettingsVC.swift in Sources */,
 				D70D8961202E72E00051BDF2 /* AuthService.swift in Sources */,
+				D7816D4420327EF100EAB48D /* MainCourse.swift in Sources */,
 				D72A2793202EE92D00B0AA8E /* CreateAccountVC.swift in Sources */,
 				D72A279B202FC56700B0AA8E /* UserDataService.swift in Sources */,
+				D7023EBA20304D5700BFED4B /* MainController.swift in Sources */,
+				D7023EBC2030502400BFED4B /* CourseService.swift in Sources */,
+				D7023EDC2031530D00BFED4B /* Grade.swift in Sources */,
+				D7023EC82031284800BFED4B /* CourseCell.swift in Sources */,
 				D72A2797202EEDEB00B0AA8E /* WelcomeVC.swift in Sources */,
+				D7023ED8203152F100BFED4B /* Course.swift in Sources */,
 				D70D8922202E54F20051BDF2 /* AppDelegate.swift in Sources */,
 				D70D895B202E5F950051BDF2 /* GradesVC.swift in Sources */,
 			);

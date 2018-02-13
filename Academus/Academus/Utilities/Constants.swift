@@ -13,8 +13,10 @@ typealias CompletetionHandler = (_ Success: Bool) -> ()
 
 
 // HTTP Requesting
-let URL_REGISTER = URL(string: "https://app.academus.io/api/register")
-let URL_LOGIN = URL(string: "https://app.academus.io/api/login")
+let BASE_URL = "https://app-test.academus.io"
+let URL_REGISTER = URL(string: "\(BASE_URL)/api/register")
+let URL_LOGIN = URL(string: "\(BASE_URL)/api/login")
+let URL_COURSE = URL(string: "https://app-test.academus.io/api/courses?token=\(AuthService.instance.authToken)")
 
 
 // User Defaults
