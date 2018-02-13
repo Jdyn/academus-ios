@@ -15,16 +15,48 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     static var instance = GradesVC()
     var mainCourse = [MainCourse]()
-
+    var refreshControl: UIRefreshControl = UIRefreshControl()
+    var timer: Timer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-
+        self.tableView.decelerationRate = UIScrollViewDecelerationRateNormal
+        
         self.getCourses { (success) in
             print(success)
             self.tableView.reloadData()
         }
+        refreshControl.addTarget(self, action: #selector(GradesVC.refreshData), for: UIControlEvents.valueChanged)
+        refreshControl.tintColor = UIColor.white
+        refreshControl.backgroundColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
+//        refreshControl.attributedTitle = NSAttributedString(string: "What text should I put here", attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+        
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+    }
+    
+    @objc func refreshData() {
+        self.getCourses { (success) in
+            self.aTimer()
+            //self.refreshControl.endRefreshing()
+            print(true)
+        }
+    }
+    
+    func aTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(GradesVC.endOfTimer), userInfo: nil, repeats: true)
+    }
+    
+    @objc func endOfTimer() {
+        refreshControl.endRefreshing()
+        
+        timer.invalidate()
+        timer = nil
     }
     
     func getCourses(completion: @escaping CompletetionHandler) {
