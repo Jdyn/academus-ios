@@ -28,6 +28,10 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             print("GradesVC: Data loaded onGradesViewLoad")
         }
         
+        AssignmentService.instance.getAssignments { (success) in
+            
+        }
+        
         refreshControl.addTarget(self, action: #selector(GradesVC.refreshData), for: UIControlEvents.valueChanged)
         refreshControl.tintColor = UIColor.white
         refreshControl.backgroundColor = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1)
@@ -81,9 +85,14 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //if let destination = segue.destination as?
+    
+        if segue.identifier == "toCourseDetails" {
+            let selected = CourseService.instance.mainCourses[(tableView.indexPathForSelectedRow?.row)!].courseID
+            
+            if let destination = segue.destination as? GradesAssignmentVC {
+                destination.filter = selected!
+            }
+        }
+        
     }
-    
-    
-    
 }

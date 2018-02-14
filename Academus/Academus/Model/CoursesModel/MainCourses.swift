@@ -13,4 +13,5 @@ struct MainCourses {
     public private(set) var courseLetter : String!
     public private(set) var coursePercent : Float!
     public private(set) var coursePeriod : String!
+    public private(set) var courseID : Int!
 }

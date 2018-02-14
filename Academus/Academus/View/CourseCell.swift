@@ -27,6 +27,9 @@ class CourseCell: UITableViewCell {
     }
 
     func configureCell(mainCourses : MainCourses) {
+        
+        
+        
         courseName.text! = mainCourses.courseName
         coursePeriod.text! = mainCourses.coursePeriod
         courseGrade.text! = mainCourses.courseLetter

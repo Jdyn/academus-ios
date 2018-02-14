@@ -43,6 +43,10 @@
 		D77AFEA02033C1D400CDE130 /* IntegrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE9F2033C1D400CDE130 /* IntegrationCell.swift */; };
 		D77AFEA22033CCD500CDE130 /* SelectIntegrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFEA12033CCD500CDE130 /* SelectIntegrationVC.swift */; };
 		D77AFEA42033E03B00CDE130 /* LogInIntegrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFEA32033E03B00CDE130 /* LogInIntegrationVC.swift */; };
+		D77AFEA82033F17B00CDE130 /* MainUpcomingAssignments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFEA72033F17B00CDE130 /* MainUpcomingAssignments.swift */; };
+		D77AFEAA2033F1D200CDE130 /* MainOtherAssignments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFEA92033F1D200CDE130 /* MainOtherAssignments.swift */; };
+		D77AFEAE2033F33E00CDE130 /* UpcomingAssignmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFEAD2033F33E00CDE130 /* UpcomingAssignmentCell.swift */; };
+		D77AFEB02033F35400CDE130 /* OtherAssignmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFEAF2033F35400CDE130 /* OtherAssignmentCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +109,10 @@
 		D77AFE9F2033C1D400CDE130 /* IntegrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationCell.swift; sourceTree = "<group>"; };
 		D77AFEA12033CCD500CDE130 /* SelectIntegrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIntegrationVC.swift; sourceTree = "<group>"; };
 		D77AFEA32033E03B00CDE130 /* LogInIntegrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInIntegrationVC.swift; sourceTree = "<group>"; };
+		D77AFEA72033F17B00CDE130 /* MainUpcomingAssignments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainUpcomingAssignments.swift; sourceTree = "<group>"; };
+		D77AFEA92033F1D200CDE130 /* MainOtherAssignments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainOtherAssignments.swift; sourceTree = "<group>"; };
+		D77AFEAD2033F33E00CDE130 /* UpcomingAssignmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingAssignmentCell.swift; sourceTree = "<group>"; };
+		D77AFEAF2033F35400CDE130 /* OtherAssignmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherAssignmentCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +173,8 @@
 			children = (
 				D7023EC72031284800BFED4B /* CourseCell.swift */,
 				D77AFE9F2033C1D400CDE130 /* IntegrationCell.swift */,
+				D77AFEAD2033F33E00CDE130 /* UpcomingAssignmentCell.swift */,
+				D77AFEAF2033F35400CDE130 /* OtherAssignmentCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -257,6 +267,8 @@
 		D77AFE872032CF8800CDE130 /* AssignmentsModel */ = {
 			isa = PBXGroup;
 			children = (
+				D77AFEA72033F17B00CDE130 /* MainUpcomingAssignments.swift */,
+				D77AFEA92033F1D200CDE130 /* MainOtherAssignments.swift */,
 				D77AFE882032D17600CDE130 /* Assignments.swift */,
 				D77AFE8A2032D1F600CDE130 /* Assignment.swift */,
 				D77AFE8C2032D25400CDE130 /* AssignmentEntry.swift */,
@@ -475,11 +487,14 @@
 				D77AFE952033B1D600CDE130 /* IntegrationService.swift in Sources */,
 				D7023EDA2031530000BFED4B /* CourseIntegration.swift in Sources */,
 				D77AFEA22033CCD500CDE130 /* SelectIntegrationVC.swift in Sources */,
+				D77AFEB02033F35400CDE130 /* OtherAssignmentCell.swift in Sources */,
 				D77AFE912032D37E00CDE130 /* AssignmentCourse.swift in Sources */,
 				D70D895F202E72D30051BDF2 /* Constants.swift in Sources */,
 				D77AFE932033974D00CDE130 /* GradesAssignmentVC.swift in Sources */,
 				D77AFE9C2033B60B00CDE130 /* IntegrationFields.swift in Sources */,
+				D77AFEAE2033F33E00CDE130 /* UpcomingAssignmentCell.swift in Sources */,
 				D70D8924202E54F20051BDF2 /* PlannerVC.swift in Sources */,
+				D77AFEA82033F17B00CDE130 /* MainUpcomingAssignments.swift in Sources */,
 				D7023ED6203152E700BFED4B /* Courses.swift in Sources */,
 				D77AFEA42033E03B00CDE130 /* LogInIntegrationVC.swift in Sources */,
 				D72A2795202EE94000B0AA8E /* LogInVC.swift in Sources */,
@@ -493,6 +508,7 @@
 				D77AFE8B2032D1F600CDE130 /* Assignment.swift in Sources */,
 				D77AFE892032D17600CDE130 /* Assignments.swift in Sources */,
 				D77AFE832032C1FF00CDE130 /* MainCourses.swift in Sources */,
+				D77AFEAA2033F1D200CDE130 /* MainOtherAssignments.swift in Sources */,
 				D7023EBA20304D5700BFED4B /* MainController.swift in Sources */,
 				D77AFE852032CF1B00CDE130 /* AssignmentService.swift in Sources */,
 				D77AFE8F2032D30F00CDE130 /* AssignmentScore.swift in Sources */,

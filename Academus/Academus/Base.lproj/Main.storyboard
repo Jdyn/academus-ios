@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mMa-hF-wtP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kI7-2r-6XX">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -28,7 +28,7 @@
                         <color key="backgroundColor" red="0.18823529411764706" green="0.18823529411764706" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="j91-NF-DRq"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Academus" id="Spt-LL-FN0"/>
+                    <navigationItem key="navigationItem" title="Settings" id="Spt-LL-FN0"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XkO-3d-gmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -117,7 +117,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9h9-JQ-KZE"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Academus" id="mmi-pC-vqs"/>
+                    <navigationItem key="navigationItem" title="Courses" id="mmi-pC-vqs"/>
                     <connections>
                         <outlet property="tableView" destination="HTo-Ve-Wb4" id="yEB-l1-0fm"/>
                         <segue destination="ghY-uv-vf5" kind="show" identifier="toCourseDetails" id="IN1-Sk-Wo4"/>
@@ -127,20 +127,102 @@
             </objects>
             <point key="canvasLocation" x="84" y="1011"/>
         </scene>
-        <!--View Controller-->
+        <!--Assignments-->
         <scene sceneID="9RJ-ta-WsZ">
             <objects>
-                <viewController modalTransitionStyle="partialCurl" hidesBottomBarWhenPushed="YES" id="ghY-uv-vf5" sceneMemberID="viewController">
+                <viewController title="Assignments" modalTransitionStyle="crossDissolve" hidesBottomBarWhenPushed="YES" id="ghY-uv-vf5" customClass="GradesAssignmentVC" customModule="Academus" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hph-dZ-WGm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="50" estimatedRowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BI1-Md-ghS">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.13725490196078433" green="0.13725490196078433" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="separatorColor" red="0.38823529411764707" green="0.38823529411764707" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="cbJ-Oo-8bw">
+                                    <rect key="frame" x="0.0" y="128" width="375" height="0.5"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.38823529411764707" green="0.38823529411764707" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
+                                </view>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="upcomingAssignmentCell" id="NYo-d9-Qcl" customClass="UpcomingAssignmentCell" customModule="Academus" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NYo-d9-Qcl" id="Yr9-SA-yrP">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Upcoming Assignment Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="thb-jZ-Rez">
+                                                    <rect key="frame" x="10" y="14" width="202" height="22"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 out of 100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hk7-L2-q0A">
+                                                    <rect key="frame" x="284.5" y="17" width="80.5" height="16.5"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Hk7-L2-q0A" firstAttribute="centerY" secondItem="Yr9-SA-yrP" secondAttribute="centerY" id="71Z-Ep-zI1"/>
+                                                <constraint firstItem="thb-jZ-Rez" firstAttribute="centerY" secondItem="Yr9-SA-yrP" secondAttribute="centerY" id="Env-Ml-DPE"/>
+                                                <constraint firstAttribute="trailing" secondItem="Hk7-L2-q0A" secondAttribute="trailing" constant="10" id="FBt-W4-LZX"/>
+                                                <constraint firstItem="thb-jZ-Rez" firstAttribute="leading" secondItem="Yr9-SA-yrP" secondAttribute="leading" constant="10" id="s31-HF-kJX"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.18823529411764706" green="0.18823529411764706" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="OtherAssignmentCell" rowHeight="50" id="9Qf-P2-jkk" customClass="OtherAssignmentCell" customModule="Academus" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="78" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9Qf-P2-jkk" id="O4l-eU-rvy">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other Assignment Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R0Y-re-lPR">
+                                                    <rect key="frame" x="10" y="14" width="168" height="22"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 out of 100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gjd-3D-G2V">
+                                                    <rect key="frame" x="284" y="16" width="81" height="17"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="12"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.13725490196078433" green="0.13725490196078433" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="R0Y-re-lPR" firstAttribute="centerY" secondItem="O4l-eU-rvy" secondAttribute="centerY" id="Agw-Ku-NVw"/>
+                                                <constraint firstAttribute="trailing" secondItem="gjd-3D-G2V" secondAttribute="trailing" constant="10" id="N4F-FF-wtD"/>
+                                                <constraint firstItem="R0Y-re-lPR" firstAttribute="leading" secondItem="O4l-eU-rvy" secondAttribute="leading" constant="10" id="a1Q-2E-aau"/>
+                                                <constraint firstItem="gjd-3D-G2V" firstAttribute="centerY" secondItem="O4l-eU-rvy" secondAttribute="centerY" id="rf5-bH-wmJ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.18823529411764706" green="0.18823529411764706" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="AssignmentGrade" destination="gjd-3D-G2V" id="EMK-ze-ZfK"/>
+                                            <outlet property="AssignmentTitle" destination="R0Y-re-lPR" id="J4m-Lr-1R6"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" red="0.18823529411764706" green="0.18823529411764706" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                         <viewLayoutGuide key="safeArea" id="fH2-Ui-bN1"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="BI1-Md-ghS" id="tCP-cH-XNj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n4h-PB-5XK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="860" y="1011"/>
+            <point key="canvasLocation" x="860" y="1010.6446776611695"/>
         </scene>
         <!--PlannerVC-->
         <scene sceneID="Pbb-Hu-BB8">
@@ -318,7 +400,6 @@
         <!--Grades-->
         <scene sceneID="akz-ez-6a4">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hHN-h7-2jX" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="GradesNavController" automaticallyAdjustsScrollViewInsets="NO" id="XJ0-QO-qbJ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Grades" image="grades" selectedImage="grades" id="n6s-H0-jWT">
                         <color key="badgeColor" red="0.13725490196078433" green="0.13725490196078433" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
@@ -343,6 +424,7 @@
                         <segue destination="vAp-yT-HGc" kind="relationship" relationship="rootViewController" id="KoQ-ac-OT2"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hHN-h7-2jX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-698" y="1011"/>
         </scene>

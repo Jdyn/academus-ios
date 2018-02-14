@@ -29,9 +29,10 @@ class CourseService {
                         let name = eachCourse.name
                         let letter = eachCourse.grade.letter
                         let grade = eachCourse.grade.percent
+                        let id = eachCourse.id
                         let period = String(eachCourse.period)
                         
-                        let courses = MainCourses(courseName: name, courseLetter: letter, coursePercent: grade, coursePeriod: period)
+                        let courses = MainCourses(courseName: name, courseLetter: letter, coursePercent: grade, coursePeriod: period, courseID: id)
                         self.mainCourses.append(courses)
                         
                     }

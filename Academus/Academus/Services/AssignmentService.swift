@@ -10,10 +10,19 @@ import Foundation
 import SwiftyJSON
 import Alamofire
 
-class assignmentService {
+class AssignmentService {
     
-    static let instance = assignmentService()
+    static let instance = AssignmentService()
+    var mainUpcomingAssignments = [MainUpcomingAssignments]()
+    var mainOtherAssignments = [MainOtherAssignments]()
     
+    func getUpcomingAssignmentsForCourse(courseId: Int) -> [MainUpcomingAssignments] {
+        return mainUpcomingAssignments.filter { $0.UpcomingAssignmentCourseID == courseId }
+    }
+    
+    func getOtherAssignmentsForCourse(courseId: Int) -> [MainOtherAssignments] {
+        return mainOtherAssignments.filter { $0.otherAssignmentCourse == courseId }
+    }
     
     func getAssignments(completion: @escaping CompletetionHandler) {
         Alamofire.request(URL_ASSIGNMENT!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
@@ -25,11 +34,24 @@ class assignmentService {
                     let assignments = try JSONDecoder().decode(Assignments.self, from: data)
                     
                     for eachAssignment in assignments.result.others {
-                        let otherName = eachAssignment.name
+                        let otherAssignmentName = eachAssignment.name
+                        let otherAssignmentGrade = eachAssignment.score.text
+                        let otherAssignmentCourseID = eachAssignment.course.id
+
+                        
+                        let assignment = MainOtherAssignments(otherAssignmentName: otherAssignmentName, otherAssignmentGrade: otherAssignmentGrade, otherAssignmentCourse: otherAssignmentCourseID)
+                        
+                        self.mainOtherAssignments.append(assignment)
                     }
 
                     for eachAssignment in assignments.result.upcoming {
-                        let upcomingName = eachAssignment.name
+                        let upcomingAssignmentName = eachAssignment.name
+                        let upcomingAssignmentGrade = eachAssignment.score.text
+                        let upcomingAssignmentCourseID = eachAssignment.course.id
+                        
+                        let assignment = MainUpcomingAssignments(UpcomingAssignmentName: upcomingAssignmentName, UpcomingAssignmentGrade: upcomingAssignmentGrade, UpcomingAssignmentCourseID: upcomingAssignmentCourseID)
+                        
+                        self.mainUpcomingAssignments.append(assignment)
                     }
                     
                 } catch let error {
