@@ -13,8 +13,8 @@
 		D7023EC82031284800BFED4B /* CourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023EC72031284800BFED4B /* CourseCell.swift */; };
 		D7023ED6203152E700BFED4B /* Courses.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023ED5203152E700BFED4B /* Courses.swift */; };
 		D7023ED8203152F100BFED4B /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023ED7203152F100BFED4B /* Course.swift */; };
-		D7023EDA2031530000BFED4B /* Integration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023ED92031530000BFED4B /* Integration.swift */; };
-		D7023EDC2031530D00BFED4B /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023EDB2031530D00BFED4B /* Grade.swift */; };
+		D7023EDA2031530000BFED4B /* CourseIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023ED92031530000BFED4B /* CourseIntegration.swift */; };
+		D7023EDC2031530D00BFED4B /* CourseGrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7023EDB2031530D00BFED4B /* CourseGrade.swift */; };
 		D70D8922202E54F20051BDF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70D8921202E54F20051BDF2 /* AppDelegate.swift */; };
 		D70D8924202E54F20051BDF2 /* PlannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70D8923202E54F20051BDF2 /* PlannerVC.swift */; };
 		D70D8927202E54F20051BDF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D70D8925202E54F20051BDF2 /* Main.storyboard */; };
@@ -34,6 +34,15 @@
 		D77AFE8D2032D25400CDE130 /* AssignmentEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE8C2032D25400CDE130 /* AssignmentEntry.swift */; };
 		D77AFE8F2032D30F00CDE130 /* AssignmentScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE8E2032D30F00CDE130 /* AssignmentScore.swift */; };
 		D77AFE912032D37E00CDE130 /* AssignmentCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE902032D37E00CDE130 /* AssignmentCourse.swift */; };
+		D77AFE932033974D00CDE130 /* GradesAssignmentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE922033974D00CDE130 /* GradesAssignmentVC.swift */; };
+		D77AFE952033B1D600CDE130 /* IntegrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE942033B1D600CDE130 /* IntegrationService.swift */; };
+		D77AFE982033B50200CDE130 /* Integrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE972033B50200CDE130 /* Integrations.swift */; };
+		D77AFE9A2033B59E00CDE130 /* Integration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE992033B59E00CDE130 /* Integration.swift */; };
+		D77AFE9C2033B60B00CDE130 /* IntegrationFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE9B2033B60B00CDE130 /* IntegrationFields.swift */; };
+		D77AFE9E2033BC4400CDE130 /* MainIntegrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE9D2033BC4400CDE130 /* MainIntegrations.swift */; };
+		D77AFEA02033C1D400CDE130 /* IntegrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFE9F2033C1D400CDE130 /* IntegrationCell.swift */; };
+		D77AFEA22033CCD500CDE130 /* SelectIntegrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFEA12033CCD500CDE130 /* SelectIntegrationVC.swift */; };
+		D77AFEA42033E03B00CDE130 /* LogInIntegrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77AFEA32033E03B00CDE130 /* LogInIntegrationVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,8 +71,8 @@
 		D7023EC72031284800BFED4B /* CourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCell.swift; sourceTree = "<group>"; };
 		D7023ED5203152E700BFED4B /* Courses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Courses.swift; sourceTree = "<group>"; };
 		D7023ED7203152F100BFED4B /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
-		D7023ED92031530000BFED4B /* Integration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Integration.swift; sourceTree = "<group>"; };
-		D7023EDB2031530D00BFED4B /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
+		D7023ED92031530000BFED4B /* CourseIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseIntegration.swift; sourceTree = "<group>"; };
+		D7023EDB2031530D00BFED4B /* CourseGrade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseGrade.swift; sourceTree = "<group>"; };
 		D70D891E202E54F20051BDF2 /* Academus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Academus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D70D8921202E54F20051BDF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D70D8923202E54F20051BDF2 /* PlannerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerVC.swift; sourceTree = "<group>"; };
@@ -87,6 +96,15 @@
 		D77AFE8C2032D25400CDE130 /* AssignmentEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentEntry.swift; sourceTree = "<group>"; };
 		D77AFE8E2032D30F00CDE130 /* AssignmentScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentScore.swift; sourceTree = "<group>"; };
 		D77AFE902032D37E00CDE130 /* AssignmentCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentCourse.swift; sourceTree = "<group>"; };
+		D77AFE922033974D00CDE130 /* GradesAssignmentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradesAssignmentVC.swift; sourceTree = "<group>"; };
+		D77AFE942033B1D600CDE130 /* IntegrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationService.swift; sourceTree = "<group>"; };
+		D77AFE972033B50200CDE130 /* Integrations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Integrations.swift; sourceTree = "<group>"; };
+		D77AFE992033B59E00CDE130 /* Integration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Integration.swift; sourceTree = "<group>"; };
+		D77AFE9B2033B60B00CDE130 /* IntegrationFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationFields.swift; sourceTree = "<group>"; };
+		D77AFE9D2033BC4400CDE130 /* MainIntegrations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainIntegrations.swift; sourceTree = "<group>"; };
+		D77AFE9F2033C1D400CDE130 /* IntegrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationCell.swift; sourceTree = "<group>"; };
+		D77AFEA12033CCD500CDE130 /* SelectIntegrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIntegrationVC.swift; sourceTree = "<group>"; };
+		D77AFEA32033E03B00CDE130 /* LogInIntegrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInIntegrationVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +153,7 @@
 		D7023EBF2030511A00BFED4B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D77AFE962033B1E400CDE130 /* IntegrationModel */,
 				D77AFE872032CF8800CDE130 /* AssignmentsModel */,
 				D77AFE862032CF5B00CDE130 /* CoursesModel */,
 			);
@@ -145,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				D7023EC72031284800BFED4B /* CourseCell.swift */,
+				D77AFE9F2033C1D400CDE130 /* IntegrationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -192,6 +212,7 @@
 				D70D8960202E72E00051BDF2 /* AuthService.swift */,
 				D7023EBB2030502400BFED4B /* CourseService.swift */,
 				D77AFE842032CF1B00CDE130 /* AssignmentService.swift */,
+				D77AFE942033B1D600CDE130 /* IntegrationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -210,10 +231,13 @@
 				D7023EB920304D5700BFED4B /* MainController.swift */,
 				D70D8923202E54F20051BDF2 /* PlannerVC.swift */,
 				D70D895A202E5F950051BDF2 /* GradesVC.swift */,
+				D77AFE922033974D00CDE130 /* GradesAssignmentVC.swift */,
 				D70D895C202E5F9F0051BDF2 /* SettingsVC.swift */,
 				D72A2792202EE92D00B0AA8E /* CreateAccountVC.swift */,
 				D72A2794202EE94000B0AA8E /* LogInVC.swift */,
 				D72A2796202EEDEB00B0AA8E /* WelcomeVC.swift */,
+				D77AFEA12033CCD500CDE130 /* SelectIntegrationVC.swift */,
+				D77AFEA32033E03B00CDE130 /* LogInIntegrationVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -224,8 +248,8 @@
 				D77AFE822032C1FF00CDE130 /* MainCourses.swift */,
 				D7023ED5203152E700BFED4B /* Courses.swift */,
 				D7023ED7203152F100BFED4B /* Course.swift */,
-				D7023ED92031530000BFED4B /* Integration.swift */,
-				D7023EDB2031530D00BFED4B /* Grade.swift */,
+				D7023ED92031530000BFED4B /* CourseIntegration.swift */,
+				D7023EDB2031530D00BFED4B /* CourseGrade.swift */,
 			);
 			path = CoursesModel;
 			sourceTree = "<group>";
@@ -240,6 +264,17 @@
 				D77AFE8E2032D30F00CDE130 /* AssignmentScore.swift */,
 			);
 			path = AssignmentsModel;
+			sourceTree = "<group>";
+		};
+		D77AFE962033B1E400CDE130 /* IntegrationModel */ = {
+			isa = PBXGroup;
+			children = (
+				D77AFE9D2033BC4400CDE130 /* MainIntegrations.swift */,
+				D77AFE972033B50200CDE130 /* Integrations.swift */,
+				D77AFE992033B59E00CDE130 /* Integration.swift */,
+				D77AFE9B2033B60B00CDE130 /* IntegrationFields.swift */,
+			);
+			path = IntegrationModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -437,14 +472,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7023EDA2031530000BFED4B /* Integration.swift in Sources */,
+				D77AFE952033B1D600CDE130 /* IntegrationService.swift in Sources */,
+				D7023EDA2031530000BFED4B /* CourseIntegration.swift in Sources */,
+				D77AFEA22033CCD500CDE130 /* SelectIntegrationVC.swift in Sources */,
 				D77AFE912032D37E00CDE130 /* AssignmentCourse.swift in Sources */,
 				D70D895F202E72D30051BDF2 /* Constants.swift in Sources */,
+				D77AFE932033974D00CDE130 /* GradesAssignmentVC.swift in Sources */,
+				D77AFE9C2033B60B00CDE130 /* IntegrationFields.swift in Sources */,
 				D70D8924202E54F20051BDF2 /* PlannerVC.swift in Sources */,
 				D7023ED6203152E700BFED4B /* Courses.swift in Sources */,
+				D77AFEA42033E03B00CDE130 /* LogInIntegrationVC.swift in Sources */,
 				D72A2795202EE94000B0AA8E /* LogInVC.swift in Sources */,
 				D70D895D202E5F9F0051BDF2 /* SettingsVC.swift in Sources */,
 				D70D8961202E72E00051BDF2 /* AuthService.swift in Sources */,
+				D77AFE982033B50200CDE130 /* Integrations.swift in Sources */,
+				D77AFE9E2033BC4400CDE130 /* MainIntegrations.swift in Sources */,
+				D77AFE9A2033B59E00CDE130 /* Integration.swift in Sources */,
+				D77AFEA02033C1D400CDE130 /* IntegrationCell.swift in Sources */,
 				D72A2793202EE92D00B0AA8E /* CreateAccountVC.swift in Sources */,
 				D77AFE8B2032D1F600CDE130 /* Assignment.swift in Sources */,
 				D77AFE892032D17600CDE130 /* Assignments.swift in Sources */,
@@ -454,7 +498,7 @@
 				D77AFE8F2032D30F00CDE130 /* AssignmentScore.swift in Sources */,
 				D77AFE8D2032D25400CDE130 /* AssignmentEntry.swift in Sources */,
 				D7023EBC2030502400BFED4B /* CourseService.swift in Sources */,
-				D7023EDC2031530D00BFED4B /* Grade.swift in Sources */,
+				D7023EDC2031530D00BFED4B /* CourseGrade.swift in Sources */,
 				D7023EC82031284800BFED4B /* CourseCell.swift in Sources */,
 				D72A2797202EEDEB00B0AA8E /* WelcomeVC.swift in Sources */,
 				D7023ED8203152F100BFED4B /* Course.swift in Sources */,

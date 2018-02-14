@@ -17,6 +17,9 @@ let BASE_URL = "https://app-test.academus.io"
 let URL_REGISTER = URL(string: "\(BASE_URL)/api/register")
 let URL_LOGIN = URL(string: "\(BASE_URL)/api/login")
 let URL_COURSE = URL(string: "\(BASE_URL)/api/courses?token=\(AuthService.instance.authToken)")
+let URL_ASSIGNMENT = URL(string: "\(BASE_URL)/api/assignments?token=\(AuthService.instance.authToken)")
+let URL_GET_INTEGRATION = URL(string: "\(BASE_URL)/api/integrations/available?token=\(AuthService.instance.authToken)")
+let URL_ADD_INTEGRATION = URL(string: "\(BASE_URL)/api/integrations/studentvue?token=\(AuthService.instance.authToken)")
 
 
 // User Defaults

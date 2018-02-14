@@ -47,7 +47,7 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func aTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(GradesVC.endOfTimer), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(GradesVC.endOfTimer), userInfo: nil, repeats: true)
     }
     
     @objc func endOfTimer() {

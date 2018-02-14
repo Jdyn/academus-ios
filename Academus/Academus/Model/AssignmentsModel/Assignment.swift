@@ -10,6 +10,6 @@ import Foundation
 
 struct Assignment : Decodable {
     
-    let upcoming : [Array<String>]!
+    let upcoming : [AssignmentEntry]!
     let others : [AssignmentEntry]
 }

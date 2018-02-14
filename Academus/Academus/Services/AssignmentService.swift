@@ -7,38 +7,38 @@
 //
 
 import Foundation
+import SwiftyJSON
+import Alamofire
 
 class assignmentService {
     
     static let instance = assignmentService()
     
     
-//    func getAssignments(completion: @escaping CompletetionHandler) {
-//        Alamofire.request(URL_COURSE!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
-//            
-//            guard let data = response.data else {return}
-//            if response.result.error == nil {
-//                do {
-//                    print("CourseService: Fetching Data")
-//                    let courses = try JSONDecoder().decode(Courses.self, from: data)
-//                    
-//                    for eachCourse in courses.result {
-//                        let name = eachCourse.name
-//                        let letter = eachCourse.grade.letter
-//                        let grade = eachCourse.grade.percent
-//                        let period = String(eachCourse.period)
-//                        
-//                        let courses = MainCourses(courseName: name, courseLetter: letter, coursePercent: grade, coursePeriod: period)
-//                        self.mainCourses.append(courses)
-//                        
-//                    }
-//                } catch let error {
-//                    debugPrint(error)
-//                }
-//                completion(true)
-//            } else {
-//                completion(false)
-//            }
-//        }
-//    }
+    func getAssignments(completion: @escaping CompletetionHandler) {
+        Alamofire.request(URL_ASSIGNMENT!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
+            
+            guard let data = response.data else {return}
+            if response.result.error == nil {
+                do {
+                    print("AssignmentService: Fetching Data")
+                    let assignments = try JSONDecoder().decode(Assignments.self, from: data)
+                    
+                    for eachAssignment in assignments.result.others {
+                        let otherName = eachAssignment.name
+                    }
+
+                    for eachAssignment in assignments.result.upcoming {
+                        let upcomingName = eachAssignment.name
+                    }
+                    
+                } catch let error {
+                    debugPrint(error)
+                }
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
 }

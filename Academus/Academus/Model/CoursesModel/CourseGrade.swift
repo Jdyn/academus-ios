@@ -1,5 +1,5 @@
 //
-//  Integration.swift
+//  Grade.swift
 //  Academus
 //
 //  Created by Jaden Moore on 2/11/18.
@@ -8,8 +8,7 @@
 
 import Foundation
 
-struct Integration: Decodable {
-    let id : Int
-    let type: String
-    let name : String
+struct CourseGrade: Decodable {
+    let letter : String
+    let percent : Float
 }

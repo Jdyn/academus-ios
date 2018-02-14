@@ -14,12 +14,6 @@ struct Course: Decodable {
     let period : Int
     let custom_name : String!
     
-//    let courseIntegrationID : String
-//    let courseIntegrationType : String
-//    let courseIntegrationName : String
-//
-//    let courseGradeLetter : String
-//    let courseGradePercent : String
-    let integration : Integration
-    let grade : Grade
+    let integration : CourseIntegration
+    let grade : CourseGrade
 }

@@ -13,6 +13,7 @@ class LogInVC: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
+
     var fieldCheck = false
     var authService = AuthService()
     
@@ -24,8 +25,7 @@ class LogInVC: UIViewController {
             logInUser()
         }
 
-    }
-    
+    }    
     func userFieldCheck() {
         if (emailTextField.text?.isEmpty)! || (passwordTextField.text?.isEmpty)! {
             alertMessage(userMessage: "You are  a Missing field.")

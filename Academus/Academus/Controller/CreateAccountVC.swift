@@ -18,19 +18,19 @@ class CreateAccountVC: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var verifedPasswordTextField: UITextField!
     
+
+    
     @IBAction func SignUpButton(_ sender: Any) {
         
-        //Check if any fields are empty
         emptyFieldsCheck()
-        //Check if the passwords match
         equalPasswordCheck()
-        //Show Loading indicator
         loadingIndicator()
-        //Create User
-        AuthService.instance.registerUser(betaCode: (betaCodeTextField.text)!, firstName: (firstNameTextField.text)!, lastName: (lastNameTextField.text)!, email: (emailTextField.text)!, password: (passwordTextField.text)!)
-        { (success) in
+        
+        AuthService.instance.registerUser(betaCode: (betaCodeTextField.text)!, firstName: (firstNameTextField.text)!, lastName: (lastNameTextField.text)!, email: (emailTextField.text)!, password: (passwordTextField.text)!) { (success) in
+            
             if success {
                 print("registered user")
+                //perform segue to log in page
             } else {
                 print("register failure")
             }
