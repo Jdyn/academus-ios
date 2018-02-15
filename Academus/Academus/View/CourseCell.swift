@@ -26,13 +26,10 @@ class CourseCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func configureCell(mainCourses : MainCourses) {
-        
-        
-        
-        courseName.text! = mainCourses.courseName
-        coursePeriod.text! = mainCourses.coursePeriod
-        courseGrade.text! = mainCourses.courseLetter
-        coursePercent.text! = "(\(round(mainCourses.coursePercent))%)"
+    func configureCell(courses : Course) {
+        courseName.text! = courses.courseName
+        coursePeriod.text! = courses.coursePeriod
+        courseGrade.text! = courses.courseGradeLetter
+        coursePercent.text! = "(\(round(courses.courseGradePercent))%)"
     }
 }

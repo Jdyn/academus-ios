@@ -24,13 +24,11 @@ class IntegrationCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(mainIntegrations : MainIntegrations) {
-        integrationName.text! = mainIntegrations.IntegrationName
-        let url = URL(string: mainIntegrations.IntegrationIcon)
+    func configureCell(integration : Integration) {
+        integrationName.text! = integration.integrationName
+        let url = URL(string: integration.integrationIcon)
         let data = try? Data(contentsOf: url!)
         myImageView.image = UIImage(data: data!)
-        
-        
     }
-
 }
+

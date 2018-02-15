@@ -14,34 +14,35 @@ class CourseService {
     
     static let instance = CourseService()
     
-    var mainCourses = [MainCourses]()
+    var courses = [Course]()
     
     func getCourses(completion: @escaping CompletetionHandler) {
+        
         Alamofire.request(URL_COURSE!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
             
             guard let data = response.data else {return}
+            
             if response.result.error == nil {
                 do {
-                    print("CourseService: Fetching Data")
-                    let courses = try JSONDecoder().decode(Courses.self, from: data)
+                    let courses = try JSONDecoder().decode(CourseModel.self, from: data)
                     
-                    for eachCourse in courses.result {
-                        let name = eachCourse.name
-                        let letter = eachCourse.grade.letter
-                        let grade = eachCourse.grade.percent
-                        let id = eachCourse.id
-                        let period = String(eachCourse.period)
+                    for course in courses.result {
+                        let courseID = course.id
+                        let courseName = course.name
+                        let courseGradeLetter = course.grade.letter
+                        let courseGradePercent = course.grade.percent
+                        let coursePeriod = String(course.period)
                         
-                        let courses = MainCourses(courseName: name, courseLetter: letter, coursePercent: grade, coursePeriod: period, courseID: id)
-                        self.mainCourses.append(courses)
-                        
+                        let course = Course(courseID: courseID, courseName: courseName, courseGradeLetter: courseGradeLetter, courseGradePercent: courseGradePercent, coursePeriod: coursePeriod)
+                        self.courses.append(course)
                     }
-                } catch let error {
-                    debugPrint(error)
+                } catch let error{
+                    print(error)
                 }
                 completion(true)
             } else {
                 completion(false)
+                debugPrint(response.result.error as Any)
             }
         }
     }

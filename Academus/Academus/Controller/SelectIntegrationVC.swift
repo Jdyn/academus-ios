@@ -21,12 +21,12 @@ class SelectIntegrationVC: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return IntegrationService.instance.mainIntegrations.count
+        return IntegrationService.instance.integrations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "integrationCell", for: indexPath) as? IntegrationCell {
-            cell.configureCell(mainIntegrations: IntegrationService.instance.mainIntegrations[indexPath.row])
+            cell.configureCell(integration: IntegrationService.instance.integrations[indexPath.row])
             return cell
         } else {
             return UITableViewCell()
@@ -35,3 +35,4 @@ class SelectIntegrationVC: UIViewController, UITableViewDelegate, UITableViewDat
     
     
 }
+

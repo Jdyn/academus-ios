@@ -14,7 +14,6 @@ class AuthService {
     
     static let instance = AuthService()
     let defaults = UserDefaults.standard
-    //let logInVC = LogInVC()
     
     var isLoggedIn : Bool {
         get {

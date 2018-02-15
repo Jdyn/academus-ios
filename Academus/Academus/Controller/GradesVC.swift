@@ -14,22 +14,17 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     static var instance = GradesVC()
-    var refreshControl: UIRefreshControl = UIRefreshControl()
-    var timer: Timer!
+    var refreshControl = UIRefreshControl()
+    var timer : Timer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        self.tableView.decelerationRate = UIScrollViewDecelerationRateNormal
         
         CourseService.instance.getCourses { (success) in
             self.tableView.reloadData()
-            print("GradesVC: Data loaded onGradesViewLoad")
-        }
-        
-        AssignmentService.instance.getAssignments { (success) in
-            
+            print("GradesVC: Course data loaded onGradesViewLoad")
         }
         
         refreshControl.addTarget(self, action: #selector(GradesVC.refreshData), for: UIControlEvents.valueChanged)
@@ -65,7 +60,7 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "courseCell", for: indexPath) as? CourseCell {
-            cell.configureCell(mainCourses: CourseService.instance.mainCourses[indexPath.row])
+            cell.configureCell(courses: CourseService.instance.courses[indexPath.row])
             return cell
         } else {
             return UITableViewCell()
@@ -77,7 +72,7 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CourseService.instance.mainCourses.count
+        return CourseService.instance.courses.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -85,14 +80,14 @@ class GradesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
+
         if segue.identifier == "toCourseDetails" {
-            let selected = CourseService.instance.mainCourses[(tableView.indexPathForSelectedRow?.row)!].courseID
-            
+            let selected = CourseService.instance.courses[(tableView.indexPathForSelectedRow?.row)!].courseID
+
             if let destination = segue.destination as? GradesAssignmentVC {
                 destination.filter = selected!
             }
         }
-        
+
     }
 }
