@@ -39,13 +39,14 @@ class AssignmentService {
                 }
                 completion(true)
             } else {
+                print(response.result.error!)
                 completion(false)
             }
         }
     }
 
-    func getAssignmentsForCourse(courseId: Int) -> [Assignment] {
-        return assignments.filter { $0.assignmentCourseID == courseId }
+    func getAssignmentsForCourse(courseID: Int) -> [Assignment] {
+        return assignments.filter { $0.assignmentCourseID == courseID }
     }
 }
 
