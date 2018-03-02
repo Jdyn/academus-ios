@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G1212" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AuthServices" representedClassName="AuthServices" syncable="YES" codeGenerationType="class">
+        <attribute name="authToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isLoggedIn" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="userEmail" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="PlannerTask" representedClassName="PlannerTask" syncable="YES" codeGenerationType="class"/>
+    <elements>
+        <element name="AuthServices" positionX="-117" positionY="-180" width="128" height="88"/>
+        <element name="PlannerTask" positionX="-117" positionY="-81" width="128" height="43"/>
+    </elements>
+</model>

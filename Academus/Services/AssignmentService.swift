@@ -1,0 +1,57 @@
+//
+//  AssignmentService.swift
+//  SwiftData
+//
+//  Created by Jaden Moore on 2/22/18.
+//  Copyright © 2018 Caffeinated Insomniacs. All rights reserved.
+//
+
+import Foundation
+import Alamofire
+import SwiftyJSON
+
+protocol AssignmentServiceDelegate {
+    func didGetAssignments(assignments: AssignmentModel)
+}
+
+class AssignmentService {
+    
+    var delegate : AssignmentServiceDelegate?
+    
+    func getAssignments(completion: @escaping CompletionHandler) {
+        
+        Alamofire.request(URL_ASSIGNMENT!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
+            
+            guard let data = response.data else {return}
+            if response.result.error == nil {
+                do {
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .formatted(dateFormatter)
+                    let assignment = try decoder.decode(AssignmentModel.self, from: data)
+                    if assignment.success == true {
+                        self.delegate?.didGetAssignments(assignments: assignment)
+                    } else {
+                        return
+                    }
+                } catch let error{
+                    print(error)
+                }
+                completion(true)
+            } else {
+                completion(false)
+                debugPrint(response.result.error as Any)
+            }
+        }
+    }
+}
+
+extension Formatter {
+    static let iso8601: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter
+    }()
+    static let iso8601noFS = ISO8601DateFormatter()
+}
