@@ -86,7 +86,6 @@ class WelcomeController: UIViewController {
     }
 
     @objc func logInPressed() {
-        print("pressed")
         navigationController?.pushViewController(LogInController(), animated: true)
     }
     

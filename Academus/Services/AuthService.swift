@@ -33,11 +33,20 @@ class AuthService {
         Alamofire.request(URL_REGISTER!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
             
             if response.result.error == nil {
-                completion(true)
-                print(response)
+                guard let data = response.data else {return}
+                do {
+                    let json = try JSON(data: data)
+                    let success = json["success"].boolValue
+                    if (success) {
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                } catch let error {
+                    debugPrint(error)
+                }
             } else {
-                completion(false)
-                debugPrint(response.result.error as Any)
+                debugPrint(response.result.error!)
             }
         }
     }
@@ -56,30 +65,26 @@ class AuthService {
             
             if response.result.error == nil {
                 guard let data = response.data else {return}
-                let json = try! JSON(data: data)
-                let success = json["success"].boolValue
-                if (success) {
-                    let token = json["result"]["token"].stringValue
-                    let email = json["result"]["user"]["email"].stringValue
-                    let isLoggedIn = true
-                        do {
+                    do {
+                        let json = try JSON(data: data)
+                        let success = json["success"].boolValue
+                        if (success) {
+                            let token = json["result"]["token"].stringValue
+                            let email = json["result"]["user"]["email"].stringValue
+                            let isLoggedIn = true
                             
                             try Locksmith.updateData(data: [
                                 "authToken" : token,
                                 "email" : email,
                                 "isLoggedIn" : isLoggedIn
                                 ], forUserAccount: account)
-                            
-                        } catch let error {
-                            debugPrint(error)
+                            completion(true)
+                        } else {
+                            completion(false)
                         }
-                    completion(true)
-                } else {
-                    
-                    completion(false)
-                }
-            } else {
-                completion(false)
+                    } catch let error {
+                        debugPrint(error)
+                    }
             }
         }
     }

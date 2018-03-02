@@ -148,14 +148,14 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		D7F66244204769750060FA8D /* Authorizations */ = {
+		D7F66244204769750060FA8D /* Account */ = {
 			isa = PBXGroup;
 			children = (
 				D7F66245204769AB0060FA8D /* WelcomeController.swift */,
 				D7F662482047985D0060FA8D /* LogInController.swift */,
 				D7F6624A204798F10060FA8D /* SignUpController.swift */,
 			);
-			path = Authorizations;
+			path = Account;
 			sourceTree = "<group>";
 		};
 		D7F6624720476FFF0060FA8D /* Cells */ = {
@@ -171,7 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				D700950620489F3F0087CEA5 /* MainTabBarController.swift */,
-				D7F66244204769750060FA8D /* Authorizations */,
+				D7F66244204769750060FA8D /* Account */,
 				D73F6552203E761600144C89 /* Courses */,
 				D725593F203A41C200DBA62B /* ClipboardController.swift */,
 				D7255943203A41E300DBA62B /* SettingsController.swift */,
