@@ -38,6 +38,13 @@ class AuthService {
                     let json = try JSON(data: data)
                     let success = json["success"].boolValue
                     if (success) {
+                        print(json["result"])
+                        let token = json["result"]["token"].stringValue
+//                        let firstName = json["result"]["first_name"].stringValue
+//                        let lastName = json["result"]["last_name"].stringValue
+                        try Locksmith.updateData(data: [
+                            "authToken" : token,
+                            ], forUserAccount: USER_ACCOUNT)
                         completion(true)
                     } else {
                         completion(false)

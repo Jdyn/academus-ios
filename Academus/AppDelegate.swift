@@ -38,8 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //
 //        let controllers = [clipboardController, coursesController, settingsController]
 //        mainBarController.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
-        
-                window?.rootViewController = MainController()
+//        let navController = UINavigationController(rootViewController: SelectIntegrationController())
+        window?.rootViewController = MainController()
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false

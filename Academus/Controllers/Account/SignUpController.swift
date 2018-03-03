@@ -96,19 +96,18 @@ class SignUpController: UIViewController {
     }
     
     @objc func signUpPressed() {
-//        fieldsCheck()
+        fieldsCheck()
         
-//        AuthService().registerUser(betaCode: (betaCodeField.text)!, firstName: (firstNameField.text)!, lastName: (lastNameField.text)!, email: (emailField.text)!, password: (passwordField.text)!) { (success) in
-//            if success {
-//                print("registered user")
-//                //perform segue to log in page
-//            } else {
-////                self.alertMessage(title: "Alert", message: "Maybe try a different beta code.")
-//                print("register failure")
-//            }
-//        }
-        
-        navigationController?.pushViewController(SelectIntegrationController(), animated: true)
+        AuthService().registerUser(betaCode: (betaCodeField.text)!, firstName: (firstNameField.text)!, lastName: (lastNameField.text)!, email: (emailField.text)!, password: (passwordField.text)!) { (success) in
+            if success {
+                print("registered user")
+                let controller = SelectIntegrationController()
+                self.navigationController?.pushViewController(controller, animated: true)
+            } else {
+                self.alertMessage(title: "Alert", message: "An Error has occured. Try Again.")
+                print("register failure")
+            }
+        }
     }
 
     func fieldsCheck() {
@@ -120,17 +119,17 @@ class SignUpController: UIViewController {
             (passwordField.text?.isEmpty)! ||
             (verifyPasswordField.text?.isEmpty)! {
             
-//            alertMessage(title: "You didn't think I would notice?", message: "There are missing fields.")
+            alertMessage(title: "You didn't think I would notice?", message: "There are missing fields.")
             return
         }
         
         if ((passwordField.text! == verifyPasswordField.text!) != true) {
-//            alertMessage(title: "I think I just saved your life.", message: "Passwords do not match.")
+            alertMessage(title: "I think I just saved your life.", message: "Passwords do not match.")
             return
         }
         
         if passwordField.text!.count < 6 {
-//            alertMessage(title: "Bro, come on.", message: "Password much be 6 characters long.")
+            alertMessage(title: "Bro, come on.", message: "Password much be 6 characters long.")
             return
         }
     }

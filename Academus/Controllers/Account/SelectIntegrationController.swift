@@ -17,7 +17,6 @@ class SelectIntegrationController: UITableViewController, IntegrationServiceDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Select integrations"
         navigationItem.hidesBackButton = true
         integrationService.delegate = self
         tableView.register(GetIntegrationCell.self, forCellReuseIdentifier: integrationCellID)
@@ -55,5 +54,16 @@ class SelectIntegrationController: UITableViewController, IntegrationServiceDele
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let integrationController = LogInIntegrationController()
+        let integrationService = IntegrationService()
+        integrationService.route = integrations[indexPath.row].route
+//        integrationController.navigationItem.title = integrations[indexPath.row].name
+        integrationController.integrationName = integrations[indexPath.row].name
+        integrationController.titleLabel.text = integrations[indexPath.row].name
+        
+        navigationController?.pushViewController(integrationController, animated: true)
     }
 }

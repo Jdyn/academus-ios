@@ -67,7 +67,7 @@ class LogInController: UIViewController {
     
     func userFieldCheck() {
         if (emailField.text?.isEmpty)! || (passwordField.text?.isEmpty)! {
-//            alertMessage(title: "Alert", message: "There is a missing field.")
+            alertMessage(title: "Alert", message: "There is a missing field.")
             fieldCheck = false
             return
         } else {
@@ -79,9 +79,13 @@ class LogInController: UIViewController {
         AuthService().logInUser(email: emailField.text!, password: passwordField.text!)
         { (success) in
             if success {
+//                Locksmith.loadDataForUserAccount(userAccount: USER_ACCOUNT)
+//                CourseService().getCourses(completion: { (success) in
+//                    print("idk")
+//                })
                 self.dismiss(animated: true, completion: nil)
             } else {
-//                self.alertMessage(title: "Alert", message: "Wrong username or password.")
+                self.alertMessage(title: "Alert", message: "Wrong username or password.")
             }
         }
     }
