@@ -96,17 +96,19 @@ class SignUpController: UIViewController {
     }
     
     @objc func signUpPressed() {
-        fieldsCheck()
+//        fieldsCheck()
         
-        AuthService().registerUser(betaCode: (betaCodeField.text)!, firstName: (firstNameField.text)!, lastName: (lastNameField.text)!, email: (emailField.text)!, password: (passwordField.text)!) { (success) in
-            if success {
-                print("registered user")
-                //perform segue to log in page
-            } else {
-//                self.alertMessage(title: "Alert", message: "Maybe try a different beta code.")
-                print("register failure")
-            }
-        }
+//        AuthService().registerUser(betaCode: (betaCodeField.text)!, firstName: (firstNameField.text)!, lastName: (lastNameField.text)!, email: (emailField.text)!, password: (passwordField.text)!) { (success) in
+//            if success {
+//                print("registered user")
+//                //perform segue to log in page
+//            } else {
+////                self.alertMessage(title: "Alert", message: "Maybe try a different beta code.")
+//                print("register failure")
+//            }
+//        }
+        
+        navigationController?.pushViewController(SelectIntegrationController(), animated: true)
     }
 
     func fieldsCheck() {

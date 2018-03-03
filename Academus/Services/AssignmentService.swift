@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 protocol AssignmentServiceDelegate {
-    func didGetAssignments(assignments: AssignmentModel)
+    func didGetAssignments(assignments: [Assignment])
 }
 
 class AssignmentService {
@@ -29,8 +29,10 @@ class AssignmentService {
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                     let decoder = JSONDecoder()
                     decoder.dateDecodingStrategy = .formatted(dateFormatter)
-                    let assignment = try decoder.decode(AssignmentModel.self, from: data)
-                    if assignment.success == true {
+                    let json = try JSON(data: data)
+                    let jsonResult = try json["result"].rawData()
+                    let assignment = try decoder.decode([Assignment].self, from: jsonResult)
+                    if json["success"] == true {
                         self.delegate?.didGetAssignments(assignments: assignment)
                     } else {
                         return

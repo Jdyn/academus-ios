@@ -23,6 +23,10 @@
 		D77BC0BF203E589E00AAA505 /* CourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77BC0BE203E589E00AAA505 /* CourseService.swift */; };
 		D79DA98620493ABB00EA082A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D79DA98520493ABB00EA082A /* LaunchScreen.storyboard */; };
 		D79DA988204A337500EA082A /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA987204A337500EA082A /* MainController.swift */; };
+		D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA989204A58CE00EA082A /* IntegrationService.swift */; };
+		D79DA98C204A5EB700EA082A /* GetIntegrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA98B204A5EB700EA082A /* GetIntegrationModel.swift */; };
+		D79DA98E204A61FF00EA082A /* SelectIntegrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA98D204A61FF00EA082A /* SelectIntegrationController.swift */; };
+		D79DA992204A631D00EA082A /* GetIntegrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA991204A631D00EA082A /* GetIntegrationCell.swift */; };
 		D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */; };
 		D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */; };
 		D7F66243204757A70060FA8D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F66242204757A70060FA8D /* AuthService.swift */; };
@@ -53,6 +57,10 @@
 		D77BC0BE203E589E00AAA505 /* CourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseService.swift; sourceTree = "<group>"; };
 		D79DA98520493ABB00EA082A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D79DA987204A337500EA082A /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		D79DA989204A58CE00EA082A /* IntegrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationService.swift; sourceTree = "<group>"; };
+		D79DA98B204A5EB700EA082A /* GetIntegrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIntegrationModel.swift; sourceTree = "<group>"; };
+		D79DA98D204A61FF00EA082A /* SelectIntegrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIntegrationController.swift; sourceTree = "<group>"; };
+		D79DA991204A631D00EA082A /* GetIntegrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIntegrationCell.swift; sourceTree = "<group>"; };
 		D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerHelpers.swift; sourceTree = "<group>"; };
 		D7F66242204757A70060FA8D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -144,16 +152,27 @@
 				D7F66242204757A70060FA8D /* AuthService.swift */,
 				D77BC0BE203E589E00AAA505 /* CourseService.swift */,
 				D73F6559203FA06400144C89 /* AssignmentService.swift */,
+				D79DA989204A58CE00EA082A /* IntegrationService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		D79DA990204A62F900EA082A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D79DA991204A631D00EA082A /* GetIntegrationCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		D7F66244204769750060FA8D /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				D79DA98D204A61FF00EA082A /* SelectIntegrationController.swift */,
 				D7F66245204769AB0060FA8D /* WelcomeController.swift */,
 				D7F662482047985D0060FA8D /* LogInController.swift */,
 				D7F6624A204798F10060FA8D /* SignUpController.swift */,
+				D79DA990204A62F900EA082A /* Cells */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -194,6 +213,7 @@
 			children = (
 				D77BC0BB203E555F00AAA505 /* CourseModel.swift */,
 				D73F655B203FA09E00144C89 /* AssignmentModel.swift */,
+				D79DA98B204A5EB700EA082A /* GetIntegrationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -334,8 +354,11 @@
 				D79DA988204A337500EA082A /* MainController.swift in Sources */,
 				D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */,
 				D73F655A203FA06400144C89 /* AssignmentService.swift in Sources */,
+				D79DA98E204A61FF00EA082A /* SelectIntegrationController.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,
+				D79DA98C204A5EB700EA082A /* GetIntegrationModel.swift in Sources */,
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
+				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
 				D73F6551203E5A6100144C89 /* Constants.swift in Sources */,
 				D7F66246204769AB0060FA8D /* WelcomeController.swift in Sources */,
 				D7255944203A41E300DBA62B /* SettingsController.swift in Sources */,
@@ -346,6 +369,7 @@
 				D725592E203A38DB00DBA62B /* AppDelegate.swift in Sources */,
 				D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */,
 				D7F662492047985D0060FA8D /* LogInController.swift in Sources */,
+				D79DA992204A631D00EA082A /* GetIntegrationCell.swift in Sources */,
 				D7F6624B204798F10060FA8D /* SignUpController.swift in Sources */,
 				D77BC0BF203E589E00AAA505 /* CourseService.swift in Sources */,
 				D7F66243204757A70060FA8D /* AuthService.swift in Sources */,

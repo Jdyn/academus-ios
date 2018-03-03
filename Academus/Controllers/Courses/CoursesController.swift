@@ -12,15 +12,13 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     private let courseService = CourseService()
     
-    var course = [Course]()
+    var courses = [Course]()
     let courseID = "courseCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("courses controller view did load")
         navigationItem.title = "Courses"
         courseService.delegate = self
-        
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
         tableView.separatorColor = UIColor.tableViewSeperator
@@ -30,7 +28,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-            if (course.isEmpty) {
+            if (courses.isEmpty) {
                 courseService.getCourses { (success) in
                     if success {
                         self.tableView.reloadData()
@@ -41,17 +39,17 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
             }
     }
 
-    func didGetCourses(courses: CourseModel) {
-        self.course.removeAll()
-        for course in courses.result {
-            self.course.append(course)
+    func didGetCourses(courses: [Course]) {
+        self.courses.removeAll()
+        for course in courses {
+            self.courses.append(course)
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: courseID, for: indexPath) as! CourseCell
         
-        let course = self.course[indexPath.row]
+        let course = self.courses[indexPath.row]
         cell.course = course
         
         return cell
@@ -59,14 +57,14 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let courseDetailsController = CourseDetailsController()
-        courseDetailsController.navigationItem.title = course[indexPath.row].name
-        courseDetailsController.courseID = course[indexPath.row].id
+        courseDetailsController.navigationItem.title = courses[indexPath.row].name
+        courseDetailsController.courseID = courses[indexPath.row].id
         
         navigationController?.pushViewController(courseDetailsController, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return course.count
+        return courses.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

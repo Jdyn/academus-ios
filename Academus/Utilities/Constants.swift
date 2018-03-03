@@ -22,6 +22,8 @@ let URL_LOGIN = URL(string: "\(BASE_URL)/api/login")
 let URL_COURSE = URL(string: "\(BASE_URL)/api/courses?token=\(token!)")
 let URL_ASSIGNMENT = URL(string: "\(BASE_URL)/api/assignments?token=\(token!)&no_grouping=true")
 
+let URL_GET_INTEGRATION = URL(string: "\(BASE_URL)/api/integrations/available?token=bd42f7289d60f464c731af50101167164a3b7c053675333bb93875fc94664d1b1127fcc114d30bcc3d074a18ebdee1a7e348edc712b7976d0a6627092017d865")
+
 let USER_ACCOUNT = "userAccount"
 
 extension Double {

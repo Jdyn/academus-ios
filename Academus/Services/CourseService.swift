@@ -12,7 +12,7 @@ import SwiftyJSON
 import Locksmith
 
 protocol CourseServiceDelegate {
-    func didGetCourses(courses : CourseModel)
+    func didGetCourses(courses : [Course])
 }
 
 class CourseService {
@@ -26,8 +26,10 @@ class CourseService {
             guard let data = response.data else {return}
             if response.result.error == nil {
                 do {
-                    let course = try JSONDecoder().decode(CourseModel.self, from: data)
-                    if course.success == true {
+                    let json = try JSON(data: data)
+                    let jsonResult = try json["result"].rawData()
+                    let course = try JSONDecoder().decode([Course].self, from: jsonResult)
+                    if json["success"] == true {
                         self.delegate?.didGetCourses(courses: course)
                     }
                 } catch let error{

@@ -6,24 +6,19 @@
 //  Copyright © 2018 Caffeinated Insomniacs. All rights reserved.
 //
 
-struct CourseModel: Decodable {
-    let success : Bool
-    let result : [Course]
-}
-
 struct Course : Decodable {
     let id : Int?
     let name : String?
     let period : Int?
     let custom_name : String?
     let integration : Integration?
-    let grade : CourseGrade?
+    let grade : Grade?
     struct Integration : Decodable {
         let id : Int?
         let type : String?
         let name : String?
     }
-    struct CourseGrade : Decodable {
+    struct Grade : Decodable {
         let letter : String?
         let percent : Float?
     }
