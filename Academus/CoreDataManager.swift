@@ -8,12 +8,11 @@
 
 import Foundation
 import CoreData
+import Locksmith
 
-struct CoreDataManager {
+class CoreDataManager {
     
     static let sharedInstance = CoreDataManager()
-    var authToken = ""
-    private init() {}
     
     let persistentContainer : NSPersistentContainer = {
         
@@ -28,7 +27,7 @@ struct CoreDataManager {
     
     func saveContext() {
         let context = persistentContainer.viewContext
-        if context.hasChanges{
+        if context.hasChanges {
             do {
                 try context.save()
             } catch let error {
@@ -45,10 +44,10 @@ struct CoreDataManager {
             for object in authServices {
                 managedContext.delete(object)
                 self.saveContext()
-            }
+        }
             print(authServices.count)
         } catch let error {
             print(error)
+        }
     }
-}
 }

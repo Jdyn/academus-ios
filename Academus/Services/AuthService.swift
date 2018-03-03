@@ -53,7 +53,6 @@ class AuthService {
     
     func logInUser(email: String, password: String, completion: @escaping CompletionHandler) {
         let lowerCaseEmail = email.lowercased()
-        let account = "userAccount"
         let body: Parameters = [
             "user":[
                 "email": lowerCaseEmail,
@@ -77,7 +76,7 @@ class AuthService {
                                 "authToken" : token,
                                 "email" : email,
                                 "isLoggedIn" : isLoggedIn
-                                ], forUserAccount: account)
+                                ], forUserAccount: USER_ACCOUNT)
                             completion(true)
                         } else {
                             completion(false)

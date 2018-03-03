@@ -11,17 +11,15 @@ import UIKit
 class CoursesController: UITableViewController, CourseServiceDelegate {
     
     private let courseService = CourseService()
-    private let assignmentSerivce = AssignmentService()
+    
     var course = [Course]()
     let courseID = "courseCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("courses controller view did load")
         navigationItem.title = "Courses"
         courseService.delegate = self
-        courseService.getCourses { (success) in
-            self.tableView.reloadData()
-        }
         
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
@@ -31,7 +29,20 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+            if (course.isEmpty) {
+                courseService.getCourses { (success) in
+                    if success {
+                        self.tableView.reloadData()
+                    } else {
+                        print("failed to get courses")
+                    }
+                }
+            }
+    }
+
     func didGetCourses(courses: CourseModel) {
+        self.course.removeAll()
         for course in courses.result {
             self.course.append(course)
         }

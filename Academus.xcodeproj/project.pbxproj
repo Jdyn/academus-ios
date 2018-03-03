@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		74E9DC836C9E3C14F66C9705 /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F02569D7B6D77D4C47A079BE /* Pods_Academus.framework */; };
-		D700950720489F3F0087CEA5 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D700950620489F3F0087CEA5 /* MainTabBarController.swift */; };
 		D725592E203A38DB00DBA62B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D725592D203A38DB00DBA62B /* AppDelegate.swift */; };
 		D7255935203A38DB00DBA62B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7255934203A38DB00DBA62B /* Assets.xcassets */; };
 		D7255940203A41C200DBA62B /* ClipboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D725593F203A41C200DBA62B /* ClipboardController.swift */; };
@@ -23,6 +22,7 @@
 		D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77BC0BB203E555F00AAA505 /* CourseModel.swift */; };
 		D77BC0BF203E589E00AAA505 /* CourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77BC0BE203E589E00AAA505 /* CourseService.swift */; };
 		D79DA98620493ABB00EA082A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D79DA98520493ABB00EA082A /* LaunchScreen.storyboard */; };
+		D79DA988204A337500EA082A /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA987204A337500EA082A /* MainController.swift */; };
 		D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */; };
 		D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */; };
 		D7F66243204757A70060FA8D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F66242204757A70060FA8D /* AuthService.swift */; };
@@ -36,7 +36,6 @@
 /* Begin PBXFileReference section */
 		434FCA6EDA0179DB6B5B0782 /* Pods-Academus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.release.xcconfig"; sourceTree = "<group>"; };
 		B9ED2449CF792475E1DBC1A3 /* Pods-Academus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.debug.xcconfig"; sourceTree = "<group>"; };
-		D700950620489F3F0087CEA5 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		D725592A203A38DB00DBA62B /* Academus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Academus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D725592D203A38DB00DBA62B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7255934203A38DB00DBA62B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -53,6 +52,7 @@
 		D77BC0BB203E555F00AAA505 /* CourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
 		D77BC0BE203E589E00AAA505 /* CourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseService.swift; sourceTree = "<group>"; };
 		D79DA98520493ABB00EA082A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D79DA987204A337500EA082A /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerHelpers.swift; sourceTree = "<group>"; };
 		D7F66242204757A70060FA8D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -170,7 +170,7 @@
 		D7FA4874203A4794007ADFE0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D700950620489F3F0087CEA5 /* MainTabBarController.swift */,
+				D79DA987204A337500EA082A /* MainController.swift */,
 				D7F66244204769750060FA8D /* Account */,
 				D73F6552203E761600144C89 /* Courses */,
 				D725593F203A41C200DBA62B /* ClipboardController.swift */,
@@ -331,6 +331,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D73F6554203E763700144C89 /* CourseCell.swift in Sources */,
+				D79DA988204A337500EA082A /* MainController.swift in Sources */,
 				D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */,
 				D73F655A203FA06400144C89 /* AssignmentService.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,
@@ -347,7 +348,6 @@
 				D7F662492047985D0060FA8D /* LogInController.swift in Sources */,
 				D7F6624B204798F10060FA8D /* SignUpController.swift in Sources */,
 				D77BC0BF203E589E00AAA505 /* CourseService.swift in Sources */,
-				D700950720489F3F0087CEA5 /* MainTabBarController.swift in Sources */,
 				D7F66243204757A70060FA8D /* AuthService.swift in Sources */,
 				D7FA4877203A560D007ADFE0 /* UIColor.swift in Sources */,
 				D73F6560203FE92500144C89 /* CourseAssignmentCell.swift in Sources */,

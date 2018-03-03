@@ -12,29 +12,23 @@ class ClipboardController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Locksmith.loadDataForUserAccount(userAccount: "userAccount") == nil {
-            let welcomeNavController = MainNavigationController(rootViewController: WelcomeController())
-            navigationController?.present(welcomeNavController, animated: true, completion: nil)
-        }
         navigationItem.title = "Clipboard"
         setupAddButtonInNavBar(selector: #selector(handleAdd))
     }
     
     @objc func handleAdd() {
         
-        if Locksmith.loadDataForUserAccount(userAccount: "userAccount") != nil {
+        if Locksmith.loadDataForUserAccount(userAccount: USER_ACCOUNT) != nil {
             do {
-                try Locksmith.deleteDataForUserAccount(userAccount: "userAccount")
+                try Locksmith.deleteDataForUserAccount(userAccount: USER_ACCOUNT)
             } catch let error {
                 debugPrint("could not delete locksmith data:", error)
+                return
             }
-            let welcomeNavController = MainNavigationController(rootViewController: WelcomeController())
-            navigationController?.present(welcomeNavController, animated: true, completion: {
-            })
+            let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
+            present(welcomeNavigationController, animated: true, completion: nil)
         } else {
-            let welcomeNavController = MainNavigationController(rootViewController: WelcomeController())
-            navigationController?.present(welcomeNavController, animated: true, completion: {
-            })
+            print("hello")
         }
         
     }

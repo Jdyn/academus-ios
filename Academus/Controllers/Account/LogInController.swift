@@ -14,33 +14,30 @@ class LogInController: UIViewController {
 
     var fieldCheck = false
     
-    let welcomeText: UILabel = {
+    let welcomeLabel: UILabel = {
         let label = UILabel()
         label.text = "Welcome Back."
         label.font = UIFont(name: "AvenirNext-medium", size: 24)
         label.textColor = UIColor.navigationsWhite
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let emailTextField: UITextField = {
+    let emailField: UITextField = {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
         field.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedStringKey.foregroundColor: UIColor.ghostText])
         field.tintColor = UIColor.navigationsGreen
         field.textColor = UIColor.navigationsWhite
-        field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
     
-    let passwordTextField: UITextField = {
+    let passwordField: UITextField = {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
         field.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedStringKey.foregroundColor: UIColor.ghostText])
         field.tintColor = UIColor.navigationsGreen
         field.textColor = UIColor.navigationsWhite
         field.isSecureTextEntry = true
-        field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
     
@@ -51,7 +48,6 @@ class LogInController: UIViewController {
         button.titleLabel?.font = UIFont(name: "AvenirNext-medium", size: 14)
         button.setTitleColor(UIColor.navigationsGreen, for: .normal)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -70,8 +66,8 @@ class LogInController: UIViewController {
     }
     
     func userFieldCheck() {
-        if (emailTextField.text?.isEmpty)! || (passwordTextField.text?.isEmpty)! {
-            alertMessage(title: "Alert", message: "There is a missing field.")
+        if (emailField.text?.isEmpty)! || (passwordField.text?.isEmpty)! {
+//            alertMessage(title: "Alert", message: "There is a missing field.")
             fieldCheck = false
             return
         } else {
@@ -80,61 +76,34 @@ class LogInController: UIViewController {
     }
     
     func logInUser() {
-        AuthService().logInUser(email: emailTextField.text!, password: passwordTextField.text!)
+        AuthService().logInUser(email: emailField.text!, password: passwordField.text!)
         { (success) in
             if success {
-                self.present(MainTabBarController(), animated: true, completion: nil)
-                print("LogInVC: User Log in successful")
+                self.dismiss(animated: true, completion: nil)
             } else {
-                self.alertMessage(title: "Alert", message: "Wrong username or password.")
-                print("LogInVC: User Log in failure")
+//                self.alertMessage(title: "Alert", message: "Wrong username or password.")
             }
         }
     }
     
-    
-    
     func setupUI() {
         
-        let centralUIStackView = UIStackView(arrangedSubviews: [
-            welcomeText, emailTextField, passwordTextField, logInButton
+        let stackView = UIStackView(arrangedSubviews: [
+            welcomeLabel, emailField, passwordField, logInButton
             ])
         
-        centralUIStackView.translatesAutoresizingMaskIntoConstraints = false
-        centralUIStackView.axis = .vertical
-        centralUIStackView.distribution = .fillEqually
-        centralUIStackView.alignment = .center
-        
-        view.addSubview(centralUIStackView)
-        view.addSubview(welcomeText)
-        view.addSubview(emailTextField)
-        view.addSubview(passwordTextField)
+        view.addSubview(stackView)
+        view.addSubview(welcomeLabel)
+        view.addSubview(emailField)
+        view.addSubview(passwordField)
         view.addSubview(logInButton)
         
-        NSLayoutConstraint.activate([
-            
-            centralUIStackView.heightAnchor.constraint(equalToConstant: 300),
-            centralUIStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            centralUIStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            centralUIStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            centralUIStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            welcomeText.topAnchor.constraint(equalTo: centralUIStackView.topAnchor),
-            welcomeText.centerXAnchor.constraint(equalTo: centralUIStackView.centerXAnchor),
-            
-            emailTextField.widthAnchor.constraint(equalToConstant: 250),
-            emailTextField.heightAnchor.constraint(equalToConstant: 32),
-            emailTextField.topAnchor.constraint(equalTo: welcomeText.bottomAnchor, constant: 16),
-            emailTextField.centerXAnchor.constraint(equalTo: centralUIStackView.centerXAnchor),
-            
-            passwordTextField.widthAnchor.constraint(equalToConstant: 250),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 32),
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 16),
-            passwordTextField.centerXAnchor.constraint(equalTo: centralUIStackView.centerXAnchor),
-            
-            logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16),
-            logInButton.centerXAnchor.constraint(equalTo: centralUIStackView.centerXAnchor),
-            
-            ])
+        stackView.anchors(left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16, centerX: view.centerXAnchor, centerY: view.centerYAnchor,width: 0, height: 350)
+        stackView.axis = .vertical
+        
+        welcomeLabel.anchors(top: stackView.topAnchor, centerX: stackView.centerXAnchor ,width: 0, height: 0)
+        emailField.anchors(top: welcomeLabel.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.rightAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
+        passwordField.anchors(top: emailField.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.rightAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
+        logInButton.anchors(top: passwordField.bottomAnchor,topPad: 64, centerX: stackView.centerXAnchor, width: 64, height: 0)
     }
 }

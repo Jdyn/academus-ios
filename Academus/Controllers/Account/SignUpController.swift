@@ -103,7 +103,7 @@ class SignUpController: UIViewController {
                 print("registered user")
                 //perform segue to log in page
             } else {
-                self.alertMessage(title: "Alert", message: "Maybe try a different beta code.")
+//                self.alertMessage(title: "Alert", message: "Maybe try a different beta code.")
                 print("register failure")
             }
         }
@@ -118,17 +118,17 @@ class SignUpController: UIViewController {
             (passwordField.text?.isEmpty)! ||
             (verifyPasswordField.text?.isEmpty)! {
             
-            alertMessage(title: "You didn't think I would notice?", message: "There are missing fields.")
+//            alertMessage(title: "You didn't think I would notice?", message: "There are missing fields.")
             return
         }
         
         if ((passwordField.text! == verifyPasswordField.text!) != true) {
-            alertMessage(title: "I think I just saved your life.", message: "Passwords do not match.")
+//            alertMessage(title: "I think I just saved your life.", message: "Passwords do not match.")
             return
         }
         
         if passwordField.text!.count < 6 {
-            alertMessage(title: "Bro, come on.", message: "Password much be 6 characters long.")
+//            alertMessage(title: "Bro, come on.", message: "Password much be 6 characters long.")
             return
         }
     }
@@ -136,7 +136,7 @@ class SignUpController: UIViewController {
     func setUpUI() {
         
         let stackView = UIStackView(arrangedSubviews: [
-            welcomeText, betaCodeField, firstNameField, lastNameField, emailField, passwordField, verifyPasswordField,signUpButton
+            welcomeText, betaCodeField, firstNameField, lastNameField, emailField, passwordField, verifyPasswordField, signUpButton
             ])
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -152,7 +152,7 @@ class SignUpController: UIViewController {
         view.addSubview(verifyPasswordField)
         view.addSubview(signUpButton)
         
-        stackView.anchors(top: view.safeAreaLayoutGuide.topAnchor, topPad: 32, bottom: view.safeAreaLayoutGuide.bottomAnchor, bottomPad: -32, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16 ,centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 0)
+        stackView.anchors(left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16, centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 400)
         welcomeText.anchors(top: stackView.topAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
         betaCodeField.anchors(top: welcomeText.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.rightAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
         firstNameField.anchors(top: betaCodeField.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.centerXAnchor, rightPad: -6, width: 0, height: 0)
@@ -160,6 +160,6 @@ class SignUpController: UIViewController {
         emailField.anchors(top: firstNameField.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.rightAnchor, width: 0, height: 0)
         passwordField.anchors(top: emailField.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.centerXAnchor, rightPad: -6, width: 0, height: 0)
         verifyPasswordField.anchors(top: emailField.bottomAnchor, topPad: 32, left: stackView.centerXAnchor, leftPad: 6, right: stackView.rightAnchor, width: 0, height: 0)
-        signUpButton.anchors(bottom: stackView.safeAreaLayoutGuide.bottomAnchor, bottomPad: 16, centerX: stackView.centerXAnchor, width: 64, height: 0)
+        signUpButton.anchors(bottom: passwordField.bottomAnchor, bottomPad: 64, centerX: stackView.centerXAnchor, width: 64, height: 0)
     }
 }

@@ -19,15 +19,13 @@ class MainNavigationController : UINavigationController {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var dataController : CoreDataManager!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow()
         window?.makeKeyAndVisible()
         
-        let mainBarController = MainTabBarController()
-        let welcomeNavController = MainNavigationController(rootViewController: WelcomeController())
+//        let mainBarController = UITabBarController()
         
 //        let clipboardController = ClipboardController()
 //        clipboardController.tabBarItem = UITabBarItem(title: "Clipboard", image: #imageLiteral(resourceName: "planner"), tag: 0)
@@ -39,18 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        settingsController.tabBarItem = UITabBarItem(title: "Settings", image: #imageLiteral(resourceName: "settings"), tag: 2)
 //
 //        let controllers = [clipboardController, coursesController, settingsController]
-//        tabBarController.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
+//        mainBarController.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
         
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: "userAccount")
+                window?.rootViewController = MainController()
         
-        if dictionary?["isLoggedIn"] != nil {
-            print("dictionary is not nil")
-            window?.rootViewController = mainBarController
-        } else {
-            print("dictionary is nil")
-            window?.rootViewController = welcomeNavController
-        }
-
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().barTintColor = UIColor.navigationsDarkGrey

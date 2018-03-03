@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import Locksmith
 
 protocol CourseServiceDelegate {
     func didGetCourses(courses : CourseModel)
@@ -28,8 +29,6 @@ class CourseService {
                     let course = try JSONDecoder().decode(CourseModel.self, from: data)
                     if course.success == true {
                         self.delegate?.didGetCourses(courses: course)
-                    } else {
-                        return
                     }
                 } catch let error{
                     print(error)

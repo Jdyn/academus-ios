@@ -22,15 +22,9 @@ extension UIViewController {
     }
     
     func alertMessage(title: String, message: String) {
-        let alert = UIAlertController(
-            title: title,
-            message: message,
-            preferredStyle: UIAlertControllerStyle.alert)
-        
-        let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
-            
-        }
-        alert.addAction(OKAction)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
 }

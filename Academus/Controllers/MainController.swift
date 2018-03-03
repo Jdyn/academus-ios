@@ -1,19 +1,30 @@
 //
-//  MainTabBarController.swift
-//  SwiftData
+//  MainController.swift
+//  Academus
 //
-//  Created by Jaden Moore on 3/1/18.
+//  Created by Jaden Moore on 3/2/18.
 //  Copyright © 2018 Caffeinated Insomniacs. All rights reserved.
 //
 
 import UIKit
 import Locksmith
 
-class MainTabBarController: UITabBarController {
+class MainController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpUI()
+    }
     
+    override func viewDidAppear(_ animated: Bool) {
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_ACCOUNT)
+        if dictionary?["isLoggedIn"] == nil {
+            let welcomeNavigationController = UINavigationController(rootViewController: WelcomeController())
+            present(welcomeNavigationController, animated: false, completion: nil)
+        }
+    }
+    
+    func setUpUI(){
         let clipboardController = ClipboardController()
         clipboardController.tabBarItem = UITabBarItem(title: "Clipboard", image: #imageLiteral(resourceName: "planner"), tag: 0)
         
@@ -24,7 +35,6 @@ class MainTabBarController: UITabBarController {
         settingsController.tabBarItem = UITabBarItem(title: "Settings", image: #imageLiteral(resourceName: "settings"), tag: 2)
         
         let controllers = [clipboardController, coursesController, settingsController]
-        
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
     }
 }
