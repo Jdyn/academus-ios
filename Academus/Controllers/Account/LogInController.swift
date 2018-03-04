@@ -79,14 +79,13 @@ class LogInController: UIViewController {
         AuthService().logInUser(email: emailField.text!, password: passwordField.text!)
         { (success) in
             if success {
-//                Locksmith.loadDataForUserAccount(userAccount: USER_ACCOUNT)
-//                CourseService().getCourses(completion: { (success) in
-//                    print("idk")
-//                })
                 self.dismiss(animated: true, completion: nil)
             } else {
                 self.alertMessage(title: "Alert", message: "Wrong username or password.")
             }
+            CourseService().getCourses(completion: { (success) in
+                print("idk")
+            })
         }
     }
     

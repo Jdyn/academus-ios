@@ -19,6 +19,7 @@ class IntegrationService {
 
     var delegate : IntegrationServiceDelegate?
     var route: String?
+    var body: Parameters?
     
     func getIntegrations(completion: @escaping CompletionHandler) {
 
@@ -46,25 +47,26 @@ class IntegrationService {
     }
     
     
-    URL(string: "\(BASE_URL)/api/integrations\(route!)?token=\(authToken)")!
-    
-    
     func addIntegration(districtCode: String?, username: String, password: String, completion: @escaping CompletionHandler) {
         
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_ACCOUNT)
         let authToken = dictionary?["authToken"] as! String
         
-        let body: Parameters = [
-            "beta_code": betaCode,
-            "user": [
-                "first_name": firstName,
-                "last_name": lastName,
-                "email": lowerCaseEmail,
+        if route == "studentvue" {
+            self.body = [
+                "username": username,
+                "password": password,
+        ]
+            
+        } else if route == "powerschool" {
+            self.body = [
+                "district_code": districtCode!,
+                "username": username,
                 "password": password,
             ]
-        ]
-        
-        Alamofire.request(URL_REGISTER!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
+        }
+
+        Alamofire.request(URL(string: "\(BASE_URL)/api/integrations\(route!)?token=\(authToken)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
             
             if response.result.error == nil {
                 guard let data = response.data else {return}
@@ -74,8 +76,6 @@ class IntegrationService {
                     if (success) {
                         print(json["result"])
                         let token = json["result"]["token"].stringValue
-                        //                        let firstName = json["result"]["first_name"].stringValue
-                        //                        let lastName = json["result"]["last_name"].stringValue
                         try Locksmith.updateData(data: [
                             "authToken" : token,
                             ], forUserAccount: USER_ACCOUNT)

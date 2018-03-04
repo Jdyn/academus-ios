@@ -17,6 +17,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("courses view did load")
         navigationItem.title = "Courses"
         courseService.delegate = self
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
@@ -24,22 +25,29 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         tableView.separatorColor = UIColor.tableViewSeperator
         tableView.separatorInset = UIEdgeInsets.zero
         tableView.tableFooterView = UIView()
-        
+        courseService.getCourses { (success) in
+            if success {
+                self.tableView.reloadData()
+            } else {
+                print("failed to get courses")
+            }
+        }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-            if (courses.isEmpty) {
-                courseService.getCourses { (success) in
-                    if success {
-                        self.tableView.reloadData()
-                    } else {
-                        print("failed to get courses")
-                    }
+    override func viewWillAppear(_ animated: Bool) {
+        if courses.isEmpty {
+            courseService.getCourses { (success) in
+                if success {
+                    self.tableView.reloadData()
+                } else {
+                    print("failed to get courses")
                 }
             }
+        }
     }
 
     func didGetCourses(courses: [Course]) {
+        print("course delegate triggered")
         self.courses.removeAll()
         for course in courses {
             self.courses.append(course)

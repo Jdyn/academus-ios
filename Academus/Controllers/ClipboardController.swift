@@ -25,8 +25,11 @@ class ClipboardController: UITableViewController {
                 debugPrint("could not delete locksmith data:", error)
                 return
             }
-            let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-            present(welcomeNavigationController, animated: true, completion: nil)
+            let welcomeController = WelcomeController()
+            let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)
+            
+            navigationController?.present(welcomeNavigationController, animated: true, completion: nil)
+//            present(welcomeNavigationController, animated: true, completion: nil)
         } else {
             print("hello")
         }
