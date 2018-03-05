@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIViewController {
+    
     func setupAddButtonInNavBar(selector: Selector) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: selector)
     }
@@ -27,7 +28,51 @@ extension UIViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
+    
+    func loadingAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        loadingIndicator.startAnimating();
+//        let action = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+//        alert.addAction(action)
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
+    @objc func alertCancel() {
+        
+    }
+    
 }
+
+extension UILabel {
+    
+    func setUpLabel(text: String, font: UIFont, fontColor: UIColor) {
+        self.text = text
+        self.font = font
+        self.textColor = fontColor
+    }
+    
+}
+
+extension UIButton {
+    
+    func setUpButton(bgColor: UIColor?, text: String, titleFont: UIFont, titleColor: UIColor, titleState: UIControlState) {
+        
+        self.backgroundColor = bgColor
+        self.setTitle(text, for: titleState)
+        self.titleLabel?.font = titleFont
+        self.setTitleColor(titleColor, for: titleState)
+        
+    }
+    
+}
+
 
 extension UITextField {
     
@@ -39,6 +84,12 @@ extension UITextField {
         self.layer.shadowColor = borderColor.cgColor
     }
     
+    func setGhostText(message: String, color: UIColor, font: UIFont) {
+        self.attributedPlaceholder = NSAttributedString(string: message, attributes: [
+            NSAttributedStringKey.foregroundColor: color,
+            NSAttributedStringKey.font: font
+            ])
+    }
 }
 
 extension UIView{

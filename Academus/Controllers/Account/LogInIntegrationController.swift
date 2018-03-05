@@ -31,25 +31,17 @@ class LogInIntegrationController: UIViewController {
     }()
     
     let powerSchoolCodeField: UITextField = {
-    let field = UITextField()
-    field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "District Code", attributes: [
-            NSAttributedStringKey.foregroundColor: UIColor.ghostText,
-            NSAttributedStringKey.font:UIFont(name: "AvenirNext-medium", size: 16)!
-            ])
-    field.tintColor = UIColor.navigationsGreen
-    field.textColor = UIColor.navigationsWhite
-    return field
+        let field = UITextField()
+        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
+        field.setGhostText(message: "District Code", color: UIColor.ghostText, font: UIFont.UIStandard!)
+        field.textColor = UIColor.navigationsWhite
+        return field
     }()
     
     let usernameField: UITextField = {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [
-            NSAttributedStringKey.foregroundColor: UIColor.ghostText,
-            NSAttributedStringKey.font:UIFont(name: "AvenirNext-medium", size: 16)!
-            ])
-        field.tintColor = UIColor.navigationsGreen
+        field.setGhostText(message: "Username", color: UIColor.ghostText, font: UIFont.UIStandard!)
         field.textColor = UIColor.navigationsWhite
         return field
     }()
@@ -57,10 +49,7 @@ class LogInIntegrationController: UIViewController {
     let passwordField: UITextField = {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [
-            NSAttributedStringKey.foregroundColor: UIColor.ghostText,
-            NSAttributedStringKey.font:UIFont(name: "AvenirNext-medium", size: 16)!
-            ])
+        field.setGhostText(message: "Password", color: UIColor.ghostText, font: UIFont.UIStandard!)
         field.tintColor = UIColor.navigationsGreen
         field.textColor = UIColor.navigationsWhite
         return field
@@ -68,10 +57,7 @@ class LogInIntegrationController: UIViewController {
     
     let logInButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .none
-        button.setTitle("LOG IN", for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-medium", size: 14)
-        button.setTitleColor(UIColor.navigationsGreen, for: .normal)
+        button.setUpButton(bgColor: nil, text: "LOG IN", titleFont: UIFont.UIStandard!, titleColor: UIColor.navigationsGreen, titleState: .normal)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
         return button
     }()
@@ -88,31 +74,20 @@ class LogInIntegrationController: UIViewController {
     
     func setUpUI() {
         
-//        let stackView = UIStackView(arrangedSubviews: [
-//            subTitleLabel, titleLabel, usernameField, passwordField, logInButton
-//            ])
-        
         if integrationName == powerSchool {
             view.addSubview(powerSchoolCodeField)
         }
-//        view.addSubview(stackView)
         view.addSubview(titleLabel)
         view.addSubview(subTitleLabel)
         view.addSubview(usernameField)
         view.addSubview(passwordField)
         view.addSubview(logInButton)
-
-//        stackView.axis = .vertical
-//        stackView.spacing = 12
-//        stackView.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor, centerY: view.centerYAnchor,width: 0, height: 350)
         
         subTitleLabel.anchors(top: view.safeAreaLayoutGuide.topAnchor, topPad: 32, centerX: view.centerXAnchor ,width: 0, height: 0)
         titleLabel.anchors(top: subTitleLabel.bottomAnchor, centerX: view.centerXAnchor, width: 0, height: 0)
-        
         if integrationName == powerSchool {
             powerSchoolCodeField.anchors(bottom: usernameField.topAnchor, bottomPad: -16, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor,width: 0, height: 0)
         }
-        
         usernameField.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor, centerY: view.centerYAnchor, CenterYPad: -32, width: 0, height: 0)
         passwordField.anchors(top: usernameField.bottomAnchor, topPad: 16, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor, width: 0, height: 0)
         logInButton.anchors(top: passwordField.bottomAnchor, topPad: 32,centerX: view.centerXAnchor,width: 64, height: 0)

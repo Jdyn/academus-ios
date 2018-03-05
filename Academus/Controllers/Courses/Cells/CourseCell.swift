@@ -27,9 +27,9 @@ class CourseCell: UITableViewCell {
         view.backgroundColor = UIColor.tableViewLightGrey
         view.layer.cornerRadius = 5
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowRadius = 1.5
-        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOffset = CGSize(width: 0, height: 1)
+        view.layer.shadowRadius = 2
+        view.layer.shadowOpacity = 0.4
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -80,20 +80,15 @@ class CourseCell: UITableViewCell {
         selectionStyle = .none
         
         addSubview(cellBackground)
-        NSLayoutConstraint.activate([
-            cellBackground.topAnchor.constraint(equalTo: topAnchor, constant: 6),
-            cellBackground.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
-            cellBackground.leftAnchor.constraint(equalTo: leftAnchor, constant: 6),
-            cellBackground.rightAnchor.constraint(equalTo: rightAnchor, constant: -6),
-            ])
-        
         addSubview(periodLabel)
-        NSLayoutConstraint.activate([
-            periodLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
-            periodLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-            ])
-        
         addSubview(nameLabel)
+        addSubview(gradeLetterLabel)
+        addSubview(gradePercentLabel)
+
+        cellBackground.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        
+        periodLabel.anchors(left: leftAnchor, leftPad: 16, centerY: centerYAnchor, width: 0, height: 0)
+        
         NSLayoutConstraint.activate([
             nameLabel.leftAnchor.constraint(equalTo: periodLabel.leftAnchor, constant: 16),
             nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
@@ -101,13 +96,11 @@ class CourseCell: UITableViewCell {
         
 
         
-        addSubview(gradeLetterLabel)
         NSLayoutConstraint.activate([
             gradeLetterLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -18),
             gradeLetterLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
         
-        addSubview(gradePercentLabel)
         NSLayoutConstraint.activate([
             gradePercentLabel.topAnchor.constraint(equalTo: gradeLetterLabel.bottomAnchor, constant: -5),
             gradePercentLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16)

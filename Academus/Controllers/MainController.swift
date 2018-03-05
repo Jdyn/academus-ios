@@ -17,7 +17,7 @@ class MainController: UITabBarController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_ACCOUNT)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         if dictionary?["isLoggedIn"] == nil {
             let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
             present(welcomeNavigationController, animated: false, completion: nil)
@@ -25,8 +25,8 @@ class MainController: UITabBarController {
     }
     
     func setUpUI(){
-        let clipboardController = ClipboardController()
-        clipboardController.tabBarItem = UITabBarItem(title: "Clipboard", image: #imageLiteral(resourceName: "planner"), tag: 0)
+        let plannerController = PlannerController()
+        plannerController.tabBarItem = UITabBarItem(title: "Clipboard", image: #imageLiteral(resourceName: "planner"), tag: 0)
         
         let coursesController = CoursesController()
         coursesController.tabBarItem = UITabBarItem(title: "Courses", image: #imageLiteral(resourceName: "grades"), tag: 1)
@@ -34,7 +34,7 @@ class MainController: UITabBarController {
         let settingsController = SettingsController()
         settingsController.tabBarItem = UITabBarItem(title: "Settings", image: #imageLiteral(resourceName: "settings"), tag: 2)
         
-        let controllers = [clipboardController, coursesController, settingsController]
+        let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
     }
 }

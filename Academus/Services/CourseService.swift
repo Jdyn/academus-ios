@@ -20,7 +20,7 @@ class CourseService {
     var delegate : CourseServiceDelegate?
     
     func getCourses(completion: @escaping CompletionHandler) {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_ACCOUNT)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         let authToken = dictionary?["authToken"] as! String
         Alamofire.request(URL(string: "\(BASE_URL)/api/courses?token=\(authToken)")!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
             
@@ -31,6 +31,7 @@ class CourseService {
                     let jsonResult = try json["result"].rawData()
                     let course = try JSONDecoder().decode([Course].self, from: jsonResult)
                     if json["success"] == true {
+                        
                         self.delegate?.didGetCourses(courses: course)
                     }
                 } catch let error{

@@ -25,7 +25,7 @@ let URL_ASSIGNMENT = URL(string: "\(BASE_URL)/api/assignments?token=\(token!)&no
 let URL_GET_INTEGRATION = URL(string: "\(BASE_URL)/api/integrations/available?token=\(token!)")
 let URL_ADD_INTEGRATION = URL(string: "\(BASE_URL)/api/integrations")
 
-let USER_ACCOUNT = "userAccount"
+let USER_AUTH = "userAuth"
 
 extension Double {
     func rounded(toPlaces places:Int) -> Double {

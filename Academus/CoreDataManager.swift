@@ -36,18 +36,18 @@ class CoreDataManager {
         }
     }
     
-    func fetchAuthServicesData() {
-        let managedContext = persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<AuthServices>(entityName: "AuthServices")
-        do {
-            let authServices = try managedContext.fetch(fetchRequest)
-            for object in authServices {
-                managedContext.delete(object)
-                self.saveContext()
-        }
-            print(authServices.count)
-        } catch let error {
-            print(error)
-        }
-    }
+//    func fetchAuthServicesData() {
+//        let managedContext = persistentContainer.viewContext
+//        let fetchRequest = NSFetchRequest<AuthServices>(entityName: "AuthServices")
+//        do {
+//            let authServices = try managedContext.fetch(fetchRequest)
+//            for object in authServices {
+//                managedContext.delete(object)
+//                self.saveContext()
+//        }
+//            print(authServices.count)
+//        } catch let error {
+//            print(error)
+//        }
+//    }
 }

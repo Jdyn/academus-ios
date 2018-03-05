@@ -10,23 +10,18 @@ import UIKit
 import CoreData
 import Locksmith
 
-class LogInController: UIViewController {
-
-    var fieldCheck = false
+class LogInController: UIViewController, AuthServiceDelegate {
     
     let welcomeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Welcome Back."
-        label.font = UIFont(name: "AvenirNext-medium", size: 24)
-        label.textColor = UIColor.navigationsWhite
+        label.setUpLabel(text: "Welcome Back.", font: UIFont(name: "AvenirNext-medium", size: 24)!, fontColor: UIColor.navigationsWhite)
         return label
     }()
     
     let emailField: UITextField = {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedStringKey.foregroundColor: UIColor.ghostText])
-        field.tintColor = UIColor.navigationsGreen
+        field.setGhostText(message: "Email", color: UIColor.ghostText, font: UIFont.UIStandard!)
         field.textColor = UIColor.navigationsWhite
         return field
     }()
@@ -34,8 +29,7 @@ class LogInController: UIViewController {
     let passwordField: UITextField = {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedStringKey.foregroundColor: UIColor.ghostText])
-        field.tintColor = UIColor.navigationsGreen
+        field.setGhostText(message: "Password", color: UIColor.ghostText, font: UIFont.UIStandard!)
         field.textColor = UIColor.navigationsWhite
         field.isSecureTextEntry = true
         return field
@@ -43,14 +37,14 @@ class LogInController: UIViewController {
     
     let logInButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .none
-        button.setTitle("LOG IN", for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-medium", size: 14)
-        button.setTitleColor(UIColor.navigationsGreen, for: .normal)
+        button.setUpButton(bgColor: nil, text: "LOG IN", titleFont: UIFont.UIStandard!, titleColor: UIColor.navigationsGreen, titleState: .normal)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
         return button
     }()
     
+    private let authService = AuthService()
+    var fieldCheck = false
+    var logInError: String = "A network error has occured."
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,16 +70,22 @@ class LogInController: UIViewController {
     }
     
     func logInUser() {
-        AuthService().logInUser(email: emailField.text!, password: passwordField.text!)
+        authService.delegate = self
+        loadingAlert(title: "Attempting to log in", message: "Please wait...")
+        authService.logInUser(email: emailField.text!, password: passwordField.text!)
         { (success) in
+            
             if success {
-                self.dismiss(animated: true, completion: nil)
+                
+                self.dismiss(animated: true, completion: {
+                    self.dismiss(animated: true, completion: nil)
+                })
+                
             } else {
-                self.alertMessage(title: "Alert", message: "Wrong username or password.")
+                self.dismiss(animated: true, completion: {
+                    self.alertMessage(title: "Ooops.", message: self.logInError)
+                })
             }
-            CourseService().getCourses(completion: { (success) in
-                print("idk")
-            })
         }
     }
     
@@ -101,7 +101,7 @@ class LogInController: UIViewController {
         view.addSubview(passwordField)
         view.addSubview(logInButton)
         
-        stackView.anchors(left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16, centerX: view.centerXAnchor, centerY: view.centerYAnchor,width: 0, height: 350)
+        stackView.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor, centerY: view.centerYAnchor,width: 0, height: 350)
         stackView.axis = .vertical
         
         welcomeLabel.anchors(top: stackView.topAnchor, centerX: stackView.centerXAnchor ,width: 0, height: 0)

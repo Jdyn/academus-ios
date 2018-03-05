@@ -153,7 +153,7 @@ class SignUpController: UIViewController {
         view.addSubview(verifyPasswordField)
         view.addSubview(signUpButton)
         
-        stackView.anchors(left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16, centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 400)
+        stackView.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 400)
         welcomeText.anchors(top: stackView.topAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
         betaCodeField.anchors(top: welcomeText.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.rightAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
         firstNameField.anchors(top: betaCodeField.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.centerXAnchor, rightPad: -6, width: 0, height: 0)

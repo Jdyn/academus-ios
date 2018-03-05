@@ -21,8 +21,6 @@ class SelectIntegrationController: UITableViewController, IntegrationServiceDele
         integrationService.delegate = self
         tableView.register(GetIntegrationCell.self, forCellReuseIdentifier: integrationCellID)
         tableView.separatorStyle = .none
-        tableView.separatorColor = UIColor.tableViewSeperator
-        tableView.separatorInset = UIEdgeInsets.zero
         tableView.tableFooterView = UIView()
         integrationService.getIntegrations { (success) in
             if (success) {
@@ -60,7 +58,6 @@ class SelectIntegrationController: UITableViewController, IntegrationServiceDele
         let integrationController = LogInIntegrationController()
         let integrationService = IntegrationService()
         integrationService.route = integrations[indexPath.row].route
-//        integrationController.navigationItem.title = integrations[indexPath.row].name
         integrationController.integrationName = integrations[indexPath.row].name
         integrationController.titleLabel.text = integrations[indexPath.row].name
         

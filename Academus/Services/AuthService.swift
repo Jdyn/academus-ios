@@ -12,8 +12,14 @@ import Alamofire
 import CoreData
 import Locksmith
 
+protocol AuthServiceDelegate {
+    var logInError: String {get set}
+}
+
 
 class AuthService {
+    
+    var delegate: AuthServiceDelegate?
     
     func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, completion: @escaping CompletionHandler) {
         
@@ -44,7 +50,7 @@ class AuthService {
 //                        let lastName = json["result"]["last_name"].stringValue
                         try Locksmith.updateData(data: [
                             "authToken" : token,
-                            ], forUserAccount: USER_ACCOUNT)
+                            ], forUserAccount: USER_AUTH)
                         completion(true)
                     } else {
                         completion(false)
@@ -76,21 +82,24 @@ class AuthService {
                         let success = json["success"].boolValue
                         if (success) {
                             let token = json["result"]["token"].stringValue
-                            let email = json["result"]["user"]["email"].stringValue
+//                            let email = json["result"]["user"]["email"].stringValue
                             let isLoggedIn = true
                             
                             try Locksmith.updateData(data: [
                                 "authToken" : token,
-                                "email" : email,
+//                                "email" : email,
                                 "isLoggedIn" : isLoggedIn
-                                ], forUserAccount: USER_ACCOUNT)
+                                ], forUserAccount: USER_AUTH)
                             completion(true)
                         } else {
+                            self.delegate?.logInError = json["error"].stringValue
                             completion(false)
                         }
                     } catch let error {
                         debugPrint(error)
                     }
+            } else {
+                completion(false)
             }
         }
     }

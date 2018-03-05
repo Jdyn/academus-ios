@@ -27,7 +27,7 @@ class WelcomeController: UIViewController {
         let button = UIButton(type: .system)
         button.backgroundColor = .none
         button.setTitle("GET STARTED", for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-medium", size: 14)
+        button.titleLabel?.font = UIFont.UIStandard
         button.setTitleColor(UIColor.navigationsGreen, for: .normal)
         button.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
         return button
@@ -62,7 +62,7 @@ class WelcomeController: UIViewController {
         let button = UIButton(type: .system)
         button.backgroundColor = .none
         button.setTitle("LOG IN", for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-medium", size: 14)
+        button.titleLabel?.font = UIFont.UIStandard
         button.setTitleColor(UIColor.navigationsGreen, for: .normal)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
         return button

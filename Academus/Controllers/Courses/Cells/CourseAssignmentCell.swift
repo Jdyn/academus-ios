@@ -28,9 +28,9 @@ class CourseAssignmentCell: UITableViewCell {
         view.backgroundColor = UIColor.tableViewLightGrey
         view.layer.cornerRadius = 5
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 1, height: 1)
+        view.layer.shadowOffset = CGSize(width: 0, height: 1)
         view.layer.shadowRadius = 2
-        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOpacity = 0.4
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
         view.translatesAutoresizingMaskIntoConstraints = false

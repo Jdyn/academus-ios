@@ -49,7 +49,7 @@ class IntegrationService {
     
     func addIntegration(districtCode: String?, username: String, password: String, completion: @escaping CompletionHandler) {
         
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_ACCOUNT)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         let authToken = dictionary?["authToken"] as! String
         
         if route == "studentvue" {
@@ -78,7 +78,7 @@ class IntegrationService {
                         let token = json["result"]["token"].stringValue
                         try Locksmith.updateData(data: [
                             "authToken" : token,
-                            ], forUserAccount: USER_ACCOUNT)
+                            ], forUserAccount: USER_AUTH)
                         completion(true)
                     } else {
                         completion(false)

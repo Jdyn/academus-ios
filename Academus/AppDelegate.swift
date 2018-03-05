@@ -24,21 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow()
         window?.makeKeyAndVisible()
-        
-//        let mainBarController = UITabBarController()
-        
-//        let clipboardController = ClipboardController()
-//        clipboardController.tabBarItem = UITabBarItem(title: "Clipboard", image: #imageLiteral(resourceName: "planner"), tag: 0)
-//
-//        let coursesController = CoursesController()
-//        coursesController.tabBarItem = UITabBarItem(title: "Courses", image: #imageLiteral(resourceName: "grades"), tag: 1)
-//
-//        let settingsController = SettingsController()
-//        settingsController.tabBarItem = UITabBarItem(title: "Settings", image: #imageLiteral(resourceName: "settings"), tag: 2)
-//
-//        let controllers = [clipboardController, coursesController, settingsController]
-//        mainBarController.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
-//        let navController = UINavigationController(rootViewController: SelectIntegrationController())
         window?.rootViewController = MainController()
         
         UINavigationBar.appearance().prefersLargeTitles = true
