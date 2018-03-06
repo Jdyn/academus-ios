@@ -12,20 +12,17 @@ class CourseAssignmentCell: UITableViewCell {
     
     var assignment : Assignment? {
         didSet {
-            let formatter = DateFormatter()
-            formatter.dateStyle = DateFormatter.Style.short
-            formatter.timeStyle = .none
-            guard let assignedDate = assignment?.due_date else {return}
-            let dateString = formatter.string(from: assignedDate)
-            assignedDateLabel.text = dateString + " - "
-            assignmentNameLabel.text = assignment?.name ?? " "
+            nameLabel.text = assignment?.name ?? " "
             gradeLabel.text = "\(assignment!.score.text!)"
+            guard let assignedDate = assignment?.due_date else {return}
+            let date = timeAgoStringFromDate(date: assignedDate)
+            assignedDateLabel.text = date!
         }
     }
     
-    let cellBackground: UIView = {
+    let background: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.tableViewLightGrey
+        view.backgroundColor = .tableViewLightGrey
         view.layer.cornerRadius = 5
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 1)
@@ -37,85 +34,59 @@ class CourseAssignmentCell: UITableViewCell {
         return view
     }()
     
-    let cellBottomBackground: UIView = {
+    let bottomBackground: UIView = {
         let view = UILabel()
         view.clipsToBounds = true
-        view.backgroundColor = UIColor.navigationsMediumGrey
+        view.backgroundColor = .navigationsMediumGrey
         view.layer.cornerRadius = 5
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-        let assignmentNameLabel: UILabel = {
+        let nameLabel: UILabel = {
         let label = UILabel()
-//        label.lineBreakMode = .byTruncatingTail
-//        label.numberOfLines = 0
-        label.font = UIFont(name: "AvenirNext-medium", size: 16)
-        label.textColor = UIColor.navigationsWhite
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
+        label.numberOfLines = 1
+        label.font = UIFont(name: "AvenirNext-demibold", size: 16)
+        label.textColor = .navigationsWhite
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
         }()
     
     let assignedDateLabel: UILabel = {
         let label = UILabel()
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 1
-        label.font = UIFont(name: "AvenirNext-demibold", size: 16)
-        label.textColor = UIColor.tableViewPeriodText
+        label.font = UIFont(name: "AvenirNext-medium", size: 14)
+        label.textColor = .tableViewPeriodText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-        let gradeLabel: UILabel = {
-            let label = UILabel()
-            label.font = UIFont(name: "AvenirNext-demibold", size: 14)
-            label.textColor = UIColor.tableViewPeriodText
-            label.translatesAutoresizingMaskIntoConstraints = false
-            return label
+    let gradeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "AvenirNext-medium", size: 14)
+        label.textColor = .tableViewPeriodText
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
         }()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor.tableViewGrey
+        backgroundColor = .tableViewGrey
         selectionStyle = .none
         separatorInset = UIEdgeInsets.zero
 
-        addSubview(cellBackground)
-        NSLayoutConstraint.activate([
-            cellBackground.topAnchor.constraint(equalTo: topAnchor, constant: 4),
-            cellBackground.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4),
-            cellBackground.leftAnchor.constraint(equalTo: leftAnchor, constant: 6),
-            cellBackground.rightAnchor.constraint(equalTo: rightAnchor, constant: -6),
-            ])
-        
-        addSubview(cellBottomBackground)
-        NSLayoutConstraint.activate([
-            cellBottomBackground.heightAnchor.constraint(equalToConstant: 30),
-            cellBottomBackground.bottomAnchor.constraint(equalTo: cellBackground.bottomAnchor),
-            cellBottomBackground.leftAnchor.constraint(equalTo: cellBackground.leftAnchor),
-            cellBottomBackground.rightAnchor.constraint(equalTo: cellBackground.rightAnchor),
-            ])
-        
+        addSubview(background)
+        addSubview(bottomBackground)
+        addSubview(nameLabel)
         addSubview(assignedDateLabel)
-        NSLayoutConstraint.activate([
-            assignedDateLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            assignedDateLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
-            ])
-        
-        addSubview(assignmentNameLabel)
-        NSLayoutConstraint.activate([
-            assignmentNameLabel.widthAnchor.constraint(equalToConstant: 275),
-            assignmentNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            assignmentNameLabel.leftAnchor.constraint(equalTo: assignedDateLabel.rightAnchor),
-            ])
-        
         addSubview(gradeLabel)
-        NSLayoutConstraint.activate([
-//            gradeLabel.topAnchor.constraint(equalTo: assignmentNameLabel.topAnchor, constant: 25),
-            gradeLabel.centerYAnchor.constraint(equalTo: cellBottomBackground.centerYAnchor),
-            gradeLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
-            ])
-        
+
+        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        bottomBackground.anchors(bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor, width: 0, height: 30)
+        nameLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 6, width: 350, height: 0)
+        assignedDateLabel.anchors(top: nameLabel.bottomAnchor, topPad: -3, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
+        gradeLabel.anchors(left: bottomBackground.leftAnchor, leftPad: 6, centerY: bottomBackground.centerYAnchor, width: 0, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -10,34 +10,34 @@ import UIKit
 import CoreData
 import Locksmith
 
-class LogInController: UIViewController, AuthServiceDelegate {
+class AccountLogInController: UIViewController, AuthServiceDelegate {
     
     let welcomeLabel: UILabel = {
         let label = UILabel()
-        label.setUpLabel(text: "Welcome Back.", font: UIFont(name: "AvenirNext-medium", size: 24)!, fontColor: UIColor.navigationsWhite)
+        label.setUpLabel(text: "Welcome Back.", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
         return label
     }()
     
     let emailField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.setGhostText(message: "Email", color: UIColor.ghostText, font: UIFont.UIStandard!)
-        field.textColor = UIColor.navigationsWhite
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "Email", color: .ghostText, font: UIFont.UIStandard!)
+        field.textColor = .navigationsWhite
         return field
     }()
     
     let passwordField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.setGhostText(message: "Password", color: UIColor.ghostText, font: UIFont.UIStandard!)
-        field.textColor = UIColor.navigationsWhite
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "Password", color: .ghostText, font: UIFont.UIStandard!)
+        field.textColor = .navigationsWhite
         field.isSecureTextEntry = true
         return field
     }()
     
     let logInButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setUpButton(bgColor: nil, text: "LOG IN", titleFont: UIFont.UIStandard!, titleColor: UIColor.navigationsGreen, titleState: .normal)
+        button.setUpButton(bgColor: nil, text: "LOG IN", titleFont: UIFont.UIStandard!, titleColor: .navigationsGreen, titleState: .normal)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
         return button
     }()
@@ -48,7 +48,7 @@ class LogInController: UIViewController, AuthServiceDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.tableViewGrey
+        view.backgroundColor = .tableViewGrey
         self.setupUI()
     }
     
@@ -78,7 +78,9 @@ class LogInController: UIViewController, AuthServiceDelegate {
             if success {
                 
                 self.dismiss(animated: true, completion: {
-                    self.dismiss(animated: true, completion: nil)
+                    self.dismiss(animated: true, completion: {
+                        self.navigationController?.popViewController(animated: true)
+                    })
                 })
                 
             } else {

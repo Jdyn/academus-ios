@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SelectIntegrationController: UITableViewController, IntegrationServiceDelegate {
+class IntegrationSelectController: UITableViewController, IntegrationServiceDelegate {
     
     private let integrationService = IntegrationService()
     
@@ -55,7 +55,7 @@ class SelectIntegrationController: UITableViewController, IntegrationServiceDele
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let integrationController = LogInIntegrationController()
+        let integrationController = IntegrationLogInController()
         let integrationService = IntegrationService()
         integrationService.route = integrations[indexPath.row].route
         integrationController.integrationName = integrations[indexPath.row].name

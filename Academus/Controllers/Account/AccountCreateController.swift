@@ -8,73 +8,72 @@
 
 import UIKit
 
-class SignUpController: UIViewController {
+class AccountCreateController: UIViewController {
 
     let welcomeText: UILabel = {
         let label = UILabel()
         label.text = "Let's get a few things straight."
         label.font = UIFont(name: "AvenirNext-demibold", size: 20)
-        label.textColor = UIColor.navigationsWhite
+        label.textColor = .navigationsWhite
         return label
     }()
     
     let betaCodeField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "Beta Code", attributes: [NSAttributedStringKey.foregroundColor: UIColor.ghostText])
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "Beta Code", color: .ghostText, font: UIFont.UIStandard!)
         field.keyboardType = .default
         field.autocapitalizationType = .allCharacters
-        field.tintColor = UIColor.navigationsGreen
-        field.textColor = UIColor.navigationsWhite
+        field.tintColor = .navigationsGreen
+        field.textColor = .navigationsWhite
         return field
     }()
     
     let firstNameField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "First Name", attributes: [NSAttributedStringKey.foregroundColor: UIColor.ghostText])
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "Beta Code", color: .ghostText, font: UIFont.UIStandard!)
         field.keyboardType = .default
         field.autocapitalizationType = .words
-        field.tintColor = UIColor.navigationsGreen
-        field.textColor = UIColor.navigationsWhite
+        field.tintColor = .navigationsGreen
+        field.textColor = .navigationsWhite
         return field
     }()
     
     let lastNameField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "Last Name", attributes: [NSAttributedStringKey.foregroundColor: UIColor.ghostText])
-        field.tintColor = UIColor.navigationsGreen
-        field.textColor = UIColor.navigationsWhite
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "Beta Code", color: .ghostText, font: UIFont.UIStandard!)
+        field.tintColor = .navigationsGreen
+        field.textColor = .navigationsWhite
         return field
     }()
     
     let emailField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedStringKey.foregroundColor: UIColor.ghostText])
-        field.tintColor = UIColor.navigationsGreen
-        field.textColor = UIColor.navigationsWhite
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "Beta Code", color: .ghostText, font: UIFont.UIStandard!)
+        field.tintColor = .navigationsGreen
+        field.textColor = .navigationsWhite
         return field
     }()
     
     let passwordField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedStringKey.foregroundColor: UIColor.ghostText])
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "Password", color: .ghostText, font: UIFont.UIStandard!)
         field.isSecureTextEntry = true
-        field.tintColor = UIColor.navigationsGreen
-        field.textColor = UIColor.navigationsWhite
+        field.tintColor = .navigationsGreen
+        field.textColor = .navigationsWhite
         return field
     }()
     
     let verifyPasswordField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.attributedPlaceholder = NSAttributedString(string: "Verify Password", attributes: [NSAttributedStringKey.foregroundColor: UIColor.ghostText])
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "Verify Password", color: .ghostText, font: UIFont.UIStandard!)
         field.isSecureTextEntry = true
-        field.tintColor = UIColor.navigationsGreen
-        field.textColor = UIColor.navigationsWhite
+        field.textColor = .navigationsWhite
         return field
     }()
     
@@ -83,7 +82,7 @@ class SignUpController: UIViewController {
         button.backgroundColor = .none
         button.setTitle("SIGN UP", for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-medium", size: 14)
-        button.setTitleColor(UIColor.navigationsGreen, for: .normal)
+        button.setTitleColor(.navigationsGreen, for: .normal)
         button.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
         return button
     }()
@@ -91,7 +90,7 @@ class SignUpController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.tableViewGrey
+        view.backgroundColor = .tableViewGrey
         self.setUpUI()
     }
     
@@ -101,7 +100,7 @@ class SignUpController: UIViewController {
         AuthService().registerUser(betaCode: (betaCodeField.text)!, firstName: (firstNameField.text)!, lastName: (lastNameField.text)!, email: (emailField.text)!, password: (passwordField.text)!) { (success) in
             if success {
                 print("registered user")
-                let controller = SelectIntegrationController()
+                let controller = IntegrationSelectController()
                 self.navigationController?.pushViewController(controller, animated: true)
             } else {
                 self.alertMessage(title: "Alert", message: "An Error has occured. Try Again.")

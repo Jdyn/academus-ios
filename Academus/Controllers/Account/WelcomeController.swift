@@ -19,7 +19,7 @@ class WelcomeController: UIViewController {
     
     let divider: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.tableViewSeperator
+        view.backgroundColor = .tableViewSeperator
         return view
     }()
     
@@ -28,7 +28,7 @@ class WelcomeController: UIViewController {
         button.backgroundColor = .none
         button.setTitle("GET STARTED", for: .normal)
         button.titleLabel?.font = UIFont.UIStandard
-        button.setTitleColor(UIColor.navigationsGreen, for: .normal)
+        button.setTitleColor(.navigationsGreen, for: .normal)
         button.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
         return button
     }()
@@ -37,7 +37,7 @@ class WelcomeController: UIViewController {
         let label = UILabel()
         label.text = "Welcome to Academus"
         label.font = UIFont(name: "AvenirNext-demibold", size: 26)
-        label.textColor = UIColor.navigationsWhite
+        label.textColor = .navigationsWhite
         return label
     }()
     
@@ -45,7 +45,7 @@ class WelcomeController: UIViewController {
         let label = UILabel()
         label.text = "A student's best friend."
         label.font = UIFont(name: "AvenirNext-medium", size: 18)
-        label.textColor = UIColor.navigationsWhite
+        label.textColor = .navigationsWhite
         return label
     }()
     
@@ -54,7 +54,7 @@ class WelcomeController: UIViewController {
         label.text = "Already have an account?"
         label.font = UIFont(name: "AvenirNext-medium", size: 12)
         label.font = label.font.withSize(12)
-        label.textColor = UIColor.navigationsWhite
+        label.textColor = .navigationsWhite
         return label
     }()
     
@@ -63,7 +63,7 @@ class WelcomeController: UIViewController {
         button.backgroundColor = .none
         button.setTitle("LOG IN", for: .normal)
         button.titleLabel?.font = UIFont.UIStandard
-        button.setTitleColor(UIColor.navigationsGreen, for: .normal)
+        button.setTitleColor(.navigationsGreen, for: .normal)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
         return button
     }()
@@ -71,16 +71,16 @@ class WelcomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
-        view.backgroundColor = UIColor.tableViewGrey
+        view.backgroundColor = .tableViewGrey
         self.setupUI()
     }
 
     @objc func logInPressed() {
-        navigationController?.pushViewController(LogInController(), animated: true)
+        navigationController?.pushViewController(AccountLogInController(), animated: true)
     }
     
     @objc func signUpPressed() {
-        navigationController?.pushViewController(SignUpController(), animated: true)
+        navigationController?.pushViewController(AccountCreateController(), animated: true)
     }
     
     func setupUI() {

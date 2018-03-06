@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LogInIntegrationController: UIViewController {
+class IntegrationLogInController: UIViewController {
 
     var integrationName: String?
     var integrationService: IntegrationService?
@@ -19,45 +19,45 @@ class LogInIntegrationController: UIViewController {
         let label = UILabel()
         label.text = "Sign into your"
         label.font = UIFont(name: "AvenirNext-medium", size: 24)
-        label.textColor = UIColor.navigationsWhite
+        label.textColor = .navigationsWhite
         return label
     }()
     
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-demibold", size: 36)
-        label.textColor = UIColor.navigationsGreen
+        label.textColor = .navigationsGreen
         return label
     }()
     
     let powerSchoolCodeField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.setGhostText(message: "District Code", color: UIColor.ghostText, font: UIFont.UIStandard!)
-        field.textColor = UIColor.navigationsWhite
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "District Code", color: .ghostText, font: UIFont.UIStandard!)
+        field.textColor = .navigationsWhite
         return field
     }()
     
     let usernameField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.setGhostText(message: "Username", color: UIColor.ghostText, font: UIFont.UIStandard!)
-        field.textColor = UIColor.navigationsWhite
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "Username", color: .ghostText, font: UIFont.UIStandard!)
+        field.textColor = .navigationsWhite
         return field
     }()
     
     let passwordField: UITextField = {
         let field = UITextField()
-        field.setBorderBottom(backGroundColor: UIColor.tableViewGrey, borderColor: UIColor.navigationsGreen)
-        field.setGhostText(message: "Password", color: UIColor.ghostText, font: UIFont.UIStandard!)
-        field.tintColor = UIColor.navigationsGreen
-        field.textColor = UIColor.navigationsWhite
+        field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
+        field.setGhostText(message: "Password", color: .ghostText, font: UIFont.UIStandard!)
+        field.tintColor = .navigationsGreen
+        field.textColor = .navigationsWhite
         return field
     }()
     
     let logInButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setUpButton(bgColor: nil, text: "LOG IN", titleFont: UIFont.UIStandard!, titleColor: UIColor.navigationsGreen, titleState: .normal)
+        button.setUpButton(bgColor: nil, text: "LOG IN", titleFont: UIFont.UIStandard!, titleColor: .navigationsGreen, titleState: .normal)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
         return button
     }()
@@ -68,7 +68,7 @@ class LogInIntegrationController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.tableViewGrey
+        view.backgroundColor = .tableViewGrey
         setUpUI()
     }
     

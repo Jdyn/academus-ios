@@ -28,12 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().barTintColor = UIColor.navigationsDarkGrey
-        UINavigationBar.appearance().tintColor = UIColor.navigationsGreen
+        UINavigationBar.appearance().barTintColor = .navigationsDarkGrey
+        UINavigationBar.appearance().tintColor = .navigationsGreen
         
         UINavigationBar.appearance().largeTitleTextAttributes = [
             NSAttributedStringKey.font: UIFont(name: "AvenirNext-demibold", size: 30)!,
-            NSAttributedStringKey.foregroundColor:UIColor.navigationsWhite,
+            NSAttributedStringKey.foregroundColor: UIColor.navigationsWhite,
         ]
         
         UINavigationBar.appearance().titleTextAttributes = [
@@ -42,10 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
         
         UITabBar.appearance().isTranslucent = false
-        UITabBar.appearance().barTintColor = UIColor.navigationsDarkGrey
-        UITabBar.appearance().tintColor = UIColor.navigationsGreen
+        UITabBar.appearance().barTintColor = .navigationsDarkGrey
+        UITabBar.appearance().tintColor = .navigationsGreen
         
-        UITableView.appearance().backgroundColor = UIColor.tableViewGrey
+        UITableView.appearance().backgroundColor = .tableViewGrey
         return true
     }
 

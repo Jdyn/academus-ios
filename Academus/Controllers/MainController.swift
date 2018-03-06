@@ -26,7 +26,7 @@ class MainController: UITabBarController {
     
     func setUpUI(){
         let plannerController = PlannerController()
-        plannerController.tabBarItem = UITabBarItem(title: "Clipboard", image: #imageLiteral(resourceName: "planner"), tag: 0)
+        plannerController.tabBarItem = UITabBarItem(title: "Planner", image: #imageLiteral(resourceName: "planner"), tag: 0)
         
         let coursesController = CoursesController()
         coursesController.tabBarItem = UITabBarItem(title: "Courses", image: #imageLiteral(resourceName: "grades"), tag: 1)

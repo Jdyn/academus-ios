@@ -23,7 +23,7 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
             self.tableView.reloadData()
         }
         
-        tableView.separatorColor = UIColor.tableViewSeperator
+        tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
 
@@ -45,7 +45,7 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        return 85
     }
     
     func didGetAssignments(assignments: [Assignment]) {

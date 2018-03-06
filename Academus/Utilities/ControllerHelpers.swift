@@ -13,7 +13,7 @@ extension UIViewController {
     func setupAddButtonInNavBar(selector: Selector) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: selector)
     }
-    
+        
     func setupCancelButtonInNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelModal))
     }
@@ -48,6 +48,8 @@ extension UIViewController {
         
     }
     
+    
+    
 }
 
 extension UILabel {
@@ -76,7 +78,7 @@ extension UIButton {
 
 extension UITextField {
     
-    func setBorderBottom(backGroundColor:UIColor, borderColor: UIColor) {
+    func setBorderBottom(backGroundColor: UIColor, borderColor: UIColor) {
         self.layer.backgroundColor = backGroundColor.cgColor
         self.layer.shadowOffset = CGSize(width: 0, height: 1)
         self.layer.shadowOpacity = 1
@@ -112,5 +114,60 @@ extension UIView{
         if let centerY = centerY { self.centerYAnchor.constraint(equalTo: centerY, constant: CenterYPad!).isActive  = true }
         if width > 0 { self.widthAnchor.constraint(equalToConstant: width).isActive = true }
         if height > 0 { self.heightAnchor.constraint(equalToConstant: height).isActive = true }
+    }
+    
+    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        self.layer.mask = mask
+    }
+}
+
+extension Date {
+    
+
+    
+}
+
+func timeAgoStringFromDate(date: Date) -> String? {
+    let formatter = DateComponentsFormatter()
+    formatter.unitsStyle = .full
+    
+    let now = Date()
+    
+    let calendar = NSCalendar.current
+    let components1: Set<Calendar.Component> = [.year, .month, .weekOfMonth, .day, .hour, .minute, .second]
+    let components = calendar.dateComponents(components1, from: date, to: now)
+    
+    if components.year ?? 0 > 0 {
+        formatter.allowedUnits = .year
+    } else if components.month ?? 0 > 0 {
+        formatter.allowedUnits = .month
+    } else if components.weekOfMonth ?? 0 > 0 {
+        formatter.allowedUnits = .weekOfMonth
+    } else if components.day ?? 0 > 0 {
+        formatter.allowedUnits = .day
+    } else if components.hour ?? 0 > 0 {
+        formatter.allowedUnits = [.hour]
+    } else if components.minute ?? 0 > 0 {
+        formatter.allowedUnits = .minute
+    } else {
+        formatter.allowedUnits = .second
+    }
+    
+    let formatString = NSLocalizedString("%@ ago", comment: "Used to say how much time has passed. e.g. '2 hours ago'")
+    
+    guard let timeString = formatter.string(for: components) else {
+        return nil
+    }
+    return String(format: formatString, timeString)
+}
+
+class View: UIView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.roundCorners([.topLeft, .bottomLeft], radius: 10)
     }
 }

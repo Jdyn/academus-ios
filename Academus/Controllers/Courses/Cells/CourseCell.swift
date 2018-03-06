@@ -24,7 +24,7 @@ class CourseCell: UITableViewCell {
     
     let cellBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.tableViewLightGrey
+        view.backgroundColor = .tableViewLightGrey
         view.layer.cornerRadius = 5
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 1)
@@ -39,7 +39,7 @@ class CourseCell: UITableViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-demibold", size: 16)
-        label.textColor = UIColor.navigationsWhite
+        label.textColor = .navigationsWhite
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -47,7 +47,7 @@ class CourseCell: UITableViewCell {
     let periodLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-demibold", size: 16)
-        label.textColor = UIColor.tableViewPeriodText
+        label.textColor = .tableViewPeriodText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -56,7 +56,7 @@ class CourseCell: UITableViewCell {
         let label = UILabel()
         label.text = "A+"
         label.font = UIFont(name: "AvenirNext-demibold", size: 16)
-        label.textColor = UIColor.navigationsWhite
+        label.textColor = .navigationsWhite
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -65,7 +65,7 @@ class CourseCell: UITableViewCell {
         let label = UILabel()
         label.text = "(100.00%)"
         label.font = UIFont(name: "AvenirNext-demibold", size: 12)
-        label.textColor = UIColor.tableViewPeriodText
+        label.textColor = .tableViewPeriodText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -76,7 +76,7 @@ class CourseCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor.tableViewGrey
+        backgroundColor = .tableViewGrey
         selectionStyle = .none
         
         addSubview(cellBackground)
