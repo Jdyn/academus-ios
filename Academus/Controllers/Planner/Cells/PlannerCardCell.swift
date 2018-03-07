@@ -45,7 +45,7 @@ class PlannerCardCell: UITableViewCell {
         addSubview(nameLabel)
         
         background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
-        nameLabel.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 0, height: 0)
+        nameLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {

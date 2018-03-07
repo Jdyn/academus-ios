@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import Locksmith
 
 protocol AssignmentServiceDelegate {
     func didGetAssignments(assignments: [Assignment])
@@ -19,8 +20,9 @@ class AssignmentService {
     var delegate : AssignmentServiceDelegate?
     
     func getAssignments(completion: @escaping CompletionHandler) {
-        
-        Alamofire.request(URL_ASSIGNMENT!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let authToken = dictionary?["authToken"] as! String
+        Alamofire.request(URL(string: "\(BASE_URL)/api/assignments?token=\(authToken)&no_grouping=true")!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
             
             guard let data = response.data else {return}
             if response.result.error == nil {

@@ -87,6 +87,7 @@ class IntegrationService {
                     debugPrint(error)
                 }
             } else {
+                completion(false)
                 debugPrint(response.result.error!)
             }
         }

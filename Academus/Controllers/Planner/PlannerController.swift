@@ -13,6 +13,7 @@ import CoreData
 class PlannerController: UITableViewController, CreateCardDelegate {
     
     var cards = [PlannerCard]()
+    var courseService = CourseService()
     private let cellID = "PlannerCardCell"
     
     override func viewDidLoad() {
@@ -77,6 +78,7 @@ class PlannerController: UITableViewController, CreateCardDelegate {
         let createCardController = PlannerCreateCardController()
         let navController = MainNavigationController(rootViewController: createCardController)
         createCardController.delegate = self
+        print(self.courseService.courseTest)
         navigationController?.present(navController, animated: true, completion: nil)
     }
     
