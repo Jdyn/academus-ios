@@ -28,7 +28,7 @@
 		D79DA98620493ABB00EA082A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D79DA98520493ABB00EA082A /* LaunchScreen.storyboard */; };
 		D79DA988204A337500EA082A /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA987204A337500EA082A /* MainController.swift */; };
 		D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA989204A58CE00EA082A /* IntegrationService.swift */; };
-		D79DA98C204A5EB700EA082A /* GetIntegrationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA98B204A5EB700EA082A /* GetIntegrationModel.swift */; };
+		D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA98B204A5EB700EA082A /* IntegrationChoiceModel.swift */; };
 		D79DA992204A631D00EA082A /* GetIntegrationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA991204A631D00EA082A /* GetIntegrationCell.swift */; };
 		D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA993204A799300EA082A /* IntegrationLogInController.swift */; };
 		D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */; };
@@ -66,7 +66,7 @@
 		D79DA98520493ABB00EA082A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D79DA987204A337500EA082A /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		D79DA989204A58CE00EA082A /* IntegrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationService.swift; sourceTree = "<group>"; };
-		D79DA98B204A5EB700EA082A /* GetIntegrationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIntegrationModel.swift; sourceTree = "<group>"; };
+		D79DA98B204A5EB700EA082A /* IntegrationChoiceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationChoiceModel.swift; sourceTree = "<group>"; };
 		D79DA991204A631D00EA082A /* GetIntegrationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIntegrationCell.swift; sourceTree = "<group>"; };
 		D79DA993204A799300EA082A /* IntegrationLogInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationLogInController.swift; sourceTree = "<group>"; };
 		D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -241,7 +241,7 @@
 			children = (
 				D77BC0BB203E555F00AAA505 /* CourseModel.swift */,
 				D73F655B203FA09E00144C89 /* AssignmentModel.swift */,
-				D79DA98B204A5EB700EA082A /* GetIntegrationModel.swift */,
+				D79DA98B204A5EB700EA082A /* IntegrationChoiceModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -385,7 +385,7 @@
 				D73F655A203FA06400144C89 /* AssignmentService.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,
 				D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */,
-				D79DA98C204A5EB700EA082A /* GetIntegrationModel.swift in Sources */,
+				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
 				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
 				D73F6551203E5A6100144C89 /* Constants.swift in Sources */,

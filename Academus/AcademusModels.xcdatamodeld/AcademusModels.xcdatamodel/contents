@@ -6,11 +6,20 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="period" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="PlannerCard" representedClassName="PlannerCard" syncable="YES" codeGenerationType="class">
+    <entity name="PlannerCards" representedClassName="PlannerCards" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="plannerReminder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlannerReminderCard" inverseName="reminderCard" inverseEntity="PlannerReminderCard" syncable="YES"/>
+    </entity>
+    <entity name="PlannerReminderCard" representedClassName="PlannerReminderCard" syncable="YES" codeGenerationType="class">
+        <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="dateDue" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="place" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="reminderCard" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlannerCards" inverseName="plannerReminder" inverseEntity="PlannerCards" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Courses" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="PlannerCard" positionX="-63" positionY="9" width="128" height="60"/>
+        <element name="Courses" positionX="-443" positionY="36" width="128" height="105"/>
+        <element name="PlannerCards" positionX="-335" positionY="213" width="128" height="73"/>
+        <element name="PlannerReminderCard" positionX="-144" positionY="288" width="128" height="118"/>
     </elements>
 </model>

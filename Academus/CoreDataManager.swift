@@ -36,18 +36,17 @@ class CoreDataManager {
         }
     }
     
-//    func fetchAuthServicesData() {
-//        let managedContext = persistentContainer.viewContext
-//        let fetchRequest = NSFetchRequest<AuthServices>(entityName: "AuthServices")
-//        do {
-//            let authServices = try managedContext.fetch(fetchRequest)
-//            for object in authServices {
-//                managedContext.delete(object)
-//                self.saveContext()
-//        }
-//            print(authServices.count)
-//        } catch let error {
-//            print(error)
-//        }
-//    }
+    func fetchPlannerCards() -> [PlannerCards] {
+        let context = persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<PlannerCards>(entityName: "PlannerCard")
+        do {
+            let cards = try context.fetch(fetchRequest)
+            print(cards.count)
+            return cards
+        } catch let error {
+            print("Could not fetch PlannerCards: ", error)
+            return []
+        }
+    }
 }

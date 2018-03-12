@@ -46,8 +46,7 @@ class AuthService {
                     if (success) {
                         print(json["result"])
                         let token = json["result"]["token"].stringValue
-//                        let firstName = json["result"]["first_name"].stringValue
-//                        let lastName = json["result"]["last_name"].stringValue
+
                         try Locksmith.updateData(data: [
                             "authToken" : token,
                             ], forUserAccount: USER_AUTH)
@@ -56,9 +55,11 @@ class AuthService {
                         completion(false)
                     }
                 } catch let error {
+                    completion(false)
                     debugPrint(error)
                 }
             } else {
+                completion(false)
                 debugPrint(response.result.error!)
             }
         }

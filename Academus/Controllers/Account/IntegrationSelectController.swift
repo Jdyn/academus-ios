@@ -12,7 +12,7 @@ class IntegrationSelectController: UITableViewController, IntegrationServiceDele
     
     private let integrationService = IntegrationService()
     
-    var integrations = [Integration]()
+    var integrations = [IntegrationChoice]()
     let integrationCellID = "GetIntegrationCell"
     
     override func viewDidLoad() {
@@ -29,7 +29,7 @@ class IntegrationSelectController: UITableViewController, IntegrationServiceDele
         }
     }
     
-    func didGetIntegration(integrations: [Integration]) {
+    func didGetIntegration(integrations: [IntegrationChoice]) {
         for integration in integrations {
             self.integrations.append(integration)
         }
@@ -57,9 +57,10 @@ class IntegrationSelectController: UITableViewController, IntegrationServiceDele
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let integrationController = IntegrationLogInController()
         let integrationService = IntegrationService()
-        integrationService.route = integrations[indexPath.row].route
-        integrationController.integrationName = integrations[indexPath.row].name
-        integrationController.titleLabel.text = integrations[indexPath.row].name
+        integrationService.integration = self.integrations[indexPath.row]
+        integrationController.integration = self.integrations[indexPath.row]
+        integrationController.integrationService = integrationService
+        integrationController.titleLabel.text = self.integrations[indexPath.row].name
         
         navigationController?.pushViewController(integrationController, animated: true)
     }

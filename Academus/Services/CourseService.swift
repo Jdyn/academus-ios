@@ -18,7 +18,7 @@ protocol CourseServiceDelegate {
 class CourseService {
     
     var delegate : CourseServiceDelegate?
-    var courseTest = [Course]()
+    
     
     func getCourses(completion: @escaping CompletionHandler) {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
@@ -32,10 +32,6 @@ class CourseService {
                     let jsonResult = try json["result"].rawData()
                     let course = try JSONDecoder().decode([Course].self, from: jsonResult)
                     if json["success"] == true {
-                        course.forEach({ (course) in
-                            self.courseTest.append(course)
-                        })
-                        print(self.courseTest)
                         self.delegate?.didGetCourses(courses: course)
                     }
                 } catch let error{

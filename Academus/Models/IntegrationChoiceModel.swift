@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct Integration: Decodable {
+struct IntegrationChoice: Decodable {
     
     let route: String?
     let name: String?
-    let fields: [fields]
     let icon_url: String?
+    let fields: [fields]
     struct fields: Decodable {
         let id: String?
         let label: String?

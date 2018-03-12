@@ -10,7 +10,7 @@ import UIKit
 
 class PlannerCardCell: UITableViewCell {
 
-    var card: PlannerCard? {
+    var card: PlannerCards? {
         didSet {
             nameLabel.text = card?.name
         }

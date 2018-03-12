@@ -10,7 +10,7 @@ import UIKit
 
 class GetIntegrationCell: UITableViewCell {
     
-    var integration: Integration? {
+    var integration: IntegrationChoice? {
         didSet {
             nameLabel.text = integration?.name
             let url = URL(string: (integration?.icon_url)!)

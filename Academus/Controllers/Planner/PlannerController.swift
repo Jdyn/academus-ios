@@ -12,10 +12,9 @@ import CoreData
 
 class PlannerController: UITableViewController, CreateCardDelegate {
     
-    var cards = [PlannerCard]()
-    var courseService = CourseService()
+    var cards = [PlannerCards]()
     private let cellID = "PlannerCardCell"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Planner"
@@ -30,7 +29,7 @@ class PlannerController: UITableViewController, CreateCardDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleLogOut))
     }
     
-    func didAddCard(card: PlannerCard) {
+    func didAddCard(card: PlannerCards) {
         cards.append(card)
         let newIndexPath = IndexPath(row: cards.count - 1, section: 0)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
@@ -39,7 +38,7 @@ class PlannerController: UITableViewController, CreateCardDelegate {
     private func fetchPlannerCards() {
     
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<PlannerCard>(entityName: "PlannerCard")
+        let fetchRequest = NSFetchRequest<PlannerCards>(entityName: "PlannerCards")
 //        let deleteRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PlannerCard")
 //        let delete = NSBatchDeleteRequest(fetchRequest: deleteRequest)
         do {
@@ -78,7 +77,6 @@ class PlannerController: UITableViewController, CreateCardDelegate {
         let createCardController = PlannerCreateCardController()
         let navController = MainNavigationController(rootViewController: createCardController)
         createCardController.delegate = self
-        print(self.courseService.courseTest)
         navigationController?.present(navController, animated: true, completion: nil)
     }
     

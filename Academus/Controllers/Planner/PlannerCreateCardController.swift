@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol CreateCardDelegate {
-    func didAddCard (card: PlannerCard)
+    func didAddCard (card: PlannerCards)
 }
 
 class PlannerCreateCardController: UIViewController {
@@ -51,13 +51,13 @@ class PlannerCreateCardController: UIViewController {
         
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
         
-        let card = NSEntityDescription.insertNewObject(forEntityName: "PlannerCard", into: context)
+        let card = NSEntityDescription.insertNewObject(forEntityName: "PlannerCards", into: context)
         card.setValue(nameField.text, forKey: "name")
         do {
             try context.save()
             
             dismiss(animated: true, completion: {
-                self.delegate?.didAddCard(card: card as! PlannerCard)
+                self.delegate?.didAddCard(card: card as! PlannerCards)
             })
             
         } catch let saveErr {

@@ -12,18 +12,18 @@ import Alamofire
 import Locksmith
 
 protocol IntegrationServiceDelegate {
-    func didGetIntegration(integrations: [Integration])
+    func didGetIntegration(integrations: [IntegrationChoice])
 }
 
 class IntegrationService {
 
     var delegate : IntegrationServiceDelegate?
-    var route: String?
-    var body: Parameters?
-    
-    func getIntegrations(completion: @escaping CompletionHandler) {
+    var integration: IntegrationChoice?
 
-        Alamofire.request(URL_GET_INTEGRATION!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON {
+    func getIntegrations(completion: @escaping CompletionHandler) {
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let authToken = dictionary?["authToken"] as! String
+        Alamofire.request(URL(string: "\(BASE_URL)/api/integrations/available?token=\(authToken)")!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON {
             (response) in
 
             guard let data = response.data else {return}
@@ -31,10 +31,9 @@ class IntegrationService {
                 do {
                     let json = try JSON(data: data)
                     let jsonResult = try json["result"].rawData()
+                    let integrations = try JSONDecoder().decode([IntegrationChoice].self, from: jsonResult)
                     
-                    let integrations = try JSONDecoder().decode([Integration].self, from: jsonResult)
                     if json["success"] == true {
-                        print("integration success")
                         self.delegate?.didGetIntegration(integrations: integrations)
                         completion(true)
                     }
@@ -42,48 +41,41 @@ class IntegrationService {
                     completion(false)
                     debugPrint(error)
                 }
+            } else {
+                completion(false)
             }
         }
     }
     
     
-    func addIntegration(districtCode: String?, username: String, password: String, completion: @escaping CompletionHandler) {
-        
+    func addIntegration(fields: [UITextField], completion: @escaping CompletionHandler) {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         let authToken = dictionary?["authToken"] as! String
-        
-        if route == "studentvue" {
-            self.body = [
-                "username": username,
-                "password": password,
-        ]
+        let route = integration?.route ?? ""
+        let body: Parameters = ["string":"String"]
+        for i in 0...fields.count {
             
-        } else if route == "powerschool" {
-            self.body = [
-                "district_code": districtCode!,
-                "username": username,
-                "password": password,
-            ]
         }
 
-        Alamofire.request(URL(string: "\(BASE_URL)/api/integrations\(route!)?token=\(authToken)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
-            
+
+        
+        Alamofire.request(URL(string: "\(BASE_URL)/api/integrations/\(route)?token=\(authToken)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
+        
             if response.result.error == nil {
+                
                 guard let data = response.data else {return}
                 do {
                     let json = try JSON(data: data)
                     let success = json["success"].boolValue
                     if (success) {
                         print(json["result"])
-                        let token = json["result"]["token"].stringValue
-                        try Locksmith.updateData(data: [
-                            "authToken" : token,
-                            ], forUserAccount: USER_AUTH)
                         completion(true)
                     } else {
+                        print("adding failed")
                         completion(false)
                     }
                 } catch let error {
+                    completion(false)
                     debugPrint(error)
                 }
             } else {
