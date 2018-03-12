@@ -51,14 +51,18 @@ class IntegrationService {
     func addIntegration(fields: [UITextField], completion: @escaping CompletionHandler) {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         let authToken = dictionary?["authToken"] as! String
-        let route = integration?.route ?? ""
-        let body: Parameters = ["string":"String"]
-        for i in 0...fields.count {
-            
-        }
-
-
+        guard let route = integration?.route else {return}
         
+        var fieldsID = [String]()
+        var textFields = [String]()
+    
+        for i in 0...fields.count - 1 {
+            fieldsID.append((integration?.fields[i].id)!)
+            textFields.append(fields[i].text!)
+        }
+        
+        let body = Dictionary(uniqueKeysWithValues: zip(fieldsID, textFields))
+
         Alamofire.request(URL(string: "\(BASE_URL)/api/integrations/\(route)?token=\(authToken)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
         
             if response.result.error == nil {
@@ -68,10 +72,8 @@ class IntegrationService {
                     let json = try JSON(data: data)
                     let success = json["success"].boolValue
                     if (success) {
-                        print(json["result"])
                         completion(true)
                     } else {
-                        print("adding failed")
                         completion(false)
                     }
                 } catch let error {

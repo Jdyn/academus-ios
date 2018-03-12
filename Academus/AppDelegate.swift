@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.makeKeyAndVisible()
         let tempNavController = MainNavigationController(rootViewController: IntegrationSelectController())
-        window?.rootViewController = tempNavController
+        window?.rootViewController = MainController()
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
