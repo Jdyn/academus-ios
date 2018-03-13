@@ -17,22 +17,22 @@ class CourseCell: UITableViewCell {
             nameLabel.text = course?.name
             periodLabel.text = "\(course?.period ?? 0)"
             gradeLetterLabel.text = course?.grade?.letter
-            gradePercentLabel.text = "(\(coursePercent ?? 0.0)%)"
+            gradePercentLabel.text = "(\(coursePercent ?? 0.0))"
 
         }
     }
     
-    let cellBackground: UIView = {
+    let background: UIView = {
         let view = UIView()
         view.backgroundColor = .tableViewLightGrey
         view.layer.cornerRadius = 5
+        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 1)
-        view.layer.shadowRadius = 2
-        view.layer.shadowOpacity = 0.4
+        view.layer.shadowOffset = CGSize(width: 1, height:3)
+        view.layer.shadowRadius = 1
+        view.layer.shadowOpacity = 0.1
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -79,33 +79,17 @@ class CourseCell: UITableViewCell {
         backgroundColor = .tableViewGrey
         selectionStyle = .none
         
-        addSubview(cellBackground)
+        addSubview(background)
         addSubview(periodLabel)
         addSubview(nameLabel)
-        addSubview(gradeLetterLabel)
         addSubview(gradePercentLabel)
+        addSubview(gradeLetterLabel)
 
-        cellBackground.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
-        
-        periodLabel.anchors(left: leftAnchor, leftPad: 16, centerY: centerYAnchor, width: 0, height: 0)
-        
-        NSLayoutConstraint.activate([
-            nameLabel.leftAnchor.constraint(equalTo: periodLabel.leftAnchor, constant: 16),
-            nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-            ])
-        
-
-        
-        NSLayoutConstraint.activate([
-            gradeLetterLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -18),
-            gradeLetterLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
-            ])
-        
-        NSLayoutConstraint.activate([
-            gradePercentLabel.topAnchor.constraint(equalTo: gradeLetterLabel.bottomAnchor, constant: -5),
-            gradePercentLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16)
-            ])
-        
+        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        periodLabel.anchors(left: background.leftAnchor, leftPad: 6, centerY: centerYAnchor, width: 0, height: 0)
+        nameLabel.anchors(left: periodLabel.rightAnchor, leftPad: 6, centerY: centerYAnchor, width: 0, height: 0)
+        gradeLetterLabel.anchors(centerX: gradePercentLabel.centerXAnchor, centerY: centerYAnchor, width: 0, height: 0)
+        gradePercentLabel.anchors(top: gradeLetterLabel.bottomAnchor, right: background.rightAnchor, rightPad: -12, width: 0, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {

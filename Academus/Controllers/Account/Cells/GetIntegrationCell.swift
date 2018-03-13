@@ -53,7 +53,7 @@ class GetIntegrationCell: UITableViewCell {
         addSubview(iconImage)
         addSubview(nameLabel)
         
-        cellBackground.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6,width: 0, height: 0)
+        cellBackground.anchors(top: topAnchor, topPad: 3, bottom: bottomAnchor, bottomPad: -3,left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6,width: 0, height: 0)
         iconImage.anchors(left: cellBackground.leftAnchor, leftPad: 16, centerY: cellBackground.centerYAnchor ,width: 32, height: 32)
         nameLabel.anchors(left: iconImage.rightAnchor, leftPad: 16, centerY: cellBackground.centerYAnchor,width: 0, height: 0)
     }

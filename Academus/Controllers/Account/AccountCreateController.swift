@@ -123,12 +123,12 @@ class AccountCreateController: UIViewController {
         }
         
         if ((passwordField.text! == verifyPasswordField.text!) != true) {
-            alertMessage(title: "I think I just saved your life.", message: "Passwords do not match.")
+            alertMessage(title: "Watch it..", message: "Passwords do not match.")
             return
         }
         
         if passwordField.text!.count < 6 {
-            alertMessage(title: "Bro, come on.", message: "Password much be 6 characters long.")
+            alertMessage(title: "What is security..", message: "Password much be 6 characters long.")
             return
         }
     }

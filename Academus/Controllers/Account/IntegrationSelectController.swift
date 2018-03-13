@@ -36,18 +36,26 @@ class IntegrationSelectController: UITableViewController, IntegrationServiceDele
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return integrations.count
+//        if section == 0 {
+            return integrations.count
+//        } else {
+//            return 0
+//        }
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         if let cell = tableView.dequeueReusableCell(withIdentifier: integrationCellID, for: indexPath) as? GetIntegrationCell {
-            
+                
             let integration = self.integrations[indexPath.row]
             cell.integration = integration
             return cell
-        } else {
-            return UITableViewCell()
         }
+        return UITableViewCell()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -63,5 +71,28 @@ class IntegrationSelectController: UITableViewController, IntegrationServiceDele
         integrationController.titleLabel.text = self.integrations[indexPath.row].name
         
         navigationController?.pushViewController(integrationController, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            let view = UIView()
+            view.backgroundColor = .tableViewGrey
+            let headerLabel = UILabel()
+            headerLabel.setUpLabel(text: "Core Integrations", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+            headerLabel.textAlignment = .center
+            view.addSubview(headerLabel)
+            headerLabel.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 0)
+            return view
+//        } else {
+//            let view = UIView()
+//            view.backgroundColor = .tableViewGrey
+//            let headerLabel = UILabel()
+//            headerLabel.setUpLabel(text: "More coming soon", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+//            headerLabel.textAlignment = .center
+//            view.addSubview(headerLabel)
+//            headerLabel.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 0)
+//            return view
+        }
+            return UITableViewCell()
     }
 }

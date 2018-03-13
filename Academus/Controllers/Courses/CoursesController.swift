@@ -18,16 +18,16 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Courses"
-        courseService.delegate = self
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .tableViewGrey
         tableView.separatorColor = .tableViewSeperator
-        tableView.separatorInset = UIEdgeInsets.zero
-        tableView.tableFooterView = UIView()
-    }
+//        tableView.separatorInset = UIEdgeInsets.zero
+     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if courses.isEmpty {
+        courseService.delegate = self
+                if courses.isEmpty {
             courseService.getCourses { (success) in
                 if success {
                     self.tableView.reloadData()

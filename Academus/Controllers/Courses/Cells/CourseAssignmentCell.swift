@@ -24,13 +24,13 @@ class CourseAssignmentCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .tableViewLightGrey
         view.layer.cornerRadius = 5
+        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 1)
-        view.layer.shadowRadius = 2
-        view.layer.shadowOpacity = 0.4
+        view.layer.shadowOffset = CGSize(width: 0, height: 3)
+        view.layer.shadowRadius = 1
+        view.layer.shadowOpacity = 0.1
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -39,7 +39,6 @@ class CourseAssignmentCell: UITableViewCell {
         view.clipsToBounds = true
         view.backgroundColor = .navigationsMediumGrey
         view.layer.cornerRadius = 5
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -50,7 +49,6 @@ class CourseAssignmentCell: UITableViewCell {
         label.numberOfLines = 1
         label.font = UIFont(name: "AvenirNext-demibold", size: 16)
         label.textColor = .navigationsWhite
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
         }()
     
@@ -58,7 +56,6 @@ class CourseAssignmentCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 14)
         label.textColor = .tableViewPeriodText
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -66,7 +63,6 @@ class CourseAssignmentCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 14)
         label.textColor = .tableViewPeriodText
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
         }()
     
@@ -85,7 +81,7 @@ class CourseAssignmentCell: UITableViewCell {
         background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
         bottomBackground.anchors(bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor, width: 0, height: 30)
         nameLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 6, width: 350, height: 0)
-        assignedDateLabel.anchors(top: nameLabel.bottomAnchor, topPad: -3, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
+        assignedDateLabel.anchors(bottom: bottomBackground.topAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
         gradeLabel.anchors(left: bottomBackground.leftAnchor, leftPad: 6, centerY: bottomBackground.centerYAnchor, width: 0, height: 0)
     }
     

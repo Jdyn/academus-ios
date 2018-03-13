@@ -10,8 +10,13 @@ import UIKit
 
 class SettingsController: UITableViewController {
 
+    var cellTypes = [CellType]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        cellTypes = [.name, .work, .contactTypes, .message, .send]
+        setupUI()
+        mainTableView.reloadData()
         navigationItem.title = "Settings"
     }
 }

@@ -84,28 +84,16 @@ class PlannerController: UITableViewController, CreateCardDelegate {
         
         let view = UIView()
         view.backgroundColor = .tableViewGrey
-        let background = UIView()
-        background.layer.cornerRadius = 5
-        background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        background.backgroundColor = .navigationsMediumGrey
-        background.layer.shadowColor = UIColor.black.cgColor
-        background.layer.shadowOffset = CGSize(width: 0, height: 1)
-        background.layer.shadowRadius = 2
-        background.layer.shadowOpacity = 0.3
-        background.layer.shouldRasterize = true
-        background.layer.rasterizationScale = true ? UIScreen.main.scale : 1
-        view.addSubview(background)
         let headerLabel = UILabel()
         headerLabel.setUpLabel(text: "Main Feed", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
         headerLabel.textAlignment = .center
         view.addSubview(headerLabel)
-        headerLabel.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor, width: 0, height: 0)
-        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6, width: 0, height: 0)
+        headerLabel.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 0)
         return view
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 35
+        return 30
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
