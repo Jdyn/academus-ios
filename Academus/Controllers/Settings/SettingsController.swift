@@ -37,6 +37,10 @@ class SettingsController: UITableViewController {
 //        tableView.alwaysBounceVertical = false
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }

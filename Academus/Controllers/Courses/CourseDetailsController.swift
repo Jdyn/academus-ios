@@ -7,18 +7,19 @@
 //
 
 import UIKit
+import Locksmith
 
 class CourseDetailsController: UITableViewController, AssignmentServiceDelegate {
     
     private let assignmentService = AssignmentService()
     var assignments = [Assignment]()
     var assignmentID = "AssignmentCell"
+    var authToken: String?
     var courseID : Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        assignmentService.delegate = self
         assignmentService.getAssignments { (succes) in
             self.tableView.reloadData()
         }
@@ -28,6 +29,39 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
 
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        assignmentService.delegate = self
+        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
+        let localToken = (dictionary["authToken"] as? String ?? "")
+        
+        if localToken != self.authToken {
+            print("Fetching courses because the token has changed...")
+            self.fetchAssignments(token: localToken)
+            return
+        }
+        
+        if assignments.isEmpty {
+            print("Fetching assignments because the list is empty...")
+            self.fetchAssignments(token: localToken)
+            return
+        }
+    }
+    
+    func fetchAssignments(token: String) {
+        assignmentService.getAssignments { (success) in
+            if success {
+                self.authToken = token
+                self.tableView.reloadData()
+                print("We finished that.")
+            } else {
+                print("failed to get courses")
+            }
+        }
+    }
+    
+    
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: assignmentID, for: indexPath) as! CourseAssignmentCell

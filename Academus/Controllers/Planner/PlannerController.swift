@@ -67,6 +67,7 @@ class PlannerController: UITableViewController, CreateCardDelegate {
             } catch let error {
                 debugPrint("could not delete locksmith data:", error)
             }
+            self.navigationController?.popToRootViewController(animated: false)
             let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
             present(welcomeNavigationController, animated: true, completion: nil)
         } else {

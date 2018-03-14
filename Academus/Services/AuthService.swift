@@ -21,9 +21,7 @@ class AuthService {
     var logInErrorDelegate: logInErrorDelegate?
     
     func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, completion: @escaping CompletionHandler) {
-        
         let lowerCaseEmail = email.lowercased()
-        
         
         let body: Parameters = [
             "beta_code": betaCode,
@@ -40,15 +38,17 @@ class AuthService {
             if response.result.error == nil {
                 guard let data = response.data else {return}
                 do {
+                    
                     let json = try JSON(data: data)
                     let success = json["success"].boolValue
                     if (success) {
-                        print(json["result"])
+                        
                         let token = json["result"]["token"].stringValue
 
                         try Locksmith.updateData(data: [
                             "authToken" : token,
                             ], forUserAccount: USER_AUTH)
+                        
                         completion(true)
                     } else {
                         completion(false)
@@ -57,6 +57,7 @@ class AuthService {
                     completion(false)
                     debugPrint(error)
                 }
+                
             } else {
                 completion(false)
                 debugPrint(response.result.error!)
@@ -66,6 +67,7 @@ class AuthService {
     
     func logInUser(email: String, password: String, completion: @escaping CompletionHandler) {
         let lowerCaseEmail = email.lowercased()
+        
         let body: Parameters = [
             "user":[
                 "email": lowerCaseEmail,
@@ -78,10 +80,11 @@ class AuthService {
             if response.result.error == nil {
                 guard let data = response.data else {return}
                     do {
+                        
                         let json = try JSON(data: data)
                         let success = json["success"].boolValue
                         if (success) {
-                            print(json["result"])
+                            
                             let token = json["result"]["token"].stringValue
                             let email = json["result"]["user"]["email"].stringValue
                             let firstName = json["result"]["user"]["first_name"].stringValue
@@ -95,6 +98,7 @@ class AuthService {
                                 "lastName" : lastName,
                                 "isLoggedIn" : isLoggedIn
                                 ], forUserAccount: USER_AUTH)
+                            
                             completion(true)
                         } else {
                             self.logInErrorDelegate?.logInError = json["error"].stringValue
@@ -103,6 +107,7 @@ class AuthService {
                     } catch let error {
                         debugPrint(error)
                     }
+                
             } else {
                 completion(false)
             }

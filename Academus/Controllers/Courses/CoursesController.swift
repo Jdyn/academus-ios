@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import Locksmith
 
 class CoursesController: UITableViewController, CourseServiceDelegate {
     
     private let courseService = CourseService()
+    var authToken: String?
     
     var courses = [Course]()
     let courseID = "courseCell"
@@ -21,24 +23,41 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewGrey
-        tableView.separatorColor = .tableViewSeperator
+        
+        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
+        self.authToken = (dictionary["authToken"] as? String ?? "")
      }
     
     override func viewWillAppear(_ animated: Bool) {
         courseService.delegate = self
-            if courses.isEmpty {
-                 print("Fetching courses on main thread..")
-                courseService.getCourses { (success) in
-                if success {
-                    self.tableView.reloadData()
-                    print("We finished that.")
-                } else {
-                    print("failed to get courses")
-                }
+        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
+        let localToken = (dictionary["authToken"] as? String ?? "")
+        
+        if localToken != self.authToken {
+            print("Fetching courses because the token has changed...")
+            self.fetchCourses(token: localToken)
+            return
+        }
+        
+        if courses.isEmpty {
+            print("Fetching courses because the list is empty...")
+            self.fetchCourses(token: localToken)
+            return
+        }
+    }
+    
+    func fetchCourses(token: String) {
+        courseService.getCourses { (success) in
+            if success {
+                self.authToken = token
+                self.tableView.reloadData()
+                print("We finished that.")
+            } else {
+                print("failed to get courses")
             }
         }
     }
-
+    
     func didGetCourses(courses: [Course]) {
         print("Calling courses protocol...")
         self.courses.removeAll()
