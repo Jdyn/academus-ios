@@ -10,7 +10,7 @@ import UIKit
 
 extension UIFont {
     
-//    static let standardButton = UIFont(name: "AvenirNext-medium", size: 16)
     static let UIStandard = UIFont(name: "AvenirNext-medium", size: 16)
+    static let UILarge = UIFont(name: "AvenirNext-demibold", size: 20)
 }
 

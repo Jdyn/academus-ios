@@ -12,14 +12,13 @@ import Alamofire
 import CoreData
 import Locksmith
 
-protocol AuthServiceDelegate {
+protocol logInErrorDelegate {
     var logInError: String {get set}
 }
 
-
 class AuthService {
     
-    var delegate: AuthServiceDelegate?
+    var logInErrorDelegate: logInErrorDelegate?
     
     func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, completion: @escaping CompletionHandler) {
         
@@ -82,18 +81,23 @@ class AuthService {
                         let json = try JSON(data: data)
                         let success = json["success"].boolValue
                         if (success) {
+                            print(json["result"])
                             let token = json["result"]["token"].stringValue
-//                            let email = json["result"]["user"]["email"].stringValue
+                            let email = json["result"]["user"]["email"].stringValue
+                            let firstName = json["result"]["user"]["first_name"].stringValue
+                            let lastName = json["result"]["user"]["last_name"].stringValue
                             let isLoggedIn = true
                             
                             try Locksmith.updateData(data: [
                                 "authToken" : token,
-//                                "email" : email,
+                                "email" : email,
+                                "firstName" : firstName,
+                                "lastName" : lastName,
                                 "isLoggedIn" : isLoggedIn
                                 ], forUserAccount: USER_AUTH)
                             completion(true)
                         } else {
-                            self.delegate?.logInError = json["error"].stringValue
+                            self.logInErrorDelegate?.logInError = json["error"].stringValue
                             completion(false)
                         }
                     } catch let error {

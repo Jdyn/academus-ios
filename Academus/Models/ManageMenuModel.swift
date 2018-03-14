@@ -8,11 +8,12 @@
 
 import Foundation
 
-//struct ManageMenu {
-//    let manageInvites: [ManageInvites]
-//    let manageIntegrations: [ManIntegrations]
-//    let fingerLock: Bool
-//    let notifications: [Notifications]
-//
-//}
+struct ManageMenu {
+    
+    let manageInvites: String
+    let manageIntegrations: String
+    let fingerLock: Bool
+    let settings: String
+
+}
 

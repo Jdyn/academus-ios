@@ -28,7 +28,7 @@ class CourseCell: UITableViewCell {
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 1, height:3)
+        view.layer.shadowOffset = CGSize(width: 0, height:3)
         view.layer.shadowRadius = 1
         view.layer.shadowOpacity = 0.1
         view.layer.shouldRasterize = true
@@ -38,7 +38,7 @@ class CourseCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-demibold", size: 16)
+        label.font = UIFont(name: "AvenirNext-medium", size: 16)
         label.textColor = .navigationsWhite
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -46,7 +46,7 @@ class CourseCell: UITableViewCell {
     
     let periodLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-demibold", size: 16)
+        label.font = UIFont(name: "AvenirNext-medium", size: 16)
         label.textColor = .tableViewPeriodText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -55,7 +55,7 @@ class CourseCell: UITableViewCell {
     let gradeLetterLabel: UILabel = {
         let label = UILabel()
         label.text = "A+"
-        label.font = UIFont(name: "AvenirNext-demibold", size: 16)
+        label.font = UIFont(name: "AvenirNext-medium", size: 16)
         label.textColor = .navigationsWhite
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -64,7 +64,7 @@ class CourseCell: UITableViewCell {
     let gradePercentLabel: UILabel = {
         let label = UILabel()
         label.text = "(100.00%)"
-        label.font = UIFont(name: "AvenirNext-demibold", size: 12)
+        label.font = UIFont(name: "AvenirNext-medium", size: 12)
         label.textColor = .tableViewPeriodText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

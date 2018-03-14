@@ -22,15 +22,16 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewGrey
         tableView.separatorColor = .tableViewSeperator
-//        tableView.separatorInset = UIEdgeInsets.zero
      }
     
     override func viewWillAppear(_ animated: Bool) {
         courseService.delegate = self
-                if courses.isEmpty {
-            courseService.getCourses { (success) in
+            if courses.isEmpty {
+                 print("Fetching courses on main thread..")
+                courseService.getCourses { (success) in
                 if success {
                     self.tableView.reloadData()
+                    print("We finished that.")
                 } else {
                     print("failed to get courses")
                 }
@@ -39,7 +40,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
 
     func didGetCourses(courses: [Course]) {
-        print("course delegate triggered")
+        print("Calling courses protocol...")
         self.courses.removeAll()
         for course in courses {
             self.courses.append(course)

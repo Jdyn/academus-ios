@@ -10,11 +10,16 @@ import UIKit
 import CoreData
 import Locksmith
 
-class AccountLogInController: UIViewController, AuthServiceDelegate {
-    
+class AccountLogInController: UIViewController, logInErrorDelegate {
+    let fieldImage: UIImageView = {
+        let image = UIImageView()
+        image.image = #imageLiteral(resourceName: "email")
+        image.tintColor = .navigationsGreen
+        return image
+    }()
     let welcomeLabel: UILabel = {
         let label = UILabel()
-        label.setUpLabel(text: "Welcome Back.", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+        label.setUpLabel(text: "Welcome Back.", font: UIFont.UILarge!, fontColor: .navigationsWhite)
         return label
     }()
     
@@ -22,6 +27,10 @@ class AccountLogInController: UIViewController, AuthServiceDelegate {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
         field.setGhostText(message: "Email", color: .ghostText, font: UIFont.UIStandard!)
+        field.leftViewMode = .always
+        let image = UIImageView(image: #imageLiteral(resourceName: "email"))
+        image.tintColor = .navigationsGreen
+        field.leftView = image
         field.textColor = .navigationsWhite
         return field
     }()
@@ -30,6 +39,10 @@ class AccountLogInController: UIViewController, AuthServiceDelegate {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
         field.setGhostText(message: "Password", color: .ghostText, font: UIFont.UIStandard!)
+        field.leftViewMode = .always
+        let image = UIImageView(image: #imageLiteral(resourceName: "lock"))
+        image.tintColor = .navigationsGreen
+        field.leftView = image
         field.textColor = .navigationsWhite
         field.isSecureTextEntry = true
         return field
@@ -41,6 +54,8 @@ class AccountLogInController: UIViewController, AuthServiceDelegate {
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
         return button
     }()
+    
+
     
     private let authService = AuthService()
     var fieldCheck = false
@@ -70,7 +85,7 @@ class AccountLogInController: UIViewController, AuthServiceDelegate {
     }
     
     func logInUser() {
-        authService.delegate = self
+        authService.logInErrorDelegate = self
         loadingAlert(title: "Attempting to log in", message: "Please wait...")
         authService.logInUser(email: emailField.text!, password: passwordField.text!)
         { (success) in

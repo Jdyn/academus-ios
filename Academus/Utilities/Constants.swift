@@ -15,7 +15,7 @@ let dictionary = Locksmith.loadDataForUserAccount(userAccount: "userAccount")
 
 
 let token = dictionary?["authToken"]
-let BASE_URL = "https://app-test.academus.io"
+let BASE_URL = "https://app.academus.io"
 let URL_REGISTER = URL(string: "\(BASE_URL)/api/register")
 let URL_LOGIN = URL(string: "\(BASE_URL)/api/login")
 
@@ -26,6 +26,7 @@ let URL_GET_INTEGRATION = URL(string: "\(BASE_URL)/api/integrations/available?to
 let URL_ADD_INTEGRATION = URL(string: "\(BASE_URL)/api/integrations")
 
 let USER_AUTH = "userAuth"
+let USER_INFO = "userInfo"
 
 extension Double {
     func rounded(toPlaces places:Int) -> Double {

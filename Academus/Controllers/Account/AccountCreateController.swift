@@ -32,7 +32,7 @@ class AccountCreateController: UIViewController {
     let firstNameField: UITextField = {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
-        field.setGhostText(message: "Beta Code", color: .ghostText, font: UIFont.UIStandard!)
+        field.setGhostText(message: "First Name", color: .ghostText, font: UIFont.UIStandard!)
         field.keyboardType = .default
         field.autocapitalizationType = .words
         field.tintColor = .navigationsGreen
@@ -43,7 +43,7 @@ class AccountCreateController: UIViewController {
     let lastNameField: UITextField = {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
-        field.setGhostText(message: "Beta Code", color: .ghostText, font: UIFont.UIStandard!)
+        field.setGhostText(message: "Last Name", color: .ghostText, font: UIFont.UIStandard!)
         field.tintColor = .navigationsGreen
         field.textColor = .navigationsWhite
         return field
@@ -52,7 +52,7 @@ class AccountCreateController: UIViewController {
     let emailField: UITextField = {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
-        field.setGhostText(message: "Beta Code", color: .ghostText, font: UIFont.UIStandard!)
+        field.setGhostText(message: "Email", color: .ghostText, font: UIFont.UIStandard!)
         field.tintColor = .navigationsGreen
         field.textColor = .navigationsWhite
         return field

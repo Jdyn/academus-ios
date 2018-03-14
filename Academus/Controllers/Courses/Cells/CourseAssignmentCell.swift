@@ -47,7 +47,7 @@ class CourseAssignmentCell: UITableViewCell {
         label.textAlignment = .left
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
-        label.font = UIFont(name: "AvenirNext-demibold", size: 16)
+        label.font = UIFont(name: "AvenirNext-medium", size: 16)
         label.textColor = .navigationsWhite
         return label
         }()

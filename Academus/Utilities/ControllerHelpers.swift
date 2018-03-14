@@ -23,25 +23,25 @@ extension UIViewController {
     }
     
     func alertMessage(title: String, message: String) {
+        
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
+        
     }
     
     func loadingAlert(title: String, message: String) {
+        
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
         loadingIndicator.startAnimating();
-//        let action = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-//        alert.addAction(action)
         
         alert.view.addSubview(loadingIndicator)
         present(alert, animated: true, completion: nil)
-        
     }
     
     @objc func alertCancel() {
@@ -115,19 +115,6 @@ extension UIView{
         if width > 0 { self.widthAnchor.constraint(equalToConstant: width).isActive = true }
         if height > 0 { self.heightAnchor.constraint(equalToConstant: height).isActive = true }
     }
-    
-    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        self.layer.mask = mask
-    }
-}
-
-extension Date {
-    
-
-    
 }
 
 func timeAgoStringFromDate(date: Date) -> String? {
@@ -164,10 +151,18 @@ func timeAgoStringFromDate(date: Date) -> String? {
     return String(format: formatString, timeString)
 }
 
-class View: UIView {
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        self.roundCorners([.topLeft, .bottomLeft], radius: 10)
+extension UITableView {
+
+    func registerCell(_ cellClass: UITableViewCell.Type) {
+        let cellReuseIdentifier = cellClass.cellReuseIdentifier()
+        register(cellClass, forCellReuseIdentifier: cellReuseIdentifier)
     }
 }
+
+extension UITableViewCell {
+
+    class func cellReuseIdentifier() -> String {
+        return "\(self)"
+    }
+}
+

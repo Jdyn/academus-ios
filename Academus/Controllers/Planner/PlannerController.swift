@@ -22,10 +22,16 @@ class PlannerController: UITableViewController, CreateCardDelegate {
         tableView.register(PlannerCardCell.self, forCellReuseIdentifier: cellID)
         setupAddButtonInNavBar(selector: #selector(handleAddCard))
         tableView.separatorStyle = .none
-        tableView.separatorColor = .tableViewSeperator
-        tableView.separatorInset = UIEdgeInsets.zero
         tableView.tableFooterView = UIView()
-        fetchPlannerCards()
+        DispatchQueue.global(qos: .background).async {
+            print("Fetching cards on background thread")
+            self.fetchPlannerCards()
+
+            DispatchQueue.main.async {
+                print("We finished that.")
+                self.tableView.reloadData()
+            }
+        }
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleLogOut))
     }
     
@@ -42,14 +48,10 @@ class PlannerController: UITableViewController, CreateCardDelegate {
 //        let deleteRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PlannerCard")
 //        let delete = NSBatchDeleteRequest(fetchRequest: deleteRequest)
         do {
+            
             let cards = try context.fetch(fetchRequest)
 //            try context.execute(delete)
-            cards.forEach({ (card) in
-                print(card.name ?? "")
-            })
-            
             self.cards = cards
-            self.tableView.reloadData()
             
         } catch let error {
             print("Failed to fetch cards:", error)
@@ -80,21 +82,29 @@ class PlannerController: UITableViewController, CreateCardDelegate {
         navigationController?.present(navController, animated: true, completion: nil)
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let view = UIView()
-        view.backgroundColor = .tableViewGrey
-        let headerLabel = UILabel()
-        headerLabel.setUpLabel(text: "Main Feed", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
-        headerLabel.textAlignment = .center
-        view.addSubview(headerLabel)
-        headerLabel.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 0)
-        return view
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
-    }
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//
+//        let view = UIView()
+//        view.backgroundColor = .tableViewGrey
+//        let headerLabel = UILabel()
+//        headerLabel.setUpLabel(text: "Main Feed", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+//        headerLabel.textAlignment = .center
+//        view.addSubview(headerLabel)
+//        headerLabel.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 0)
+//        return view
+//    }
+//
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return "HEADER"
+//    }
+//
+//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 35
+//    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! PlannerCardCell

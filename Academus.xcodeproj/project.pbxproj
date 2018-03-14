@@ -32,13 +32,12 @@
 		D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA993204A799300EA082A /* IntegrationLogInController.swift */; };
 		D7A6C63520571F9200605F64 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7A6C63420571F9200605F64 /* Launch Screen.storyboard */; };
 		D7A6C6382057535700605F64 /* ManageMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C6372057535700605F64 /* ManageMenuModel.swift */; };
-		D7A6C63B2057597900605F64 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C63A2057597900605F64 /* BaseCell.swift */; };
-		D7A6C63D20575A1400605F64 /* CellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C63C20575A1400605F64 /* CellType.swift */; };
-		D7A6C64020575C3C00605F64 /* manageIntegrationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C63F20575C3C00605F64 /* manageIntegrationsCell.swift */; };
-		D7A6C6422057788F00605F64 /* manageInvitesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C6412057788F00605F64 /* manageInvitesCell.swift */; };
-		D7A6C644205782B600605F64 /* settingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C643205782B600605F64 /* settingsCell.swift */; };
-		D7A6C646205782C100605F64 /* aboutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C645205782C100605F64 /* aboutCell.swift */; };
-		D7A6C649205782FD00605F64 /* helpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C648205782FD00605F64 /* helpCell.swift */; };
+		D7A6C6552058796A00605F64 /* FormCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C6542058796A00605F64 /* FormCellType.swift */; };
+		D7A6C65720587BCC00605F64 /* CellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C65620587BCC00605F64 /* CellType.swift */; };
+		D7A6C65920587CA100605F64 /* MediumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C65820587CA100605F64 /* MediumCell.swift */; };
+		D7A6C65B20587D2A00605F64 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C65A20587D2A00605F64 /* BaseCell.swift */; };
+		D7A6C65D20587DE400605F64 /* SmallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C65C20587DE400605F64 /* SmallCell.swift */; };
+		D7A6C6682058CBC000605F64 /* LargeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A6C6672058CBC000605F64 /* LargeCell.swift */; };
 		D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */; };
 		D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */; };
 		D7F66243204757A70060FA8D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F66242204757A70060FA8D /* AuthService.swift */; };
@@ -78,13 +77,12 @@
 		D79DA993204A799300EA082A /* IntegrationLogInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationLogInController.swift; sourceTree = "<group>"; };
 		D7A6C63420571F9200605F64 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D7A6C6372057535700605F64 /* ManageMenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageMenuModel.swift; sourceTree = "<group>"; };
-		D7A6C63A2057597900605F64 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
-		D7A6C63C20575A1400605F64 /* CellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellType.swift; sourceTree = "<group>"; };
-		D7A6C63F20575C3C00605F64 /* manageIntegrationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = manageIntegrationsCell.swift; sourceTree = "<group>"; };
-		D7A6C6412057788F00605F64 /* manageInvitesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = manageInvitesCell.swift; sourceTree = "<group>"; };
-		D7A6C643205782B600605F64 /* settingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsCell.swift; sourceTree = "<group>"; };
-		D7A6C645205782C100605F64 /* aboutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aboutCell.swift; sourceTree = "<group>"; };
-		D7A6C648205782FD00605F64 /* helpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = helpCell.swift; sourceTree = "<group>"; };
+		D7A6C6542058796A00605F64 /* FormCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormCellType.swift; sourceTree = "<group>"; };
+		D7A6C65620587BCC00605F64 /* CellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellType.swift; sourceTree = "<group>"; };
+		D7A6C65820587CA100605F64 /* MediumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumCell.swift; sourceTree = "<group>"; };
+		D7A6C65A20587D2A00605F64 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
+		D7A6C65C20587DE400605F64 /* SmallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallCell.swift; sourceTree = "<group>"; };
+		D7A6C6672058CBC000605F64 /* LargeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeCell.swift; sourceTree = "<group>"; };
 		D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerHelpers.swift; sourceTree = "<group>"; };
 		D7F66242204757A70060FA8D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -219,23 +217,14 @@
 		D7A6C6392057595100605F64 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				D7A6C63C20575A1400605F64 /* CellType.swift */,
-				D7A6C63A2057597900605F64 /* BaseCell.swift */,
-				D7A6C63E20575A7400605F64 /* ManageMenuCells */,
+				D7A6C6542058796A00605F64 /* FormCellType.swift */,
+				D7A6C65620587BCC00605F64 /* CellType.swift */,
+				D7A6C65A20587D2A00605F64 /* BaseCell.swift */,
+				D7A6C65C20587DE400605F64 /* SmallCell.swift */,
+				D7A6C65820587CA100605F64 /* MediumCell.swift */,
+				D7A6C6672058CBC000605F64 /* LargeCell.swift */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		D7A6C63E20575A7400605F64 /* ManageMenuCells */ = {
-			isa = PBXGroup;
-			children = (
-				D7A6C63F20575C3C00605F64 /* manageIntegrationsCell.swift */,
-				D7A6C6412057788F00605F64 /* manageInvitesCell.swift */,
-				D7A6C643205782B600605F64 /* settingsCell.swift */,
-				D7A6C648205782FD00605F64 /* helpCell.swift */,
-				D7A6C645205782C100605F64 /* aboutCell.swift */,
-			);
-			path = ManageMenuCells;
 			sourceTree = "<group>";
 		};
 		D7F66244204769750060FA8D /* Account */ = {
@@ -429,38 +418,37 @@
 				D7A6C6382057535700605F64 /* ManageMenuModel.swift in Sources */,
 				D73F6554203E763700144C89 /* CourseCell.swift in Sources */,
 				580CC7FE205064F400EF59C1 /* IntegrationSelectController.swift in Sources */,
-				D7A6C6422057788F00605F64 /* manageInvitesCell.swift in Sources */,
+				D7A6C65D20587DE400605F64 /* SmallCell.swift in Sources */,
 				D79DA988204A337500EA082A /* MainController.swift in Sources */,
-				D7A6C646205782C100605F64 /* aboutCell.swift in Sources */,
 				D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */,
-				D7A6C649205782FD00605F64 /* helpCell.swift in Sources */,
 				D73F655A203FA06400144C89 /* AssignmentService.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,
-				D7A6C64020575C3C00605F64 /* manageIntegrationsCell.swift in Sources */,
-				D7A6C644205782B600605F64 /* settingsCell.swift in Sources */,
 				D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */,
 				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
+				D7A6C65920587CA100605F64 /* MediumCell.swift in Sources */,
 				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
-				D7A6C63D20575A1400605F64 /* CellType.swift in Sources */,
 				D73F6551203E5A6100144C89 /* Constants.swift in Sources */,
 				D7153A37204E1A6300CF4DC4 /* PlannerCardCell.swift in Sources */,
 				D7F66246204769AB0060FA8D /* WelcomeController.swift in Sources */,
 				D7255944203A41E300DBA62B /* SettingsController.swift in Sources */,
 				D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */,
+				D7A6C65B20587D2A00605F64 /* BaseCell.swift in Sources */,
 				D7FA4880203B1894007ADFE0 /* AcademusModels.xcdatamodeld in Sources */,
 				D7255942203A41D100DBA62B /* CoursesController.swift in Sources */,
 				D7153A33204DF89D00CF4DC4 /* PlannerCreateCardController.swift in Sources */,
 				D725592E203A38DB00DBA62B /* AppDelegate.swift in Sources */,
-				D7A6C63B2057597900605F64 /* BaseCell.swift in Sources */,
 				D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */,
 				D7F662492047985D0060FA8D /* AccountLogInController.swift in Sources */,
 				D79DA992204A631D00EA082A /* GetIntegrationCell.swift in Sources */,
 				D7F6624B204798F10060FA8D /* AccountCreateController.swift in Sources */,
 				D7153A2E204D4FA500CF4DC4 /* UIText.swift in Sources */,
+				D7A6C6552058796A00605F64 /* FormCellType.swift in Sources */,
 				D77BC0BF203E589E00AAA505 /* CourseService.swift in Sources */,
+				D7A6C65720587BCC00605F64 /* CellType.swift in Sources */,
 				D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */,
 				D7F66243204757A70060FA8D /* AuthService.swift in Sources */,
+				D7A6C6682058CBC000605F64 /* LargeCell.swift in Sources */,
 				D7FA4877203A560D007ADFE0 /* UIColor.swift in Sources */,
 				D73F6560203FE92500144C89 /* CourseAssignmentCell.swift in Sources */,
 			);
