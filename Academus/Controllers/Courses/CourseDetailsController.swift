@@ -27,7 +27,9 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
-
+        
+        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
+        self.authToken = (dictionary["authToken"] as? String ?? "")
     }
     
     override func viewWillAppear(_ animated: Bool) {

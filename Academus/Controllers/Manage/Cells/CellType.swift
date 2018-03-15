@@ -16,17 +16,33 @@ enum CellType{
     
     func getHeight() -> CGFloat {
         switch self {
-        case .mediumCell: return 50
         case .smallCell: return 35
+        case .mediumCell: return 45
         case .largeCell: return 105
         }
     }
     
     func getClass() -> BaseCell.Type{
         switch self {
-        case .mediumCell: return MediumCell.self
         case .smallCell: return SmallCell.self
+        case .mediumCell: return MediumCell.self
         case .largeCell: return LargeCell.self
+        }
+    }
+    
+    func getSection() -> Int {
+        switch self {
+        case .smallCell: return 2
+        case .mediumCell: return 1
+        case .largeCell: return 0
+        }
+    }
+    
+    func getRowCount() -> Int {
+        switch self {
+        case .smallCell: return 3
+        case .mediumCell: return 2
+        case .largeCell: return 1
         }
     }
 }

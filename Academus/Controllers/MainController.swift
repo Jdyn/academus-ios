@@ -31,7 +31,7 @@ class MainController: UITabBarController {
         let coursesController = CoursesController()
         coursesController.tabBarItem = UITabBarItem(title: "Courses", image: #imageLiteral(resourceName: "grades"), tag: 1)
         
-        let settingsController = SettingsController()
+        let settingsController = manageController()
         settingsController.tabBarItem = UITabBarItem(title: "Manage", image: #imageLiteral(resourceName: "menu"), tag: 2)
         
         let controllers = [plannerController, coursesController, settingsController]

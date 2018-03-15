@@ -62,12 +62,4 @@ enum FormCellType {
         case .settings, .help, .about: return .smallCell
         }
     }
-    
-    func getSection() -> Int {
-        switch self {
-        case .profile: return 0
-        case .manageIntegrations, .manageInvites: return 1
-        case .settings, .help, .about: return 2
-        }
-    }
 }
