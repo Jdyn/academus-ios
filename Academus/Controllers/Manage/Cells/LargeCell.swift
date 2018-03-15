@@ -47,7 +47,13 @@ class LargeCell: BaseCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tableViewGrey 
+        backgroundColor = .tableViewGrey
+//        layer.shadowColor = UIColor.black.cgColor
+//        layer.shadowOffset = CGSize(width: 0, height: 0)
+//        layer.shadowRadius = 3
+//        layer.shadowOpacity = 0.4
+//        layer.shouldRasterize = true
+//        layer.rasterizationScale = true ? UIScreen.main.scale : 1
         selectionStyle = .none
         addSubview(icon)
         addSubview(title)

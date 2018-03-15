@@ -19,15 +19,10 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        assignmentService.getAssignments { (succes) in
-            self.tableView.reloadData()
-        }
-        
+ 
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
-        
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
     }
@@ -62,12 +57,9 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         }
     }
     
-    
-    
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: assignmentID, for: indexPath) as! CourseAssignmentCell
         
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: assignmentID, for: indexPath) as! CourseAssignmentCell
         cell.assignment = assignments[indexPath.row]
         return cell
     }
@@ -85,7 +77,6 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     }
     
     func didGetAssignments(assignments: [Assignment]) {
-        
         let filtered = assignments.filter { $0.course.id == courseID }
         for assignment in filtered {
             self.assignments.append(assignment)

@@ -12,11 +12,11 @@ class CourseAssignmentCell: UITableViewCell {
     
     var assignment : Assignment? {
         didSet {
-            nameLabel.text = assignment?.name ?? " "
-            gradeLabel.text = "\(assignment!.score.text!)"
             guard let assignedDate = assignment?.due_date else {return}
             let date = timeAgoStringFromDate(date: assignedDate)
-            assignedDateLabel.text = date!
+            dateLabel.text = date!
+            titleLabel.text = assignment?.name ?? " "
+            gradeLabel.text = "\(assignment!.score.text!)"
         }
     }
     
@@ -26,23 +26,15 @@ class CourseAssignmentCell: UITableViewCell {
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 3)
-        view.layer.shadowRadius = 1
-        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        view.layer.shadowRadius = 2.5
+        view.layer.shadowOpacity = 0.2
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
         return view
     }()
-    
-    let bottomBackground: UIView = {
-        let view = UILabel()
-        view.clipsToBounds = true
-        view.backgroundColor = .navigationsMediumGrey
-        view.layer.cornerRadius = 5
-        return view
-    }()
-    
-        let nameLabel: UILabel = {
+
+        let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.lineBreakMode = .byTruncatingTail
@@ -52,7 +44,7 @@ class CourseAssignmentCell: UITableViewCell {
         return label
         }()
     
-    let assignedDateLabel: UILabel = {
+    let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 14)
         label.textColor = .tableViewPeriodText
@@ -73,16 +65,14 @@ class CourseAssignmentCell: UITableViewCell {
         separatorInset = UIEdgeInsets.zero
 
         addSubview(background)
-        addSubview(bottomBackground)
-        addSubview(nameLabel)
-        addSubview(assignedDateLabel)
+        addSubview(titleLabel)
+        addSubview(dateLabel)
         addSubview(gradeLabel)
 
-        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
-        bottomBackground.anchors(bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor, width: 0, height: 30)
-        nameLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 6, width: 350, height: 0)
-        assignedDateLabel.anchors(bottom: bottomBackground.topAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
-        gradeLabel.anchors(left: bottomBackground.leftAnchor, leftPad: 6, centerY: bottomBackground.centerYAnchor, width: 0, height: 0)
+        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        titleLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 6, width: 300, height: 0)
+        dateLabel.anchors(top: titleLabel.bottomAnchor, topPad: -6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
+        gradeLabel.anchors(bottom: background.bottomAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {

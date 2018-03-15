@@ -14,7 +14,7 @@ class CourseCell: UITableViewCell {
         didSet {
             
             let coursePercent = Double(exactly: (course?.grade?.percent)!)?.rounded(toPlaces: 1)
-            nameLabel.text = course?.name
+            title.text = course?.name
             periodLabel.text = "\(course?.period ?? 0)"
             gradeLetterLabel.text = course?.grade?.letter
             gradePercentLabel.text = "(\(coursePercent ?? 0.0))"
@@ -28,15 +28,22 @@ class CourseCell: UITableViewCell {
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height:3)
-        view.layer.shadowRadius = 1
-        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        view.layer.shadowRadius = 3.5
+        view.layer.shadowOpacity = 0.2
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
         return view
     }()
     
-    let nameLabel: UILabel = {
+    let arrow: UIImageView = {
+        let view = UIImageView()
+        view.image = #imageLiteral(resourceName: "arrowRight")
+        view.tintColor = .navigationsGreen
+        return view
+    }()
+    
+    let title: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 16)
         label.textColor = .navigationsWhite
@@ -81,15 +88,17 @@ class CourseCell: UITableViewCell {
         
         addSubview(background)
         addSubview(periodLabel)
-        addSubview(nameLabel)
+        addSubview(title)
         addSubview(gradePercentLabel)
         addSubview(gradeLetterLabel)
+        addSubview(arrow)
 
-        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
         periodLabel.anchors(left: background.leftAnchor, leftPad: 6, centerY: centerYAnchor, width: 0, height: 0)
-        nameLabel.anchors(left: periodLabel.rightAnchor, leftPad: 6, centerY: centerYAnchor, width: 0, height: 0)
+        title.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: centerYAnchor, width: 200, height: 0)
         gradeLetterLabel.anchors(centerX: gradePercentLabel.centerXAnchor, centerY: centerYAnchor, width: 0, height: 0)
-        gradePercentLabel.anchors(top: gradeLetterLabel.bottomAnchor, right: background.rightAnchor, rightPad: -12, width: 0, height: 0)
+        gradePercentLabel.anchors(top: gradeLetterLabel.bottomAnchor, right: arrow.leftAnchor, rightPad: -6, width: 0, height: 0)
+        arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {

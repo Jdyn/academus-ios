@@ -27,7 +27,7 @@ enum FormCellType {
         case .manageInvites: return "Manage Invites"
         case .settings: return "Settings"
         case .help: return "Help"
-        case .about: return "About Us"
+        case .about: return "About"
         }
     }
     

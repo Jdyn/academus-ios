@@ -48,20 +48,26 @@ class manageController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         if section >= 1 {
-            let view = UIView()
-            view.backgroundColor = .tableViewLightGrey
-            let divider = UIView()
-            divider.backgroundColor = .tableViewSeperator
-            view.addSubview(divider)
-            divider.anchors(left: view.leftAnchor, right: view.rightAnchor, centerY: view.centerYAnchor, width: 0, height: 1)
-            return view
+//            let view = UIView()
+//            view.backgroundColor = .tableViewLightGrey
+//            let divider = UIView()
+//            divider.backgroundColor = .tableViewSeperator
+//            view.addSubview(divider)
+//            divider.anchors(left: view.leftAnchor, right: view.rightAnchor, centerY: view.centerYAnchor, width: 0, height: 1)
+//            return view
+            return UIView()
+
         } else {
             return UIView()
         }
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 1
+        if section > 1 {
+            return 6
+        } else {
+            return 1
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

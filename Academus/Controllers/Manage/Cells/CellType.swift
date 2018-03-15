@@ -16,8 +16,8 @@ enum CellType{
     
     func getHeight() -> CGFloat {
         switch self {
-        case .smallCell: return 35
-        case .mediumCell: return 45
+        case .smallCell: return 45
+        case .mediumCell: return 55
         case .largeCell: return 105
         }
     }
