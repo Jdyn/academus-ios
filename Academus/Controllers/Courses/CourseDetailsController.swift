@@ -16,15 +16,24 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     var assignmentID = "AssignmentCell"
     var authToken: String?
     var courseID : Int?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+<<<<<<< HEAD
+=======
  
+>>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.hidesBarsOnSwipe = true
+        setupScrollingNavBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,4 +92,7 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         }
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 }

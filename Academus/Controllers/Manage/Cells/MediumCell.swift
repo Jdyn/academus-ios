@@ -16,9 +16,15 @@ class MediumCell: BaseCell {
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowColor = UIColor.black.cgColor
+<<<<<<< HEAD
+        view.layer.shadowOffset = CGSize.zero//(width: 1, height: 1)
+        view.layer.shadowRadius = 1.5
+        view.layer.shadowOpacity = 0.2
+=======
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 2.5
         view.layer.shadowOpacity = 0.3
+>>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
         return view
@@ -50,14 +56,22 @@ class MediumCell: BaseCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+<<<<<<< HEAD
+        backgroundColor = .tableViewGrey
+=======
         backgroundColor = .tableViewLightGrey
+>>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
         selectionStyle = .none
 
         addSubview(background)
         addSubview(icon)
         addSubview(title)
         
+<<<<<<< HEAD
+        background.anchors(top: topAnchor, topPad: 10, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+=======
         background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -3, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+>>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
         icon.anchors(left: background.leftAnchor, leftPad: 12, centerY: background.centerYAnchor, width: 20, height: 20)
         title.anchors(left: icon.rightAnchor, leftPad: 18, centerY: background.centerYAnchor, width: 0, height: 0)
     }

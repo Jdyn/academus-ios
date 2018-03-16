@@ -19,14 +19,18 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.hidesBarsOnSwipe = false
         navigationItem.title = "Courses"
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewGrey
-        
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
      }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.hidesBarsOnSwipe = false
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         courseService.delegate = self
@@ -68,11 +72,14 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: courseID, for: indexPath) as! CourseCell
-        
         let course = self.courses[indexPath.row]
         cell.course = course
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        print("what")
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

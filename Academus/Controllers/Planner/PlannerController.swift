@@ -32,7 +32,6 @@ class PlannerController: UITableViewController, CreateCardDelegate {
                 self.tableView.reloadData()
             }
         }
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleLogOut))
     }
     
     func didAddCard(card: PlannerCards) {
@@ -58,24 +57,7 @@ class PlannerController: UITableViewController, CreateCardDelegate {
         }
     
     }
-    
-
-    @objc func handleLogOut() {
-        if Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) != nil {
-            do {
-                try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
-            } catch let error {
-                debugPrint("could not delete locksmith data:", error)
-            }
-            self.navigationController?.popToRootViewController(animated: false)
-            let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-            present(welcomeNavigationController, animated: true, completion: nil)
-        } else {
-            let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-            present(welcomeNavigationController, animated: true, completion: nil)
-        }
-    }
-    
+        
     @objc func handleAddCard() {
         let createCardController = PlannerCreateCardController()
         let navController = MainNavigationController(rootViewController: createCardController)

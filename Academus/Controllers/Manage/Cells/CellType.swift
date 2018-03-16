@@ -18,7 +18,11 @@ enum CellType{
         switch self {
         case .smallCell: return 45
         case .mediumCell: return 55
+<<<<<<< HEAD
+        case .largeCell: return 65
+=======
         case .largeCell: return 105
+>>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
         }
     }
     

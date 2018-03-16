@@ -59,7 +59,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate {
     
     private let authService = AuthService()
     var fieldCheck = false
-    var logInError: String = "A network error has occured."
+    var logInError: String = "Check your internet connection and try again."
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,7 +94,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate {
                 
                 self.dismiss(animated: true, completion: {
                     self.dismiss(animated: true, completion: {
-                        self.navigationController?.popViewController(animated: true)
+                        
                     })
                 })
                 

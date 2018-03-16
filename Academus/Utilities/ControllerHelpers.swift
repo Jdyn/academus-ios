@@ -10,8 +10,15 @@ import UIKit
 
 extension UIViewController {
     
+    func setupScrollingNavBar() {
+        let statusBar = UIView()
+        statusBar.backgroundColor = .navigationsDarkGrey
+        navigationController?.view.addSubview(statusBar)
+        statusBar.anchors(top: navigationController?.view.topAnchor, bottom: navigationController?.view.safeAreaLayoutGuide.topAnchor, width: UIScreen.main.bounds.size.width, height: 0)
+    }
+    
     func setupAddButtonInNavBar(selector: Selector) {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: selector)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_add_box_36pt"), style: .plain, target: self, action: selector)
     }
         
     func setupCancelButtonInNavBar() {

@@ -28,8 +28,13 @@ class CourseCell: UITableViewCell {
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowColor = UIColor.black.cgColor
+<<<<<<< HEAD
+        view.layer.shadowOffset = CGSize(width: 1, height: 1)
+        view.layer.shadowRadius = 3
+=======
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 3.5
+>>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
         view.layer.shadowOpacity = 0.2
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
@@ -85,7 +90,7 @@ class CourseCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewGrey
         selectionStyle = .none
-        
+        accessoryType = .detailDisclosureButton
         addSubview(background)
         addSubview(periodLabel)
         addSubview(title)
@@ -96,9 +101,15 @@ class CourseCell: UITableViewCell {
         background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
         periodLabel.anchors(left: background.leftAnchor, leftPad: 6, centerY: centerYAnchor, width: 0, height: 0)
         title.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: centerYAnchor, width: 200, height: 0)
+<<<<<<< HEAD
+        arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
+        gradePercentLabel.anchors(top: gradeLetterLabel.bottomAnchor, topPad: -3, right: arrow.leftAnchor, rightPad: -6, width: 0, height: 0)
+        gradeLetterLabel.anchors(centerX: gradePercentLabel.centerXAnchor, centerY: background.centerYAnchor, width: 0, height: 0)
+=======
         gradeLetterLabel.anchors(centerX: gradePercentLabel.centerXAnchor, centerY: centerYAnchor, width: 0, height: 0)
         gradePercentLabel.anchors(top: gradeLetterLabel.bottomAnchor, right: arrow.leftAnchor, rightPad: -6, width: 0, height: 0)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
+>>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
     }
     
     required init?(coder aDecoder: NSCoder) {

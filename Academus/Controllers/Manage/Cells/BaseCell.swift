@@ -8,9 +8,12 @@
 
 import UIKit
 
+
+
 class BaseCell: UITableViewCell {
     
     var type: CellType!
+    var cellDelegate: CustomCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
