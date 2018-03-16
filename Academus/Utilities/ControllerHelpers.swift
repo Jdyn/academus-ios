@@ -18,7 +18,7 @@ extension UIViewController {
     }
     
     func setupAddButtonInNavBar(selector: Selector) {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_add_box_36pt"), style: .plain, target: self, action: selector)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "add"), style: .plain, target: self, action: selector)
     }
         
     func setupCancelButtonInNavBar() {

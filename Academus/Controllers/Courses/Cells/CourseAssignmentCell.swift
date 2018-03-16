@@ -70,11 +70,8 @@ class CourseAssignmentCell: UITableViewCell {
 
         background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
         titleLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 6, width: 300, height: 0)
-<<<<<<< HEAD
         dateLabel.anchors(bottom: gradeLabel.topAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
-=======
         dateLabel.anchors(top: titleLabel.bottomAnchor, topPad: -6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
->>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
         gradeLabel.anchors(bottom: background.bottomAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
     }
     

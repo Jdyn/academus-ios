@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		580CC7FE205064F400EF59C1 /* IntegrationSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */; };
-		74E9DC836C9E3C14F66C9705 /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F02569D7B6D77D4C47A079BE /* Pods_Academus.framework */; };
+		9B291BAD17EBFE48FADA00E8 /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F02569D7B6D77D4C47A079BE /* Pods_Academus.framework */; };
 		D7153A2E204D4FA500CF4DC4 /* UIText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A2D204D4FA500CF4DC4 /* UIText.swift */; };
 		D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A30204D660300CF4DC4 /* PlannerController.swift */; };
 		D7153A33204DF89D00CF4DC4 /* PlannerCreateCardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */; };
@@ -25,6 +25,8 @@
 		D73F6560203FE92500144C89 /* CourseAssignmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F655F203FE92500144C89 /* CourseAssignmentCell.swift */; };
 		D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77BC0BB203E555F00AAA505 /* CourseModel.swift */; };
 		D77BC0BF203E589E00AAA505 /* CourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77BC0BE203E589E00AAA505 /* CourseService.swift */; };
+		D790B062205BB4DD00D8697F /* ManageIntegrationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D790B060205BB4DD00D8697F /* ManageIntegrationsController.swift */; };
+		D790B063205BB4DD00D8697F /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D790B061205BB4DD00D8697F /* SettingsController.swift */; };
 		D79DA988204A337500EA082A /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA987204A337500EA082A /* MainController.swift */; };
 		D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA989204A58CE00EA082A /* IntegrationService.swift */; };
 		D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA98B204A5EB700EA082A /* IntegrationChoiceModel.swift */; };
@@ -70,6 +72,8 @@
 		D73F655F203FE92500144C89 /* CourseAssignmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseAssignmentCell.swift; sourceTree = "<group>"; };
 		D77BC0BB203E555F00AAA505 /* CourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
 		D77BC0BE203E589E00AAA505 /* CourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseService.swift; sourceTree = "<group>"; };
+		D790B060205BB4DD00D8697F /* ManageIntegrationsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageIntegrationsController.swift; sourceTree = "<group>"; };
+		D790B061205BB4DD00D8697F /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		D79DA987204A337500EA082A /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		D79DA989204A58CE00EA082A /* IntegrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationService.swift; sourceTree = "<group>"; };
 		D79DA98B204A5EB700EA082A /* IntegrationChoiceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationChoiceModel.swift; sourceTree = "<group>"; };
@@ -99,7 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74E9DC836C9E3C14F66C9705 /* Pods_Academus.framework in Frameworks */,
+				9B291BAD17EBFE48FADA00E8 /* Pods_Academus.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				D7255943203A41E300DBA62B /* manageController.swift */,
+				D790B060205BB4DD00D8697F /* ManageIntegrationsController.swift */,
+				D790B061205BB4DD00D8697F /* SettingsController.swift */,
 				D7A6C6392057595100605F64 /* Cells */,
 			);
 			path = Manage;
@@ -431,6 +437,7 @@
 				D73F6551203E5A6100144C89 /* Constants.swift in Sources */,
 				D7153A37204E1A6300CF4DC4 /* PlannerCardCell.swift in Sources */,
 				D7F66246204769AB0060FA8D /* WelcomeController.swift in Sources */,
+				D790B062205BB4DD00D8697F /* ManageIntegrationsController.swift in Sources */,
 				D7255944203A41E300DBA62B /* manageController.swift in Sources */,
 				D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */,
 				D7A6C65B20587D2A00605F64 /* BaseCell.swift in Sources */,
@@ -448,6 +455,7 @@
 				D7A6C65720587BCC00605F64 /* CellType.swift in Sources */,
 				D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */,
 				D7F66243204757A70060FA8D /* AuthService.swift in Sources */,
+				D790B063205BB4DD00D8697F /* SettingsController.swift in Sources */,
 				D7A6C6682058CBC000605F64 /* LargeCell.swift in Sources */,
 				D7FA4877203A560D007ADFE0 /* UIColor.swift in Sources */,
 				D73F6560203FE92500144C89 /* CourseAssignmentCell.swift in Sources */,

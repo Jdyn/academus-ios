@@ -57,7 +57,9 @@ class manageController: UITableViewController {
     @objc func handleSignout() {
         
         let alert = UIAlertController(title: "Sign Out?", message: "Are you sure you want to sign out?", preferredStyle: .alert)
+        
         let actionYes = UIAlertAction(title: "Yes", style: .default) { (action) in
+            
             self.tabBarController?.selectedIndex = 0
             if Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) != nil {
                 do {
@@ -66,15 +68,14 @@ class manageController: UITableViewController {
                     debugPrint("could not delete locksmith data:", error)
                 }
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-                self.present(welcomeNavigationController, animated: false, completion: nil)
-            } else {
-//                let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-//                self.present(welcomeNavigationController, animated: true, completion: nil)
+                self.present(welcomeNavigationController, animated: true, completion: nil)
             }
         }
+        
         let actionNo = UIAlertAction(title: "No", style: .default) { (action) in
             self.dismiss(animated: true, completion: nil)
         }
+        
         alert.addAction(actionNo)
         alert.addAction(actionYes)
         present(alert, animated: true, completion: nil)
@@ -82,39 +83,16 @@ class manageController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section >= 1 {
-<<<<<<< HEAD
             let view = UIView()
             view.backgroundColor = .tableViewGrey
             return view
-=======
-//            let view = UIView()
-//            view.backgroundColor = .tableViewLightGrey
-//            let divider = UIView()
-//            divider.backgroundColor = .tableViewSeperator
-//            view.addSubview(divider)
-//            divider.anchors(left: view.leftAnchor, right: view.rightAnchor, centerY: view.centerYAnchor, width: 0, height: 1)
-//            return view
-            return UIView()
-
->>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
         } else {
             return UIView()
         }
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-<<<<<<< HEAD
-        if section == 2 {
-            return 8
-        } else {
-            return 0
-=======
-        if section > 1 {
-            return 6
-        } else {
-            return 1
->>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
-        }
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

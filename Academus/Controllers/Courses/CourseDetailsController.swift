@@ -19,10 +19,7 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-<<<<<<< HEAD
-=======
  
->>>>>>> d321d897c6b5f1da3a9c180d1a961186bc97cf20
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)

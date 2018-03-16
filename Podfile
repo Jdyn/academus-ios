@@ -8,7 +8,7 @@ target 'Academus' do
   use_frameworks!
 
   # Pods for Academus
-   pod 'Alamofire'
+  pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'Locksmith'
 end
