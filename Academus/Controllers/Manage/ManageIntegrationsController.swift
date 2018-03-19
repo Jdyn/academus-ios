@@ -53,13 +53,28 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let integrations = self.integrations[indexPath.row]
+        loadingAlert(title: "Syncing", message: "Syncing Integration")
+        integrationService.syncIntegration(id: integrations.id!) { (success) in
+            if success {
+                self.integrationService.userIntegrationsDelegate = self
+                self.integrationService.userIntegrations(completion: { (success) in
+                    self.dismiss(animated: true, completion: {
+                        self.navigationController?.popToRootViewController(animated: true)
+                    })
+                })
+            }
+        }
         
-        let detailsController = ManageIntegrationsDetailsController()
-        detailsController.integrationID = integrations.id
-        detailsController.syncing = integrations.syncing
-        detailsController.manager = self
-        
-        self.present(detailsController, animated: true, completion: nil)
+//        let detailsController = ManageIntegrationsDetailsController()
+//        detailsController.integrationID = integrations.id
+//        detailsController.syncing = integrations.syncing
+//        detailsController.manager = self
+//
+//        self.present(detailsController, animated: true, completion: nil)
+    }
+    
+    @objc func reload() {
+        self.tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
