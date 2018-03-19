@@ -53,20 +53,16 @@ class LargeCell: BaseCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tableViewGrey
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize.zero
-        layer.shadowRadius = 2
-        layer.shadowOpacity = 0.4
-        layer.shouldRasterize = true
-        layer.rasterizationScale = true ? UIScreen.main.scale : 1
-        
+        backgroundColor = .tableViewLightGrey
+        layer.cornerRadius = 5
+        layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
 //        layer.shadowColor = UIColor.black.cgColor
-//        layer.shadowOffset = CGSize(width: 0, height: 0)
+//        layer.shadowOffset = CGSize.zero
 //        layer.shadowRadius = 3
 //        layer.shadowOpacity = 0.4
 //        layer.shouldRasterize = true
 //        layer.rasterizationScale = true ? UIScreen.main.scale : 1
+
         selectionStyle = .none
         addSubview(icon)
         addSubview(title)
@@ -75,7 +71,6 @@ class LargeCell: BaseCell {
         icon.anchors(left: leftAnchor, leftPad: 6, centerY: centerYAnchor, width: 48, height: 48)
         title.anchors(bottom: subtext.topAnchor, left: icon.rightAnchor, leftPad: 6, width: 0, height: 0)
         subtext.anchors(bottom: icon.bottomAnchor, left: icon.rightAnchor, leftPad: 6, width: 0, height: 0)
-
     }
     
     required init?(coder aDecoder: NSCoder) {

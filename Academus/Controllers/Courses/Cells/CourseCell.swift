@@ -49,7 +49,6 @@ class CourseCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 16)
         label.textColor = .navigationsWhite
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -57,7 +56,6 @@ class CourseCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 16)
         label.textColor = .tableViewPeriodText
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -66,7 +64,6 @@ class CourseCell: UITableViewCell {
         label.text = "A+"
         label.font = UIFont(name: "AvenirNext-medium", size: 16)
         label.textColor = .navigationsWhite
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -75,7 +72,6 @@ class CourseCell: UITableViewCell {
         label.text = "(100.00%)"
         label.font = UIFont(name: "AvenirNext-medium", size: 12)
         label.textColor = .tableViewPeriodText
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
@@ -87,20 +83,26 @@ class CourseCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewGrey
         selectionStyle = .none
-        accessoryType = .detailDisclosureButton
+        
+        let stackView = UIStackView(arrangedSubviews: [
+            gradeLetterLabel, gradePercentLabel
+            ])
+        
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        
         addSubview(background)
+        addSubview(arrow)
+        addSubview(stackView)
         addSubview(periodLabel)
         addSubview(title)
-        addSubview(gradePercentLabel)
-        addSubview(gradeLetterLabel)
-        addSubview(arrow)
 
-        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
-        periodLabel.anchors(left: background.leftAnchor, leftPad: 6, centerY: centerYAnchor, width: 0, height: 0)
-        title.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: centerYAnchor, width: 200, height: 0)
+
+        background.anchors(top: topAnchor, topPad: 3, bottom: bottomAnchor, bottomPad: -3, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        stackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
+        periodLabel.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 0, height: 0)
+        title.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: background.centerYAnchor, width: 200, height: 0)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
-        gradeLetterLabel.anchors(centerX: gradePercentLabel.centerXAnchor, centerY: centerYAnchor, width: 0, height: 0)
-        gradePercentLabel.anchors(top: gradeLetterLabel.bottomAnchor, right: arrow.leftAnchor, rightPad: -6, width: 0, height: 0)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
     }
     

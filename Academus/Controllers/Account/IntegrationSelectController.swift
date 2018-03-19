@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IntegrationSelectController: UITableViewController, IntegrationServiceDelegate {
+class IntegrationSelectController: UITableViewController, IntegrationChoiceDelegate {
     
     private let integrationService = IntegrationService()
     
@@ -18,7 +18,7 @@ class IntegrationSelectController: UITableViewController, IntegrationServiceDele
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
-        integrationService.delegate = self
+        integrationService.integrationChoiceDelegate = self
         tableView.register(GetIntegrationCell.self, forCellReuseIdentifier: integrationCellID)
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()

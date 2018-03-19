@@ -63,6 +63,7 @@ class IntegrationLogInController: UIViewController {
             field.setBorderBottom(backGroundColor: .tableViewGrey, borderColor: .navigationsGreen)
             field.setGhostText(message: (integration?.fields[i].id)!, color: .ghostText, font: UIFont.UIStandard!)
             field.textColor = .navigationsWhite
+            
             view.addSubview(field)
             field.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, width: 0, height: 0)
             fields.append(field)

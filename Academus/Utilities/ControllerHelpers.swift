@@ -122,6 +122,11 @@ extension UIView{
         if width > 0 { self.widthAnchor.constraint(equalToConstant: width).isActive = true }
         if height > 0 { self.heightAnchor.constraint(equalToConstant: height).isActive = true }
     }
+    
+    func makeCircular() {
+        self.layer.cornerRadius = min(self.frame.size.height, self.frame.size.width) / 2.0
+        self.clipsToBounds = true
+    }
 }
 
 func timeAgoStringFromDate(date: Date) -> String? {

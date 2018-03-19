@@ -24,6 +24,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewGrey
+
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
      }

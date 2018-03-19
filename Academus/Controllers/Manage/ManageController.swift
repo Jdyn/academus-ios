@@ -9,7 +9,7 @@
 import UIKit
 import Locksmith
 
-class manageController: UITableViewController {
+class ManageController: UITableViewController {
     
     var cellType = [CellType]()
     var cells = [FormCellType]()
@@ -92,7 +92,11 @@ class manageController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 1
+        if section > 0 {
+            return 3
+        } else {
+            return 0
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

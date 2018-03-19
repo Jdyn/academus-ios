@@ -14,7 +14,7 @@ class SmallCell: BaseCell {
         let view = UIView()
         view.backgroundColor = .tableViewLightGrey
         view.layer.cornerRadius = 5
-        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+//        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
         view.layer.shadowRadius = 2
@@ -52,14 +52,13 @@ class SmallCell: BaseCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewGrey
-        backgroundColor = .tableViewLightGrey
         selectionStyle = .none
 
         addSubview(background)
         addSubview(icon)
         addSubview(title)
         
-        background.anchors(top: topAnchor, topPad: 0, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        background.anchors(top: topAnchor, topPad: 0, bottom: bottomAnchor, bottomPad: -3, left: leftAnchor, leftPad: 12, right: rightAnchor, rightPad: -12, width: 0, height: 0)
         icon.anchors(left: background.leftAnchor, leftPad: 12, centerY: background.centerYAnchor, width: 20, height: 20)
         title.anchors(left: icon.rightAnchor, leftPad: 18, centerY: background.centerYAnchor, width: 0, height: 0)
     }
