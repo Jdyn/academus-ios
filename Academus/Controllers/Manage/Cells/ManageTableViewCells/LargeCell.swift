@@ -56,12 +56,6 @@ class LargeCell: BaseCell {
         backgroundColor = .tableViewLightGrey
         layer.cornerRadius = 5
         layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-//        layer.shadowColor = UIColor.black.cgColor
-//        layer.shadowOffset = CGSize.zero
-//        layer.shadowRadius = 3
-//        layer.shadowOpacity = 0.4
-//        layer.shouldRasterize = true
-//        layer.rasterizationScale = true ? UIScreen.main.scale : 1
 
         selectionStyle = .none
         addSubview(icon)

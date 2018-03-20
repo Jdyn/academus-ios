@@ -84,7 +84,7 @@ class ManageController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section >= 1 {
             let view = UIView()
-            view.backgroundColor = .tableViewGrey
+            view.backgroundColor = .tableViewLightGrey
             return view
         } else {
             return UIView()
@@ -92,8 +92,8 @@ class ManageController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section > 0 {
-            return 3
+        if section > 1 {
+            return 1.5
         } else {
             return 0
         }
@@ -107,10 +107,10 @@ class ManageController: UITableViewController {
             navigationController?.pushViewController(manageIntegrationsController, animated: true)
         }
         
-        if cellsFiltered[indexPath.row] == .settings {
-            let settingsController = SettingsController()
-            navigationController?.pushViewController(settingsController, animated: true)
-        }
+//        if cellsFiltered[indexPath.row] == .settings {
+//            let settingsController = SettingsController()
+//            navigationController?.pushViewController(settingsController, animated: true)
+//        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

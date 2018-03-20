@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 import Locksmith
 
 class MainNavigationController : UINavigationController {
@@ -16,7 +17,7 @@ class MainNavigationController : UINavigationController {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -26,6 +27,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
 //        let tempNavController = MainNavigationController(rootViewController: IntegrationSelectController())
         window?.rootViewController = MainController()
+        
+        let center = UNUserNotificationCenter.current()
+        
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { (result, error) in
+            print(error as Any)
+        }
+        
+        UNUserNotificationCenter.current().delegate = self
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
@@ -48,6 +57,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UITableView.appearance().backgroundColor = .tableViewGrey
         return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        completionHandler([.alert, .sound])
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

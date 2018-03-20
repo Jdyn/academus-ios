@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 import Locksmith
 import CoreData
 
@@ -32,6 +33,14 @@ class PlannerController: UITableViewController, CreateCardDelegate {
                 self.tableView.reloadData()
             }
         }
+        
+//        LocalNotificationManager().setUpNotifications(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+
     }
     
     func didAddCard(card: PlannerCards) {

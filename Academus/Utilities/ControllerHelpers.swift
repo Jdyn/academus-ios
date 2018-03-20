@@ -54,9 +54,6 @@ extension UIViewController {
     @objc func alertCancel() {
         
     }
-    
-    
-    
 }
 
 extension UILabel {
@@ -177,4 +174,6 @@ extension UITableViewCell {
         return "\(self)"
     }
 }
+
+
 

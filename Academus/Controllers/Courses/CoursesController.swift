@@ -37,19 +37,19 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         courseService.delegate = self
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         let localToken = (dictionary["authToken"] as? String ?? "")
-        
+
         if localToken != self.authToken {
             print("Fetching courses because the token has changed...")
-            self.fetchCourses(token: localToken)
+                fetchCourses(token: localToken)
             return
-        }
-        
+            }
+
         if courses.isEmpty {
-            print("Fetching courses because the list is empty...")
-            self.fetchCourses(token: localToken)
+            print("Fetching courses because the token has changed...")
+                self.fetchCourses(token: localToken)
             return
+            }
         }
-    }
     
     func fetchCourses(token: String) {
         courseService.getCourses { (success) in

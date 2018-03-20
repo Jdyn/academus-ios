@@ -51,15 +51,15 @@ class MediumCell: BaseCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewGrey
-        selectionStyle = .none
+        selectionStyle = .gray
 
-        addSubview(background)
+//        addSubview(background)
         addSubview(icon)
         addSubview(title)
         
-        background.anchors(top: topAnchor, topPad: 3, bottom: bottomAnchor, bottomPad: -3, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
-        icon.anchors(left: background.leftAnchor, leftPad: 12, centerY: background.centerYAnchor, width: 20, height: 20)
-        title.anchors(left: icon.rightAnchor, leftPad: 18, centerY: background.centerYAnchor, width: 0, height: 0)
+//        background.anchors(top: topAnchor, topPad: 3, bottom: bottomAnchor, bottomPad: -3, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        icon.anchors(left: leftAnchor, leftPad: 8, centerY: centerYAnchor, width: 20, height: 20)
+        title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: centerYAnchor, width: 0, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {
