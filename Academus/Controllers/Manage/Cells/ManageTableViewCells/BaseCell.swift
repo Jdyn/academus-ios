@@ -12,8 +12,8 @@ import UIKit
 
 class BaseCell: UITableViewCell {
     
-    var type: CellType!
-    var cellDelegate: CustomCellDelegate?
+    var type: MangeCellTypes!
+    var index: Int?
 
     override func awakeFromNib() {
         super.awakeFromNib()

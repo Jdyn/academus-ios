@@ -8,17 +8,15 @@
 
 import UIKit
 
-enum CellType{
+enum MangeCellTypes{
     
     case mediumCell
     case smallCell
-    case largeCell
     
     func getHeight() -> CGFloat {
         switch self {
         case .smallCell: return 45
         case .mediumCell: return 55
-        case .largeCell: return 65
         }
     }
     
@@ -26,15 +24,13 @@ enum CellType{
         switch self {
         case .smallCell: return SmallCell.self
         case .mediumCell: return MediumCell.self
-        case .largeCell: return LargeCell.self
         }
     }
     
     func getSection() -> Int {
         switch self {
-        case .smallCell: return 2
-        case .mediumCell: return 1
-        case .largeCell: return 0
+        case .smallCell: return 1
+        case .mediumCell: return 0
         }
     }
     
@@ -42,7 +38,6 @@ enum CellType{
         switch self {
         case .smallCell: return 3
         case .mediumCell: return 2
-        case .largeCell: return 1
         }
     }
 }

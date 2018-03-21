@@ -62,15 +62,13 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
                         self.navigationController?.popToRootViewController(animated: true)
                     })
                 })
+            } else {
+                self.dismiss(animated: true, completion: {
+                    self.navigationController?.popToRootViewController(animated: true)
+                    self.alertMessage(title: "Alert", message: "Failed to sync integration")
+                })
             }
         }
-        
-//        let detailsController = ManageIntegrationsDetailsController()
-//        detailsController.integrationID = integrations.id
-//        detailsController.syncing = integrations.syncing
-//        detailsController.manager = self
-//
-//        self.present(detailsController, animated: true, completion: nil)
     }
     
     @objc func reload() {

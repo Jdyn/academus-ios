@@ -27,12 +27,8 @@ class CourseCell: UITableViewCell {
         view.backgroundColor = .tableViewLightGrey
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowRadius = 1.5
-        view.layer.shadowOpacity = 0.25
-        view.layer.shouldRasterize = true
-        view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
+        let size = CGSize(width: 0, height: 0)
+        view.setUpShadow(color: .black, offset: size, radius: 1.5, opacity: 0.25)
         return view
     }()
     
