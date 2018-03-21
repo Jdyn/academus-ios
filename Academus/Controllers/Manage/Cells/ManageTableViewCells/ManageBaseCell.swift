@@ -10,15 +10,10 @@ import UIKit
 
 
 
-class BaseCell: UITableViewCell {
+class ManageBaseCell: UITableViewCell {
     
-    var type: MangeCellTypes!
+    var type: ManageCellTypes!
     var index: Int?
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
     
     func set(title: String, image: UIImage, subtext: String){
         setTitle(title: title)

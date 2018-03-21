@@ -49,7 +49,21 @@ enum ManageCells {
         }
     }
     
-    func cellType() -> MangeCellTypes{
+    func getSection() -> Int {
+        switch self {
+        case .manageIntegrations, .manageInvites: return 0
+        case .settings, .help, .about: return 1
+        }
+    }
+    
+    func rowCount() -> Int {
+        switch self {
+        case .manageIntegrations, .manageInvites: return 2
+        case .settings, .help, .about: return 3
+        }
+    }
+    
+    func cellType() -> ManageCellTypes{
         switch self {
         case .manageIntegrations, .manageInvites: return .mediumCell
         case .settings, .help, .about: return .smallCell

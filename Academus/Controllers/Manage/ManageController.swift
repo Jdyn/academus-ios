@@ -11,7 +11,7 @@ import Locksmith
 
 class ManageController: UITableViewController {
     
-    var cellType = [MangeCellTypes]()
+    var cellType = [ManageCellTypes]()
     var cells = [ManageCells]()
     
     let profile: UIView = {
@@ -69,8 +69,8 @@ class ManageController: UITableViewController {
         tableView.backgroundColor = .tableViewGrey
         tableView.tableHeaderView = profile
         
-        cellType = [.mediumCell, .smallCell] //.largeCell,
-        cells = [.manageIntegrations, .manageInvites, .settings, .help, .about] //.profile,
+        cellType = [.mediumCell, .smallCell]
+        cells = [.manageIntegrations, .manageInvites, .settings, .help, .about]
         for type in cells {
             tableView.registerCell(type.cellType().getClass())
         }
@@ -82,10 +82,10 @@ class ManageController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellsFiltered = cells.filter { $0.cellType().getSection() == indexPath.section }
+        let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         let c = cellsFiltered[indexPath.row]
         let cellClass = c.cellType().getClass()
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! BaseCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! ManageBaseCell
         cell.set(title: c.getTitle(), image: c.image(), subtext: c.getSubtext())
         cell.type = c.cellType()
         cell.index = indexPath.row
@@ -119,28 +119,15 @@ class ManageController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        if section == 1 {
-//            let view = UIView()
-//            view.backgroundColor = .tableViewGrey
-//            let divider = UIView()
-//            divider.backgroundColor = .tableViewSeperator
-//            view.addSubview(divider)
-//            divider.anchors(left: view.leftAnchor, right: view.rightAnchor, centerY: view.centerYAnchor, width: 0, height: 1.5)
-//            return view
-//        }
         return UIView()
     }
-
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section > 0 {
-            return 9
-        } else {
-            return 9
-        }
+        return 9
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellsFiltered = cells.filter { $0.cellType().getSection() == indexPath.section }
+        let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
 
         if cellsFiltered[indexPath.row] == .manageIntegrations {
             let manageIntegrationsController = ManageIntegrationsController()
@@ -154,7 +141,12 @@ class ManageController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellType[section].getRowCount()
+        if section == 0 {
+            return 2
+        } else {
+            return 3
+        }
+//            return cells[section].rowCount()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
