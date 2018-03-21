@@ -57,6 +57,21 @@ class ManageIntegrationsCell: UITableViewCell {
         return view
     }()
     
+    let syncIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = #imageLiteral(resourceName: "sync")
+        image.tintColor = .navigationsGreen
+        return image
+    }()
+    
+    let syncLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "AvenirNext-demibold", size: 12)
+        label.text = "Sync now"
+        label.textColor = .navigationsLightGrey
+        return label
+    }()
+    
     let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-demibold", size: 12)
@@ -101,6 +116,8 @@ class ManageIntegrationsCell: UITableViewCell {
         addSubview(iconImage)
         addSubview(nameLabel)
         addSubview(dateLabel)
+        addSubview(syncLabel)
+        addSubview(syncIcon)
         
         background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: 0,left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6,width: 0, height: 0)
         circle.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 10, height: 10)
@@ -108,6 +125,8 @@ class ManageIntegrationsCell: UITableViewCell {
         iconImage.anchors(left: stackView.leftAnchor, centerY: stackView.centerYAnchor ,width: 28, height: 28)
         nameLabel.anchors(top: iconImage.topAnchor, left: iconImage.rightAnchor, leftPad: 6, width: 0, height: 0)
         dateLabel.anchors(bottom: iconImage.bottomAnchor, left: iconImage.rightAnchor, leftPad: 6, width: 0, height: 0)
+        syncLabel.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
+        syncIcon.anchors(right: syncLabel.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 16, height: 16)
     }
     
     required init?(coder aDecoder: NSCoder) {

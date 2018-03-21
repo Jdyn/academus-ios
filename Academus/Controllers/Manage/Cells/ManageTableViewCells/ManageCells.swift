@@ -9,9 +9,8 @@
 import UIKit
 import Locksmith
 
-enum FormCellType {
+enum ManageCells {
     
-    case profile
     case manageIntegrations
     case manageInvites
     case settings
@@ -19,10 +18,8 @@ enum FormCellType {
     case about
     
     func getTitle() -> String{
-        let dictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         
         switch self {
-        case .profile: return "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")"
         case .manageIntegrations: return "Manage Integrations"
         case .manageInvites: return "Manage Invites"
         case .settings: return "Settings"
@@ -32,10 +29,8 @@ enum FormCellType {
     }
     
     func getSubtext() -> String{
-        let dictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         
         switch self {
-        case .profile: return "\(dictionary?["email"] ?? "Unknown Email")"
         case .manageIntegrations: return ""
         case .manageInvites: return ""
         case .settings: return ""
@@ -46,7 +41,6 @@ enum FormCellType {
     
     func image() -> UIImage{
         switch self {
-        case .profile: return #imageLiteral(resourceName: "profile")
         case .manageIntegrations: return #imageLiteral(resourceName: "sync")
         case .manageInvites: return #imageLiteral(resourceName: "personAdd")
         case .settings: return #imageLiteral(resourceName: "settings")
@@ -55,9 +49,22 @@ enum FormCellType {
         }
     }
     
-    func cellType() -> CellType{
+    func getSection() -> Int {
         switch self {
-        case .profile: return .largeCell
+        case .manageIntegrations, .manageInvites: return 0
+        case .settings, .help, .about: return 1
+        }
+    }
+    
+    func rowCount() -> Int {
+        switch self {
+        case .manageIntegrations, .manageInvites: return 2
+        case .settings, .help, .about: return 3
+        }
+    }
+    
+    func cellType() -> ManageCellTypes{
+        switch self {
         case .manageIntegrations, .manageInvites: return .mediumCell
         case .settings, .help, .about: return .smallCell
         }

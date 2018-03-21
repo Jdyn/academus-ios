@@ -20,12 +20,8 @@ class PlannerCardCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .tableViewLightGrey
         view.layer.cornerRadius = 5
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 1)
-        view.layer.shadowRadius = 2
-        view.layer.shadowOpacity = 0.4
-        view.layer.shouldRasterize = true
-        view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
+        let size = CGSize(width: 0, height: 0)
+        view.setUpShadow(color: .black, offset: size, radius: 2, opacity: 0.4)
         return view
     }()
     

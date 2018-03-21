@@ -124,6 +124,16 @@ extension UIView{
         self.layer.cornerRadius = min(self.frame.size.height, self.frame.size.width) / 2.0
         self.clipsToBounds = true
     }
+    
+    func setUpShadow(color: UIColor, offset: CGSize, radius: CGFloat, opacity: Float) {
+        let color = color.cgColor
+        self.layer.shadowColor = color
+        self.layer.shadowOffset = offset
+        self.layer.shadowRadius = radius
+        self.layer.shadowOpacity = opacity
+        self.layer.shouldRasterize = true
+        self.layer.rasterizationScale = true ? UIScreen.main.scale : 1
+    }
 }
 
 func timeAgoStringFromDate(date: Date) -> String? {

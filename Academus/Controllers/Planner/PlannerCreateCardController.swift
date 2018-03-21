@@ -84,6 +84,7 @@ class PlannerCreateCardController: UIViewController {
     
     private func setupUI() {
         view.addSubview(background)
+        view.addSubview(nameLabel)
         view.addSubview(nameField)
         view.addSubview(datePicker)
         
