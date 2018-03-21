@@ -13,9 +13,13 @@ protocol CreateCardDelegate {
     func didAddCard (card: PlannerCards)
 }
 
+protocol CreateReminderCardDelegate {
+    func didAddCard (card: PlannerReminderCard)
+}
+
 class PlannerCreateCardController: UIViewController {
     
-    var delegate : CreateCardDelegate?
+    var delegate: CreateReminderCardDelegate?
     
     let background: UIView = {
         let view = UIView()
@@ -23,18 +27,30 @@ class PlannerCreateCardController: UIViewController {
         return view
     }()
     
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Name"
-        return label
-    }()
-    
     let nameField: UITextField = {
         let field = UITextField()
         field.setBorderBottom(backGroundColor: .tableViewLightGrey, borderColor: .navigationsGreen)
         field.setGhostText(message: "Set a title", color: .ghostText, font: UIFont.UIStandard!)
         field.textColor = .navigationsWhite
+        
+        let toolbar = UIToolbar()
+        toolbar.barStyle = UIBarStyle.default
+        toolbar.isTranslucent = true
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(endTextEditing))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolbar.setItems([spaceButton, doneButton], animated: false)
+        toolbar.isUserInteractionEnabled = true
+        field.inputAccessoryView = toolbar
+        
         return field
+    }()
+    
+    let datePicker: UIColoredDatePicker = {
+        let picker = UIColoredDatePicker()
+        return picker
     }()
     
     override func viewDidLoad() {
@@ -47,17 +63,18 @@ class PlannerCreateCardController: UIViewController {
     }
     
     @objc private func handleSave() {
-        print("Trying to save company...")
-        
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
         
-        let card = NSEntityDescription.insertNewObject(forEntityName: "PlannerCards", into: context)
+        let card = NSEntityDescription.insertNewObject(forEntityName: "PlannerReminderCard", into: context)
         card.setValue(nameField.text, forKey: "name")
+        card.setValue(datePicker.date, forKey: "dateDue")
+        card.setValue(Date(), forKey: "dateCreated")
+        
         do {
             try context.save()
             
             dismiss(animated: true, completion: {
-                self.delegate?.didAddCard(card: card as! PlannerCards)
+                self.delegate?.didAddCard(card: card as! PlannerReminderCard)
             })
             
         } catch let saveErr {
@@ -66,16 +83,21 @@ class PlannerCreateCardController: UIViewController {
     }
     
     private func setupUI() {
-        
         view.addSubview(background)
         view.addSubview(nameField)
+        view.addSubview(datePicker)
         
-        background.anchors(top: view.topAnchor, bottom: view.centerYAnchor, left: view.leftAnchor, right: view.rightAnchor, width: 0, height: 0)
-        nameField.anchors(top: background.topAnchor, topPad: 16, left: background.leftAnchor, leftPad: 32, right: background.rightAnchor, rightPad: -32, width: 0, height: 0)
-        
+        background.anchors(top: view.topAnchor, bottom: view.centerYAnchor, bottomPad: 50, left: view.leftAnchor, right: view.rightAnchor, width: 0, height: 0)
+        nameField.anchors(top: background.topAnchor, topPad: 60, left: background.leftAnchor, leftPad: 32, right: background.rightAnchor, rightPad: -32, width: 0, height: 0)
+        datePicker.anchors(top: nameField.bottomAnchor, topPad: 16, left: background.leftAnchor, leftPad: 32, right: background.rightAnchor, rightPad: -32, width: 0, height: 0)
     }
     
     @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
+    
+    @objc func endTextEditing() {
+        view.endEditing(true)
+    }
 }
+
