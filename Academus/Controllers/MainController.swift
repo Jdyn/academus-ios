@@ -51,4 +51,3 @@ class UIColoredDatePicker: UIDatePicker {
         super.addSubview(view)
     }
 }
-

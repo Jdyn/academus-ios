@@ -121,4 +121,3 @@ class PlannerController: UITableViewController, CreateCardDelegate, CreateRemind
         return cards.count
     }
 }
-
