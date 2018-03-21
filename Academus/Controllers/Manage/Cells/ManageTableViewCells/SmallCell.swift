@@ -62,8 +62,8 @@ class SmallCell: BaseCell {
         addSubview(title)
         
         background.anchors(top: topAnchor, topPad: 0, bottom: bottomAnchor, bottomPad: -0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
-        icon.anchors(left: leftAnchor, leftPad: 12, centerY: centerYAnchor, width: 20, height: 20)
-        title.anchors(left: icon.rightAnchor, leftPad: 18, centerY: centerYAnchor, width: 0, height: 0)
+        icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: centerYAnchor, width: 20, height: 20)
+        title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: centerYAnchor, width: 0, height: 0)
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -13,7 +13,8 @@ class SettingsController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Settings"
-        view.backgroundColor = .red
+        view.backgroundColor = .tableViewGrey
+        tableView.separatorStyle = .none
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {

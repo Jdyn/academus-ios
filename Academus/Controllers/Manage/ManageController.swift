@@ -17,7 +17,7 @@ class ManageController: UITableViewController {
     let profile: UIView = {
         let dictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 110))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 75))
         view.backgroundColor = .tableViewGrey
         
         let background = UIView()
@@ -57,7 +57,7 @@ class ManageController: UITableViewController {
         image.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 48, height: 48)
         name.anchors(bottom: image.centerYAnchor, left: image.rightAnchor, leftPad: 6, width: 0, height: 0)
         email.anchors(top: image.centerYAnchor, left: image.rightAnchor, leftPad: 6, width: 0, height: 0)
-        button.anchors(bottom: background.bottomAnchor, bottomPad: -6, right: background.rightAnchor, rightPad: -6, width: 0, height: 0)
+        button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
 
         return view
     }()
@@ -145,6 +145,11 @@ class ManageController: UITableViewController {
         if cellsFiltered[indexPath.row] == .manageIntegrations {
             let manageIntegrationsController = ManageIntegrationsController()
             navigationController?.pushViewController(manageIntegrationsController, animated: true)
+        }
+        
+        if cellsFiltered[indexPath.row] == .settings {
+            let settingsController = SettingsController()
+            navigationController?.pushViewController(settingsController, animated: true)
         }
     }
     
