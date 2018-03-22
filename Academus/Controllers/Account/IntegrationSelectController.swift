@@ -78,7 +78,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
             let view = UIView()
             view.backgroundColor = .tableViewDarkGrey
             let headerLabel = UILabel()
-            headerLabel.setUpLabel(text: "Core Integrations", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+//            headerLabel.setUpLabel(text: "Core Integrations", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
             headerLabel.textAlignment = .center
             view.addSubview(headerLabel)
             headerLabel.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 0)

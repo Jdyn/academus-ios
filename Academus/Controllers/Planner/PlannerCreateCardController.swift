@@ -18,7 +18,7 @@ class PlannerCreateCardController: UIViewController {
     var delegate: CreateCardDelegate?
     
     let background: UIView = UIView()
-    let nameField: UITextField = UITextField()
+    let nameField: UITextField = UITextField().setupTextField(bgColor: UIColor.tableViewMediumGrey, isBottomBorder: true, isGhostText: true, ghostText: "Enter a title", isLeftImage: false, leftImage: nil, isSecure: false)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,6 @@ class PlannerCreateCardController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
         
         background.backgroundColor = UIColor.tableViewMediumGrey
-        nameField.setupTextField(bgColor: UIColor.tableViewMediumGrey, isBottomBorder: true, isGhostText: true, ghostText: "Enter a title", isLeftImage: false, leftImage: nil, isSecure: false)
         
         view.addSubviews(views: [background, nameField])
 

@@ -13,14 +13,17 @@ class MainController: UITabBarController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
+        view.backgroundColor = .tableViewDarkGrey
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         if dictionary?["isLoggedIn"] == nil {
             let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-            present(welcomeNavigationController, animated: false, completion: nil)
+            present(welcomeNavigationController, animated: true, completion: {
+                self.setUpUI()
+            })
             return
+        } else {
+            setUpUI()
         }
-        setUpUI()
     }
     
     func setUpUI(){

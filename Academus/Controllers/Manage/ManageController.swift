@@ -97,7 +97,6 @@ class ManageController: UITableViewController {
         
         let actionYes = UIAlertAction(title: "Yes", style: .default) { (action) in
             
-            self.tabBarController?.selectedIndex = 0
             if Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) != nil {
                 do {
                     try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
@@ -105,7 +104,9 @@ class ManageController: UITableViewController {
                     debugPrint("could not delete locksmith data:", error)
                 }
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-                self.present(welcomeNavigationController, animated: true, completion: nil)
+                self.present(welcomeNavigationController, animated: true, completion: {
+                    self.tabBarController?.selectedIndex = 0
+                })
             }
         }
         
