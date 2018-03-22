@@ -9,7 +9,7 @@
 import UIKit
 import Locksmith
 
-enum SettingsCells {
+enum SettingsCellManager {
     
     case fingerPrintLock
     case NotifAssignmentPosted

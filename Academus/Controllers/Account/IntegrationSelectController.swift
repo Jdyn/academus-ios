@@ -19,7 +19,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         integrationService.integrationChoiceDelegate = self
-        tableView.register(GetIntegrationCell.self, forCellReuseIdentifier: integrationCellID)
+        tableView.register(IntegrationSelectCell.self, forCellReuseIdentifier: integrationCellID)
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         integrationService.getIntegrations { (success) in
@@ -49,7 +49,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: integrationCellID, for: indexPath) as? GetIntegrationCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: integrationCellID, for: indexPath) as? IntegrationSelectCell {
                 
             let integration = self.integrations[indexPath.row]
             cell.integration = integration

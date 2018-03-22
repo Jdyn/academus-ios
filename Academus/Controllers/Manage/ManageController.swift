@@ -12,7 +12,7 @@ import Locksmith
 class ManageController: UITableViewController {
     
     var cellType = [CellTypes]()
-    var cells = [ManageCells]()
+    var cells = [ManageCellManager]()
     
     let profile: UIView = {
         let dictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
@@ -85,7 +85,7 @@ class ManageController: UITableViewController {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         let c = cellsFiltered[indexPath.row]
         let cellClass = c.cellType().getClass()
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! BaseCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! MainCell
         cell.set(title: c.getTitle(), image: c.image(), subtext: c.getSubtext())
         cell.type = c.cellType()
         cell.index = indexPath.row

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BaseCell: UITableViewCell {
+class MainCell: UITableViewCell {
     
     var type: CellTypes!
     var index: Int?

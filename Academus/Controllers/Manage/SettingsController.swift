@@ -12,7 +12,7 @@ import Locksmith
 class SettingsController: UITableViewController {
 
     var cellType = [CellTypes]()
-    var cells = [SettingsCells]()
+    var cells = [SettingsCellManager]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ class SettingsController: UITableViewController {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         let c = cellsFiltered[indexPath.row]
         let cellClass = c.cellType().getClass()
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! BaseCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! MainCell
         cell.set(title: c.getTitle(), image: c.image(), subtext: c.getSubtext())
         cell.type = c.cellType()
         cell.index = indexPath.row

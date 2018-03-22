@@ -9,7 +9,7 @@
 import UIKit
 import Locksmith
 
-enum ManageCells {
+enum ManageCellManager {
     
     case manageIntegrations
     case manageInvites
@@ -18,7 +18,6 @@ enum ManageCells {
     case about
     
     func getTitle() -> String{
-        
         switch self {
         case .manageIntegrations: return "Manage Integrations"
         case .manageInvites: return "Manage Invites"

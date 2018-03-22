@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GetIntegrationCell: UITableViewCell {
+class IntegrationSelectCell: UITableViewCell {
     
     var integration: IntegrationChoice? {
         didSet {

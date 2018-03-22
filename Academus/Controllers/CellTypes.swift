@@ -23,7 +23,7 @@ enum CellTypes {
         }
     }
     
-    func getClass() -> BaseCell.Type{
+    func getClass() -> MainCell.Type{
         switch self {
         case .manageSmallCell: return ManageSmallCell.self
         case .manageMediumCell: return ManageMediumCell.self

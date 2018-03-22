@@ -1,5 +1,5 @@
 //
-//  SettingsSmallCell.swift
+//  SettingsMediumCell.swift
 //  Academus
 //
 //  Created by Jaden Moore on 3/21/18.
@@ -8,23 +8,15 @@
 
 import UIKit
 
-class SettingsSmallCell: BaseCell {
-    
-    override var index: Int? {
-        didSet {
-            
-        }
-    }
+class SettingsMediumCell: MainCell {
     
     let background: UIView = {
         let view = UIView()
-        let num: Int?
         view.backgroundColor = .tableViewMediumGrey
         //        view.layer.cornerRadius = 5
         //        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        //        let size = CGSize(width: 0, height: -2)
+        //        let size = CGSize(width: 0, height: 0)
         //        view.setUpShadow(color: .black, offset: size, radius: 2, opacity: 0.3)
-        
         return view
     }()
     
@@ -41,15 +33,6 @@ class SettingsSmallCell: BaseCell {
         return view
     }()
     
-    let toggle: UISwitch = {
-        let toggle = UISwitch()
-        toggle.thumbTintColor = .navigationsWhite
-        toggle.onTintColor = .navigationsGreen
-        toggle.tintColor = .navigationsWhite
-        toggle.transform = CGAffineTransform(scaleX: 0.60, y: 0.60)
-        return toggle
-    }()
-    
     override func setTitle(title: String) {
         self.title.text = title
     }
@@ -58,7 +41,8 @@ class SettingsSmallCell: BaseCell {
         self.icon.image = image
     }
     
-    var cellIndex: Int?
+    
+    
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -68,12 +52,10 @@ class SettingsSmallCell: BaseCell {
         addSubview(background)
         addSubview(icon)
         addSubview(title)
-        addSubview(toggle)
         
-        background.anchors(top: topAnchor, topPad: 0, bottom: bottomAnchor, bottomPad: -0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        background.anchors(top: topAnchor, topPad: 0, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: centerYAnchor, width: 20, height: 20)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: centerYAnchor, width: 0, height: 0)
-        toggle.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {

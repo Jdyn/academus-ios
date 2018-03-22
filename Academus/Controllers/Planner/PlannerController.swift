@@ -34,7 +34,7 @@ class PlannerController: UITableViewController, CreateCardDelegate {
             }
         }
         
-//        LocalNotificationManager().setUpNotifications(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
+//        LocalNotificationService().setUpNotifications(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
         
     }
     

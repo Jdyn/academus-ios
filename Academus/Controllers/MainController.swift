@@ -15,7 +15,6 @@ class MainController: UITabBarController {
         super.viewDidAppear(true)
         
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-        
         if dictionary?["isLoggedIn"] == nil {
             let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
             present(welcomeNavigationController, animated: false, completion: nil)
