@@ -19,7 +19,7 @@ class PlannerController: UITableViewController, CreateCardDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Planner"
-        view.backgroundColor = .tableViewGrey
+        view.backgroundColor = .tableViewDarkGrey
         tableView.register(PlannerCardCell.self, forCellReuseIdentifier: cellID)
         setupAddButtonInNavBar(selector: #selector(handleAddCard))
         tableView.separatorStyle = .none
@@ -101,7 +101,7 @@ class PlannerController: UITableViewController, CreateCardDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! PlannerCardCell
         
-        cell.backgroundColor = .tableViewGrey
+        cell.backgroundColor = .tableViewDarkGrey
         
         let cards = self.cards[indexPath.row]
         cell.card = cards
@@ -117,3 +117,4 @@ class PlannerController: UITableViewController, CreateCardDelegate {
         return cards.count
     }
 }
+

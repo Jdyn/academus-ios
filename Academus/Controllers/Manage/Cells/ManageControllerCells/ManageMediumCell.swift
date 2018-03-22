@@ -8,19 +8,15 @@
 
 import UIKit
 
-class MediumCell: BaseCell {
+class ManageMediumCell: BaseCell {
     
     let background: UIView = {
         let view = UIView()
-        view.backgroundColor = .tableViewLightGrey
-        view.layer.cornerRadius = 5
+        view.backgroundColor = .tableViewMediumGrey
+//        view.layer.cornerRadius = 5
 //        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowRadius = 2
-        view.layer.shadowOpacity = 0.3
-        view.layer.shouldRasterize = true
-        view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
+//        let size = CGSize(width: 0, height: 0)
+//        view.setUpShadow(color: .black, offset: size, radius: 2, opacity: 0.3)
         return view
     }()
     
@@ -50,15 +46,15 @@ class MediumCell: BaseCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tableViewGrey
-        selectionStyle = .gray
+        backgroundColor = .tableViewDarkGrey
+        selectionStyle = .none
 
-//        addSubview(background)
+        addSubview(background)
         addSubview(icon)
         addSubview(title)
         
-//        background.anchors(top: topAnchor, topPad: 3, bottom: bottomAnchor, bottomPad: -3, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
-        icon.anchors(left: leftAnchor, leftPad: 8, centerY: centerYAnchor, width: 20, height: 20)
+        background.anchors(top: topAnchor, topPad: 0, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: centerYAnchor, width: 20, height: 20)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: centerYAnchor, width: 0, height: 0)
     }
     

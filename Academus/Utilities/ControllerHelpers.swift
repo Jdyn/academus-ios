@@ -20,11 +20,11 @@ extension UIViewController {
     func setupAddButtonInNavBar(selector: Selector) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "add"), style: .plain, target: self, action: selector)
     }
-        
+
     func setupCancelButtonInNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelModal))
     }
-    
+
     @objc func handleCancelModal() {
         dismiss(animated: true, completion: nil)
     }
@@ -51,9 +51,7 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @objc func alertCancel() {
-        
-    }
+    @objc func alertCancel() {}
 }
 
 extension UILabel {
@@ -63,24 +61,52 @@ extension UILabel {
         self.font = font
         self.textColor = fontColor
     }
-    
 }
 
 extension UIButton {
     
-    func setUpButton(bgColor: UIColor?, text: String, titleFont: UIFont, titleColor: UIColor, titleState: UIControlState) {
-        
+    func setUpButton(bgColor: UIColor?, text: String, font: UIFont, color: UIColor, state: UIControlState) {
         self.backgroundColor = bgColor
-        self.setTitle(text, for: titleState)
-        self.titleLabel?.font = titleFont
-        self.setTitleColor(titleColor, for: titleState)
-        
+        self.setTitle(text, for: state)
+        self.titleLabel?.font = font
+        self.setTitleColor(color, for: state)
     }
-    
 }
 
 
 extension UITextField {
+    
+    func setupTextField(bgColor: UIColor, isBottomBorder: Bool, isGhostText: Bool, ghostText: String?, isLeftImage: Bool, leftImage: UIImage?, isSecure: Bool) {
+        
+        self.font = UIFont.UIStandard
+        self.textColor = UIColor.navigationsWhite
+        
+        if isBottomBorder {
+            self.layer.backgroundColor = bgColor.cgColor
+            self.layer.shadowOffset = CGSize(width: 0, height: 1)
+            self.layer.shadowOpacity = 1
+            self.layer.shadowRadius = 0
+            self.layer.shadowColor = UIColor.navigationsGreen.cgColor
+        }
+        
+        if isGhostText {
+            self.attributedPlaceholder = NSAttributedString(string: ghostText!, attributes: [
+                NSAttributedStringKey.foregroundColor: UIColor.ghostText,
+                NSAttributedStringKey.font: UIFont.UIStandard!
+                ])
+        }
+        
+        if isLeftImage {
+            let image = UIImageView(image: leftImage)
+            image.tintColor = .navigationsGreen
+            self.leftViewMode = .always
+            self.leftView = image
+        }
+        
+        if isSecure {
+            self.isSecureTextEntry = true
+        }
+    }
     
     func setBorderBottom(backGroundColor: UIColor, borderColor: UIColor) {
         self.layer.backgroundColor = backGroundColor.cgColor
@@ -89,16 +115,15 @@ extension UITextField {
         self.layer.shadowRadius = 0
         self.layer.shadowColor = borderColor.cgColor
     }
-    
-    func setGhostText(message: String, color: UIColor, font: UIFont) {
-        self.attributedPlaceholder = NSAttributedString(string: message, attributes: [
-            NSAttributedStringKey.foregroundColor: color,
-            NSAttributedStringKey.font: font
-            ])
-    }
 }
 
 extension UIView{
+    
+    func addSubviews(views: [UIView]) {
+        views.forEach { (view) in
+            self.addSubview(view)
+        }
+    }
     
     func anchors(top: NSLayoutYAxisAnchor? = nil, topPad: CGFloat? = 0,
                      bottom: NSLayoutYAxisAnchor? = nil, bottomPad: CGFloat? = 0,
@@ -123,6 +148,16 @@ extension UIView{
     func makeCircular() {
         self.layer.cornerRadius = min(self.frame.size.height, self.frame.size.width) / 2.0
         self.clipsToBounds = true
+    }
+    
+    func setUpShadow(color: UIColor, offset: CGSize, radius: CGFloat, opacity: Float) {
+        let color = color.cgColor
+        self.layer.shadowColor = color
+        self.layer.shadowOffset = offset
+        self.layer.shadowRadius = radius
+        self.layer.shadowOpacity = opacity
+        self.layer.shouldRasterize = true
+        self.layer.rasterizationScale = true ? UIScreen.main.scale : 1
     }
 }
 
@@ -174,6 +209,3 @@ extension UITableViewCell {
         return "\(self)"
     }
 }
-
-
-

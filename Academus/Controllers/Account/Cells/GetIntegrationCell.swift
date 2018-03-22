@@ -21,7 +21,7 @@ class GetIntegrationCell: UITableViewCell {
     
     let cellBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = .tableViewLightGrey
+        view.backgroundColor = .tableViewMediumGrey
         view.layer.cornerRadius = 5
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -46,7 +46,7 @@ class GetIntegrationCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tableViewGrey
+        backgroundColor = .tableViewDarkGrey
         selectionStyle = .none
         
         addSubview(cellBackground)

@@ -76,7 +76,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let view = UIView()
-            view.backgroundColor = .tableViewGrey
+            view.backgroundColor = .tableViewDarkGrey
             let headerLabel = UILabel()
             headerLabel.setUpLabel(text: "Core Integrations", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
             headerLabel.textAlignment = .center

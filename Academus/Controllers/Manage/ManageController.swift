@@ -11,24 +11,69 @@ import Locksmith
 
 class ManageController: UITableViewController {
     
-    var cellType = [CellType]()
-    var cells = [FormCellType]()
+    var cellType = [CellTypes]()
+    var cells = [ManageCells]()
+    
+    let profile: UIView = {
+        let dictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 75))
+        view.backgroundColor = .tableViewDarkGrey
+        
+        let background = UIView()
+        background.backgroundColor = .tableViewMediumGrey
+//        background.layer.cornerRadius = 5
+//        background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+//        let size = CGSize(width: 0, height: 0)
+//        background.setUpShadow(color: .black, offset: size, radius: 2, opacity: 0.4)
+        
+        let name = UILabel()
+        name.font = UIFont(name: "AvenirNext-demibold", size: 14)
+        name.text = "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")"
+        name.textColor = .navigationsWhite
+        
+        let email = UILabel()
+        email.font = UIFont(name: "Avenir-light", size: 12)
+        email.text = "\(dictionary?["email"] ?? "Unknown Email")"
+        email.textColor = .navigationsLightGrey
+        
+        let image = UIImageView()
+        image.tintColor = .navigationsLightGrey
+        image.image = #imageLiteral(resourceName: "profile")
+        
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "exit"), for: .normal)
+        button.addTarget(self, action: #selector(handleSignout), for: .touchUpInside)
+        button.tintColor = .navigationsRed
+        
+        view.addSubview(background)
+        view.addSubview(button)
+        view.addSubview(name)
+        view.addSubview(email)
+        view.addSubview(image)
+        
+        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6, width: 0, height: 0)
+        
+        image.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 48, height: 48)
+        name.anchors(bottom: image.centerYAnchor, left: image.rightAnchor, leftPad: 6, width: 0, height: 0)
+        email.anchors(top: image.centerYAnchor, left: image.rightAnchor, leftPad: 6, width: 0, height: 0)
+        button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
+
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Manage"
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .tableViewGrey
+        tableView.backgroundColor = .tableViewDarkGrey
+        tableView.tableHeaderView = profile
         
-        cellType = [.largeCell, .mediumCell, .smallCell]
-        cells = [.profile, .manageIntegrations, .manageInvites, .settings, .help, .about]
+        cellType = [.manageMediumCell, .manageSmallCell]
+        cells = [.manageIntegrations, .manageInvites, .settings, .help, .about]
         for type in cells {
             tableView.registerCell(type.cellType().getClass())
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -37,25 +82,17 @@ class ManageController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellsFiltered = cells.filter { $0.cellType().getSection() == indexPath.section }
+        let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         let c = cellsFiltered[indexPath.row]
         let cellClass = c.cellType().getClass()
         let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! BaseCell
         cell.set(title: c.getTitle(), image: c.image(), subtext: c.getSubtext())
         cell.type = c.cellType()
-        if cell.type == .largeCell {
-            let button = UIButton(type: .system)
-            button.setImage(#imageLiteral(resourceName: "exit"), for: .normal)
-            button.addTarget(self, action: #selector(handleSignout), for: .touchUpInside)
-            button.tintColor = .navigationsRed
-            cell.addSubview(button)
-            button.anchors(bottom: cell.bottomAnchor, bottomPad: -6, right: cell.rightAnchor, rightPad: -6, width: 0, height: 0)
-        }
+        cell.index = indexPath.row
         return cell
     }
     
     @objc func handleSignout() {
-        
         let alert = UIAlertController(title: "Sign Out?", message: "Are you sure you want to sign out?", preferredStyle: .alert)
         
         let actionYes = UIAlertAction(title: "Yes", style: .default) { (action) in
@@ -82,39 +119,34 @@ class ManageController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section >= 1 {
-            let view = UIView()
-            view.backgroundColor = .tableViewLightGrey
-            return view
-        } else {
-            return UIView()
-        }
+        return UIView()
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section > 1 {
-            return 1.5
-        } else {
-            return 0
-        }
+        return 9
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellsFiltered = cells.filter { $0.cellType().getSection() == indexPath.section }
+        let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
 
         if cellsFiltered[indexPath.row] == .manageIntegrations {
             let manageIntegrationsController = ManageIntegrationsController()
             navigationController?.pushViewController(manageIntegrationsController, animated: true)
         }
         
-//        if cellsFiltered[indexPath.row] == .settings {
-//            let settingsController = SettingsController()
-//            navigationController?.pushViewController(settingsController, animated: true)
-//        }
+        if cellsFiltered[indexPath.row] == .settings {
+            let settingsController = SettingsController()
+            navigationController?.pushViewController(settingsController, animated: true)
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellType[section].getRowCount()
+        if section == 0 {
+            return 2
+        } else {
+            return 3
+        }
+//            return cells[section].rowCount()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

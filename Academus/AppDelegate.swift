@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UITabBar.appearance().barTintColor = .navigationsDarkGrey
         UITabBar.appearance().tintColor = .navigationsGreen
         
-        UITableView.appearance().backgroundColor = .tableViewGrey
+        UITableView.appearance().backgroundColor = .tableViewDarkGrey
         return true
     }
     

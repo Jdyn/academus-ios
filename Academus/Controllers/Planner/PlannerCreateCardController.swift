@@ -14,67 +14,47 @@ protocol CreateCardDelegate {
 }
 
 class PlannerCreateCardController: UIViewController {
+
+    var delegate: CreateCardDelegate?
     
-    var delegate : CreateCardDelegate?
-    
-    let background: UIView = {
-        let view = UIView()
-        view.backgroundColor = .tableViewLightGrey
-        return view
-    }()
-    
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Name"
-        return label
-    }()
-    
-    let nameField: UITextField = {
-        let field = UITextField()
-        field.setBorderBottom(backGroundColor: .tableViewLightGrey, borderColor: .navigationsGreen)
-        field.setGhostText(message: "Set a title", color: .ghostText, font: UIFont.UIStandard!)
-        field.textColor = .navigationsWhite
-        return field
-    }()
-    
+    let background: UIView = UIView()
+    let nameField: UITextField = UITextField()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = .tableViewDarkGrey
         navigationItem.title = "Create a Card"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
-        view.backgroundColor = .tableViewGrey
+        
+        background.backgroundColor = UIColor.tableViewMediumGrey
+        nameField.setupTextField(bgColor: UIColor.tableViewMediumGrey, isBottomBorder: true, isGhostText: true, ghostText: "Enter a title", isLeftImage: false, leftImage: nil, isSecure: false)
+        
+        view.addSubviews(views: [background, nameField])
+
+        background.anchors(top: view.topAnchor, bottom: view.centerYAnchor, left: view.leftAnchor, right: view.rightAnchor, width: 0, height: 0)
+        nameField.anchors(top: background.topAnchor, topPad: 32, left: background.leftAnchor, leftPad: 32, right: background.rightAnchor, rightPad: -32, width: 0, height: 0)
     }
     
     @objc private func handleSave() {
-        print("Trying to save company...")
-        
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
         
         let card = NSEntityDescription.insertNewObject(forEntityName: "PlannerCards", into: context)
         card.setValue(nameField.text, forKey: "name")
         do {
             try context.save()
-            
             dismiss(animated: true, completion: {
                 self.delegate?.didAddCard(card: card as! PlannerCards)
             })
-            
-        } catch let saveErr {
-            print("Failed to save company:", saveErr)
+        } catch let error {
+            print(error)
         }
     }
-    
-    private func setupUI() {
-        
-        view.addSubview(background)
-        view.addSubview(nameField)
-        
-        background.anchors(top: view.topAnchor, bottom: view.centerYAnchor, left: view.leftAnchor, right: view.rightAnchor, width: 0, height: 0)
-        nameField.anchors(top: background.topAnchor, topPad: 16, left: background.leftAnchor, leftPad: 32, right: background.rightAnchor, rightPad: -32, width: 0, height: 0)
-        
-    }
-    
+
     @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
