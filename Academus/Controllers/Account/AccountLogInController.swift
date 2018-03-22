@@ -13,10 +13,10 @@ class AccountLogInController: UIViewController, logInErrorDelegate {
     
     private let authService = AuthService()
     var logInError: String = "Check your internet connection and try again."
-    let welcomeLabel: UILabel = UILabel()
-    let emailField: UITextField = UITextField()
-    let passwordField: UITextField = UITextField()
-    let logInButton: UIButton = UIButton(type: .system)
+    let welcomeLabel: UILabel = UILabel().setUpLabel(text: "Welcome Back.", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
+    let emailField: UITextField = UITextField().setupTextField(bgColor: UIColor.tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Email", isLeftImage: true, leftImage: #imageLiteral(resourceName: "email"), isSecure: false)
+    let passwordField: UITextField = UITextField().setupTextField(bgColor: UIColor.tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Password", isLeftImage: true, leftImage: #imageLiteral(resourceName: "lock"), isSecure: true)
+    let logInButton: UIButton = UIButton(type: .system).setUpButton(bgColor: .none, text: "LOG IN", font: UIFont.UIStandard!, color: .navigationsGreen, state: .normal)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,15 +24,8 @@ class AccountLogInController: UIViewController, logInErrorDelegate {
     }
     
     func setupUI() {
-        view.backgroundColor = .tableViewDarkGrey
-        
-        welcomeLabel.setUpLabel(text: "Welcome Back.", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
-        emailField.setupTextField(bgColor: UIColor.tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Email", isLeftImage: true, leftImage: #imageLiteral(resourceName: "email"), isSecure: false)
-        passwordField.setupTextField(bgColor: UIColor.tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Password", isLeftImage: true, leftImage: #imageLiteral(resourceName: "lock"), isSecure: true)
-        logInButton.setUpButton(bgColor: .none, text: "LOG IN", font: UIFont.UIStandard!, color: .navigationsGreen, state: .normal)
-        logInButton.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
-        
         let stackView = UIStackView(arrangedSubviews: [welcomeLabel, emailField, passwordField, logInButton])
+        view.backgroundColor = .tableViewDarkGrey
         view.addSubviews(views: [stackView, welcomeLabel, emailField, passwordField, logInButton])
     
         stackView.axis = .vertical
@@ -41,6 +34,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate {
         emailField.anchors(top: welcomeLabel.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.rightAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
         passwordField.anchors(top: emailField.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.rightAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
         logInButton.anchors(top: passwordField.bottomAnchor,topPad: 64, centerX: stackView.centerXAnchor, width: 64, height: 0)
+        logInButton.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
     }
     
     @objc func logInPressed() {

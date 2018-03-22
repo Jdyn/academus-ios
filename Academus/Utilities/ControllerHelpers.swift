@@ -56,41 +56,53 @@ extension UIViewController {
 
 extension UILabel {
     
-    func setUpLabel(text: String, font: UIFont, fontColor: UIColor) {
-        self.text = text
-        self.font = font
-        self.textColor = fontColor
+    func setUpLabel(text: String, font: UIFont, fontColor: UIColor) -> UILabel {
+        
+        let label = UILabel()
+        
+        label.text = text
+        label.font = font
+        label.textColor = fontColor
+        
+        return label
     }
 }
 
 extension UIButton {
     
-    func setUpButton(bgColor: UIColor?, text: String, font: UIFont, color: UIColor, state: UIControlState) {
-        self.backgroundColor = bgColor
-        self.setTitle(text, for: state)
-        self.titleLabel?.font = font
-        self.setTitleColor(color, for: state)
+    func setUpButton(bgColor: UIColor?, text: String, font: UIFont, color: UIColor, state: UIControlState) -> UIButton{
+        
+        let button = UIButton()
+        
+        button.backgroundColor = bgColor
+        button.setTitle(text, for: state)
+        button.titleLabel?.font = font
+        button.setTitleColor(color, for: state)
+        
+        return button
     }
 }
 
 
 extension UITextField {
     
-    func setupTextField(bgColor: UIColor, isBottomBorder: Bool, isGhostText: Bool, ghostText: String?, isLeftImage: Bool, leftImage: UIImage?, isSecure: Bool) {
+    func setupTextField(bgColor: UIColor, isBottomBorder: Bool, isGhostText: Bool, ghostText: String?, isLeftImage: Bool, leftImage: UIImage?, isSecure: Bool) -> UITextField {
         
-        self.font = UIFont.UIStandard
-        self.textColor = UIColor.navigationsWhite
+        let field = UITextField()
+        
+        field.font = UIFont.UIStandard
+        field.textColor = UIColor.navigationsWhite
         
         if isBottomBorder {
-            self.layer.backgroundColor = bgColor.cgColor
-            self.layer.shadowOffset = CGSize(width: 0, height: 1)
-            self.layer.shadowOpacity = 1
-            self.layer.shadowRadius = 0
-            self.layer.shadowColor = UIColor.navigationsGreen.cgColor
+            field.layer.backgroundColor = bgColor.cgColor
+            field.layer.shadowOffset = CGSize(width: 0, height: 1)
+            field.layer.shadowOpacity = 1
+            field.layer.shadowRadius = 0
+            field.layer.shadowColor = UIColor.navigationsGreen.cgColor
         }
         
         if isGhostText {
-            self.attributedPlaceholder = NSAttributedString(string: ghostText!, attributes: [
+            field.attributedPlaceholder = NSAttributedString(string: ghostText!, attributes: [
                 NSAttributedStringKey.foregroundColor: UIColor.ghostText,
                 NSAttributedStringKey.font: UIFont.UIStandard!
                 ])
@@ -99,21 +111,15 @@ extension UITextField {
         if isLeftImage {
             let image = UIImageView(image: leftImage)
             image.tintColor = .navigationsGreen
-            self.leftViewMode = .always
-            self.leftView = image
+            field.leftViewMode = .always
+            field.leftView = image
         }
         
         if isSecure {
-            self.isSecureTextEntry = true
+            field.isSecureTextEntry = true
         }
-    }
-    
-    func setBorderBottom(backGroundColor: UIColor, borderColor: UIColor) {
-        self.layer.backgroundColor = backGroundColor.cgColor
-        self.layer.shadowOffset = CGSize(width: 0, height: 1)
-        self.layer.shadowOpacity = 1
-        self.layer.shadowRadius = 0
-        self.layer.shadowColor = borderColor.cgColor
+        
+        return field
     }
 }
 
