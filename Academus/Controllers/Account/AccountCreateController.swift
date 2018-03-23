@@ -11,13 +11,8 @@ import UIKit
 class AccountCreateController: UIViewController {
 
     let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
-    let betaCodeField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Beta Code")
-    let firstNameField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "First Name")
-    let lastNameField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Last Name")
-    let emailField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Email")
-    let passwordField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Password")
-    let verifyPasswordField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Verify Password")
     let signUpButton = UIButton(type: .system).setUpButton(title: "SIGN UP", font: UIFont.UIStandard!, fontColor: .navigationsGreen)
+    var fields = [UITextField]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,34 +20,45 @@ class AccountCreateController: UIViewController {
     }
     
     func setUpUI() {
-        let stackView = UIStackView(arrangedSubviews: [welcomeLabel, betaCodeField, firstNameField, lastNameField, emailField, passwordField, verifyPasswordField, signUpButton])
+        let stack = UIStackView()
+        let titles = ["Beta Code", "First Name", "Last Name", "Email", "Password", "Verify Password"]
+        for title in titles {
+            let textField = UITextField().setupTextField(bottomBorder: true, ghostText: title)
+            stack.addArrangedSubview(textField)
+            view.addSubview(textField)
+            self.fields.append(textField)
+        }
+        
         view.backgroundColor = .tableViewDarkGrey
-        view.addSubviews(views: [stackView, welcomeLabel, betaCodeField, firstNameField, lastNameField, emailField, passwordField, verifyPasswordField, signUpButton])
-
-        stackView.axis = .vertical
-        stackView.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 400)
-        welcomeLabel.anchors(top: stackView.topAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
-        betaCodeField.anchors(top: welcomeLabel.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.rightAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
-        firstNameField.anchors(top: betaCodeField.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.centerXAnchor, rightPad: -6, width: 0, height: 0)
-        lastNameField.anchors(top: betaCodeField.bottomAnchor, topPad: 32, left: stackView.centerXAnchor, leftPad: 6, right: stackView.rightAnchor, width: 0, height: 0)
-        emailField.anchors(top: firstNameField.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.rightAnchor, width: 0, height: 0)
-        passwordField.anchors(top: emailField.bottomAnchor, topPad: 32, left: stackView.leftAnchor, right: stackView.centerXAnchor, rightPad: -6, width: 0, height: 0)
-        verifyPasswordField.anchors(top: emailField.bottomAnchor, topPad: 32, left: stackView.centerXAnchor, leftPad: 6, right: stackView.rightAnchor, width: 0, height: 0)
-        signUpButton.anchors(bottom: passwordField.bottomAnchor, bottomPad: 64, centerX: stackView.centerXAnchor, width: 64, height: 0)
+        view.addSubviews(views: [stack, welcomeLabel, signUpButton])
+        
+        stack.axis = .vertical
+        stack.anchors(top: view.topAnchor, topPad: view.bounds.height * 1/4, bottom: view.bottomAnchor, bottomPad: view.bounds.height * -1/4, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32)
+        fields[0].anchors(top: stack.topAnchor, left: stack.leftAnchor, right: stack.rightAnchor, centerX: stack.centerXAnchor)
+        fields[1].anchors(top: fields[0].bottomAnchor, topPad: 32, left: stack.leftAnchor, right: view.centerXAnchor, rightPad: -6)
+        fields[2].anchors(top: fields[0].bottomAnchor, topPad: 32, left: stack.centerXAnchor, leftPad: 6, right: stack.rightAnchor)
+        fields[3].anchors(top: fields[2].bottomAnchor, topPad: 32, left: stack.leftAnchor, right: stack.rightAnchor)
+        fields[4].anchors(top: fields[3].bottomAnchor, topPad: 32, left: stack.leftAnchor, right: stack.centerXAnchor, rightPad: -6)
+        fields[5].anchors(top: fields[3].bottomAnchor, topPad: 32, left: stack.centerXAnchor, leftPad: 6, right: stack.rightAnchor)
+        welcomeLabel.anchors(bottom: stack.topAnchor, centerX: stack.centerXAnchor)
+        signUpButton.anchors(top: stack.bottomAnchor, topPad: 0, centerX: stack.centerXAnchor, width: 64)
     }
     
     @objc func signUpPressed() {
-        if (betaCodeField.text?.isEmpty)! || (firstNameField.text?.isEmpty)! || (lastNameField.text?.isEmpty)! || (emailField.text?.isEmpty)! || (passwordField.text?.isEmpty)! ||   (verifyPasswordField.text?.isEmpty)! {
-            self.alertMessage(title: "You didn't think I would notice?", message: "There are missing fields.")
-            return
-        } else if ((passwordField.text! == verifyPasswordField.text!) != true) {
+        for field in fields {
+            if (field.text?.isEmpty)! {
+                self.alertMessage(title: "You didn't think I would notice?", message: "There are missing fields.")
+                return
+            }
+        }
+        if ((fields[4].text! == fields[5].text!) != true) {
             alertMessage(title: "Watch out..", message: "Passwords do not match.")
             return
-        } else if passwordField.text!.count < 6 {
+        } else if fields[4].text!.count < 6 {
             alertMessage(title: "What is Security..", message: "Password much be 6 characters long.")
             return
         }
-        AuthService().registerUser(betaCode: (betaCodeField.text)!, firstName: (firstNameField.text)!, lastName: (lastNameField.text)!, email: (emailField.text)!, password: (passwordField.text)!) { (success) in
+        AuthService().registerUser(betaCode: (fields[0].text)!, firstName: (fields[1].text)!, lastName: (fields[2].text)!, email: (fields[3].text)!, password: (fields[4].text)!) { (success) in
             if success {
                 let controller = IntegrationSelectController()
                 self.navigationController?.pushViewController(controller, animated: true)

@@ -18,7 +18,7 @@ class PlannerCreateCardController: UIViewController {
     var delegate: CreateCardDelegate?
     
     let background: UIView = UIView()
-    let nameField: UITextField = UITextField().setupTextField(bgColor: UIColor.tableViewMediumGrey, bottomBorder: true, isGhostText: true, ghostText: "Enter a title", isLeftImage: false, leftImage: nil, isSecure: false)
+    let nameField: UITextField = UITextField().setupTextField(bgColor: UIColor.tableViewMediumGrey, bottomBorder: true, ghostText: "Enter a title", isLeftImage: false, leftImage: nil, isSecure: false)
 
     override func viewDidLoad() {
         super.viewDidLoad()

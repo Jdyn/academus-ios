@@ -86,7 +86,7 @@ extension UIButton {
 
 extension UITextField {
     
-    func setupTextField(bgColor: UIColor? = UIColor.tableViewDarkGrey, bottomBorder: Bool, isGhostText: Bool, ghostText: String? = "", isLeftImage: Bool? = false, leftImage: UIImage? = nil, isSecure: Bool? = false) -> UITextField {
+    func setupTextField(bgColor: UIColor? = UIColor.tableViewDarkGrey, bottomBorder: Bool, ghostText: String? = "", isLeftImage: Bool? = false, leftImage: UIImage? = nil, isSecure: Bool? = false) -> UITextField {
         
         let field = UITextField()
         
@@ -101,7 +101,7 @@ extension UITextField {
             field.layer.shadowColor = UIColor.navigationsGreen.cgColor
         }
         
-        if isGhostText {
+        if ghostText != "" {
             field.attributedPlaceholder = NSAttributedString(string: ghostText!, attributes: [
                 NSAttributedStringKey.foregroundColor: UIColor.ghostText,
                 NSAttributedStringKey.font: UIFont.UIStandard!
@@ -137,7 +137,7 @@ extension UIView{
                      right: NSLayoutXAxisAnchor? = nil, rightPad: CGFloat? = 0,
                      centerX: NSLayoutXAxisAnchor? = nil, CenterXPad: CGFloat? = 0,
                      centerY: NSLayoutYAxisAnchor? = nil, CenterYPad: CGFloat? = 0,
-                     width: CGFloat, height: CGFloat) {
+                     width: CGFloat? = 0, height: CGFloat? = 0) {
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -147,8 +147,8 @@ extension UIView{
         if let right = right { self.rightAnchor.constraint(equalTo: right, constant: rightPad!).isActive  = true }
         if let centerX = centerX { self.centerXAnchor.constraint(equalTo: centerX, constant: CenterXPad!).isActive  = true }
         if let centerY = centerY { self.centerYAnchor.constraint(equalTo: centerY, constant: CenterYPad!).isActive  = true }
-        if width > 0 { self.widthAnchor.constraint(equalToConstant: width).isActive = true }
-        if height > 0 { self.heightAnchor.constraint(equalToConstant: height).isActive = true }
+        if width! > CGFloat(0) { self.widthAnchor.constraint(equalToConstant: width!).isActive = true }
+        if height! > CGFloat(0) { self.heightAnchor.constraint(equalToConstant: height!).isActive = true }
     }
     
     func makeCircular() {
