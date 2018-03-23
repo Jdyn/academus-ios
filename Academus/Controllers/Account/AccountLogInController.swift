@@ -13,10 +13,10 @@ class AccountLogInController: UIViewController, logInErrorDelegate {
     
     private let authService = AuthService()
     var logInError: String = "Check your internet connection and try again."
-    let welcomeLabel: UILabel = UILabel().setUpLabel(text: "Welcome Back.", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
-    let emailField: UITextField = UITextField().setupTextField(bgColor: UIColor.tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Email", isLeftImage: true, leftImage: #imageLiteral(resourceName: "email"), isSecure: false)
-    let passwordField: UITextField = UITextField().setupTextField(bgColor: UIColor.tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Password", isLeftImage: true, leftImage: #imageLiteral(resourceName: "lock"), isSecure: true)
-    let logInButton: UIButton = UIButton(type: .system).setUpButton(bgColor: .none, text: "LOG IN", font: UIFont.UIStandard!, color: .navigationsGreen, state: .normal)
+    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back.", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
+    let emailField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Email")
+    let passwordField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Password")
+    let logInButton = UIButton(type: .system).setUpButton(title: "LOG IN", font: UIFont.UIStandard!, fontColor: .navigationsGreen)
     
     override func viewDidLoad() {
         super.viewDidLoad()

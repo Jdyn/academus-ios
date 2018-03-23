@@ -10,14 +10,14 @@ import UIKit
 
 class AccountCreateController: UIViewController {
 
-    let welcomeLabel: UILabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
-    let betaCodeField: UITextField = UITextField().setupTextField(bgColor: .tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Beta Code", isLeftImage: false, leftImage: .none, isSecure: false)
-    let firstNameField: UITextField = UITextField().setupTextField(bgColor: .tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "First Name", isLeftImage: false, leftImage: .none, isSecure: false)
-    let lastNameField: UITextField = UITextField().setupTextField(bgColor: .tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Last Name", isLeftImage: false, leftImage: .none, isSecure: false)
-    let emailField: UITextField = UITextField().setupTextField(bgColor: .tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Email", isLeftImage: false, leftImage: .none, isSecure: false)
-    let passwordField: UITextField = UITextField().setupTextField(bgColor: .tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Password", isLeftImage: false, leftImage: .none, isSecure: true)
-    let verifyPasswordField: UITextField = UITextField().setupTextField(bgColor: .tableViewDarkGrey, isBottomBorder: true, isGhostText: true, ghostText: "Verify Password", isLeftImage: false, leftImage: .none, isSecure: true)
-    let signUpButton: UIButton = UIButton(type: .system).setUpButton(bgColor: .tableViewDarkGrey, text: "SIGN UP", font: UIFont.UIStandard!, color: .navigationsGreen, state: .normal)
+    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
+    let betaCodeField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Beta Code")
+    let firstNameField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "First Name")
+    let lastNameField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Last Name")
+    let emailField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Email")
+    let passwordField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Password")
+    let verifyPasswordField = UITextField().setupTextField(bottomBorder: true, isGhostText: true, ghostText: "Verify Password")
+    let signUpButton = UIButton(type: .system).setUpButton(title: "SIGN UP", font: UIFont.UIStandard!, fontColor: .navigationsGreen)
 
     override func viewDidLoad() {
         super.viewDidLoad()

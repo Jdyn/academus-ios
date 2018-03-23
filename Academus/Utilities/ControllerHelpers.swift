@@ -70,14 +70,14 @@ extension UILabel {
 
 extension UIButton {
     
-    func setUpButton(bgColor: UIColor?, text: String, font: UIFont, color: UIColor, state: UIControlState) -> UIButton{
+    func setUpButton(bgColor: UIColor? = .none, title: String, font: UIFont, fontColor: UIColor, state: UIControlState? = .normal) -> UIButton{
         
         let button = UIButton()
         
         button.backgroundColor = bgColor
-        button.setTitle(text, for: state)
+        button.setTitle(title, for: state!)
         button.titleLabel?.font = font
-        button.setTitleColor(color, for: state)
+        button.setTitleColor(fontColor, for: state!)
         
         return button
     }
@@ -86,15 +86,15 @@ extension UIButton {
 
 extension UITextField {
     
-    func setupTextField(bgColor: UIColor, isBottomBorder: Bool, isGhostText: Bool, ghostText: String?, isLeftImage: Bool, leftImage: UIImage?, isSecure: Bool) -> UITextField {
+    func setupTextField(bgColor: UIColor? = UIColor.tableViewDarkGrey, bottomBorder: Bool, isGhostText: Bool, ghostText: String? = "", isLeftImage: Bool? = false, leftImage: UIImage? = nil, isSecure: Bool? = false) -> UITextField {
         
         let field = UITextField()
         
         field.font = UIFont.UIStandard
         field.textColor = UIColor.navigationsWhite
         
-        if isBottomBorder {
-            field.layer.backgroundColor = bgColor.cgColor
+        if bottomBorder {
+            field.layer.backgroundColor = bgColor?.cgColor
             field.layer.shadowOffset = CGSize(width: 0, height: 1)
             field.layer.shadowOpacity = 1
             field.layer.shadowRadius = 0
@@ -108,14 +108,14 @@ extension UITextField {
                 ])
         }
         
-        if isLeftImage {
+        if isLeftImage == true {
             let image = UIImageView(image: leftImage)
             image.tintColor = .navigationsGreen
             field.leftViewMode = .always
             field.leftView = image
         }
         
-        if isSecure {
+        if isSecure == true {
             field.isSecureTextEntry = true
         }
         
