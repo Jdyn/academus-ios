@@ -66,7 +66,7 @@ class PlannerCreateCardController: UIViewController {
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
         
         let card = NSEntityDescription.insertNewObject(forEntityName: "PlannerReminderCard", into: context)
-        card.setValue(nameField.text, forKey: "name")
+        card.setValue(nameField.text, forKey: "title")
         card.setValue(datePicker.date, forKey: "dateDue")
         card.setValue(Date(), forKey: "dateCreated")
         

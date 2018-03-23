@@ -13,6 +13,14 @@ class PlannerCardCell: UITableViewCell {
     var card: PlannerCards? {
         didSet {
             nameLabel.text = card?.name
+            if (card?.plannerReminder != nil) {
+                let date = card?.plannerReminder?.dateDue
+                let formatter = DateFormatter()
+                formatter.dateFormat = "EEEE, MMMM d @ hh:mm"
+                dueDate.text = formatter.string(from: date!)
+            } else {
+                dueDate.text = ""
+            }
         }
     }
     
@@ -27,8 +35,15 @@ class PlannerCardCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-demibold", size: 16)
+        label.font = UIFont(name: "AvenirNext-demibold", size: 21)
         label.textColor = .navigationsWhite
+        return label
+    }()
+    
+    let dueDate: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "AvenirNext-demibold", size: 18)
+        label.textColor = .navigationsLightGrey
         return label
     }()
     
@@ -39,9 +54,11 @@ class PlannerCardCell: UITableViewCell {
         
         addSubview(background)
         addSubview(nameLabel)
+        addSubview(dueDate)
         
-        background.anchors(top: topAnchor, topPad: 3, bottom: bottomAnchor, bottomPad: -9,left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
-        nameLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
+        background.anchors(top: topAnchor, topPad: 3, bottom: bottomAnchor, bottomPad: -9,left: leftAnchor, leftPad: 10, right: rightAnchor, rightPad: -10, width: 0, height: 0)
+        nameLabel.anchors(top: background.topAnchor, topPad: 10, left: background.leftAnchor, leftPad: 10, width: 0, height: 0)
+        dueDate.anchors(top: nameLabel.bottomAnchor, topPad: 8, left: background.leftAnchor, leftPad: 15, width: 0, height: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {
