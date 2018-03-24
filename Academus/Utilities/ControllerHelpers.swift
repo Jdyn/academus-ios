@@ -123,6 +123,18 @@ extension UITextField {
     }
 }
 
+extension UIStackView {
+    func setupStack(axis: UILayoutConstraintAxis? = .horizontal, distro: UIStackViewDistribution? = .fill, spacing: CGFloat? = 0) -> UIStackView {
+        let stackView = UIStackView()
+        
+        stackView.axis = axis!
+        stackView.distribution = distro!
+        stackView.spacing = spacing!
+        
+        return stackView
+    }
+}
+
 extension UIView{
     
     func addSubviews(views: [UIView]) {

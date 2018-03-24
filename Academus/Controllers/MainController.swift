@@ -27,9 +27,7 @@ class MainController: UITabBarController {
     }
     
     func setUpUI(){
-        UIToolbar.appearance().barTintColor = .navigationsDarkGrey
-        UIToolbar.appearance().tintColor = .navigationsWhite
-        
+
         let plannerController = PlannerController()
         plannerController.tabBarItem = UITabBarItem(title: "Planner", image: #imageLiteral(resourceName: "planner"), tag: 0)
         
