@@ -10,14 +10,10 @@ import UIKit
 import Locksmith
 
 class MainController: UITabBarController {
-<<<<<<< HEAD
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
     }
-=======
->>>>>>> master
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -35,12 +31,10 @@ class MainController: UITabBarController {
     }
     
     func setUpUI(){
-<<<<<<< HEAD
         UIDatePicker.appearance().tintColor = .navigationsWhite
-=======
+
         UIToolbar.appearance().barTintColor = .navigationsDarkGrey
         UIToolbar.appearance().tintColor = .navigationsWhite
->>>>>>> master
         
         let plannerController = PlannerController()
         plannerController.tabBarItem = UITabBarItem(title: "Planner", image: #imageLiteral(resourceName: "planner"), tag: 0)
