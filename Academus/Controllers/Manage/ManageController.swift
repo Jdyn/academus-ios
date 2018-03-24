@@ -10,7 +10,6 @@ import UIKit
 import Locksmith
 
 class ManageController: UITableViewController {
-    
     var cellType = [CellTypes]()
     var cells = [ManageCellManager]()
     
@@ -66,6 +65,7 @@ class ManageController: UITableViewController {
         super.viewDidLoad()
         navigationItem.title = "Manage"
         tableView.separatorStyle = .none
+        
         tableView.backgroundColor = .tableViewDarkGrey
         tableView.tableHeaderView = profile
         

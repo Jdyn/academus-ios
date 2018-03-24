@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ManageSmallCell: MainCell {
+class ManageSmallCell: ManageBaseCell {
     
     override var index: Int? {
         didSet {
@@ -19,7 +19,7 @@ class ManageSmallCell: MainCell {
     let background: UIView = {
         let view = UIView()
         let num: Int?
-        view.backgroundColor = .tableViewMediumGrey
+        view.backgroundColor = .tableViewLightGrey
 //        view.layer.cornerRadius = 5
 //        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
 //        let size = CGSize(width: 0, height: -2)
@@ -53,7 +53,7 @@ class ManageSmallCell: MainCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tableViewDarkGrey
+        backgroundColor = .tableViewGrey
         selectionStyle = .none
         
         addSubview(background)

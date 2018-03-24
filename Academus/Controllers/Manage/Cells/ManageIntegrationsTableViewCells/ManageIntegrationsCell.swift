@@ -38,7 +38,7 @@ class ManageIntegrationsCell: UITableViewCell {
     
     let background: UIView = {
         let view = UIView()
-        view.backgroundColor = .tableViewMediumGrey
+        view.backgroundColor = .tableViewLightGrey
         view.layer.cornerRadius = 5
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -94,13 +94,13 @@ class ManageIntegrationsCell: UITableViewCell {
     let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 12)
-        label.textColor = .TableViewLightGrey
+        label.textColor = .tableViewPeriodText
         return label
     }()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tableViewDarkGrey
+        backgroundColor = .tableViewGrey
         selectionStyle = .none
         
         let stackView = UIStackView(arrangedSubviews: [

@@ -10,6 +10,10 @@ import UIKit
 import Locksmith
 
 class MainController: UITabBarController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpUI()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -27,6 +31,8 @@ class MainController: UITabBarController {
     }
     
     func setUpUI(){
+        UIDatePicker.appearance().tintColor = .navigationsWhite
+
         UIToolbar.appearance().barTintColor = .navigationsDarkGrey
         UIToolbar.appearance().tintColor = .navigationsWhite
         
@@ -41,5 +47,16 @@ class MainController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
+    }
+}
+
+class UIColoredDatePicker: UIDatePicker {
+    var changed = false
+    override func addSubview(_ view: UIView) {
+        if !changed {
+            changed = true
+            self.setValue(UIColor.navigationsWhite, forKey: "textColor")
+        }
+        super.addSubview(view)
     }
 }

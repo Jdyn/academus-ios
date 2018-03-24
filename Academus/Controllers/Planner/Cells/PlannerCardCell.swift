@@ -26,7 +26,7 @@ class PlannerCardCell: UITableViewCell {
     
     let background: UIView = {
         let view = UIView()
-        view.backgroundColor = .tableViewMediumGrey
+        view.backgroundColor = .tableViewLightGrey
         view.layer.cornerRadius = 5
         let size = CGSize(width: 0, height: 0)
         view.setUpShadow(color: .black, offset: size, radius: 2, opacity: 0.4)
@@ -49,7 +49,7 @@ class PlannerCardCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tableViewDarkGrey
+        backgroundColor = .tableViewGrey
         selectionStyle = .none
         
         addSubview(background)

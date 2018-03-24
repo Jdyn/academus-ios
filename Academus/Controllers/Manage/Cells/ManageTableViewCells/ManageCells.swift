@@ -9,7 +9,7 @@
 import UIKit
 import Locksmith
 
-enum ManageCellManager {
+enum ManageCells {
     
     case manageIntegrations
     case manageInvites
@@ -18,6 +18,7 @@ enum ManageCellManager {
     case about
     
     func getTitle() -> String{
+        
         switch self {
         case .manageIntegrations: return "Manage Integrations"
         case .manageInvites: return "Manage Invites"
@@ -28,6 +29,7 @@ enum ManageCellManager {
     }
     
     func getSubtext() -> String{
+        
         switch self {
         case .manageIntegrations: return ""
         case .manageInvites: return ""
@@ -61,10 +63,10 @@ enum ManageCellManager {
         }
     }
     
-    func cellType() -> CellTypes{
+    func cellType() -> ManageCellTypes{
         switch self {
-        case .manageIntegrations, .manageInvites: return .manageMediumCell
-        case .settings, .help, .about: return .manageSmallCell
+        case .manageIntegrations, .manageInvites: return .mediumCell
+        case .settings, .help, .about: return .smallCell
         }
     }
 }

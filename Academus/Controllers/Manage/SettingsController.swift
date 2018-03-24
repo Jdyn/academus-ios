@@ -10,7 +10,6 @@ import UIKit
 import Locksmith
 
 class SettingsController: UITableViewController {
-
     var cellType = [CellTypes]()
     var cells = [SettingsCellManager]()
     
