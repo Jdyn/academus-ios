@@ -11,6 +11,7 @@ import UIKit
 extension UIFont {
     
     static let UIStandard = UIFont(name: "AvenirNext-medium", size: 16)
-    static let UILarge = UIFont(name: "AvenirNext-demibold", size: 20)
+    static let UIHeader = UIFont(name: "AvenirNext-demibold", size: 20)
+    
 }
 

@@ -71,7 +71,7 @@ class WelcomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
-        view.backgroundColor = .tableViewGrey
+        view.backgroundColor = .tableViewDarkGrey
         self.setupUI()
     }
 

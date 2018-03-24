@@ -11,17 +11,29 @@ import Locksmith
 
 class ManageController: UITableViewController {
     
+<<<<<<< HEAD
     var cellType = [ManageCellTypes]()
     var cells = [ManageCells]()
+=======
+    var cellType = [CellTypes]()
+    var cells = [ManageCellManager]()
+>>>>>>> master
     
     let profile: UIView = {
         let dictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 75))
+<<<<<<< HEAD
         view.backgroundColor = .tableViewGrey
         
         let background = UIView()
         background.backgroundColor = .tableViewLightGrey
+=======
+        view.backgroundColor = .tableViewDarkGrey
+        
+        let background = UIView()
+        background.backgroundColor = .tableViewMediumGrey
+>>>>>>> master
 //        background.layer.cornerRadius = 5
 //        background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
 //        let size = CGSize(width: 0, height: 0)
@@ -66,10 +78,17 @@ class ManageController: UITableViewController {
         super.viewDidLoad()
         navigationItem.title = "Manage"
         tableView.separatorStyle = .none
+<<<<<<< HEAD
         tableView.backgroundColor = .tableViewGrey
         tableView.tableHeaderView = profile
         
         cellType = [.mediumCell, .smallCell]
+=======
+        tableView.backgroundColor = .tableViewDarkGrey
+        tableView.tableHeaderView = profile
+        
+        cellType = [.manageMediumCell, .manageSmallCell]
+>>>>>>> master
         cells = [.manageIntegrations, .manageInvites, .settings, .help, .about]
         for type in cells {
             tableView.registerCell(type.cellType().getClass())
@@ -85,7 +104,11 @@ class ManageController: UITableViewController {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         let c = cellsFiltered[indexPath.row]
         let cellClass = c.cellType().getClass()
+<<<<<<< HEAD
         let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! ManageBaseCell
+=======
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! MainCell
+>>>>>>> master
         cell.set(title: c.getTitle(), image: c.image(), subtext: c.getSubtext())
         cell.type = c.cellType()
         cell.index = indexPath.row
@@ -97,7 +120,6 @@ class ManageController: UITableViewController {
         
         let actionYes = UIAlertAction(title: "Yes", style: .default) { (action) in
             
-            self.tabBarController?.selectedIndex = 0
             if Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) != nil {
                 do {
                     try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
@@ -105,7 +127,9 @@ class ManageController: UITableViewController {
                     debugPrint("could not delete locksmith data:", error)
                 }
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-                self.present(welcomeNavigationController, animated: true, completion: nil)
+                self.present(welcomeNavigationController, animated: true, completion: {
+                    self.tabBarController?.selectedIndex = 0
+                })
             }
         }
         

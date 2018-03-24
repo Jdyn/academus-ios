@@ -22,7 +22,7 @@ class CourseAssignmentCell: UITableViewCell {
     
     let background: UIView = {
         let view = UIView()
-        view.backgroundColor = .tableViewLightGrey
+        view.backgroundColor = .tableViewMediumGrey
         view.layer.cornerRadius = 5
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         let size = CGSize(width: 0, height: 0)
@@ -43,20 +43,20 @@ class CourseAssignmentCell: UITableViewCell {
     let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 14)
-        label.textColor = .tableViewPeriodText
+        label.textColor = .TableViewLightGrey
         return label
     }()
     
     let gradeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 14)
-        label.textColor = .tableViewPeriodText
+        label.textColor = .TableViewLightGrey
         return label
         }()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .tableViewGrey
+        backgroundColor = .tableViewDarkGrey
         selectionStyle = .none
         separatorInset = UIEdgeInsets.zero
         addSubview(background)

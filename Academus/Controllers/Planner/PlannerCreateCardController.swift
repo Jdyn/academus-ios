@@ -19,6 +19,10 @@ protocol CreateReminderCardDelegate {
 
 class PlannerCreateCardController: UIViewController {
     
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 07b1475bab1885895cf3fc74f956f94ca5774a19
     var delegate: CreateReminderCardDelegate?
     
     let background: UIView = {
@@ -53,6 +57,14 @@ class PlannerCreateCardController: UIViewController {
         return picker
     }()
     
+<<<<<<< HEAD
+=======
+    let background: UIView = UIView()
+    let nameField: UITextField = UITextField().setupTextField(bgColor: UIColor.tableViewMediumGrey, bottomBorder: true, ghostText: "Enter a title", isLeftImage: false, leftImage: nil, isSecure: false)
+
+>>>>>>> master
+=======
+>>>>>>> 07b1475bab1885895cf3fc74f956f94ca5774a19
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -81,6 +93,10 @@ class PlannerCreateCardController: UIViewController {
             print("Failed to save company:", saveErr)
         }
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 07b1475bab1885895cf3fc74f956f94ca5774a19
     
     private func setupUI() {
         view.addSubview(background)
@@ -92,6 +108,12 @@ class PlannerCreateCardController: UIViewController {
         datePicker.anchors(top: nameField.bottomAnchor, topPad: 16, left: background.leftAnchor, leftPad: 32, right: background.rightAnchor, rightPad: -32, width: 0, height: 0)
     }
     
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
+=======
+>>>>>>> 07b1475bab1885895cf3fc74f956f94ca5774a19
     @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
     }

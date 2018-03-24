@@ -20,11 +20,11 @@ extension UIViewController {
     func setupAddButtonInNavBar(selector: Selector) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "add"), style: .plain, target: self, action: selector)
     }
-        
+
     func setupCancelButtonInNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelModal))
     }
-    
+
     @objc func handleCancelModal() {
         dismiss(animated: true, completion: nil)
     }
@@ -51,54 +51,85 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @objc func alertCancel() {
-        
-    }
+    @objc func alertCancel() {}
 }
 
 extension UILabel {
     
-    func setUpLabel(text: String, font: UIFont, fontColor: UIColor) {
-        self.text = text
-        self.font = font
-        self.textColor = fontColor
+    func setUpLabel(text: String, font: UIFont, fontColor: UIColor) -> UILabel {
+        
+        let label = UILabel()
+        
+        label.text = text
+        label.font = font
+        label.textColor = fontColor
+        
+        return label
     }
-    
 }
 
 extension UIButton {
     
-    func setUpButton(bgColor: UIColor?, text: String, titleFont: UIFont, titleColor: UIColor, titleState: UIControlState) {
+    func setUpButton(bgColor: UIColor? = .none, title: String, font: UIFont, fontColor: UIColor, state: UIControlState? = .normal) -> UIButton{
         
-        self.backgroundColor = bgColor
-        self.setTitle(text, for: titleState)
-        self.titleLabel?.font = titleFont
-        self.setTitleColor(titleColor, for: titleState)
+        let button = UIButton()
         
+        button.backgroundColor = bgColor
+        button.setTitle(title, for: state!)
+        button.titleLabel?.font = font
+        button.setTitleColor(fontColor, for: state!)
+        
+        return button
     }
-    
 }
 
 
 extension UITextField {
     
-    func setBorderBottom(backGroundColor: UIColor, borderColor: UIColor) {
-        self.layer.backgroundColor = backGroundColor.cgColor
-        self.layer.shadowOffset = CGSize(width: 0, height: 1)
-        self.layer.shadowOpacity = 1
-        self.layer.shadowRadius = 0
-        self.layer.shadowColor = borderColor.cgColor
-    }
-    
-    func setGhostText(message: String, color: UIColor, font: UIFont) {
-        self.attributedPlaceholder = NSAttributedString(string: message, attributes: [
-            NSAttributedStringKey.foregroundColor: color,
-            NSAttributedStringKey.font: font
-            ])
+    func setupTextField(bgColor: UIColor? = UIColor.tableViewDarkGrey, bottomBorder: Bool, ghostText: String? = "", isLeftImage: Bool? = false, leftImage: UIImage? = nil, isSecure: Bool? = false) -> UITextField {
+        
+        let field = UITextField()
+        
+        field.font = UIFont.UIStandard
+        field.textColor = UIColor.navigationsWhite
+        
+        if bottomBorder {
+            field.layer.backgroundColor = bgColor?.cgColor
+            field.layer.shadowOffset = CGSize(width: 0, height: 1)
+            field.layer.shadowOpacity = 1
+            field.layer.shadowRadius = 0
+            field.layer.shadowColor = UIColor.navigationsGreen.cgColor
+        }
+        
+        if ghostText != "" {
+            field.attributedPlaceholder = NSAttributedString(string: ghostText!, attributes: [
+                NSAttributedStringKey.foregroundColor: UIColor.ghostText,
+                NSAttributedStringKey.font: UIFont.UIStandard!
+                ])
+        }
+        
+        if isLeftImage == true {
+            let image = UIImageView(image: leftImage)
+            image.tintColor = .navigationsGreen
+            field.leftViewMode = .always
+            field.leftView = image
+        }
+        
+        if isSecure == true {
+            field.isSecureTextEntry = true
+        }
+        
+        return field
     }
 }
 
 extension UIView{
+    
+    func addSubviews(views: [UIView]) {
+        views.forEach { (view) in
+            self.addSubview(view)
+        }
+    }
     
     func anchors(top: NSLayoutYAxisAnchor? = nil, topPad: CGFloat? = 0,
                      bottom: NSLayoutYAxisAnchor? = nil, bottomPad: CGFloat? = 0,
@@ -106,7 +137,7 @@ extension UIView{
                      right: NSLayoutXAxisAnchor? = nil, rightPad: CGFloat? = 0,
                      centerX: NSLayoutXAxisAnchor? = nil, CenterXPad: CGFloat? = 0,
                      centerY: NSLayoutYAxisAnchor? = nil, CenterYPad: CGFloat? = 0,
-                     width: CGFloat, height: CGFloat) {
+                     width: CGFloat? = 0, height: CGFloat? = 0) {
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -116,8 +147,8 @@ extension UIView{
         if let right = right { self.rightAnchor.constraint(equalTo: right, constant: rightPad!).isActive  = true }
         if let centerX = centerX { self.centerXAnchor.constraint(equalTo: centerX, constant: CenterXPad!).isActive  = true }
         if let centerY = centerY { self.centerYAnchor.constraint(equalTo: centerY, constant: CenterYPad!).isActive  = true }
-        if width > 0 { self.widthAnchor.constraint(equalToConstant: width).isActive = true }
-        if height > 0 { self.heightAnchor.constraint(equalToConstant: height).isActive = true }
+        if width! > CGFloat(0) { self.widthAnchor.constraint(equalToConstant: width!).isActive = true }
+        if height! > CGFloat(0) { self.heightAnchor.constraint(equalToConstant: height!).isActive = true }
     }
     
     func makeCircular() {
@@ -184,6 +215,3 @@ extension UITableViewCell {
         return "\(self)"
     }
 }
-
-
-
