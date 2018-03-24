@@ -11,16 +11,27 @@ import Locksmith
 
 class SettingsController: UITableViewController {
 
+<<<<<<< HEAD
     var cellType = [SettingsCellTypes]()
     var cells = [SettingsCells]()
+=======
+    var cellType = [CellTypes]()
+    var cells = [SettingsCellManager]()
+>>>>>>> master
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Settings"
         tableView.separatorStyle = .none
+<<<<<<< HEAD
         tableView.backgroundColor = .tableViewGrey
         
         cellType = [.mediumCell, .smallCell]
+=======
+        tableView.backgroundColor = .tableViewDarkGrey
+        
+        cellType = [.settingsMediumCell, .settingsSmallCell]
+>>>>>>> master
         cells = [.fingerPrintLock, .NotifAssignmentPosted, .NotifCourseGradeUpdated, .NotifMiscellaneous]
         for type in cells {
             tableView.registerCell(type.cellType().getClass())
@@ -36,7 +47,11 @@ class SettingsController: UITableViewController {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         let c = cellsFiltered[indexPath.row]
         let cellClass = c.cellType().getClass()
+<<<<<<< HEAD
         let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! SettingsBaseCell
+=======
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath) as! MainCell
+>>>>>>> master
         cell.set(title: c.getTitle(), image: c.image(), subtext: c.getSubtext())
         cell.type = c.cellType()
         cell.index = indexPath.row
@@ -71,10 +86,17 @@ class SettingsController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
+<<<<<<< HEAD
         view.backgroundColor = .tableViewGrey
         
         let background = UIView()
         background.backgroundColor = .tableViewLightGrey
+=======
+        view.backgroundColor = .tableViewDarkGrey
+        
+        let background = UIView()
+        background.backgroundColor = .tableViewMediumGrey
+>>>>>>> master
         
         let title = UILabel()
         title.textColor = .navigationsGreen

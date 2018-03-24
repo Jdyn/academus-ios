@@ -19,19 +19,19 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
- 
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
+        tableView.decelerationRate = UIScrollViewDecelerationRateFast;
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        navigationController?.hidesBarsOnSwipe = true
-        setupScrollingNavBar()
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        navigationController?.hidesBarsOnSwipe = true
+//        setupScrollingNavBar()
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         assignmentService.delegate = self

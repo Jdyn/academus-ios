@@ -1,5 +1,5 @@
 //
-//  NotificationManager.swift
+//  LocalNotificationService.swift
 //  Academus
 //
 //  Created by Jaden Moore on 3/20/18.
@@ -9,7 +9,7 @@
 import Foundation
 import UserNotifications
 
-class LocalNotificationManager {
+class LocalNotificationService {
     
     func setUpNotifications(title: String, body: String, sound: UNNotificationSound, timeInterval: Double, repeats: Bool, indentifier: String) {
         

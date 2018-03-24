@@ -134,7 +134,6 @@ class IntegrationService {
         let authToken = dictionary?["authToken"] as! String
         
         Alamofire.request(URL(string: "\(BASE_URL)/api/integrations/\(id)/sync?token=\(authToken)")!, method: .post, encoding: JSONEncoding.default).responseString { (response) in
-            print(response.result.debugDescription)
             if response.result.error == nil {
                 
                 guard let data = response.data else {return}

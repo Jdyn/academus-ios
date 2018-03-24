@@ -17,7 +17,7 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Manage Integrations"
-        view.backgroundColor = .tableViewGrey
+        view.backgroundColor = .tableViewDarkGrey
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         tableView.register(ManageIntegrationsCell.self, forCellReuseIdentifier: cellID)

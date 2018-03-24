@@ -23,7 +23,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         navigationItem.title = "Courses"
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .tableViewGrey
+        tableView.backgroundColor = .tableViewDarkGrey
 
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
@@ -77,10 +77,6 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         cell.course = course
         
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        print("what")
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

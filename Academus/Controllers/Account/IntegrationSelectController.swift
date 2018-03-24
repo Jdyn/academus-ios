@@ -19,7 +19,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         integrationService.integrationChoiceDelegate = self
-        tableView.register(GetIntegrationCell.self, forCellReuseIdentifier: integrationCellID)
+        tableView.register(IntegrationSelectCell.self, forCellReuseIdentifier: integrationCellID)
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         integrationService.getIntegrations { (success) in
@@ -49,7 +49,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: integrationCellID, for: indexPath) as? GetIntegrationCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: integrationCellID, for: indexPath) as? IntegrationSelectCell {
                 
             let integration = self.integrations[indexPath.row]
             cell.integration = integration
@@ -76,9 +76,9 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let view = UIView()
-            view.backgroundColor = .tableViewGrey
+            view.backgroundColor = .tableViewDarkGrey
             let headerLabel = UILabel()
-            headerLabel.setUpLabel(text: "Core Integrations", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+//            headerLabel.setUpLabel(text: "Core Integrations", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
             headerLabel.textAlignment = .center
             view.addSubview(headerLabel)
             headerLabel.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 0)
