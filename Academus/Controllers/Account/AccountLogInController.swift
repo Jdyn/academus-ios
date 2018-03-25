@@ -30,6 +30,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate {
         view.backgroundColor = .tableViewDarkGrey
         stack.anchors(top: view.topAnchor, topPad: view.bounds.height * 1/4, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32)
         welcomeLabel.textAlignment = .center
+        logInButton.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
     }
     
     @objc func logInPressed() {
