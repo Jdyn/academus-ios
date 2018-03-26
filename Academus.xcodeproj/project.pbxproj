@@ -23,6 +23,10 @@
 		D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F655B203FA09E00144C89 /* AssignmentModel.swift */; };
 		D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F655D203FE8F800144C89 /* CourseDetailsController.swift */; };
 		D73F6560203FE92500144C89 /* CourseAssignmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F655F203FE92500144C89 /* CourseAssignmentCell.swift */; };
+		D762FCF0206899240021B6F2 /* InvitesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCEF206899240021B6F2 /* InvitesService.swift */; };
+		D762FCF2206899C60021B6F2 /* userInvitesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCF1206899C60021B6F2 /* userInvitesModel.swift */; };
+		D762FCF420689AC50021B6F2 /* ManageInvitesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */; };
+		D762FCF620689F070021B6F2 /* ManageInvitesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCF520689F070021B6F2 /* ManageInvitesCell.swift */; };
 		D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77BC0BB203E555F00AAA505 /* CourseModel.swift */; };
 		D77BC0BF203E589E00AAA505 /* CourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77BC0BE203E589E00AAA505 /* CourseService.swift */; };
 		D790B062205BB4DD00D8697F /* ManageIntegrationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D790B060205BB4DD00D8697F /* ManageIntegrationsController.swift */; };
@@ -75,6 +79,10 @@
 		D73F655B203FA09E00144C89 /* AssignmentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentModel.swift; sourceTree = "<group>"; };
 		D73F655D203FE8F800144C89 /* CourseDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDetailsController.swift; sourceTree = "<group>"; };
 		D73F655F203FE92500144C89 /* CourseAssignmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseAssignmentCell.swift; sourceTree = "<group>"; };
+		D762FCEF206899240021B6F2 /* InvitesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesService.swift; sourceTree = "<group>"; };
+		D762FCF1206899C60021B6F2 /* userInvitesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInvitesModel.swift; sourceTree = "<group>"; };
+		D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageInvitesController.swift; sourceTree = "<group>"; };
+		D762FCF520689F070021B6F2 /* ManageInvitesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageInvitesCell.swift; sourceTree = "<group>"; };
 		D77BC0BB203E555F00AAA505 /* CourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
 		D77BC0BE203E589E00AAA505 /* CourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseService.swift; sourceTree = "<group>"; };
 		D790B060205BB4DD00D8697F /* ManageIntegrationsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageIntegrationsController.swift; sourceTree = "<group>"; };
@@ -200,6 +208,7 @@
 				D77BC0BE203E589E00AAA505 /* CourseService.swift */,
 				D73F6559203FA06400144C89 /* AssignmentService.swift */,
 				D79DA989204A58CE00EA082A /* IntegrationService.swift */,
+				D762FCEF206899240021B6F2 /* InvitesService.swift */,
 				D73C2E1D20619DD700AD0C0C /* LocalNotificationService.swift */,
 			);
 			path = Services;
@@ -224,6 +233,8 @@
 				D7D1E42B20630009002099B9 /* SettingsControllerCells */,
 				D790B060205BB4DD00D8697F /* ManageIntegrationsController.swift */,
 				D7D1E42A20630009002099B9 /* ManageIntegrationsCell.swift */,
+				D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */,
+				D762FCF520689F070021B6F2 /* ManageInvitesCell.swift */,
 			);
 			path = Manage;
 			sourceTree = "<group>";
@@ -283,6 +294,7 @@
 				D73F655B203FA09E00144C89 /* AssignmentModel.swift */,
 				D79DA98B204A5EB700EA082A /* IntegrationChoiceModel.swift */,
 				D790B064205F893900D8697F /* UserIntegrationsModel.swift */,
+				D762FCF1206899C60021B6F2 /* userInvitesModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -427,6 +439,7 @@
 				D73F6554203E763700144C89 /* CourseCell.swift in Sources */,
 				580CC7FE205064F400EF59C1 /* IntegrationSelectController.swift in Sources */,
 				D7D1E4242062FFE9002099B9 /* ManageMediumCell.swift in Sources */,
+				D762FCF2206899C60021B6F2 /* userInvitesModel.swift in Sources */,
 				D79DA988204A337500EA082A /* MainController.swift in Sources */,
 				D7D1E4352063000A002099B9 /* SettingsMediumCell.swift in Sources */,
 				D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */,
@@ -436,12 +449,14 @@
 				D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */,
 				D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */,
 				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,
+				D762FCF620689F070021B6F2 /* ManageInvitesCell.swift in Sources */,
 				D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */,
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
 				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
 				D73F6551203E5A6100144C89 /* Constants.swift in Sources */,
 				D7D1E4232062FFE9002099B9 /* ManageSmallCell.swift in Sources */,
 				D7153A37204E1A6300CF4DC4 /* PlannerCardCell.swift in Sources */,
+				D762FCF0206899240021B6F2 /* InvitesService.swift in Sources */,
 				D7F66246204769AB0060FA8D /* WelcomeController.swift in Sources */,
 				D790B062205BB4DD00D8697F /* ManageIntegrationsController.swift in Sources */,
 				D7255944203A41E300DBA62B /* ManageController.swift in Sources */,
@@ -449,6 +464,7 @@
 				D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */,
 				D73C2E1E20619DD700AD0C0C /* LocalNotificationService.swift in Sources */,
 				D7FA4880203B1894007ADFE0 /* AcademusModels.xcdatamodeld in Sources */,
+				D762FCF420689AC50021B6F2 /* ManageInvitesController.swift in Sources */,
 				D7D1E4342063000A002099B9 /* CellTypes.swift in Sources */,
 				D7255942203A41D100DBA62B /* CoursesController.swift in Sources */,
 				D7153A33204DF89D00CF4DC4 /* PlannerCreateCardController.swift in Sources */,

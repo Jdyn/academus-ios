@@ -49,7 +49,7 @@ class CourseCell: UITableViewCell {
     let periodLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 16)
-        label.textColor = .TableViewLightGrey
+        label.textColor = .tableViewLightGrey
         return label
     }()
     
@@ -65,7 +65,7 @@ class CourseCell: UITableViewCell {
         let label = UILabel()
         label.text = "(100.00%)"
         label.font = UIFont(name: "AvenirNext-medium", size: 12)
-        label.textColor = .TableViewLightGrey
+        label.textColor = .tableViewLightGrey
         return label
     }()
 

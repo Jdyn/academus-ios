@@ -18,7 +18,7 @@ extension UIColor {
     static let navigationsGreen = UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 1)
     static let navigationsWhite = UIColor(red: 238/255, green: 238/255, blue: 238/255, alpha: 1)
     
-    static let TableViewLightGrey = UIColor(red: 128/255, green: 128/255, blue: 128/255, alpha: 1)
+    static let tableViewLightGrey = UIColor(red: 128/255, green: 128/255, blue: 128/255, alpha: 1)
     static let tableViewMediumGrey = UIColor(red: 45/255, green: 45/255, blue: 45/255, alpha: 1)
     static let tableViewDarkGrey = UIColor(red: 40/255, green: 40/255, blue: 40/255, alpha: 1)
     static let tableViewSeperator = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)

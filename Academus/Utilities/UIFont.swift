@@ -12,6 +12,7 @@ extension UIFont {
     
     static let UIStandard = UIFont(name: "AvenirNext-medium", size: 16)
     static let UIHeader = UIFont(name: "AvenirNext-demibold", size: 20)
+    static let UISubtext = UIFont(name: "AvenirNext-medium", size: 12)
     
 }
 

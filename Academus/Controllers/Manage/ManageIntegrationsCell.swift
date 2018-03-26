@@ -94,7 +94,7 @@ class ManageIntegrationsCell: UITableViewCell {
     let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 12)
-        label.textColor = .TableViewLightGrey
+        label.textColor = .tableViewLightGrey
         return label
     }()
     

@@ -43,14 +43,14 @@ class CourseAssignmentCell: UITableViewCell {
     let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 14)
-        label.textColor = .TableViewLightGrey
+        label.textColor = .tableViewLightGrey
         return label
     }()
     
     let gradeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "AvenirNext-medium", size: 14)
-        label.textColor = .TableViewLightGrey
+        label.textColor = .tableViewLightGrey
         return label
         }()
     

@@ -135,6 +135,11 @@ class ManageController: UITableViewController {
             navigationController?.pushViewController(manageIntegrationsController, animated: true)
         }
         
+        if cellsFiltered[indexPath.row] == .manageInvites {
+            let mangeInvitesController = ManageInvitesController()
+            navigationController?.pushViewController(mangeInvitesController, animated: true)
+        }
+        
         if cellsFiltered[indexPath.row] == .settings {
             let settingsController = SettingsController()
             navigationController?.pushViewController(settingsController, animated: true)
