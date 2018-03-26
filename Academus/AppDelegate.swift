@@ -8,6 +8,9 @@
 
 import UIKit
 import UserNotifications
+import Firebase
+import FirebaseInstanceID
+import FirebaseMessaging
 import Locksmith
 
 class MainNavigationController : UINavigationController {
@@ -17,24 +20,39 @@ class MainNavigationController : UINavigationController {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().delegate = self
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: { granted, error in
+                guard granted else { return }
+                UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+                    print("Notification settings: \(settings)")
+                    guard settings.authorizationStatus == .authorized else { return }
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            })
+            
+            Messaging.messaging().delegate = self
+        } else {
+            let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+        FirebaseApp.configure()
+        
+        if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] {
+            parse(payload: notification)
+        }
         
         window = UIWindow()
         window?.makeKeyAndVisible()
 //        let tempNavController = MainNavigationController(rootViewController: IntegrationSelectController())
         window?.rootViewController = MainController()
-        
-        let center = UNUserNotificationCenter.current()
-        
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { (result, error) in
-            print(error as Any)
-        }
-        
-        UNUserNotificationCenter.current().delegate = self
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
@@ -84,6 +102,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(received remoteMessage: MessagingRemoteMessage) {
+        print(remoteMessage.appData)
+        parse(payload: remoteMessage.appData)
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let tokenParts = deviceToken.map { data -> String in
+            return String(format: "%02.2hhx", data)
+        }
+        
+        let token = tokenParts.joined()
+        print("Device Token: \(token)")
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register: \(error)")
+    }
+    
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        parse(payload: userInfo)
+    }
+    
+    func parse(payload: [AnyHashable: Any]) {
+        //TODO
     }
 }
 
