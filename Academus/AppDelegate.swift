@@ -42,8 +42,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             application.registerUserNotificationSettings(settings)
         }
         
-        application.registerForRemoteNotifications()
         FirebaseApp.configure()
+        application.registerForRemoteNotifications()
+        
+        
+        DispatchQueue.global().asyncAfter(deadline: .now() + 5) {
+            let instanceID = InstanceID.instanceID().token()!
+            print("Firebase Instance ID: \(instanceID)")
+        }
         
         if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] {
             parse(payload: notification)
@@ -75,11 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UITableView.appearance().backgroundColor = .tableViewDarkGrey
         return true
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
-        completionHandler([.alert, .sound])
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -130,7 +131,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func parse(payload: [AnyHashable: Any]) {
-        //TODO
+        print(payload)
     }
 }
 
+@available(iOS 10.0, *)
+extension AppDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        // Print message ID.
+        if let messageID = userInfo["gcm.message_id"] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        completionHandler()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        if let messageID = userInfo["gcm.message_id"] {
+            print("Message ID: \(messageID)")
+        }
+        
+        parse(payload: userInfo)
+        completionHandler([.alert, .sound])
+    }
+}
