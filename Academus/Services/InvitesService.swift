@@ -12,8 +12,7 @@ import Alamofire
 import SwiftyJSON
 
 protocol userInvitesDelegate {
-    var invitesLeft: Int {get set}
-    func didGetInvites(invites: [Invite])
+    func didGetInvites(invites: [Invite], invitesLeft: Int)
 }
 
 class InvitesService {
@@ -34,8 +33,8 @@ class InvitesService {
                     let userInvites = try JSONDecoder().decode(UserInvites.self, from: jsonResult)
                     if json["success"] == true {
                         let invites = userInvites.invites_sent
-                        self.delegate?.didGetInvites(invites: invites)
-                        self.delegate?.invitesLeft = userInvites.invites_remaining
+                        let invitesLeft = userInvites.invites_remaining
+                        self.delegate?.didGetInvites(invites: invites, invitesLeft: invitesLeft)
                         completion(true)
                     }
                 } catch let error {
@@ -64,7 +63,6 @@ class InvitesService {
                         print(json["result"])
                         completion(true)
                     } else {
-                        debugPrint(response.result.error)
                         print(json["result"])
                         completion(false)
                     }

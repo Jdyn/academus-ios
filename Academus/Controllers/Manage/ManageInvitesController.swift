@@ -26,11 +26,32 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate {
                 if self.invitesLeft != 0 {
                     self.setupAddButtonInNavBar(selector: #selector(self.handleAddInvite))
                 }
+                self.tableView.tableHeaderView = self.header()
             }
         }
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         tableView.register(ManageInvitesCell.self, forCellReuseIdentifier: cellID)
+    }
+    
+    func header() -> UIView {
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        let counter = UILabel().setUpLabel(text: "", font: UIFont.UISubtext!, fontColor: .navigationsWhite)
+        
+        if self.invitesLeft == 0 {
+            counter.text! = "You've run out of invites! Thank you!"
+        } else if self.invitesLeft == 1 {
+            counter.text! = "You have \(self.invitesLeft) more invite to use!"
+        } else {
+            counter.text! = "You have \(self.invitesLeft) more invites to use!"
+        }
+        
+        header.addSubviews(views: [background, counter])
+        
+        background.anchors(top: header.topAnchor, topPad: 0, bottom: header.bottomAnchor, bottomPad: 0, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6, width: 0, height: 0)
+        counter.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
+        return header
     }
     
     @objc func handleAddInvite() {
@@ -56,11 +77,12 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate {
         present(alert, animated: true, completion: nil)
     }
     
-    func didGetInvites(invites: [Invite]) {
+    func didGetInvites(invites: [Invite], invitesLeft: Int) {
         self.invites.removeAll()
         for invite in invites {
             self.invites.append(invite)
         }
+        self.invitesLeft = invitesLeft
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,6 +90,13 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate {
             if indexPath.section == 0 {
                 let invitesFiltered = invites.filter { $0.redeemed == false }
                 cell.invite = invitesFiltered[indexPath.row]
+                let button = shareButton(type: .system)
+                button.setImage(#imageLiteral(resourceName: "share"), for: .normal)
+                button.tintColor = .tableViewLightGrey
+                button.inviteCode = cell.invite?.code!
+                button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
+                cell.addSubview(button)
+                button.anchors(right: cell.background.rightAnchor, rightPad: -12, centerY: cell.background.centerYAnchor, width: 32, height: 32)
                 return cell
             }
             if indexPath.section == 1 {
@@ -77,6 +106,14 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate {
             }
         }
         return UITableViewCell()
+    }
+    
+    @objc func buttonClicked(_ sender: shareButton) {
+        guard let code = sender.inviteCode else {return}
+        let message = "Hey, Try out Academus on the app store. Get notified when your grades change and more. Use this code: \(code)"
+        let objectsToShare = [message] as [Any]
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        self.present(activityVC, animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

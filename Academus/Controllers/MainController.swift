@@ -25,7 +25,7 @@ class MainController: UITabBarController {
             setUpUI()
         }
     }
-    
+        
     func setUpUI(){
 
         let plannerController = PlannerController()
