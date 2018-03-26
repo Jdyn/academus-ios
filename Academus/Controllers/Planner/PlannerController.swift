@@ -11,7 +11,7 @@ import UserNotifications
 import Locksmith
 import CoreData
 
-class PlannerController: UITableViewController, CreateCardDelegate, CreateReminderCardDelegate, UIGestureRecognizerDelegate {
+class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGestureRecognizerDelegate {
     
     var cards = [PlannerCards]()
     private let cellID = "PlannerCardCell"

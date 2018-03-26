@@ -38,6 +38,18 @@ extension UIViewController {
         
     }
     
+    func hideKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+            
+        view.addGestureRecognizer(tap)
+    }
+        
+        @objc func dismissKeyboard() {
+            view.endEditing(true)
+    }
+    
     func loadingAlert(title: String, message: String) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -143,6 +155,22 @@ extension UIView{
         }
     }
     
+    func setupBackground(bgColor: UIColor) -> UIView{
+        let background = UIView()
+        background.backgroundColor = bgColor
+        return background
+    }
+    
+    func setUpShadow(color: UIColor, offset: CGSize, radius: CGFloat, opacity: Float) {
+        let color = color.cgColor
+        self.layer.shadowColor = color
+        self.layer.shadowOffset = offset
+        self.layer.shadowRadius = radius
+        self.layer.shadowOpacity = opacity
+        self.layer.shouldRasterize = true
+        self.layer.rasterizationScale = true ? UIScreen.main.scale : 1
+    }
+    
     func anchors(top: NSLayoutYAxisAnchor? = nil, topPad: CGFloat? = 0,
                      bottom: NSLayoutYAxisAnchor? = nil, bottomPad: CGFloat? = 0,
                      left: NSLayoutXAxisAnchor? = nil, leftPad: CGFloat? = 0,
@@ -166,16 +194,6 @@ extension UIView{
     func makeCircular() {
         self.layer.cornerRadius = min(self.frame.size.height, self.frame.size.width) / 2.0
         self.clipsToBounds = true
-    }
-    
-    func setUpShadow(color: UIColor, offset: CGSize, radius: CGFloat, opacity: Float) {
-        let color = color.cgColor
-        self.layer.shadowColor = color
-        self.layer.shadowOffset = offset
-        self.layer.shadowRadius = radius
-        self.layer.shadowOpacity = opacity
-        self.layer.shouldRasterize = true
-        self.layer.rasterizationScale = true ? UIScreen.main.scale : 1
     }
 }
 
