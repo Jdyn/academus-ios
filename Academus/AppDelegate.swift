@@ -21,21 +21,25 @@ class MainNavigationController : UINavigationController {
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+    
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
         if #available(iOS 10.0, *) {
-            UNUserNotificationCenter.current().delegate = self
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            
+            UNUserNotificationCenter.current().delegate = self
             UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: { granted, error in
+                
                 guard granted else { return }
+                
                 UNUserNotificationCenter.current().getNotificationSettings { (settings) in
                     print("Notification settings: \(settings)")
                     guard settings.authorizationStatus == .authorized else { return }
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             })
-            
             Messaging.messaging().delegate = self
         } else {
             let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
@@ -44,7 +48,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         FirebaseApp.configure()
         application.registerForRemoteNotifications()
-        
         
         DispatchQueue.global().asyncAfter(deadline: .now() + 5) {
             let instanceID = InstanceID.instanceID().token()!
