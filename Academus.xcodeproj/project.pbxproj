@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		580CC7FE205064F400EF59C1 /* IntegrationSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */; };
 		9B291BAD17EBFE48FADA00E8 /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F02569D7B6D77D4C47A079BE /* Pods_Academus.framework */; };
+		C49FDAEF2068792A005A36EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */; };
 		D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A30204D660300CF4DC4 /* PlannerController.swift */; };
 		D7153A33204DF89D00CF4DC4 /* PlannerCreateCardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */; };
 		D7153A37204E1A6300CF4DC4 /* PlannerCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A36204E1A6300CF4DC4 /* PlannerCardCell.swift */; };
@@ -63,6 +64,7 @@
 		434FCA6EDA0179DB6B5B0782 /* Pods-Academus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.release.xcconfig"; sourceTree = "<group>"; };
 		580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrationSelectController.swift; sourceTree = "<group>"; };
 		B9ED2449CF792475E1DBC1A3 /* Pods-Academus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.debug.xcconfig"; sourceTree = "<group>"; };
+		C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D7153A30204D660300CF4DC4 /* PlannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerController.swift; sourceTree = "<group>"; };
 		D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCreateCardController.swift; sourceTree = "<group>"; };
 		D7153A36204E1A6300CF4DC4 /* PlannerCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCardCell.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 		D725592C203A38DB00DBA62B /* Academus */ = {
 			isa = PBXGroup;
 			children = (
+				C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */,
 				D71857FD20686AF3007B03AA /* Academus.entitlements */,
 				D725592D203A38DB00DBA62B /* AppDelegate.swift */,
 				D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */,
@@ -339,6 +342,9 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -371,6 +377,7 @@
 			files = (
 				D7A6C63520571F9200605F64 /* Launch Screen.storyboard in Resources */,
 				D7255935203A38DB00DBA62B /* Assets.xcassets in Resources */,
+				C49FDAEF2068792A005A36EB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,14 +425,20 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Locksmith/Locksmith.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -612,6 +625,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.academus.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

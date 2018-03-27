@@ -11,4 +11,6 @@ target 'Academus' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'Locksmith'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
 end
