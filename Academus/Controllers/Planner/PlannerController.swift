@@ -16,7 +16,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     var cards = [PlannerCards]()
     private let cellID = "PlannerCardCell"
     
-    var cellCenter: CGFloat?
+    var movingCell: UITableViewCell?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +26,10 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         setupAddButtonInNavBar(selector: #selector(handleAddCard))
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.tintColor = .navigationsGreen
+        refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
         
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(didSwipe))
         recognizer.delegate = self
@@ -130,26 +134,29 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     @objc func didSwipe(recognizer: UIPanGestureRecognizer) {
         let swipeLocation = recognizer.location(in: self.tableView)
         if let swipedIndexPath = tableView.indexPathForRow(at: swipeLocation) {
-            if let cell = tableView.cellForRow(at: swipedIndexPath) {
-                if recognizer.state == .began {
-                    cellCenter = cell.center.x
-                } else if recognizer.state == .ended {
-                    if let cellCenter = cellCenter {
-                        if cell.center.x < 100 {
-                            let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
-                            context.delete(cards[swipedIndexPath.row] as NSManagedObject)
-                            cards.remove(at: swipedIndexPath.row)
-                            self.tableView.deleteRows(at: [swipedIndexPath], with: .left)
-                            CoreDataManager().saveContext()
-                        } else {
-                            UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
-                                cell.center.x = cellCenter
-                            }, completion: {_ in})
-                        }
+            if recognizer.state == .began {
+                movingCell = tableView.cellForRow(at: swipedIndexPath)
+            } else if recognizer.state == .ended {
+                if let cell = movingCell {
+                    if cell.center.x < 0 {
+                        let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
+                        context.delete(cards[swipedIndexPath.row] as NSManagedObject)
+                        cards.remove(at: swipedIndexPath.row)
+                        self.tableView.deleteRows(at: [swipedIndexPath], with: .left)
+                        CoreDataManager().saveContext()
+                    } else {
+                        UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
+                            cell.center.x = self.view.center.x
+                        }, completion: {_ in})
                     }
-                    cellCenter = nil
                 }
                 
+                movingCell = nil
+            }
+            
+            print("\(String(describing: movingCell))")
+            
+            if let cell = movingCell {
                 let translation = recognizer.translation(in: self.view)
                 cell.center = CGPoint(x: cell.center.x + translation.x, y: cell.center.y)
                 recognizer.setTranslation(CGPoint.zero, in: self.view)
@@ -157,7 +164,17 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         }
     }
     
+    @objc func refreshTable() {
+        fetchPlannerCards()
+        tableView.reloadData()
+        refreshControl?.endRefreshing()
+    }
+    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if movingCell != nil {
+            return false
+        }
+        
         return true
     }
     

@@ -24,6 +24,10 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.tintColor = .navigationsGreen
+        refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
 
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
@@ -40,16 +44,16 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
 
         if localToken != self.authToken {
             print("Fetching courses because the token has changed...")
-                fetchCourses(token: localToken)
+            fetchCourses(token: localToken)
             return
-            }
+        }
 
         if courses.isEmpty {
             print("Fetching courses because the token has changed...")
-                self.fetchCourses(token: localToken)
+            self.fetchCourses(token: localToken)
             return
-            }
         }
+    }
     
     func fetchCourses(token: String) {
         courseService.getCourses { (success) in
@@ -93,5 +97,12 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
+    }
+    
+    @objc func refreshTable() {
+        if let token = authToken {
+            fetchCourses(token: token)
+        }
+        refreshControl?.endRefreshing()
     }
 }
