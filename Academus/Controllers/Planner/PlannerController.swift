@@ -34,6 +34,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(didSwipe))
         recognizer.delegate = self
+        recognizer.require(toFail: tableView.gestureRecognizers![0])
         tableView.addGestureRecognizer(recognizer)
         
         DispatchQueue.global(qos: .background).async {
@@ -58,6 +59,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         cards.append(plannerCard(from: card))
         let newIndexPath = IndexPath(row: 0, section: 0)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
+        CoreDataManager().saveContext()
     }
     
     private func fetchPlannerCards() {
@@ -103,6 +105,18 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     
     @objc func didSwipe(recognizer: UIPanGestureRecognizer) {
         let swipeLocation = recognizer.location(in: self.tableView)
+        let translation = recognizer.translation(in: self.view)
+        if let cell = movingCell {
+            cell.center = CGPoint(x: cell.center.x + translation.x, y: cell.center.y)
+            recognizer.setTranslation(CGPoint.zero, in: self.view)
+            if abs(cell.center.x - self.view.center.x) > 20 {
+                if let indexPath = self.tableView.indexPathForRow(at: cell.center) {
+                    self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
+                    self.tableView.isScrollEnabled = false
+                }
+            }
+        }
+        
         if let swipedIndexPath = tableView.indexPathForRow(at: swipeLocation) {
             if recognizer.state == .began {
                 movingCell = tableView.cellForRow(at: swipedIndexPath)
@@ -113,23 +127,25 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                         context.delete(cards[swipedIndexPath.row] as NSManagedObject)
                         cards.remove(at: swipedIndexPath.row)
                         self.tableView.deleteRows(at: [swipedIndexPath], with: .left)
+                        self.tableView.isScrollEnabled = true
                         CoreDataManager().saveContext()
                     } else {
                         UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
                             cell.center.x = self.view.center.x
                         }, completion: {_ in})
+                        self.tableView.isScrollEnabled = true
                     }
                 }
                 
                 movingCell = nil
             }
-            
-            print("\(String(describing: movingCell))")
-            
+        } else {
             if let cell = movingCell {
-                let translation = recognizer.translation(in: self.view)
-                cell.center = CGPoint(x: cell.center.x + translation.x, y: cell.center.y)
-                recognizer.setTranslation(CGPoint.zero, in: self.view)
+                UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
+                    cell.center.x = self.view.center.x
+                }, completion: {_ in})
+                self.tableView.isScrollEnabled = true
+                movingCell = nil
             }
         }
     }
@@ -145,11 +161,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     }
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if movingCell != nil {
-            return false
-        }
-        
-        return true
+        return (movingCell == nil) ? true : false
     }
     
     func plannerCard(from card: PlannerReminderCard) -> PlannerCards {
@@ -157,7 +169,6 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         let plannerCard = NSEntityDescription.insertNewObject(forEntityName: "PlannerCards", into: context) as! PlannerCards
         plannerCard.name = card.title
         plannerCard.plannerReminder = card
-        CoreDataManager().saveContext()
         return plannerCard
     }
 }
