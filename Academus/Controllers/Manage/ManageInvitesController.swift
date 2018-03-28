@@ -8,18 +8,20 @@
 
 import UIKit
 
-class ManageInvitesController: UITableViewController, userInvitesDelegate {
-    
+class ManageInvitesController: UITableViewController, userInvitesDelegate, userAddInviteDelegate {
+
     private let invitesService = InvitesService()
     var invites = [Invite]()
+    var addedInvite: Invite?
     let cellID = "userInvitesCell"
     var invitesLeft: Int = 0
+    var counter: UILabel = UILabel().setUpLabel(text: "", font: UIFont.UISubtext!, fontColor: .navigationsWhite)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Manage Invites"
         view.backgroundColor = .tableViewDarkGrey
-        invitesService.delegate = self
+        invitesService.inviteDelegate = self
         invitesService.getInvites { (success) in
             if success {
                 self.tableView.reloadData()
@@ -29,6 +31,7 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate {
                 self.tableView.tableHeaderView = self.header()
             }
         }
+        self.invitesService.inviteDelegate = self
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         tableView.register(ManageInvitesCell.self, forCellReuseIdentifier: cellID)
@@ -37,7 +40,7 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate {
     func header() -> UIView {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let counter = UILabel().setUpLabel(text: "", font: UIFont.UISubtext!, fontColor: .navigationsWhite)
+//        let counter = UILabel()
         
         if self.invitesLeft == 0 {
             counter.text! = "You've run out of invites! Thank you!"
@@ -56,12 +59,15 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate {
     
     @objc func handleAddInvite() {
         let alert = UIAlertController(title: "Alert", message: "Are you sure you want to generate a beta code?", preferredStyle: .alert)
-        
         let actionYes = UIAlertAction(title: "Yes", style: .default) { (action) in
+            self.invitesService.addInviteDelegate = self
             self.invitesService.addInvite { (success) in
                 if success {
                     self.dismiss(animated: true, completion: nil)
-                    self.navigationController?.popToRootViewController(animated: true)
+                    let newIndexPath = IndexPath(row: 0, section: 0)
+                    self.tableView.insertRows(at: [newIndexPath], with: .automatic)
+                    self.invitesLeft -= 1
+                    self.counter.text! = "You have \(self.invitesLeft) more invite to use!"
                 } else {
                     self.alertMessage(title: "Alert", message: "Failed to add beta code")
                 }
@@ -78,11 +84,17 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate {
     }
     
     func didGetInvites(invites: [Invite], invitesLeft: Int) {
+        print("delegate called")
         self.invites.removeAll()
         for invite in invites {
             self.invites.append(invite)
         }
         self.invitesLeft = invitesLeft
+    }
+    
+    func didAddInvite(invite: Invite) {
+        self.invites.insert(invite, at: 0)
+        print("add invite protocol called")
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -15,9 +15,14 @@ protocol userInvitesDelegate {
     func didGetInvites(invites: [Invite], invitesLeft: Int)
 }
 
+protocol userAddInviteDelegate {
+    func didAddInvite(invite: Invite)
+}
+
 class InvitesService {
     
-    var delegate: userInvitesDelegate?
+    var inviteDelegate: userInvitesDelegate?
+    var addInviteDelegate: userAddInviteDelegate?
     
     func getInvites(completion: @escaping CompletionHandler) {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
@@ -34,7 +39,7 @@ class InvitesService {
                     if json["success"] == true {
                         let invites = userInvites.invites_sent
                         let invitesLeft = userInvites.invites_remaining
-                        self.delegate?.didGetInvites(invites: invites, invitesLeft: invitesLeft)
+                        self.inviteDelegate?.didGetInvites(invites: invites, invitesLeft: invitesLeft)
                         completion(true)
                     }
                 } catch let error {
@@ -58,9 +63,11 @@ class InvitesService {
                 guard let data = response.data else {return}
                 do {
                     let json = try JSON(data: data)
+                    let jsonResult = try json["result"].rawData()
+                    let addInvite = try JSONDecoder().decode(Invite.self, from: jsonResult)
                     let success = json["success"].boolValue
                     if (success) {
-                        print(json["result"])
+                        self.addInviteDelegate?.didAddInvite(invite: addInvite)
                         completion(true)
                     } else {
                         print(json["result"])
