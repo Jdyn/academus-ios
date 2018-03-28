@@ -35,13 +35,7 @@ class PlannerCreateCardController: UIViewController {
         view.backgroundColor = .tableViewDarkGrey
     }
     
-    private func setupUI() {
-        view.addSubviews(views: [background, nameField, datePicker])
-        
-        background.anchors(top: view.topAnchor, bottom: datePicker.bottomAnchor, bottomPad: 16, left: view.leftAnchor, right: view.rightAnchor)
-        nameField.anchors(top: view.topAnchor, topPad: 32, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16)
-        datePicker.anchors(top: nameField.bottomAnchor, topPad: 16, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16)
-    }
+
     
     @objc private func handleSave() {
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
@@ -61,6 +55,14 @@ class PlannerCreateCardController: UIViewController {
         } catch let error {
             print("Failed to save card: ", error)
         }
+    }
+    
+    private func setupUI() {
+        view.addSubviews(views: [background, nameField, datePicker])
+        
+        background.anchors(top: view.topAnchor, bottom: datePicker.bottomAnchor, bottomPad: 16, left: view.leftAnchor, right: view.rightAnchor)
+        nameField.anchors(top: view.topAnchor, topPad: 32, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16)
+        datePicker.anchors(top: nameField.bottomAnchor, topPad: 16, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16)
     }
     
     @objc func handleCancel() {

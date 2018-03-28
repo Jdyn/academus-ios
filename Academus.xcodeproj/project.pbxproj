@@ -179,8 +179,6 @@
 		D725592C203A38DB00DBA62B /* Academus */ = {
 			isa = PBXGroup;
 			children = (
-				C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */,
-				D71857FD20686AF3007B03AA /* Academus.entitlements */,
 				D725592D203A38DB00DBA62B /* AppDelegate.swift */,
 				D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */,
 				D7FA4874203A4794007ADFE0 /* Controllers */,
@@ -189,7 +187,9 @@
 				D7FA4878203B17D6007ADFE0 /* Models */,
 				D7255934203A38DB00DBA62B /* Assets.xcassets */,
 				D7255939203A38DB00DBA62B /* Info.plist */,
+				C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */,
 				D7FA487E203B1894007ADFE0 /* AcademusModels.xcdatamodeld */,
+				D71857FD20686AF3007B03AA /* Academus.entitlements */,
 				D7A6C63420571F9200605F64 /* Launch Screen.storyboard */,
 			);
 			path = Academus;

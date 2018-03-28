@@ -27,6 +27,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         
+        self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
         refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
@@ -45,7 +46,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
             }
         }
         
-        //        LocalNotificationManager().setUpNotifications(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
+//        LocalNotificationManager().setUpNotifications(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
         
     }
     
@@ -53,29 +54,18 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         super.viewDidAppear(true)
     }
     
-    func didAddCard(card: PlannerCards) {
-        cards.append(card)
-        let newIndexPath = IndexPath(row: cards.count - 1, section: 0)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
-    }
-    
     func didAddCard(card: PlannerReminderCard) {
         cards.append(plannerCard(from: card))
-        let newIndexPath = IndexPath(row: cards.count - 1, section: 0)
+        let newIndexPath = IndexPath(row: 0, section: 0)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
     }
     
     private func fetchPlannerCards() {
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
         let plannerRequest = NSFetchRequest<PlannerCards>(entityName: "PlannerCards")
-        // let deleteRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PlannerCard")
-        // let delete = NSBatchDeleteRequest(fetchRequest: deleteRequest)
         do {
-            
             let cards = try context.fetch(plannerRequest)
-            // try context.execute(delete)
             self.cards = cards
-            
         } catch let error {
             print("Failed to fetch planner cards:", error)
         }
@@ -91,26 +81,6 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
-    //    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    //
-    //        let view = UIView()
-    //        view.backgroundColor = .tableViewGrey
-    //        let headerLabel = UILabel()
-    //        headerLabel.setUpLabel(text: "Main Feed", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
-    //        headerLabel.textAlignment = .center
-    //        view.addSubview(headerLabel)
-    //        headerLabel.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 0)
-    //        return view
-    //    }
-    //
-    //    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    //        return "HEADER"
-    //    }
-    //
-    //    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    //        return 35
-    //    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! PlannerCardCell
@@ -166,10 +136,14 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     
     @objc func refreshTable() {
         fetchPlannerCards()
-        tableView.reloadData()
-        refreshControl?.endRefreshing()
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (time) in
+            self.refreshControl?.endRefreshing()
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
+                self.tableView.reloadData()
+            })
+        })
     }
-    
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if movingCell != nil {
             return false

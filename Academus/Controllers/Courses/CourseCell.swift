@@ -18,17 +18,14 @@ class CourseCell: UITableViewCell {
             periodLabel.text = "\(course?.period ?? 0)"
             gradeLetterLabel.text = course?.grade?.letter
             gradePercentLabel.text = "(\(coursePercent ?? 0.0))"
-
         }
     }
     
     let background: UIView = {
         let view = UIView()
         view.backgroundColor = .tableViewMediumGrey
-        view.layer.cornerRadius = 5
-        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         let size = CGSize(width: 0, height: 0)
-        view.setUpShadow(color: .black, offset: size, radius: 1.5, opacity: 0.25)
+        view.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 1, opacity: 0.3)
         return view
     }()
     
@@ -92,7 +89,7 @@ class CourseCell: UITableViewCell {
         addSubview(title)
 
 
-        background.anchors(top: topAnchor, topPad: 3, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
+        background.anchors(top: topAnchor, topPad: 0, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
         stackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
         periodLabel.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 0, height: 0)
         title.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: background.centerYAnchor, width: 200, height: 0)

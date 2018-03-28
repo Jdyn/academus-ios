@@ -19,12 +19,12 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.hidesBarsOnSwipe = false
         navigationItem.title = "Courses"
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
         
+        self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
         refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
@@ -32,7 +32,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
      }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         navigationController?.hidesBarsOnSwipe = false
     }
@@ -44,24 +44,30 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
 
         if localToken != self.authToken {
             print("Fetching courses because the token has changed...")
-            fetchCourses(token: localToken)
+            fetchCourses(token: localToken, completion: { (success) in
+                UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+            })
             return
         }
 
         if courses.isEmpty {
             print("Fetching courses because the token has changed...")
-            self.fetchCourses(token: localToken)
+            fetchCourses(token: localToken, completion: { (success) in
+                UIView.transition(with: self.tableView,duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+            })
             return
         }
     }
     
-    func fetchCourses(token: String) {
+    func fetchCourses(token: String, completion: @escaping CompletionHandler) {
+        self.courseService.delegate? = self
         courseService.getCourses { (success) in
             if success {
                 self.authToken = token
-                self.tableView.reloadData()
                 print("We finished that.")
+                completion(true)
             } else {
+                completion(false)
                 print("failed to get courses")
             }
         }
@@ -99,10 +105,22 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         return 70
     }
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 9
+    }
+    
     @objc func refreshTable() {
-        if let token = authToken {
-            fetchCourses(token: token)
+        self.fetchCourses(token: self.authToken!) { (success) in
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (time) in
+                self.refreshControl?.endRefreshing()
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
+                    self.tableView.reloadData()
+                })
+            })
         }
-        refreshControl?.endRefreshing()
     }
 }
