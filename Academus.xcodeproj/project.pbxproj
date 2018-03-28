@@ -40,6 +40,10 @@
 		D79DA992204A631D00EA082A /* IntegrationSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA991204A631D00EA082A /* IntegrationSelectCell.swift */; };
 		D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA993204A799300EA082A /* IntegrationLogInController.swift */; };
 		D7A6C63520571F9200605F64 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7A6C63420571F9200605F64 /* Launch Screen.storyboard */; };
+		D7CCBC7F206C259A009654CB /* ManageHelpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC7E206C259A009654CB /* ManageHelpController.swift */; };
+		D7CCBC81206C25D6009654CB /* ManageHelpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */; };
+		D7CCBC83206C2AEA009654CB /* ManageAboutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC82206C2AEA009654CB /* ManageAboutCell.swift */; };
+		D7CCBC85206C2B00009654CB /* ManageAboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC84206C2B00009654CB /* ManageAboutController.swift */; };
 		D7D1E4232062FFE9002099B9 /* ManageSmallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E41E2062FFE9002099B9 /* ManageSmallCell.swift */; };
 		D7D1E4242062FFE9002099B9 /* ManageMediumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E41F2062FFE9002099B9 /* ManageMediumCell.swift */; };
 		D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E4272062FFF7002099B9 /* UIFont.swift */; };
@@ -99,6 +103,10 @@
 		D79DA991204A631D00EA082A /* IntegrationSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationSelectCell.swift; sourceTree = "<group>"; };
 		D79DA993204A799300EA082A /* IntegrationLogInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationLogInController.swift; sourceTree = "<group>"; };
 		D7A6C63420571F9200605F64 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		D7CCBC7E206C259A009654CB /* ManageHelpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageHelpController.swift; sourceTree = "<group>"; };
+		D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageHelpCell.swift; sourceTree = "<group>"; };
+		D7CCBC82206C2AEA009654CB /* ManageAboutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageAboutCell.swift; sourceTree = "<group>"; };
+		D7CCBC84206C2B00009654CB /* ManageAboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageAboutController.swift; sourceTree = "<group>"; };
 		D7D1E41E2062FFE9002099B9 /* ManageSmallCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageSmallCell.swift; sourceTree = "<group>"; };
 		D7D1E41F2062FFE9002099B9 /* ManageMediumCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageMediumCell.swift; sourceTree = "<group>"; };
 		D7D1E4272062FFF7002099B9 /* UIFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
@@ -240,6 +248,10 @@
 				D7D1E42A20630009002099B9 /* ManageIntegrationsCell.swift */,
 				D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */,
 				D762FCF520689F070021B6F2 /* ManageInvitesCell.swift */,
+				D7CCBC7E206C259A009654CB /* ManageHelpController.swift */,
+				D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */,
+				D7CCBC84206C2B00009654CB /* ManageAboutController.swift */,
+				D7CCBC82206C2AEA009654CB /* ManageAboutCell.swift */,
 			);
 			path = Manage;
 			sourceTree = "<group>";
@@ -468,9 +480,11 @@
 				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,
 				D762FCF620689F070021B6F2 /* ManageInvitesCell.swift in Sources */,
 				D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */,
+				D7CCBC83206C2AEA009654CB /* ManageAboutCell.swift in Sources */,
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
 				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
 				D73F6551203E5A6100144C89 /* Constants.swift in Sources */,
+				D7CCBC81206C25D6009654CB /* ManageHelpCell.swift in Sources */,
 				D7D1E4232062FFE9002099B9 /* ManageSmallCell.swift in Sources */,
 				D7153A37204E1A6300CF4DC4 /* PlannerCardCell.swift in Sources */,
 				D762FCF0206899240021B6F2 /* InvitesService.swift in Sources */,
@@ -480,6 +494,7 @@
 				D7D1E4322063000A002099B9 /* MainCell.swift in Sources */,
 				D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */,
 				D73C2E1E20619DD700AD0C0C /* LocalNotificationService.swift in Sources */,
+				D7CCBC7F206C259A009654CB /* ManageHelpController.swift in Sources */,
 				D7FA4880203B1894007ADFE0 /* AcademusModels.xcdatamodeld in Sources */,
 				D762FCF420689AC50021B6F2 /* ManageInvitesController.swift in Sources */,
 				D7D1E4342063000A002099B9 /* CellTypes.swift in Sources */,
@@ -487,6 +502,7 @@
 				D7153A33204DF89D00CF4DC4 /* PlannerCreateCardController.swift in Sources */,
 				D7D1E43820635F56002099B9 /* ManageCellManager.swift in Sources */,
 				D725592E203A38DB00DBA62B /* AppDelegate.swift in Sources */,
+				D7CCBC85206C2B00009654CB /* ManageAboutController.swift in Sources */,
 				D7D1E4362063000A002099B9 /* SettingsSmallCell.swift in Sources */,
 				D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */,
 				D7F662492047985D0060FA8D /* AccountLogInController.swift in Sources */,

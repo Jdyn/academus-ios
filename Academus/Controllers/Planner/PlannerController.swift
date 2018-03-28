@@ -123,9 +123,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                 
                 movingCell = nil
             }
-            
-            print("\(String(describing: movingCell))")
-            
+                        
             if let cell = movingCell {
                 let translation = recognizer.translation(in: self.view)
                 cell.center = CGPoint(x: cell.center.x + translation.x, y: cell.center.y)

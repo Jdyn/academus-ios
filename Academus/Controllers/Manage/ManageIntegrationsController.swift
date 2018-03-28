@@ -17,8 +17,8 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Manage Integrations"
-        view.backgroundColor = .tableViewDarkGrey
         tableView.separatorStyle = .none
+        tableView.tableHeaderView = self.header()
         tableView.tableFooterView = UIView()
         tableView.register(ManageIntegrationsCell.self, forCellReuseIdentifier: cellID)
     }
@@ -35,6 +35,7 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
     }
 
     func didGetUserIntegrations(integrations: [UserIntegrations]) {
+        print("integrations protocol called")
         self.integrations.removeAll()
         for integration in integrations {
             self.integrations.append(integration)
@@ -58,9 +59,11 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
             if success {
                 self.integrationService.userIntegrationsDelegate = self
                 self.integrationService.userIntegrations(completion: { (success) in
-                    self.dismiss(animated: true, completion: {
-                        self.navigationController?.popToRootViewController(animated: true)
-                    })
+                    if success {
+                        self.dismiss(animated: true, completion: {
+                            self.tableView.reloadData()
+                        })
+                    }
                 })
             } else {
                 self.dismiss(animated: true, completion: {
@@ -71,8 +74,16 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
         }
     }
     
-    @objc func reload() {
-        self.tableView.reloadData()
+    func header() -> UIView {
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        let counter = UILabel().setUpLabel(text: "Current Integrations", font: UIFont.UISubtext!, fontColor: .navigationsWhite)
+        
+        header.addSubviews(views: [background, counter])
+        
+        background.anchors(top: header.topAnchor, topPad: 0, bottom: header.bottomAnchor, bottomPad: 0, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6, width: 0, height: 0)
+        counter.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
+        return header
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -22,11 +22,7 @@ class ManageController: UITableViewController {
         
         let background = UIView()
         background.backgroundColor = .tableViewMediumGrey
-//        background.layer.cornerRadius = 5
-//        background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-//        let size = CGSize(width: 0, height: 0)
-//        background.setUpShadow(color: .black, offset: size, radius: 2, opacity: 0.4)
-        
+
         let name = UILabel()
         name.font = UIFont(name: "AvenirNext-demibold", size: 14)
         name.text = "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")"
@@ -66,7 +62,6 @@ class ManageController: UITableViewController {
         super.viewDidLoad()
         navigationItem.title = "Manage"
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .tableViewDarkGrey
         tableView.tableHeaderView = profile
         
         cellType = [.manageMediumCell, .manageSmallCell]
@@ -129,20 +124,17 @@ class ManageController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
-
+        
         if cellsFiltered[indexPath.row] == .manageIntegrations {
-            let manageIntegrationsController = ManageIntegrationsController()
-            navigationController?.pushViewController(manageIntegrationsController, animated: true)
-        }
-        
-        if cellsFiltered[indexPath.row] == .manageInvites {
-            let mangeInvitesController = ManageInvitesController()
-            navigationController?.pushViewController(mangeInvitesController, animated: true)
-        }
-        
-        if cellsFiltered[indexPath.row] == .settings {
-            let settingsController = SettingsController()
-            navigationController?.pushViewController(settingsController, animated: true)
+            navigationController?.pushViewController(ManageIntegrationsController(), animated: true)
+        } else if cellsFiltered[indexPath.row] == .manageInvites {
+            navigationController?.pushViewController(ManageInvitesController(), animated: true)
+        } else if cellsFiltered[indexPath.row] == .settings {
+            navigationController?.pushViewController(SettingsController(), animated: true)
+        } else if cellsFiltered[indexPath.row] == .help {
+            navigationController?.pushViewController(ManageHelpController(), animated: true)
+        } else if cellsFiltered[indexPath.row] == .about {
+            navigationController?.pushViewController(ManageAboutController(), animated: true)
         }
     }
     
@@ -152,7 +144,6 @@ class ManageController: UITableViewController {
         } else {
             return 3
         }
-//            return cells[section].rowCount()
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
