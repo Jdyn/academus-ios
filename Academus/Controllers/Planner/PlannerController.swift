@@ -46,7 +46,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
             }
         }
         
-//        LocalNotificationManager().setUpNotifications(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
+//        LocalNotificationService().setLocalNotification(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
         
     }
     

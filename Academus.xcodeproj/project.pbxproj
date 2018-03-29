@@ -44,6 +44,7 @@
 		D7CCBC81206C25D6009654CB /* ManageHelpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */; };
 		D7CCBC83206C2AEA009654CB /* ManageAboutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC82206C2AEA009654CB /* ManageAboutCell.swift */; };
 		D7CCBC85206C2B00009654CB /* ManageAboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC84206C2B00009654CB /* ManageAboutController.swift */; };
+		D7CCBC88206C5DC3009654CB /* AboutCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */; };
 		D7D1E4232062FFE9002099B9 /* ManageSmallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E41E2062FFE9002099B9 /* ManageSmallCell.swift */; };
 		D7D1E4242062FFE9002099B9 /* ManageMediumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E41F2062FFE9002099B9 /* ManageMediumCell.swift */; };
 		D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E4272062FFF7002099B9 /* UIFont.swift */; };
@@ -107,6 +108,7 @@
 		D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageHelpCell.swift; sourceTree = "<group>"; };
 		D7CCBC82206C2AEA009654CB /* ManageAboutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageAboutCell.swift; sourceTree = "<group>"; };
 		D7CCBC84206C2B00009654CB /* ManageAboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageAboutController.swift; sourceTree = "<group>"; };
+		D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCellManager.swift; sourceTree = "<group>"; };
 		D7D1E41E2062FFE9002099B9 /* ManageSmallCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageSmallCell.swift; sourceTree = "<group>"; };
 		D7D1E41F2062FFE9002099B9 /* ManageMediumCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageMediumCell.swift; sourceTree = "<group>"; };
 		D7D1E4272062FFF7002099B9 /* UIFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
@@ -251,9 +253,18 @@
 				D7CCBC7E206C259A009654CB /* ManageHelpController.swift */,
 				D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */,
 				D7CCBC84206C2B00009654CB /* ManageAboutController.swift */,
-				D7CCBC82206C2AEA009654CB /* ManageAboutCell.swift */,
+				D7CCBC86206C5D7F009654CB /* MangeAboutCells */,
 			);
 			path = Manage;
+			sourceTree = "<group>";
+		};
+		D7CCBC86206C5D7F009654CB /* MangeAboutCells */ = {
+			isa = PBXGroup;
+			children = (
+				D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */,
+				D7CCBC82206C2AEA009654CB /* ManageAboutCell.swift */,
+			);
+			path = MangeAboutCells;
 			sourceTree = "<group>";
 		};
 		D7D1E42B20630009002099B9 /* SettingsControllerCells */ = {
@@ -507,6 +518,7 @@
 				D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */,
 				D7F662492047985D0060FA8D /* AccountLogInController.swift in Sources */,
 				D79DA992204A631D00EA082A /* IntegrationSelectCell.swift in Sources */,
+				D7CCBC88206C5DC3009654CB /* AboutCellManager.swift in Sources */,
 				D7F6624B204798F10060FA8D /* AccountCreateController.swift in Sources */,
 				D77BC0BF203E589E00AAA505 /* CourseService.swift in Sources */,
 				D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */,

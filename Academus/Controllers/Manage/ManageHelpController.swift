@@ -12,7 +12,7 @@ class ManageHelpController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "About"
+        navigationItem.title = "Help"
         tableView.separatorStyle = .none
     }
 

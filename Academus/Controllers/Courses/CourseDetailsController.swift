@@ -25,7 +25,6 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
-        
     }
     
 //    override func viewDidAppear(_ animated: Bool) {
@@ -40,23 +39,27 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         
         if localToken != self.authToken {
             print("Fetching courses because the token has changed...")
-            self.fetchAssignments(token: localToken)
+            self.fetchAssignments(token: localToken, completion: { (success) in
+                UIView.transition(with: self.tableView, duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+            })
             return
         }
         
         if assignments.isEmpty {
             print("Fetching assignments because the list is empty...")
-            self.fetchAssignments(token: localToken)
+            self.fetchAssignments(token: localToken, completion: { (success) in
+                UIView.transition(with: self.tableView, duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+            })
             return
         }
     }
     
-    func fetchAssignments(token: String) {
+    func fetchAssignments(token: String, completion: @escaping CompletionHandler) {
         assignmentService.getAssignments { (success) in
             if success {
                 self.authToken = token
-                self.tableView.reloadData()
                 print("We finished that.")
+                completion(true)
             } else {
                 print("failed to get courses")
             }
