@@ -17,6 +17,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     private let cellID = "PlannerCardCell"
     
     var movingCell: UITableViewCell?
+    var gestureStartLocation: CGPoint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,15 +111,25 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
             cell.center = CGPoint(x: cell.center.x + translation.x, y: cell.center.y)
             recognizer.setTranslation(CGPoint.zero, in: self.view)
             if abs(cell.center.x - self.view.center.x) > 20 {
-                if let indexPath = self.tableView.indexPathForRow(at: cell.center) {
-                    self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
-                    self.tableView.isScrollEnabled = false
+                self.tableView.setContentOffset(self.tableView.contentOffset, animated: false)
+                if let indexPath = tableView.indexPathForRow(at: swipeLocation) {
+                    self.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+                }
+                
+                if let swipeStart = gestureStartLocation {
+                    if abs(cell.center.x - self.view.center.x) < abs(cell.center.y - swipeStart.y) {
+                        UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
+                            cell.center.x = self.view.center.x
+                        }, completion: {_ in})
+                        movingCell = nil
+                    }
                 }
             }
         }
         
         if let swipedIndexPath = tableView.indexPathForRow(at: swipeLocation) {
             if recognizer.state == .began {
+                gestureStartLocation = swipeLocation
                 movingCell = tableView.cellForRow(at: swipedIndexPath)
             } else if recognizer.state == .ended {
                 if let cell = movingCell {
@@ -126,14 +137,14 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
                         context.delete(cards[swipedIndexPath.row] as NSManagedObject)
                         cards.remove(at: swipedIndexPath.row)
+                        self.tableView.scrollToRow(at: swipedIndexPath, at: .top, animated: true)
                         self.tableView.deleteRows(at: [swipedIndexPath], with: .left)
-                        self.tableView.isScrollEnabled = true
                         CoreDataManager().saveContext()
                     } else {
                         UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
                             cell.center.x = self.view.center.x
                         }, completion: {_ in})
-                        self.tableView.isScrollEnabled = true
+                        self.tableView.scrollToRow(at: swipedIndexPath, at: .middle, animated: true)
                     }
                 }
                 
@@ -144,7 +155,6 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                 UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
                     cell.center.x = self.view.center.x
                 }, completion: {_ in})
-                self.tableView.isScrollEnabled = true
                 movingCell = nil
             }
         }
