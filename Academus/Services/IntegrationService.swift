@@ -112,7 +112,6 @@ class IntegrationService {
                 let json = try JSON(data: data)
                 let jsonResult = try json["result"].rawData()
                 let integrations = try decoder.decode([UserIntegrations].self, from: jsonResult)
-                    
                 if json["success"] == true {
                     self.userIntegrationsDelegate?.didGetUserIntegrations(integrations: integrations)
                     completion(true)

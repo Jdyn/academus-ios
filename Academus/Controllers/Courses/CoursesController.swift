@@ -45,7 +45,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         if localToken != self.authToken {
             print("Fetching courses because the token has changed...")
             fetchCourses(token: localToken, completion: { (success) in
-                UIView.transition(with: self.tableView, duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+                UIView.transition(with: self.tableView, duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
             })
             return
         }
@@ -53,7 +53,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         if courses.isEmpty {
             print("Fetching courses because the token has changed...")
             fetchCourses(token: localToken, completion: { (success) in
-                UIView.transition(with: self.tableView,duration: 0.35, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+                UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
             })
             return
         }
