@@ -118,10 +118,12 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                 
                 if let swipeStart = gestureStartLocation {
                     if abs(cell.center.x - self.view.center.x) < abs(cell.center.y - swipeStart.y) {
+                        recognizer.isEnabled = false
                         UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
                             cell.center.x = self.view.center.x
                         }, completion: {_ in})
                         movingCell = nil
+                        recognizer.isEnabled = true
                     }
                 }
             }
@@ -141,10 +143,12 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                         self.tableView.deleteRows(at: [swipedIndexPath], with: .left)
                         CoreDataManager().saveContext()
                     } else {
+                        recognizer.isEnabled = false
                         UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
                             cell.center.x = self.view.center.x
                         }, completion: {_ in})
                         self.tableView.scrollToRow(at: swipedIndexPath, at: .middle, animated: true)
+                        recognizer.isEnabled = true
                     }
                 }
                 
@@ -152,10 +156,12 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
             }
         } else {
             if let cell = movingCell {
+                recognizer.isEnabled = false
                 UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
                     cell.center.x = self.view.center.x
                 }, completion: {_ in})
                 movingCell = nil
+                recognizer.isEnabled = true
             }
         }
     }
