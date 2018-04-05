@@ -17,6 +17,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     private let cellID = "PlannerCardCell"
     
     var movingCell: UITableViewCell?
+    var gestureStartLocation: CGPoint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         
         let recognizer = UIPanGestureRecognizer(target: self, action: #selector(didSwipe))
         recognizer.delegate = self
+        recognizer.require(toFail: tableView.gestureRecognizers![0])
         tableView.addGestureRecognizer(recognizer)
         
         DispatchQueue.global(qos: .background).async {
@@ -58,6 +60,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         cards.append(plannerCard(from: card))
         let newIndexPath = IndexPath(row: 0, section: 0)
         tableView.insertRows(at: [newIndexPath], with: .automatic)
+        CoreDataManager().saveContext()
     }
     
     private func fetchPlannerCards() {
@@ -103,8 +106,32 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     
     @objc func didSwipe(recognizer: UIPanGestureRecognizer) {
         let swipeLocation = recognizer.location(in: self.tableView)
+        let translation = recognizer.translation(in: self.view)
+        if let cell = movingCell {
+            cell.center = CGPoint(x: cell.center.x + translation.x, y: cell.center.y)
+            recognizer.setTranslation(CGPoint.zero, in: self.view)
+            if abs(cell.center.x - self.view.center.x) > 20 {
+                self.tableView.setContentOffset(self.tableView.contentOffset, animated: false)
+                if let indexPath = tableView.indexPathForRow(at: swipeLocation) {
+                    self.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+                }
+                
+                if let swipeStart = gestureStartLocation {
+                    if abs(cell.center.x - self.view.center.x) < abs(cell.center.y - swipeStart.y) {
+                        recognizer.isEnabled = false
+                        UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
+                            cell.center.x = self.view.center.x
+                        }, completion: {_ in})
+                        movingCell = nil
+                        recognizer.isEnabled = true
+                    }
+                }
+            }
+        }
+        
         if let swipedIndexPath = tableView.indexPathForRow(at: swipeLocation) {
             if recognizer.state == .began {
+                gestureStartLocation = swipeLocation
                 movingCell = tableView.cellForRow(at: swipedIndexPath)
             } else if recognizer.state == .ended {
                 if let cell = movingCell {
@@ -112,22 +139,29 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
                         context.delete(cards[swipedIndexPath.row] as NSManagedObject)
                         cards.remove(at: swipedIndexPath.row)
+                        self.tableView.scrollToRow(at: swipedIndexPath, at: .top, animated: true)
                         self.tableView.deleteRows(at: [swipedIndexPath], with: .left)
                         CoreDataManager().saveContext()
                     } else {
+                        recognizer.isEnabled = false
                         UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
                             cell.center.x = self.view.center.x
                         }, completion: {_ in})
+                        self.tableView.scrollToRow(at: swipedIndexPath, at: .middle, animated: true)
+                        recognizer.isEnabled = true
                     }
                 }
                 
                 movingCell = nil
             }
-                        
+        } else {
             if let cell = movingCell {
-                let translation = recognizer.translation(in: self.view)
-                cell.center = CGPoint(x: cell.center.x + translation.x, y: cell.center.y)
-                recognizer.setTranslation(CGPoint.zero, in: self.view)
+                recognizer.isEnabled = false
+                UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
+                    cell.center.x = self.view.center.x
+                }, completion: {_ in})
+                movingCell = nil
+                recognizer.isEnabled = true
             }
         }
     }
@@ -143,11 +177,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     }
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if movingCell != nil {
-            return false
-        }
-        
-        return true
+        return (movingCell == nil) ? true : false
     }
     
     func plannerCard(from card: PlannerReminderCard) -> PlannerCards {
@@ -155,7 +185,6 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         let plannerCard = NSEntityDescription.insertNewObject(forEntityName: "PlannerCards", into: context) as! PlannerCards
         plannerCard.name = card.title
         plannerCard.plannerReminder = card
-        CoreDataManager().saveContext()
         return plannerCard
     }
 }

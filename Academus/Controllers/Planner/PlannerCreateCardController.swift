@@ -35,9 +35,12 @@ class PlannerCreateCardController: UIViewController {
         view.backgroundColor = .tableViewDarkGrey
     }
     
-
-    
     @objc private func handleSave() {
+        guard nameField.text != "" else {
+            alertMessage(title: "Error", message: "Cards need a title!")
+            return
+        }
+        
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
         
         let card = NSEntityDescription.insertNewObject(forEntityName: "PlannerReminderCard", into: context)
