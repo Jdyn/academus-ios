@@ -41,31 +41,3 @@ class MainController: UITabBarController {
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
     }
 }
-
-class UIColoredDatePicker: UIDatePicker {
-    var changed = false
-    override func addSubview(_ view: UIView) {
-        if !changed {
-            changed = true
-                self.setValue(UIColor.navigationsWhite, forKey: "textColor")
-            }
-        super.addSubview(view)
-        }
-    }
-
-extension UIColor {
-    static func blend(colors: [UIColor]) -> UIColor {
-        let numberOfColors = CGFloat(colors.count)
-        var (red, green, blue, alpha) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
-        
-        let componentsSum = colors.reduce((red: CGFloat(0), green: CGFloat(0), blue: CGFloat(0), alpha: CGFloat())) { temp, color in
-            color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-            return (temp.red+red, temp.green + green, temp.blue + blue, temp.alpha+alpha)
-        }
-        return UIColor(red: componentsSum.red / numberOfColors,
-                       green: componentsSum.green / numberOfColors,
-                       blue: componentsSum.blue / numberOfColors,
-                       alpha: componentsSum.alpha / numberOfColors)
-    }
-}
-

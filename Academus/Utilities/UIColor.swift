@@ -25,4 +25,18 @@ extension UIColor {
     static let tableViewSeperator = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
     
     static let ghostText = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 0.3)
+    
+    static func blend(colors: [UIColor]) -> UIColor {
+        let numberOfColors = CGFloat(colors.count)
+        var (red, green, blue, alpha) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
+        
+        let componentsSum = colors.reduce((red: CGFloat(0), green: CGFloat(0), blue: CGFloat(0), alpha: CGFloat())) { temp, color in
+            color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+            return (temp.red+red, temp.green + green, temp.blue + blue, temp.alpha+alpha)
+        }
+        return UIColor(red: componentsSum.red / numberOfColors,
+                       green: componentsSum.green / numberOfColors,
+                       blue: componentsSum.blue / numberOfColors,
+                       alpha: componentsSum.alpha / numberOfColors)
+    }
 }
