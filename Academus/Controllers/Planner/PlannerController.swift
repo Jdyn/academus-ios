@@ -119,12 +119,28 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                 if let swipeStart = gestureStartLocation {
                     if abs(cell.center.x - self.view.center.x) < abs(cell.center.y - swipeStart.y) {
                         recognizer.isEnabled = false
-                        UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
-                            cell.center.x = self.view.center.x
-                        }, completion: {_ in})
+                        if let plannerCardCell = cell as? PlannerCardCell {
+                            UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
+                                cell.center.x = self.view.center.x
+                                plannerCardCell.background.backgroundColor = .tableViewMediumGrey
+                            }, completion: {_ in})
+                        }
                         movingCell = nil
                         recognizer.isEnabled = true
                     }
+                }
+            }
+            
+            
+            if cell.center.x < 0 {
+                if let plannerCardCell = cell as? PlannerCardCell {
+                    if plannerCardCell.background.backgroundColor == .tableViewMediumGrey {
+                        let generator = UIImpactFeedbackGenerator(style: .medium)
+                        generator.impactOccurred()
+                    }
+                    UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveLinear, animations: {
+                        plannerCardCell.background.backgroundColor = UIColor.blend(colors: [.navigationsRed, .tableViewMediumGrey])
+                    }, completion: {_ in})
                 }
             }
         }
@@ -144,9 +160,12 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                         CoreDataManager().saveContext()
                     } else {
                         recognizer.isEnabled = false
-                        UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
-                            cell.center.x = self.view.center.x
-                        }, completion: {_ in})
+                        if let plannerCardCell = cell as? PlannerCardCell {
+                            UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
+                                cell.center.x = self.view.center.x
+                                plannerCardCell.background.backgroundColor = .tableViewMediumGrey
+                            }, completion: {_ in})
+                        }
                         self.tableView.scrollToRow(at: swipedIndexPath, at: .middle, animated: true)
                         recognizer.isEnabled = true
                     }
@@ -157,9 +176,12 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         } else {
             if let cell = movingCell {
                 recognizer.isEnabled = false
-                UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
-                    cell.center.x = self.view.center.x
-                }, completion: {_ in})
+                if let plannerCardCell = cell as? PlannerCardCell {
+                    UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
+                        cell.center.x = self.view.center.x
+                        plannerCardCell.background.backgroundColor = .tableViewMediumGrey
+                    }, completion: {_ in})
+                }
                 movingCell = nil
                 recognizer.isEnabled = true
             }
