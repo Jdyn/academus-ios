@@ -35,12 +35,12 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
         stack!.spacing = 32
         
         let screen = UIScreen.main.bounds
-        let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height))
-        scrollView.contentSize = CGSize(width: screen.width, height: screen.height)
-        scrollView.addSubview(stack!)
-        view.addSubview(scrollView)
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height))
+        scrollView!.contentSize = CGSize(width: screen.width, height: screen.height + 100)
+        scrollView!.addSubview(stack!)
+        view.addSubview(scrollView!)
         
-        stack!.anchors(top: scrollView.topAnchor, topPad: view.bounds.height * 1/4, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32)
+        stack!.anchors(top: scrollView!.topAnchor, topPad: view.bounds.height * 1/4, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32)
         welcomeLabel.textAlignment = .center
     }
     
