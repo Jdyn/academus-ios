@@ -18,6 +18,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     
     var movingCell: UITableViewCell?
     var gestureStartLocation: CGPoint?
+    var label: UILabel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,7 +102,19 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cards.count
+        guard cards.count == 0 else {
+            if let obj = label {
+                obj.removeFromSuperview()
+            }
+            return cards.count
+        }
+        
+        label = UILabel().setUpLabel(text: "No Cards Found, Make One!", font: UIFont.UIStandard!, fontColor: .navigationsLightGrey)
+        label!.textAlignment = .center
+        view.addSubview(label!)
+        label!.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor)
+        
+        return 0
     }
     
     @objc func didSwipe(recognizer: UIPanGestureRecognizer) {
@@ -130,7 +143,6 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                     }
                 }
             }
-            
             
             if cell.center.x < 0 {
                 if let plannerCardCell = cell as? PlannerCardCell {
