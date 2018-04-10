@@ -18,10 +18,13 @@ enum CellTypes {
     
     case helpStandardCell
     
+    case aboutStandardCell
+    
     func getHeight() -> CGFloat {
         switch self {
         case .manageSmallCell, .settingsSmallCell: return 45
         case .manageMediumCell, .settingsMediumCell, .helpStandardCell: return 55
+        case .aboutStandardCell: return 75
         }
     }
     
@@ -34,6 +37,8 @@ enum CellTypes {
         case .settingsMediumCell: return SettingsMediumCell.self
             
         case .helpStandardCell: return ManageHelpCell.self
+            
+        case .aboutStandardCell: return ManageAboutCell.self
         }
     }
 }

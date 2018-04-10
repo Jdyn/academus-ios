@@ -11,7 +11,7 @@ import UserNotifications
 
 class LocalNotificationService {
     
-    func setUpNotifications(title: String, body: String, sound: UNNotificationSound, timeInterval: Double, repeats: Bool, indentifier: String) {
+    func setLocalNotification(title: String, body: String, sound: UNNotificationSound, timeInterval: Double, repeats: Bool, indentifier: String) {
         
         let content = UNMutableNotificationContent()
         

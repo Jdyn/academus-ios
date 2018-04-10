@@ -10,14 +10,17 @@ import UIKit
 
 class ManageAboutController: UITableViewController {
 
-    
-    
+    var cellType = [CellTypes]()
+    var cells = [AboutCellManager]()
+    let cellID = "AboutCellID"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "About"
         tableView.separatorStyle = .none
-        tableView.tableHeaderView = header()
+        cellType = [.aboutStandardCell]
+        cells = [.alamofire, .locksmith, .swiftyJson]
+        tableView.register(ManageAboutCell.self, forCellReuseIdentifier: cellID)
     }
     
     func header() -> UIView {
@@ -39,11 +42,6 @@ class ManageAboutController: UITableViewController {
         return header
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UIView()
     }
@@ -53,12 +51,25 @@ class ManageAboutController: UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let c = cells[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! MainCell
+        cell.setSubtext(text: c.getSubtext())
+        cell.setTitle(title: c.getTitle())
+        cell.type = c.cellType()
+        cell.index = indexPath.row
+        return cell
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return cells.count
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellType[indexPath.section].getHeight()
     }
 }

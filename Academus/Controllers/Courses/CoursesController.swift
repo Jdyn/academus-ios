@@ -115,12 +115,21 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     @objc func refreshTable() {
         self.fetchCourses(token: self.authToken!) { (success) in
-            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (time) in
-                self.refreshControl?.endRefreshing()
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
-                    self.tableView.reloadData()
+            if success {
+                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { (time) in
+                    self.refreshControl?.endRefreshing()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
+                        self.tableView.reloadData()
+                    })
                 })
-            })
+            } else {
+                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { (time) in
+                    self.refreshControl?.endRefreshing()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
+                        self.alertMessage(title: "Could not refresh :(", message: "Check your internet connection and try again")
+                    })
+                })
+            }
         }
     }
 }
