@@ -15,7 +15,6 @@ class IntegrationLogInController: UIViewController {
     var integrationName: String?
     var fields: [UITextField] = []
 
-    
     let titleLabel = UILabel().setUpLabel(text: "", font: UIFont(name: "AvenirNext-demibold", size: 36)!, fontColor: .navigationsGreen)
     let subtitle = UILabel().setUpLabel(text: "Sign into your", font: UIFont(name: "AvenirNext-medium", size: 24)!, fontColor: .navigationsWhite)
     let button = UIButton(type: .system).setUpButton(title: "SIGN IN", font: UIFont.UIStandard!, fontColor: .navigationsGreen)
@@ -24,7 +23,7 @@ class IntegrationLogInController: UIViewController {
         
         guard let fieldsCounts = integration?.fields.count else {return}
         for i in 0...fieldsCounts - 1 {
-            if (fields[i].text?.isEmpty)! || (fields[i].text?.isEmpty)! {
+            if (fields[i].text?.isEmpty)! {
                 alertMessage(title: "Alert", message: "There is a missing field.")
                 return
             }

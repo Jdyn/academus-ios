@@ -79,11 +79,7 @@ class IntegrationService {
                     let json = try JSON(data: data)
                     let success = json["success"].boolValue
                     if (success) {
-                        let isLoggedIn = true
                         
-                        try Locksmith.updateData(data: [
-                            "isLoggedIn" : isLoggedIn
-                            ], forUserAccount: USER_AUTH)
                         completion(true)
                     } else {
                         completion(false)

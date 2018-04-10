@@ -99,19 +99,13 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard courses.count == 0 else {
-            if let obj = label {
-                obj.removeFromSuperview()
-            }
+        if courses.count == 0 {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "No Data Available", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+            label.textAlignment = .center
+            self.tableView.backgroundView = label
             return courses.count
         }
-        
-        label = UILabel().setUpLabel(text: "An Error Occurred, Please Try Again Later", font: UIFont.UIStandard!, fontColor: .navigationsLightGrey)
-        label!.textAlignment = .center
-        view.addSubview(label!)
-        label!.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor)
-        
-        return 0
+        return courses.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

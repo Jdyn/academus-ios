@@ -22,7 +22,7 @@ class PlannerCreateCardController: UIViewController {
     var delegate: CreateReminderCardDelegate?
     
     let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-    let nameField = UITextField().setupTextField(bgColor: .tableViewMediumGrey, bottomBorder: true, ghostText: "Enter Reminder")
+    let title = UITextField().setupTextField(bgColor: .tableViewMediumGrey, bottomBorder: true, ghostText: "Enter Reminder")
     let datePicker =  UIColoredDatePicker()
     
     override func viewDidLoad() {
@@ -36,15 +36,15 @@ class PlannerCreateCardController: UIViewController {
     }
     
     @objc private func handleSave() {
-        guard nameField.text != "" else {
-            alertMessage(title: "Error", message: "Cards need a title!")
+        if (title.text?.isEmpty)! {
+            alertMessage(title: "Wait..", message: "Card title is missing.")
             return
         }
         
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
         
         let card = NSEntityDescription.insertNewObject(forEntityName: "PlannerReminderCard", into: context)
-        card.setValue(nameField.text, forKey: "title")
+        card.setValue(title.text, forKey: "title")
         card.setValue(Date(), forKey: "dateCreated")
         card.setValue(datePicker.date, forKey: "dateDue")
         
@@ -61,11 +61,11 @@ class PlannerCreateCardController: UIViewController {
     }
     
     private func setupUI() {
-        view.addSubviews(views: [background, nameField, datePicker])
+        view.addSubviews(views: [background, title, datePicker])
         
         background.anchors(top: view.topAnchor, bottom: datePicker.bottomAnchor, bottomPad: 16, left: view.leftAnchor, right: view.rightAnchor)
-        nameField.anchors(top: view.topAnchor, topPad: 32, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16)
-        datePicker.anchors(top: nameField.bottomAnchor, topPad: 16, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16)
+        title.anchors(top: view.topAnchor, topPad: 32, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16)
+        datePicker.anchors(top: title.bottomAnchor, topPad: 16, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16)
     }
     
     @objc func handleCancel() {
