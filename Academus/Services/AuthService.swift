@@ -9,7 +9,6 @@
 import Foundation
 import SwiftyJSON
 import Alamofire
-import CoreData
 import Locksmith
 
 protocol logInErrorDelegate {
@@ -42,11 +41,19 @@ class AuthService {
                     let json = try JSON(data: data)
                     let success = json["success"].boolValue
                     if (success) {
-                        
-                        let token = json["result"]["token"].stringValue
 
+                        let token = json["result"]["token"].stringValue
+                        let email = json["result"]["user"]["email"].stringValue
+                        let firstName = json["result"]["user"]["first_name"].stringValue
+                        let lastName = json["result"]["user"]["last_name"].stringValue
+                        let isLoggedIn = true
+                        
                         try Locksmith.updateData(data: [
                             "authToken" : token,
+                            "email" : email,
+                            "firstName" : firstName,
+                            "lastName" : lastName,
+                            "isLoggedIn" : isLoggedIn
                             ], forUserAccount: USER_AUTH)
                         
                         completion(true)

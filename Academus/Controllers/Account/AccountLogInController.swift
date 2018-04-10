@@ -24,12 +24,14 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        logInButton.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
+        hideKeyboard()
         setupUI()
     }
     
     func setupUI() {
         
+        view.backgroundColor = .tableViewDarkGrey
+
         stack = UIStackView(arrangedSubviews: [welcomeLabel, emailField, passwordField, logInButton])
         stack!.axis = .vertical
         stack!.spacing = 32
@@ -41,6 +43,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
         view.addSubview(scrollView!)
         
         stack!.anchors(top: scrollView!.topAnchor, topPad: view.bounds.height * 1/4, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32)
+        logInButton.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
         welcomeLabel.textAlignment = .center
     }
     

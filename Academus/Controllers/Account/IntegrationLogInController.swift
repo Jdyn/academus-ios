@@ -15,65 +15,62 @@ class IntegrationLogInController: UIViewController {
     var integrationName: String?
     var fields: [UITextField] = []
 
-    let subTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Sign into your"
-        label.font = UIFont(name: "AvenirNext-medium", size: 24)
-        label.textColor = .navigationsWhite
-        return label
-    }()
-
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-demibold", size: 36)
-        label.textColor = .navigationsGreen
-        return label
-    }()
-
+    
+    let titleLabel = UILabel().setUpLabel(text: "", font: UIFont(name: "AvenirNext-demibold", size: 36)!, fontColor: .navigationsGreen)
+    let subtitle = UILabel().setUpLabel(text: "Sign into your", font: UIFont(name: "AvenirNext-medium", size: 24)!, fontColor: .navigationsWhite)
+    let button = UIButton(type: .system).setUpButton(title: "SIGN IN", font: UIFont.UIStandard!, fontColor: .navigationsGreen)
+    
     @objc func logInPressed() {
-        print(fields[0].text!)
-        print(fields[1].text!)
+        
+        guard let fieldsCounts = integration?.fields.count else {return}
+        for i in 0...fieldsCounts - 1 {
+            if (fields[i].text?.isEmpty)! || (fields[i].text?.isEmpty)! {
+                alertMessage(title: "Alert", message: "There is a missing field.")
+                return
+            }
+        }
+
         integrationService?.addIntegration(fields: fields) { (success) in
             if success {
-                print("success here")
+                self.dismiss(animated: true, completion: nil)
             } else {
                 print("failure here")
             }
         }
     }
 
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        setUpUI()
-//        view.backgroundColor = .tableViewDarkGrey
-//    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        hideKeyboard()
+        setUpUI()
+    }
 
-//    func setUpUI() {
-//
-//        guard let fieldsCounts = integration?.fields.count else {return}
-//        for i in 0...fieldsCounts - 1 {
-//            let field = UITextField()
-//            field.setBorderBottom(backGroundColor: .tableViewDarkGrey, borderColor: .navigationsGreen)
-//            field.setGhostText(message: (integration?.fields[i].id)!, color: .ghostText, font: UIFont.UIStandard!)
-//            field.textColor = .navigationsWhite
-//
-//            view.addSubview(field)
-//            field.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, width: 0, height: 0)
-//            fields.append(field)
-//        }
-//
-//        let stackView = UIStackView(arrangedSubviews: fields)
-//        stackView.axis = .vertical
-//        stackView.spacing = 16
-//        view.addSubview(stackView)
-//        view.addSubview(subTitleLabel)
-//        view.addSubview(titleLabel)
-//        view.addSubview(logInButton)
-//        stackView.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor, centerY: view.centerYAnchor, CenterYPad: -32, width: 0, height: 0)
-//        subTitleLabel.anchors(top: view.safeAreaLayoutGuide.topAnchor, topPad: 32, centerX: view.centerXAnchor ,width: 0, height: 0)
-//        titleLabel.anchors(top: subTitleLabel.bottomAnchor, centerX: view.centerXAnchor, width: 0, height: 0)
-//        logInButton.anchors(top: stackView.bottomAnchor, topPad: 32, centerX: view.centerXAnchor,width: 64, height: 0)
-//
-//    }
+    private func setUpUI() {
+
+        view.backgroundColor = .tableViewDarkGrey
+        
+        guard let fieldsCounts = integration?.fields.count else {return}
+        for i in 0...fieldsCounts - 1 {
+            let field = UITextField().setupTextField(bgColor: .tableViewDarkGrey, bottomBorder: true, ghostText: integration?.fields[i].id, isLeftImage: false, isSecure: false)
+            field.font = UIFont.UIStandard!
+            if integration?.fields[i].id == "password" {
+                field.isSecureTextEntry = true
+            }
+            view.addSubview(field)
+            field.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, width: 0, height: 0)
+            fields.append(field)
+        }
+
+        let stackView = UIStackView(arrangedSubviews: fields)
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        
+        view.addSubviews(views: [stackView, subtitle, titleLabel, button])
+        stackView.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor, centerY: view.centerYAnchor, CenterYPad: -32)
+        subtitle.anchors(top: view.safeAreaLayoutGuide.topAnchor, topPad: 32, centerX: view.centerXAnchor)
+        titleLabel.anchors(top: subtitle.bottomAnchor, centerX: view.centerXAnchor, width: 0, height: 0)
+        button.anchors(top: stackView.bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 64)
+        button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
+    }
 }
 

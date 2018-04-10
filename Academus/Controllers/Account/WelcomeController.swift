@@ -71,7 +71,6 @@ class WelcomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
-        view.backgroundColor = .tableViewDarkGrey
         self.setupUI()
     }
 
@@ -85,21 +84,12 @@ class WelcomeController: UIViewController {
     
     func setupUI() {
         
-        let stackView = UIStackView(arrangedSubviews: [
-            appLogo, welcomeText, subWelcomeText, divider, signUpButton
-            ])
+        view.backgroundColor = .tableViewDarkGrey
+        let stackView = UIStackView(arrangedSubviews: [ appLogo, welcomeText, subWelcomeText, divider, signUpButton])
         
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         
-        view.addSubview(stackView)
-        view.addSubview(logInButton)
-        view.addSubview(logInText)
-        view.addSubview(appLogo)
-        view.addSubview(welcomeText)
-        view.addSubview(subWelcomeText)
-        view.addSubview(divider)
-        view.addSubview(signUpButton)
+        view.addSubviews(views: [stackView, logInButton, logInText, appLogo, welcomeText, subWelcomeText, divider, signUpButton])
         
         stackView.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 350)
         appLogo.anchors(top: stackView.topAnchor, centerX: stackView.centerXAnchor, width: 128, height: 128)

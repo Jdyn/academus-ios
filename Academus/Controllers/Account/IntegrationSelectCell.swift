@@ -12,34 +12,22 @@ class IntegrationSelectCell: UITableViewCell {
     
     var integration: IntegrationChoice? {
         didSet {
-            nameLabel.text = integration?.name
-            let url = URL(string: (integration?.icon_url)!)
-            let data = try? Data(contentsOf: url!)
-            iconImage.image = UIImage(data: data!)
+            title.text = integration?.name
+            
+            DispatchQueue.global(qos: .background).async {
+                let url = URL(string: (self.integration?.icon_url)!)
+                guard let data = try? Data(contentsOf: url!) else {return}
+                
+                DispatchQueue.main.async {
+                    self.icon.image = UIImage(data: data)
+                }
+            }
         }
     }
     
-    let cellBackground: UIView = {
-        let view = UIView()
-        view.backgroundColor = .tableViewMediumGrey
-        view.layer.cornerRadius = 5
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowRadius = 1.5
-        view.layer.shadowOpacity = 0.2
-        view.layer.shouldRasterize = true
-        view.layer.rasterizationScale = true ? UIScreen.main.scale : 1
-        return view
-    }()
-    
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-demibold", size: 16)
-        label.textColor = .navigationsWhite
-        return label
-    }()
-    
-    let iconImage: UIImageView = {
+    let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+    let title = UILabel().setUpLabel(text: "", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+    let icon: UIImageView = {
         let image = UIImageView()
         return image
     }()
@@ -49,13 +37,11 @@ class IntegrationSelectCell: UITableViewCell {
         backgroundColor = .tableViewDarkGrey
         selectionStyle = .none
         
-        addSubview(cellBackground)
-        addSubview(iconImage)
-        addSubview(nameLabel)
+        addSubviews(views: [background, icon, title])
         
-        cellBackground.anchors(top: topAnchor, topPad: 3, bottom: bottomAnchor, bottomPad: -3,left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6,width: 0, height: 0)
-        iconImage.anchors(left: cellBackground.leftAnchor, leftPad: 16, centerY: cellBackground.centerYAnchor ,width: 32, height: 32)
-        nameLabel.anchors(left: iconImage.rightAnchor, leftPad: 16, centerY: cellBackground.centerYAnchor,width: 0, height: 0)
+        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
+        icon.anchors(left: background.leftAnchor, leftPad: 16, centerY: background.centerYAnchor, width: 32, height: 32)
+        title.anchors(left: icon.rightAnchor, leftPad: 16, centerY: background.centerYAnchor)
     }
     
     required init?(coder aDecoder: NSCoder) {
