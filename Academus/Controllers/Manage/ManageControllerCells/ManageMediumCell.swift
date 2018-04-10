@@ -10,6 +10,16 @@ import UIKit
 
 class ManageMediumCell: MainCell {
     
+    override var index: Int? {
+        didSet {
+            if index == 0 {
+                background.setUpShadow(color: .black, offset: CGSize(width: 0, height: -1.5), radius: 1.5, opacity: 0.15)
+            } else if index == 1 {
+                background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 1.5), radius: 1.5, opacity: 0.15)
+            }
+        }
+    }
+    
     let background: UIView = {
         let view = UIView()
         view.backgroundColor = .tableViewMediumGrey

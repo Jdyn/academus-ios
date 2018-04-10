@@ -26,41 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        if #available(iOS 10.0, *) {
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            
-            UNUserNotificationCenter.current().delegate = self
-            UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: { granted, error in
-                
-                guard granted else { return }
-                
-                UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-                    print("Notification settings: \(settings)")
-                    guard settings.authorizationStatus == .authorized else { return }
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
-            })
-            Messaging.messaging().delegate = self
-        } else {
-            let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
-        }
-        
-        FirebaseApp.configure()
-        application.registerForRemoteNotifications()
-        
-        DispatchQueue.global().asyncAfter(deadline: .now() + 5) {
-            let instanceID = InstanceID.instanceID().token()!
-            print("Firebase Instance ID: \(instanceID)")
-        }
-        
-        if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] {
-            parse(payload: notification)
-        }
-        
         window = UIWindow()
         window?.makeKeyAndVisible()
-//        let tempNavController = MainNavigationController(rootViewController: IntegrationSelectController())
         window?.rootViewController = MainController()
         
         UINavigationBar.appearance().prefersLargeTitles = true
@@ -83,7 +50,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UITabBar.appearance().tintColor = .navigationsGreen
         
         UITableView.appearance().backgroundColor = .tableViewDarkGrey
+        
+        let center = UNUserNotificationCenter.current()
+        
+        center.delegate = self
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+            print(granted)
+        }
+        
+        DispatchQueue.main.async(execute: { UIApplication.shared.registerForRemoteNotifications() })
+
         return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("token: \(token)")
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Remote Notifications Failure: \(error)")
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -106,60 +96,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-    
-    func application(received remoteMessage: MessagingRemoteMessage) {
-        print(remoteMessage.appData)
-        parse(payload: remoteMessage.appData)
-    }
-    
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let tokenParts = deviceToken.map { data -> String in
-            return String(format: "%02.2hhx", data)
-        }
-        
-        let token = tokenParts.joined()
-        print("Device Token: \(token)")
-    }
-    
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Failed to register: \(error)")
-    }
-    
-    func application(
-        _ application: UIApplication,
-        didReceiveRemoteNotification userInfo: [AnyHashable : Any],
-        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        parse(payload: userInfo)
-    }
-    
-    func parse(payload: [AnyHashable: Any]) {
-        print(payload)
-    }
-}
-
-@available(iOS 10.0, *)
-extension AppDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-        // Print message ID.
-        if let messageID = userInfo["gcm.message_id"] {
-            print("Message ID: \(messageID)")
-        }
-        
-        // Print full message.
-        print(userInfo)
-        
-        completionHandler()
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        let userInfo = notification.request.content.userInfo
-        if let messageID = userInfo["gcm.message_id"] {
-            print("Message ID: \(messageID)")
-        }
-        
-        parse(payload: userInfo)
-        completionHandler([.alert, .sound])
     }
 }

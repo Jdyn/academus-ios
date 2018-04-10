@@ -22,6 +22,7 @@ class ManageController: UITableViewController {
         
         let background = UIView()
         background.backgroundColor = .tableViewMediumGrey
+        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 1.5), radius: 1.5, opacity: 0.15)
 
         let name = UILabel()
         name.font = UIFont(name: "AvenirNext-demibold", size: 14)

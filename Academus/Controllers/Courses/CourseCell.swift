@@ -25,7 +25,7 @@ class CourseCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .tableViewMediumGrey
         let size = CGSize(width: 0, height: 0)
-        view.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 1, opacity: 0.3)
+        view.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2.25, opacity: 0.15)
         return view
     }()
     

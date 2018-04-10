@@ -12,7 +12,13 @@ class ManageSmallCell: MainCell {
     
     override var index: Int? {
         didSet {
-            
+            if index == 0 {
+                background.setUpShadow(color: .black, offset: CGSize(width: 0, height: -1.5), radius: 1.5, opacity: 0.15)
+            } else if index == 1 {
+                background.setUpShadow(color: .black, offset: CGSize(width: 0, height: -0.72), radius: 1, opacity: 0.15)
+            } else if index == 2 {
+                background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 1.5), radius: 1.5, opacity: 0.15)
+            }
         }
     }
     
@@ -20,10 +26,6 @@ class ManageSmallCell: MainCell {
         let view = UIView()
         let num: Int?
         view.backgroundColor = .tableViewMediumGrey
-//        view.layer.cornerRadius = 5
-//        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-//        let size = CGSize(width: 0, height: -2)
-//        view.setUpShadow(color: .black, offset: size, radius: 2, opacity: 0.3)
 
         return view
     }()
