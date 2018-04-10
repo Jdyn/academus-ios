@@ -14,7 +14,6 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     private let courseService = CourseService()
     var authToken: String?
     var label: UILabel?
-    var showLabel: Bool? = false
     
     var courses = [Course]()
     let courseID = "courseCell"
@@ -34,10 +33,6 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
      }
-
-    override func viewDidAppear(_ animated: Bool) {
-        navigationController?.hidesBarsOnSwipe = false
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         courseService.delegate = self
@@ -49,9 +44,9 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
             fetchCourses(token: localToken, completion: { (success) in
                 if success {
                     UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
-                    self.showLabel = true
+                    self.errorLabel(show: false)
                 } else {
-                    self.showLabel = false
+                    self.errorLabel(show: true)
                 }
             })
             return
@@ -61,10 +56,12 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
             print("Fetching courses because the token has changed...")
             fetchCourses(token: localToken, completion: { (success) in
                 if success {
-                    UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
-                    self.showLabel = true
+                    UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        self.tableView.reloadData()
+                    })
+                    self.errorLabel(show: false)
                 } else {
-                    self.showLabel = false
+                    self.errorLabel(show: true)
                 }
             })
             return
@@ -85,8 +82,19 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         }
     }
     
+    func errorLabel(show: Bool) {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection and swipe down", font: UIFont.UIStandard!, fontColor: .navigationsLightGrey)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        if show {
+            self.tableView.backgroundView = label
+        } else {
+            self.tableView.backgroundView = nil
+        }
+    }
+    
     func didGetCourses(courses: [Course]) {
-        print("Calling courses protocol...")
+        print("Calling protocols...")
         self.courses.removeAll()
         for course in courses {
             self.courses.append(course)
@@ -97,7 +105,6 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: courseID, for: indexPath) as! CourseCell
         let course = self.courses[indexPath.row]
         cell.course = course
-        
         return cell
     }
     
@@ -109,29 +116,10 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         navigationController?.pushViewController(courseDetailsController, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if showLabel == true {
-            if courses.count == 0 {
-                let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "No Data Available", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
-                label.textAlignment = .center
-                self.tableView.backgroundView = label
-                return courses.count
-            }
-        }
-        return courses.count
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
-    }
-    
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UIView()
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 9
-    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return courses.count }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 70 }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
     
     @objc func refreshTable() {
         self.fetchCourses(token: self.authToken!) { (success) in

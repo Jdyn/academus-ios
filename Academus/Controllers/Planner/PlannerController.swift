@@ -18,7 +18,6 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     
     var movingCell: UITableViewCell?
     var label: UILabel?
-    var showLabel: Bool? = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,14 +54,11 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                 self.tableView.reloadData()
             }
         }
-//        tableView.tableHeaderView = profile
         
 //        LocalNotificationService().setLocalNotification(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
         
     }
-    
-    
-    
+        
     func didAddCard(card: PlannerReminderCard) {
         cards.append(plannerCard(from: card))
         let newIndexPath = IndexPath(row: 0, section: 0)
@@ -76,9 +72,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         do {
             let cards = try context.fetch(plannerRequest)
             self.cards = cards
-            showLabel = false
         } catch let error {
-            showLabel = true
             print("Failed to fetch planner cards:", error)
         }
     }
@@ -90,14 +84,22 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         navigationController?.present(navController, animated: true, completion: nil)
     }
     
+    func errorLabel(show: Bool) {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCreate some cards or comeback later", font: UIFont.UIStandard!, fontColor: .navigationsLightGrey )
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        if show {
+            self.tableView.backgroundView = label
+        } else {
+            self.tableView.backgroundView = nil
+        }
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if showLabel == true {
-            if cards.count == 0 {
-                let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "No Cards Available", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
-                label.textAlignment = .center
-                self.tableView.backgroundView = label
-                return 0
-            }
+        if cards.count == 0 {
+            errorLabel(show: true)
+        } else {
+            errorLabel(show: false)
         }
         return 1
     }
@@ -105,10 +107,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! PlannerCardCell
         
-        cell.backgroundColor = .tableViewDarkGrey
-        
-        let cards = self.cards[indexPath.row]
-        cell.card = cards
+        cell.card = self.cards[indexPath.row]
         
         return cell
     }
