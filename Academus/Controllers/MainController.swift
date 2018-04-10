@@ -41,14 +41,3 @@ class MainController: UITabBarController {
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
     }
 }
-
-class UIColoredDatePicker: UIDatePicker {
-    var changed = false
-    override func addSubview(_ view: UIView) {
-        if !changed {
-            changed = true
-                self.setValue(UIColor.navigationsWhite, forKey: "textColor")
-            }
-        super.addSubview(view)
-        }
-    }

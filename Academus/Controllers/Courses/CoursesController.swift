@@ -13,6 +13,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     private let courseService = CourseService()
     var authToken: String?
+    var label: UILabel?
     
     var courses = [Course]()
     let courseID = "courseCell"
@@ -98,7 +99,19 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return courses.count
+        guard courses.count == 0 else {
+            if let obj = label {
+                obj.removeFromSuperview()
+            }
+            return courses.count
+        }
+        
+        label = UILabel().setUpLabel(text: "An Error Occurred, Please Try Again Later", font: UIFont.UIStandard!, fontColor: .navigationsLightGrey)
+        label!.textAlignment = .center
+        view.addSubview(label!)
+        label!.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor)
+        
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
