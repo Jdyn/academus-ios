@@ -19,6 +19,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     var movingCell: UITableViewCell?
     var gestureStartLocation: CGPoint?
     var label: UILabel?
+    var showLabel: Bool? = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +70,9 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         do {
             let cards = try context.fetch(plannerRequest)
             self.cards = cards
+            showLabel = false
         } catch let error {
+            showLabel = true
             print("Failed to fetch planner cards:", error)
         }
     }
@@ -82,11 +85,13 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if cards.count == 0 {
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "No Cards Available", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
-            label.textAlignment = .center
-            self.tableView.backgroundView = label
-            return 0
+        if showLabel == true {
+            if cards.count == 0 {
+                let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "No Cards Available", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+                label.textAlignment = .center
+                self.tableView.backgroundView = label
+                return 0
+            }
         }
         return 1
     }

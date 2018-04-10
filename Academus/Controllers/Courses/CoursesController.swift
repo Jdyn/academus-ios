@@ -14,6 +14,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     private let courseService = CourseService()
     var authToken: String?
     var label: UILabel?
+    var showLabel: Bool? = false
     
     var courses = [Course]()
     let courseID = "courseCell"
@@ -46,7 +47,12 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         if localToken != self.authToken {
             print("Fetching courses because the token has changed...")
             fetchCourses(token: localToken, completion: { (success) in
-                UIView.transition(with: self.tableView, duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+                if success {
+                    UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+                    self.showLabel = true
+                } else {
+                    self.showLabel = false
+                }
             })
             return
         }
@@ -54,7 +60,12 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         if courses.isEmpty {
             print("Fetching courses because the token has changed...")
             fetchCourses(token: localToken, completion: { (success) in
-                UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+                if success {
+                    UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+                    self.showLabel = true
+                } else {
+                    self.showLabel = false
+                }
             })
             return
         }
@@ -99,11 +110,13 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if courses.count == 0 {
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "No Data Available", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
-            label.textAlignment = .center
-            self.tableView.backgroundView = label
-            return courses.count
+        if showLabel == true {
+            if courses.count == 0 {
+                let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "No Data Available", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+                label.textAlignment = .center
+                self.tableView.backgroundView = label
+                return courses.count
+            }
         }
         return courses.count
     }
