@@ -18,6 +18,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     
     var movingCell: UITableViewCell?
     var label: UILabel?
+    var showLabel: Bool? = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,14 +55,13 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                 self.tableView.reloadData()
             }
         }
+//        tableView.tableHeaderView = profile
         
 //        LocalNotificationService().setLocalNotification(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-    }
+    
     
     func didAddCard(card: PlannerReminderCard) {
         cards.append(plannerCard(from: card))
@@ -76,7 +76,9 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         do {
             let cards = try context.fetch(plannerRequest)
             self.cards = cards
+            showLabel = false
         } catch let error {
+            showLabel = true
             print("Failed to fetch planner cards:", error)
         }
     }
@@ -89,6 +91,14 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
+        if showLabel == true {
+            if cards.count == 0 {
+                let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "No Cards Available", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+                label.textAlignment = .center
+                self.tableView.backgroundView = label
+                return 0
+            }
+        }
         return 1
     }
     
@@ -103,25 +113,9 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
-    }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard cards.count == 0 else {
-            if let obj = label {
-                obj.removeFromSuperview()
-            }
-            return cards.count
-        }
-        
-        label = UILabel().setUpLabel(text: "No Cards Found, Make One!", font: UIFont.UIStandard!, fontColor: .navigationsLightGrey)
-        label!.textAlignment = .center
-        view.addSubview(label!)
-        label!.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor)
-        
-        return 0
-    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 150 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
     
     @objc func didSwipeLeft(recognizer: UISwipeGestureRecognizer) {
         if recognizer.state == .ended {
