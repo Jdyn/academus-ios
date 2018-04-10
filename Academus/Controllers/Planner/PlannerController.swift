@@ -17,9 +17,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     private let cellID = "PlannerCardCell"
     
     var movingCell: UITableViewCell?
-    var gestureStartLocation: CGPoint?
     var label: UILabel?
-    var showLabel: Bool? = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,49 +28,50 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         
+//        self.fetchPlannerCards()
+        
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
         refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
         
-        let recognizer = UIPanGestureRecognizer(target: self, action: #selector(didSwipe))
-        recognizer.delegate = self
-        recognizer.require(toFail: tableView.gestureRecognizers![0])
-        tableView.addGestureRecognizer(recognizer)
+        let leftRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
+        leftRecognizer.direction = .left
+        leftRecognizer.delegate = self
+        //leftRecognizer.require(toFail: tableView.gestureRecognizers![0])
+        tableView.addGestureRecognizer(leftRecognizer)
         
-        DispatchQueue.global(qos: .background).async {
-            print("Fetching cards on background thread")
-            self.fetchPlannerCards()
-            
-            DispatchQueue.main.async {
-                print("We finished that.")
-                self.tableView.reloadData()
-            }
-        }
-//        tableView.tableHeaderView = profile
+        let rightRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
+        rightRecognizer.direction = .left
+        rightRecognizer.delegate = self
+        //rightRecognizer.require(toFail: tableView.gestureRecognizers![0])
+        tableView.addGestureRecognizer(rightRecognizer)
         
 //        LocalNotificationService().setLocalNotification(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
         
     }
     
-    
-    
     func didAddCard(card: PlannerReminderCard) {
         cards.append(plannerCard(from: card))
         let newIndexPath = IndexPath(row: 0, section: 0)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
-        CoreDataManager().saveContext()
+        tableView.insertRows(at: [newIndexPath], with: .top)
+        print("did add card: ", cards.count)
     }
     
     private func fetchPlannerCards() {
+        self.cards.removeAll()
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
         let plannerRequest = NSFetchRequest<PlannerCards>(entityName: "PlannerCards")
+        
         do {
             let cards = try context.fetch(plannerRequest)
             self.cards = cards
-            showLabel = false
+            
+            cards.forEach({ (card) in
+                print("fetch planner card call", card.name)
+            })
+            
         } catch let error {
-            showLabel = true
             print("Failed to fetch planner cards:", error)
         }
     }
@@ -84,14 +83,22 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         navigationController?.present(navController, animated: true, completion: nil)
     }
     
+    func errorLabel(show: Bool) {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCreate some cards or comeback later", font: UIFont.UIStandard!, fontColor: .navigationsLightGrey )
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        if show {
+            self.tableView.backgroundView = label
+        } else {
+            self.tableView.backgroundView = nil
+        }
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if showLabel == true {
-            if cards.count == 0 {
-                let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "No Cards Available", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
-                label.textAlignment = .center
-                self.tableView.backgroundView = label
-                return 0
-            }
+        if cards.count == 0 {
+            errorLabel(show: true)
+        } else {
+            errorLabel(show: false)
         }
         return 1
     }
@@ -99,97 +106,52 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! PlannerCardCell
         
-        cell.backgroundColor = .tableViewDarkGrey
-        
-        let cards = self.cards[indexPath.row]
-        cell.card = cards
+        cell.card = self.cards[indexPath.row]
         
         return cell
     }
     
-    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 150 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
     
-    @objc func didSwipe(recognizer: UIPanGestureRecognizer) {
-        let swipeLocation = recognizer.location(in: self.tableView)
-        let translation = recognizer.translation(in: self.view)
-        if let cell = movingCell {
-            cell.center = CGPoint(x: cell.center.x + translation.x, y: cell.center.y)
-            recognizer.setTranslation(CGPoint.zero, in: self.view)
-            if abs(cell.center.x - self.view.center.x) > 20 {
-                self.tableView.setContentOffset(self.tableView.contentOffset, animated: false)
-                if let indexPath = tableView.indexPathForRow(at: swipeLocation) {
-                    self.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
-                }
-                
-                if let swipeStart = gestureStartLocation {
-                    if abs(cell.center.x - self.view.center.x) < abs(cell.center.y - swipeStart.y) {
-                        recognizer.isEnabled = false
-                        if let plannerCardCell = cell as? PlannerCardCell {
-                            UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
-                                cell.center.x = self.view.center.x
-                                plannerCardCell.background.backgroundColor = .tableViewMediumGrey
-                            }, completion: {_ in})
-                        }
-                        movingCell = nil
-                        recognizer.isEnabled = true
-                    }
-                }
-            }
-            
-            if cell.center.x < 0 {
+    @objc func didSwipeLeft(recognizer: UISwipeGestureRecognizer) {
+        if recognizer.state == .ended {
+            if let indexPath = tableView.indexPathForRow(at: recognizer.location(in: view)) {
+                let cell = tableView(tableView, cellForRowAt: indexPath)
+                let generator = UIImpactFeedbackGenerator(style: .medium)
+                generator.impactOccurred()
                 if let plannerCardCell = cell as? PlannerCardCell {
-                    if plannerCardCell.background.backgroundColor == .tableViewMediumGrey {
-                        let generator = UIImpactFeedbackGenerator(style: .medium)
-                        generator.impactOccurred()
-                    }
                     UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveLinear, animations: {
                         plannerCardCell.background.backgroundColor = UIColor.blend(colors: [.navigationsRed, .tableViewMediumGrey])
-                    }, completion: {_ in})
+                    }, completion: { _ in
+                        let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
+                        context.delete(self.cards[indexPath.row] as NSManagedObject)
+                        self.cards.remove(at: indexPath.row)
+                        self.tableView.deleteRows(at: [indexPath], with: .left)
+                        do {
+                            try context.save()
+                        } catch let error {
+                            print(error)
+                        }
+                        print(self.cards.count)
+                    })
                 }
             }
         }
-        
-        if let swipedIndexPath = tableView.indexPathForRow(at: swipeLocation) {
-            if recognizer.state == .began {
-                gestureStartLocation = swipeLocation
-                movingCell = tableView.cellForRow(at: swipedIndexPath)
-            } else if recognizer.state == .ended {
-                if let cell = movingCell {
-                    if cell.center.x < 0 {
-                        let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
-                        context.delete(cards[swipedIndexPath.row] as NSManagedObject)
-                        cards.remove(at: swipedIndexPath.row)
-                        self.tableView.scrollToRow(at: swipedIndexPath, at: .top, animated: true)
-                        self.tableView.deleteRows(at: [swipedIndexPath], with: .left)
-                        CoreDataManager().saveContext()
-                    } else {
-                        recognizer.isEnabled = false
-                        if let plannerCardCell = cell as? PlannerCardCell {
-                            UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
-                                cell.center.x = self.view.center.x
-                                plannerCardCell.background.backgroundColor = .tableViewMediumGrey
-                            }, completion: {_ in})
-                        }
-                        self.tableView.scrollToRow(at: swipedIndexPath, at: .middle, animated: true)
-                        recognizer.isEnabled = true
-                    }
-                }
-                
-                movingCell = nil
-            }
-        } else {
-            if let cell = movingCell {
-                recognizer.isEnabled = false
-                if let plannerCardCell = cell as? PlannerCardCell {
-                    UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
-                        cell.center.x = self.view.center.x
-                        plannerCardCell.background.backgroundColor = .tableViewMediumGrey
-                    }, completion: {_ in})
-                }
-                movingCell = nil
-                recognizer.isEnabled = true
+    }
+    
+    @objc func didSwipeRight(recognizer: UISwipeGestureRecognizer) {
+        if recognizer.state == .ended {
+            if let indexPath = tableView.indexPathForRow(at: recognizer.location(in: view)) {
+                let cell = tableView(tableView, cellForRowAt: indexPath)
+                let generator = UIImpactFeedbackGenerator(style: .heavy)
+                generator.impactOccurred()
+                cell.transform = CGAffineTransform(scaleX: 0.4, y: 1)
+                UIView.animate(withDuration: 2.0, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 6.0, options: .allowUserInteraction, animations: {
+                    cell.transform = .identity
+                }, completion: nil)
             }
         }
     }
@@ -202,10 +164,6 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                 self.tableView.reloadData()
             })
         })
-    }
-
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return (movingCell == nil) ? true : false
     }
     
     func plannerCard(from card: PlannerReminderCard) -> PlannerCards {

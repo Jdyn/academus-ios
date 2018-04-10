@@ -63,7 +63,6 @@ class ManageAboutCell: MainCell {
         self.subtext.text! = text
     }
     
-    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewDarkGrey
