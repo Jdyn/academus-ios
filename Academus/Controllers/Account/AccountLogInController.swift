@@ -9,28 +9,39 @@
 import UIKit
 import Locksmith
 
-class AccountLogInController: UIViewController, logInErrorDelegate {
+class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldDelegate {
     
     private let authService = AuthService()
-    var logInError: String = "Check your internet connection and try again."
-    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back..", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
+    
+    var scrollView: UIScrollView?
+    var stack: UIStackView?
+    var logInError = "Check your internet connection and try again."
+    
+    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
     let emailField = UITextField().setupTextField(bottomBorder: true, ghostText: "Email")
     let passwordField = UITextField().setupTextField(bottomBorder: true, ghostText: "Password", isSecure: true)
     let logInButton = UIButton(type: .system).setUpButton(title: "LOG IN", font: UIFont.UIStandard!, fontColor: .navigationsGreen)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        logInButton.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
         setupUI()
     }
     
     func setupUI() {
-        let stack = UIStackView(arrangedSubviews: [welcomeLabel, emailField, passwordField, logInButton])
-        stack.axis = .vertical; stack.spacing = 32;
-        view.addSubview(stack)
-        view.backgroundColor = .tableViewDarkGrey
-        stack.anchors(top: view.topAnchor, topPad: view.bounds.height * 1/4, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32)
+        
+        stack = UIStackView(arrangedSubviews: [welcomeLabel, emailField, passwordField, logInButton])
+        stack!.axis = .vertical
+        stack!.spacing = 32
+        
+        let screen = UIScreen.main.bounds
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height))
+        scrollView!.contentSize = CGSize(width: screen.width, height: screen.height + 100)
+        scrollView!.addSubview(stack!)
+        view.addSubview(scrollView!)
+        
+        stack!.anchors(top: scrollView!.topAnchor, topPad: view.bounds.height * 1/4, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32)
         welcomeLabel.textAlignment = .center
-        logInButton.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
     }
     
     @objc func logInPressed() {

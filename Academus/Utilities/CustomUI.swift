@@ -12,3 +12,14 @@ class shareButton: UIButton {
     var inviteCode: String?
     var urlString: String?
 }
+
+class UIColoredDatePicker: UIDatePicker {
+    var changed = false
+    override func addSubview(_ view: UIView) {
+        if !changed {
+            changed = true
+            self.setValue(UIColor.navigationsWhite, forKey: "textColor")
+        }
+        super.addSubview(view)
+    }
+}
