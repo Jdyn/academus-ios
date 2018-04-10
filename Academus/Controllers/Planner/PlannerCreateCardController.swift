@@ -50,7 +50,7 @@ class PlannerCreateCardController: UIViewController {
         
         do {
             try context.save()
-            
+            view.endEditing(true)
             dismiss(animated: true, completion: {
                 self.delegate?.didAddCard(card: card as! PlannerReminderCard)
             })

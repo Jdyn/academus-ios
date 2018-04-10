@@ -27,7 +27,6 @@ class PlannerCardCell: UITableViewCell {
     let background: UIView = {
         let view = UIView()
         view.backgroundColor = .tableViewMediumGrey
-        view.layer.cornerRadius = 5
         view.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.4)
         return view
     }()

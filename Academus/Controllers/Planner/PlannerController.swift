@@ -28,6 +28,8 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
         
+//        self.fetchPlannerCards()
+        
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
@@ -45,33 +47,30 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         //rightRecognizer.require(toFail: tableView.gestureRecognizers![0])
         tableView.addGestureRecognizer(rightRecognizer)
         
-        DispatchQueue.global(qos: .background).async {
-            print("Fetching cards on background thread")
-            self.fetchPlannerCards()
-            
-            DispatchQueue.main.async {
-                print("We finished that.")
-                self.tableView.reloadData()
-            }
-        }
-        
 //        LocalNotificationService().setLocalNotification(title: "title", body: "body", sound: .default(), timeInterval: 5, repeats: false, indentifier: "test")
         
     }
-        
+    
     func didAddCard(card: PlannerReminderCard) {
         cards.append(plannerCard(from: card))
         let newIndexPath = IndexPath(row: 0, section: 0)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
-        CoreDataManager().saveContext()
+        tableView.insertRows(at: [newIndexPath], with: .top)
+        print("did add card: ", cards.count)
     }
     
     private func fetchPlannerCards() {
+        self.cards.removeAll()
         let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
         let plannerRequest = NSFetchRequest<PlannerCards>(entityName: "PlannerCards")
+        
         do {
             let cards = try context.fetch(plannerRequest)
             self.cards = cards
+            
+            cards.forEach({ (card) in
+                print("fetch planner card call", card.name)
+            })
+            
         } catch let error {
             print("Failed to fetch planner cards:", error)
         }
@@ -112,9 +111,10 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
         return cell
     }
     
-    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 150 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
     
     @objc func didSwipeLeft(recognizer: UISwipeGestureRecognizer) {
         if recognizer.state == .ended {
@@ -130,7 +130,12 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
                         context.delete(self.cards[indexPath.row] as NSManagedObject)
                         self.cards.remove(at: indexPath.row)
                         self.tableView.deleteRows(at: [indexPath], with: .left)
-                        CoreDataManager().saveContext()
+                        do {
+                            try context.save()
+                        } catch let error {
+                            print(error)
+                        }
+                        print(self.cards.count)
                     })
                 }
             }
