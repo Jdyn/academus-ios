@@ -10,12 +10,13 @@ import UIKit
 import Locksmith
 
 class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldDelegate {
+    
     private let authService = AuthService()
     
     var scrollView: UIScrollView?
     var stack: UIStackView?
-    
     var logInError = "Check your internet connection and try again."
+    
     let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
     let emailField = UITextField().setupTextField(bottomBorder: true, ghostText: "Email")
     let passwordField = UITextField().setupTextField(bottomBorder: true, ghostText: "Password", isSecure: true)
@@ -28,7 +29,6 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
     }
     
     func setupUI() {
-        view.backgroundColor = .tableViewDarkGrey
         
         stack = UIStackView(arrangedSubviews: [welcomeLabel, emailField, passwordField, logInButton])
         stack!.axis = .vertical

@@ -9,10 +9,11 @@
 import UIKit
 
 class AccountCreateController: UIViewController {
-    var scrollView: UIScrollView?
-
+    
     let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
     let signUpButton = UIButton(type: .system).setUpButton(title: "SIGN UP", font: UIFont.UIStandard!, fontColor: .navigationsGreen)
+    
+    var scrollView: UIScrollView?
     var fields = [UITextField]()
 
     override func viewDidLoad() {
@@ -25,7 +26,7 @@ class AccountCreateController: UIViewController {
         let titles = ["Beta Code", "First Name", "Last Name", "Email", "Password", "Verify Password"]
         let screen = UIScreen.main.bounds
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height))
-        scrollView!.contentSize = CGSize(width: screen.width, height: screen.height + 100)
+        scrollView!.contentSize = CGSize(width: screen.width, height: screen.height + 150)
         scrollView!.addSubviews(views: [welcomeLabel, signUpButton])
         
         for title in titles {
@@ -58,7 +59,7 @@ class AccountCreateController: UIViewController {
             alertMessage(title: "Watch out..", message: "Passwords do not match.")
             return
         } else if fields[4].text!.count < 6 {
-            alertMessage(title: "What is Security..", message: "Password much be 6 characters long.")
+            alertMessage(title: "What is Security..", message: "Password much be atleast 6 characters.")
             return
         }
         AuthService().registerUser(betaCode: (fields[0].text)!, firstName: (fields[1].text)!, lastName: (fields[2].text)!, email: (fields[3].text)!, password: (fields[4].text)!) { (success) in
