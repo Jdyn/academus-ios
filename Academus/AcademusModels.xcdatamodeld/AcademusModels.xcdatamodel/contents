@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="16G1212" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Courses" representedClassName="Courses" syncable="YES" codeGenerationType="class">
-        <attribute name="gradeLetter" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="gradePercent" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="period" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <entity name="PlannerCards" representedClassName="PlannerCards" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="plannerReminder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlannerReminderCard" inverseName="reminderCard" inverseEntity="PlannerReminderCard" syncable="YES"/>
-    </entity>
-    <entity name="PlannerReminderCard" representedClassName="PlannerReminderCard" syncable="YES" codeGenerationType="class">
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="ReminderCard" representedClassName="ReminderCard" syncable="YES" codeGenerationType="class">
         <attribute name="dateDue" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="place" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="reminderCard" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlannerCards" inverseName="plannerReminder" inverseEntity="PlannerCards" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Courses" positionX="-443" positionY="36" width="128" height="105"/>
-        <element name="PlannerCards" positionX="-335" positionY="213" width="128" height="73"/>
-        <element name="PlannerReminderCard" positionX="-144" positionY="288" width="128" height="118"/>
+        <element name="PlannerCards" positionX="-335" positionY="213" width="128" height="75"/>
+        <element name="ReminderCard" positionX="-155" positionY="315" width="128" height="90"/>
     </elements>
 </model>

@@ -61,7 +61,7 @@ enum ManageCellManager {
         }
     }
     
-    func cellType() -> CellTypes{
+    func cellType() -> CellTypes {
         switch self {
         case .manageIntegrations, .manageInvites: return .manageMediumCell
         case .settings, .help, .about: return .manageSmallCell

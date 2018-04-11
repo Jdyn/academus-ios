@@ -12,7 +12,6 @@
 		C49FDAEF2068792A005A36EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */; };
 		D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A30204D660300CF4DC4 /* PlannerController.swift */; };
 		D7153A33204DF89D00CF4DC4 /* PlannerCreateCardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */; };
-		D7153A37204E1A6300CF4DC4 /* PlannerCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A36204E1A6300CF4DC4 /* PlannerCardCell.swift */; };
 		D725592E203A38DB00DBA62B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D725592D203A38DB00DBA62B /* AppDelegate.swift */; };
 		D7255935203A38DB00DBA62B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7255934203A38DB00DBA62B /* Assets.xcassets */; };
 		D7255942203A41D100DBA62B /* CoursesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7255941203A41D100DBA62B /* CoursesController.swift */; };
@@ -44,6 +43,9 @@
 		D7CCBC81206C25D6009654CB /* ManageHelpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */; };
 		D7CCBC85206C2B00009654CB /* ManageAboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC84206C2B00009654CB /* ManageAboutController.swift */; };
 		D7CCBC88206C5DC3009654CB /* AboutCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */; };
+		D7CCBC8A207D88AC009654CB /* PlannerCardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC89207D88AC009654CB /* PlannerCardManager.swift */; };
+		D7CCBC8C207D9226009654CB /* PlannerMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC8B207D9226009654CB /* PlannerMainCell.swift */; };
+		D7CCBC8E207D93DB009654CB /* PlannerCellTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC8D207D93DB009654CB /* PlannerCellTypes.swift */; };
 		D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E4272062FFF7002099B9 /* UIFont.swift */; };
 		D7D1E4312063000A002099B9 /* ManageIntegrationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E42A20630009002099B9 /* ManageIntegrationsCell.swift */; };
 		D7D1E4322063000A002099B9 /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E42C20630009002099B9 /* MainCell.swift */; };
@@ -68,7 +70,6 @@
 		C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D7153A30204D660300CF4DC4 /* PlannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerController.swift; sourceTree = "<group>"; };
 		D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCreateCardController.swift; sourceTree = "<group>"; };
-		D7153A36204E1A6300CF4DC4 /* PlannerCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCardCell.swift; sourceTree = "<group>"; };
 		D71857FD20686AF3007B03AA /* Academus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Academus.entitlements; sourceTree = "<group>"; };
 		D725592A203A38DB00DBA62B /* Academus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Academus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D725592D203A38DB00DBA62B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +104,9 @@
 		D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageHelpCell.swift; sourceTree = "<group>"; };
 		D7CCBC84206C2B00009654CB /* ManageAboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageAboutController.swift; sourceTree = "<group>"; };
 		D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCellManager.swift; sourceTree = "<group>"; };
+		D7CCBC89207D88AC009654CB /* PlannerCardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCardManager.swift; sourceTree = "<group>"; };
+		D7CCBC8B207D9226009654CB /* PlannerMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerMainCell.swift; sourceTree = "<group>"; };
+		D7CCBC8D207D93DB009654CB /* PlannerCellTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCellTypes.swift; sourceTree = "<group>"; };
 		D7D1E4272062FFF7002099B9 /* UIFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		D7D1E42A20630009002099B9 /* ManageIntegrationsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageIntegrationsCell.swift; sourceTree = "<group>"; };
 		D7D1E42C20630009002099B9 /* MainCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
@@ -151,8 +155,10 @@
 		D7153A2F204D658700CF4DC4 /* Planner */ = {
 			isa = PBXGroup;
 			children = (
+				D7CCBC8D207D93DB009654CB /* PlannerCellTypes.swift */,
+				D7CCBC89207D88AC009654CB /* PlannerCardManager.swift */,
 				D7153A30204D660300CF4DC4 /* PlannerController.swift */,
-				D7153A36204E1A6300CF4DC4 /* PlannerCardCell.swift */,
+				D7CCBC8B207D9226009654CB /* PlannerMainCell.swift */,
 				D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */,
 			);
 			path = Planner;
@@ -441,9 +447,11 @@
 				D762FCF2206899C60021B6F2 /* userInvitesModel.swift in Sources */,
 				D79DA988204A337500EA082A /* MainController.swift in Sources */,
 				D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */,
+				D7CCBC8C207D9226009654CB /* PlannerMainCell.swift in Sources */,
 				D7D1E4312063000A002099B9 /* ManageIntegrationsCell.swift in Sources */,
 				D73F655A203FA06400144C89 /* AssignmentService.swift in Sources */,
 				D762FCF82069A4470021B6F2 /* CustomUI.swift in Sources */,
+				D7CCBC8E207D93DB009654CB /* PlannerCellTypes.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,
 				D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */,
 				D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */,
@@ -454,7 +462,6 @@
 				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
 				D73F6551203E5A6100144C89 /* Constants.swift in Sources */,
 				D7CCBC81206C25D6009654CB /* ManageHelpCell.swift in Sources */,
-				D7153A37204E1A6300CF4DC4 /* PlannerCardCell.swift in Sources */,
 				D762FCF0206899240021B6F2 /* InvitesService.swift in Sources */,
 				D7F66246204769AB0060FA8D /* WelcomeController.swift in Sources */,
 				D790B062205BB4DD00D8697F /* ManageIntegrationsController.swift in Sources */,
@@ -467,6 +474,7 @@
 				D762FCF420689AC50021B6F2 /* ManageInvitesController.swift in Sources */,
 				D7D1E4342063000A002099B9 /* CellTypes.swift in Sources */,
 				D7255942203A41D100DBA62B /* CoursesController.swift in Sources */,
+				D7CCBC8A207D88AC009654CB /* PlannerCardManager.swift in Sources */,
 				D7153A33204DF89D00CF4DC4 /* PlannerCreateCardController.swift in Sources */,
 				D7D1E43820635F56002099B9 /* ManageCellManager.swift in Sources */,
 				D725592E203A38DB00DBA62B /* AppDelegate.swift in Sources */,

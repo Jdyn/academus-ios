@@ -9,17 +9,7 @@
 import UIKit
 import CoreData
 
-//protocol CreateCardDelegate {
-//    func didAddCard (card: PlannerCards)
-//}
-
-protocol CreateReminderCardDelegate {
-    func didAddCard (card: PlannerReminderCard)
-}
-
 class PlannerCreateCardController: UIViewController {
-    
-    var delegate: CreateReminderCardDelegate?
     
     let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
     let titleField = UITextField().setupTextField(bgColor: .tableViewMediumGrey, bottomBorder: true, ghostText: "Enter Reminder")
@@ -27,36 +17,21 @@ class PlannerCreateCardController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .tableViewDarkGrey
+        
+        navigationItem.title = "Create a Card"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
+        
         setupUI()
         hideKeyboard()
-        navigationItem.title = "Create a Card"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(handleSave))
-        view.backgroundColor = .tableViewDarkGrey
+        setupCancelButtonInNavBar()
     }
     
     @objc private func handleSave() {
         if (titleField.text?.isEmpty)! {
             alertMessage(title: "Wait..", message: "Card title is missing.")
             return
-        }
-        
-        let context = CoreDataManager.sharedInstance.persistentContainer.viewContext
-        
-        let card = NSEntityDescription.insertNewObject(forEntityName: "PlannerReminderCard", into: context)
-        card.setValue(titleField.text, forKey: "title")
-        card.setValue(Date(), forKey: "dateCreated")
-        card.setValue(datePicker.date, forKey: "dateDue")
-        
-        do {
-            try context.save()
-            view.endEditing(true)
-            dismiss(animated: true, completion: {
-                self.delegate?.didAddCard(card: card as! PlannerReminderCard)
-            })
-            
-        } catch let error {
-            print("Failed to save card: ", error)
         }
     }
     
@@ -66,9 +41,5 @@ class PlannerCreateCardController: UIViewController {
         background.anchors(top: view.topAnchor, bottom: datePicker.bottomAnchor, bottomPad: 16, left: view.leftAnchor, right: view.rightAnchor)
         titleField.anchors(top: view.topAnchor, topPad: 32, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16)
         datePicker.anchors(top: titleField.bottomAnchor, topPad: 16, left: view.leftAnchor, leftPad: 16, right: view.rightAnchor, rightPad: -16)
-    }
-    
-    @objc func handleCancel() {
-        dismiss(animated: true, completion: nil)
     }
 }
