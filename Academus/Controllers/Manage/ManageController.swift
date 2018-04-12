@@ -21,7 +21,7 @@ class ManageController: UITableViewController {
         
         cells = [.manageIntegrations, .manageInvites, .settings, .help, .about]
         cells.forEach { (type) in
-            tableView.registerCell(type.getCellType())
+            tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
         }
     }
     
@@ -30,11 +30,11 @@ class ManageController: UITableViewController {
         
         let cellAtIndex = cellsFiltered[indexPath.row]
         let cellClass = cellAtIndex.getCellType()
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass.cellReuseIdentifier(), for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass, for: indexPath)
         
-        if cellClass == SmallCell.self {
+        if cellClass == "SmallCell" {
             return smallCell(c: cellAtIndex, cell: cell)
-        } else if cellClass == MediumCell.self {
+        } else if cellClass == "MediumCell" {
             return mediumCell(c: cellAtIndex, cell: cell)
         }
     
@@ -139,7 +139,6 @@ extension ManageController {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 75))
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 1.5), radius: 1.5, opacity: 0.15)
         let name = UILabel().setUpLabel(text: "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
         let email = UILabel().setUpLabel(text: "\(dictionary?["email"] ?? "Unknown Email")", font: UIFont.UISubtext!, fontColor: .navigationsLightGrey)
         
@@ -154,12 +153,11 @@ extension ManageController {
         
         view.addSubviews(views: [background, button, name, email, image])
         
-        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6, width: 0, height: 0)
-        
+        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         image.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 48, height: 48)
-        name.anchors(bottom: image.centerYAnchor, left: image.rightAnchor, leftPad: 6, width: 0, height: 0)
-        email.anchors(top: image.centerYAnchor, left: image.rightAnchor, leftPad: 6, width: 0, height: 0)
-        button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
+        name.anchors(bottom: image.centerYAnchor, left: image.rightAnchor, leftPad: 6)
+        email.anchors(top: image.centerYAnchor, left: image.rightAnchor, leftPad: 6)
+        button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
         
         return view
     }

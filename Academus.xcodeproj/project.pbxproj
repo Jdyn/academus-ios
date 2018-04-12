@@ -48,7 +48,6 @@
 		D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E4272062FFF7002099B9 /* UIFont.swift */; };
 		D7D1E4312063000A002099B9 /* ManageIntegrationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E42A20630009002099B9 /* ManageIntegrationsCell.swift */; };
 		D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E42D20630009002099B9 /* SettingsCellManager.swift */; };
-		D7D1E4342063000A002099B9 /* CellTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E42E20630009002099B9 /* CellTypes.swift */; };
 		D7D1E43820635F56002099B9 /* ManageCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E43720635F56002099B9 /* ManageCellManager.swift */; };
 		D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */; };
 		D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */; };
@@ -107,7 +106,6 @@
 		D7D1E4272062FFF7002099B9 /* UIFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		D7D1E42A20630009002099B9 /* ManageIntegrationsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageIntegrationsCell.swift; sourceTree = "<group>"; };
 		D7D1E42D20630009002099B9 /* SettingsCellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCellManager.swift; sourceTree = "<group>"; };
-		D7D1E42E20630009002099B9 /* CellTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellTypes.swift; sourceTree = "<group>"; };
 		D7D1E43720635F56002099B9 /* ManageCellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCellManager.swift; sourceTree = "<group>"; };
 		D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerHelpers.swift; sourceTree = "<group>"; };
@@ -264,7 +262,6 @@
 			isa = PBXGroup;
 			children = (
 				D79DA987204A337500EA082A /* MainController.swift */,
-				D7D1E42E20630009002099B9 /* CellTypes.swift */,
 				D7F66244204769750060FA8D /* Account */,
 				D7153A2F204D658700CF4DC4 /* Planner */,
 				D73F6552203E761600144C89 /* Courses */,
@@ -472,7 +469,6 @@
 				D7CCBC7F206C259A009654CB /* ManageHelpController.swift in Sources */,
 				D7FA4880203B1894007ADFE0 /* AcademusModels.xcdatamodeld in Sources */,
 				D762FCF420689AC50021B6F2 /* ManageInvitesController.swift in Sources */,
-				D7D1E4342063000A002099B9 /* CellTypes.swift in Sources */,
 				D7255942203A41D100DBA62B /* CoursesController.swift in Sources */,
 				D7CCBC8A207D88AC009654CB /* CardCreateManager.swift in Sources */,
 				D7153A33204DF89D00CF4DC4 /* PlannerCreateCardController.swift in Sources */,

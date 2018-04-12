@@ -67,10 +67,10 @@ enum ManageCellManager {
         }
     }
     
-    func getCellType() -> UITableViewCell.Type {
+    func getCellType() -> String {
         switch self {
-        case .manageIntegrations, .manageInvites: return MediumCell.self
-        case .settings, .help, .about: return SmallCell.self
+        case .manageIntegrations, .manageInvites: return "MediumCell"
+        case .settings, .help, .about: return "SmallCell"
         }
     }
 }

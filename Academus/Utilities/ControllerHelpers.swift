@@ -230,18 +230,3 @@ func timeAgoStringFromDate(date: Date) -> String? {
     }
     return String(format: formatString, timeString)
 }
-
-extension UITableView {
-
-    func registerCell(_ cellClass: UITableViewCell.Type) {
-        let cellReuseIdentifier = cellClass.cellReuseIdentifier()
-        register(cellClass, forCellReuseIdentifier: cellReuseIdentifier)
-    }
-}
-
-extension UITableViewCell {
-
-    class func cellReuseIdentifier() -> String {
-        return "\(self)"
-    }
-}
