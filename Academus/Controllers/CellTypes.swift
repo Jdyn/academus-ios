@@ -10,34 +10,16 @@ import UIKit
 
 enum CellTypes {
 
-    // Manage Tab
-    case manageSmallCell
-    case manageMediumCell
-    
-    case settingsSmallCell
-    case settingsMediumCell
-    
-    case helpStandardCell
-    case aboutStandardCell
-    
-    func getHeight() -> CGFloat {
+    case smallCell
+    case mediumCell
+
+    func getClass() -> UITableViewCell.Type {
         switch self {
-        case .manageSmallCell, .settingsSmallCell: return 45
-        case .manageMediumCell, .settingsMediumCell, .helpStandardCell: return 55
-        case .aboutStandardCell: return 75
-        }
-    }
-    
-    func getClass() -> MainCell.Type {
-        switch self {
-        case .manageSmallCell: return ManageSmallCell.self
-        case .manageMediumCell: return ManageMediumCell.self
-            
-        case .settingsSmallCell: return SettingsSmallCell.self
-        case .settingsMediumCell: return SettingsMediumCell.self
-            
-        case .helpStandardCell: return ManageHelpCell.self
-        case .aboutStandardCell: return ManageAboutCell.self
+        case .smallCell: return SmallCell.self
+        case .mediumCell: return MediumCell.self
         }
     }
 }
+
+class SmallCell: UITableViewCell {}
+class MediumCell: UITableViewCell {}

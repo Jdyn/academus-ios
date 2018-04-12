@@ -46,8 +46,8 @@ enum SettingsCellManager {
     
     func getSection() -> Int {
         switch self {
-        case .fingerPrintLock: return 0
-        case .NotifAssignmentPosted, .NotifCourseGradeUpdated, .NotifMiscellaneous: return 1
+        case .fingerPrintLock: return 0 // Section 0
+        case .NotifAssignmentPosted, .NotifCourseGradeUpdated, .NotifMiscellaneous: return 1 // Section 1
         }
     }
     
@@ -60,8 +60,8 @@ enum SettingsCellManager {
     
     func cellType() -> CellTypes{
         switch self {
-        case .fingerPrintLock: return .settingsMediumCell
-        case .NotifAssignmentPosted, .NotifCourseGradeUpdated, .NotifMiscellaneous: return .settingsSmallCell
+        case .fingerPrintLock: return .mediumCell
+        case .NotifAssignmentPosted, .NotifCourseGradeUpdated, .NotifMiscellaneous: return .smallCell
         }
     }
 }
@@ -78,11 +78,6 @@ class SettingsSmallCell: MainCell {
         let view = UIView()
         let num: Int?
         view.backgroundColor = .tableViewMediumGrey
-        //        view.layer.cornerRadius = 5
-        //        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        //        let size = CGSize(width: 0, height: -2)
-        //        view.setUpShadow(color: .black, offset: size, radius: 2, opacity: 0.3)
-        
         return view
     }()
     
@@ -143,10 +138,6 @@ class SettingsMediumCell: MainCell {
     let background: UIView = {
         let view = UIView()
         view.backgroundColor = .tableViewMediumGrey
-        //        view.layer.cornerRadius = 5
-        //        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        //        let size = CGSize(width: 0, height: 0)
-        //        view.setUpShadow(color: .black, offset: size, radius: 2, opacity: 0.3)
         return view
     }()
     
