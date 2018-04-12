@@ -25,8 +25,8 @@ class ManageInvitesCell: UITableViewCell {
     }
     
     let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-    let inviteCode = UILabel().setUpLabel(text: "", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
-    let redeemer = UILabel().setUpLabel(text: "", font: UIFont.UISubtext!, fontColor: .tableViewLightGrey)
+    let inviteCode = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .navigationsWhite)
+    let redeemer = UILabel().setUpLabel(text: "", font: UIFont.subtext!, fontColor: .tableViewLightGrey)
     
     let circle: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))

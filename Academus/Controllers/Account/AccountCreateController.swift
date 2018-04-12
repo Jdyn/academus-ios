@@ -10,8 +10,8 @@ import UIKit
 
 class AccountCreateController: UIViewController {
     
-    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
-    let signUpButton = UIButton(type: .system).setUpButton(title: "SIGN UP", font: UIFont.UIStandard!, fontColor: .navigationsGreen)
+    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.header!, fontColor: .navigationsWhite)
+    let signUpButton = UIButton(type: .system).setUpButton(title: "SIGN UP", font: UIFont.standard!, fontColor: .navigationsGreen)
     
     var scrollView: UIScrollView?
     var fields = [UITextField]()

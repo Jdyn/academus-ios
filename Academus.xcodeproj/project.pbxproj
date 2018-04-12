@@ -46,7 +46,6 @@
 		D7CCBC8A207D88AC009654CB /* CardCreateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC89207D88AC009654CB /* CardCreateManager.swift */; };
 		D7CCBC8C207D9226009654CB /* PlannerMainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC8B207D9226009654CB /* PlannerMainCell.swift */; };
 		D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E4272062FFF7002099B9 /* UIFont.swift */; };
-		D7D1E4312063000A002099B9 /* ManageIntegrationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E42A20630009002099B9 /* ManageIntegrationsCell.swift */; };
 		D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E42D20630009002099B9 /* SettingsCellManager.swift */; };
 		D7D1E43820635F56002099B9 /* ManageCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E43720635F56002099B9 /* ManageCellManager.swift */; };
 		D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */; };
@@ -104,7 +103,6 @@
 		D7CCBC89207D88AC009654CB /* CardCreateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCreateManager.swift; sourceTree = "<group>"; };
 		D7CCBC8B207D9226009654CB /* PlannerMainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerMainCell.swift; sourceTree = "<group>"; };
 		D7D1E4272062FFF7002099B9 /* UIFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
-		D7D1E42A20630009002099B9 /* ManageIntegrationsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageIntegrationsCell.swift; sourceTree = "<group>"; };
 		D7D1E42D20630009002099B9 /* SettingsCellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCellManager.swift; sourceTree = "<group>"; };
 		D7D1E43720635F56002099B9 /* ManageCellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCellManager.swift; sourceTree = "<group>"; };
 		D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -231,10 +229,9 @@
 			children = (
 				D7D1E43720635F56002099B9 /* ManageCellManager.swift */,
 				D7255943203A41E300DBA62B /* ManageController.swift */,
-				D790B061205BB4DD00D8697F /* SettingsController.swift */,
 				D7D1E42D20630009002099B9 /* SettingsCellManager.swift */,
+				D790B061205BB4DD00D8697F /* SettingsController.swift */,
 				D790B060205BB4DD00D8697F /* ManageIntegrationsController.swift */,
-				D7D1E42A20630009002099B9 /* ManageIntegrationsCell.swift */,
 				D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */,
 				D762FCF520689F070021B6F2 /* ManageInvitesCell.swift */,
 				D7CCBC7E206C259A009654CB /* ManageHelpController.swift */,
@@ -447,7 +444,6 @@
 				D79DA988204A337500EA082A /* MainController.swift in Sources */,
 				D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */,
 				D7CCBC8C207D9226009654CB /* PlannerMainCell.swift in Sources */,
-				D7D1E4312063000A002099B9 /* ManageIntegrationsCell.swift in Sources */,
 				D73F655A203FA06400144C89 /* AssignmentService.swift in Sources */,
 				D762FCF82069A4470021B6F2 /* CustomUI.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,

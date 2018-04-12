@@ -29,12 +29,12 @@ class ManageController: UITableViewController {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         
         let cellAtIndex = cellsFiltered[indexPath.row]
-        let cellClass = cellAtIndex.getCellType()
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellClass, for: indexPath)
+        let cellType = cellAtIndex.getCellType()
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellType, for: indexPath)
         
-        if cellClass == "SmallCell" {
+        if cellType == "SmallCell" {
             return smallCell(c: cellAtIndex, cell: cell)
-        } else if cellClass == "MediumCell" {
+        } else if cellType == "MediumCell" {
             return mediumCell(c: cellAtIndex, cell: cell)
         }
     
@@ -53,16 +53,12 @@ class ManageController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         
-        if cellsFiltered[indexPath.row] == .manageIntegrations {
-            navigationController?.pushViewController(ManageIntegrationsController(), animated: true)
-        } else if cellsFiltered[indexPath.row] == .manageInvites {
-            navigationController?.pushViewController(ManageInvitesController(), animated: true)
-        } else if cellsFiltered[indexPath.row] == .settings {
-//            navigationController?.pushViewController(SettingsController(), animated: true)
-        } else if cellsFiltered[indexPath.row] == .help {
-            navigationController?.pushViewController(ManageHelpController(), animated: true)
-        } else if cellsFiltered[indexPath.row] == .about {
-//            navigationController?.pushViewController(ManageAboutController(), animated: true)
+        switch cellsFiltered[indexPath.row] {
+        case .manageIntegrations: navigationController?.pushViewController(ManageIntegrationsController(), animated: true)
+        case .manageInvites: navigationController?.pushViewController(ManageInvitesController(), animated: true)
+        case .settings: navigationController?.pushViewController(SettingsController(), animated: true)
+        case .help: navigationController?.pushViewController(ManageHelpController(), animated: true)
+        case .about: return //navigationController?.pushViewController(ManageAboutController(), animated: true)
         }
     }
     
@@ -99,7 +95,7 @@ extension ManageController {
         cell.backgroundColor = .tableViewDarkGrey
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+        let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.standard!, fontColor: .navigationsWhite)
         
         let icon = UIImageView()
         icon.image = c.getImage()
@@ -118,7 +114,7 @@ extension ManageController {
         cell.backgroundColor = .tableViewDarkGrey
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+        let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.standard!, fontColor: .navigationsWhite)
         
         let icon = UIImageView()
         icon.image = c.getImage()
@@ -139,8 +135,8 @@ extension ManageController {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 75))
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let name = UILabel().setUpLabel(text: "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
-        let email = UILabel().setUpLabel(text: "\(dictionary?["email"] ?? "Unknown Email")", font: UIFont.UISubtext!, fontColor: .navigationsLightGrey)
+        let name = UILabel().setUpLabel(text: "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")", font: UIFont.standard!, fontColor: .navigationsWhite)
+        let email = UILabel().setUpLabel(text: "\(dictionary?["email"] ?? "Unknown Email")", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         
         let image = UIImageView()
         image.tintColor = .navigationsLightGrey

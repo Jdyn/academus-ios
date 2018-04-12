@@ -26,7 +26,7 @@ class IntegrationSelectCell: UITableViewCell {
     }
     
     let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-    let title = UILabel().setUpLabel(text: "", font: UIFont.UIStandard!, fontColor: .navigationsWhite)
+    let title = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .navigationsWhite)
     let icon: UIImageView = {
         let image = UIImageView()
         return image

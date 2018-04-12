@@ -28,7 +28,7 @@ class PlannerController: UITableViewController {
     }
     
     func errorLabel(show: Bool) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCreate some cards or comeback later", font: UIFont.UIStandard!, fontColor: .navigationsLightGrey )
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCreate some cards or comeback later", font: UIFont.standard!, fontColor: .navigationsLightGrey )
         label.textAlignment = .center
         label.numberOfLines = 0
         if show {
