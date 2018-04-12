@@ -38,6 +38,9 @@ class AccountCreateController: UIViewController {
             self.fields.append(textField)
         }
         
+        fields[4].isSecureTextEntry = true
+        fields[5].isSecureTextEntry = true
+        
         view.addSubview(scrollView!)
         view.backgroundColor = .tableViewDarkGrey
         

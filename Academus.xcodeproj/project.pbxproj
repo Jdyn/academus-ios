@@ -145,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */,
+				D7CCBC8B207D9226009654CB /* PlannerMainCell.swift */,
 				D7CCBC89207D88AC009654CB /* CardCreateManager.swift */,
 			);
 			path = PlannerCardCreation;
@@ -163,7 +164,6 @@
 			isa = PBXGroup;
 			children = (
 				D7153A30204D660300CF4DC4 /* PlannerController.swift */,
-				D7CCBC8B207D9226009654CB /* PlannerMainCell.swift */,
 				582142C9207E832300F92E1B /* PlannerCardCreation */,
 			);
 			path = Planner;
