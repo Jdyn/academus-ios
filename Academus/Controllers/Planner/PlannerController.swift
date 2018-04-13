@@ -68,7 +68,7 @@ class PlannerController: UITableViewController, CreateReminderCardDelegate, UIGe
             self.cards = cards
             
             cards.forEach({ (card) in
-                print("fetch planner card call", card.name)
+                print("fetch planner card call", card.name ?? "")
             })
             
         } catch let error {
