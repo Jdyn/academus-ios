@@ -60,13 +60,6 @@ enum ManageCellManager {
         }
     }
     
-    func getRowCount() -> Int {
-        switch self {
-        case .manageIntegrations, .manageInvites: return 2
-        case .settings, .help, .about: return 3
-        }
-    }
-    
     func getCellType() -> String {
         switch self {
         case .manageIntegrations, .manageInvites: return "MediumCell"

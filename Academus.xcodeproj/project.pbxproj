@@ -40,7 +40,6 @@
 		D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA993204A799300EA082A /* IntegrationLogInController.swift */; };
 		D7A6C63520571F9200605F64 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7A6C63420571F9200605F64 /* Launch Screen.storyboard */; };
 		D7CCBC7F206C259A009654CB /* ManageHelpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC7E206C259A009654CB /* ManageHelpController.swift */; };
-		D7CCBC81206C25D6009654CB /* ManageHelpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */; };
 		D7CCBC85206C2B00009654CB /* ManageAboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC84206C2B00009654CB /* ManageAboutController.swift */; };
 		D7CCBC88206C5DC3009654CB /* AboutCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */; };
 		D7CCBC8A207D88AC009654CB /* CardCreateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC89207D88AC009654CB /* CardCreateManager.swift */; };
@@ -97,7 +96,6 @@
 		D79DA993204A799300EA082A /* IntegrationLogInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationLogInController.swift; sourceTree = "<group>"; };
 		D7A6C63420571F9200605F64 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D7CCBC7E206C259A009654CB /* ManageHelpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageHelpController.swift; sourceTree = "<group>"; };
-		D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageHelpCell.swift; sourceTree = "<group>"; };
 		D7CCBC84206C2B00009654CB /* ManageAboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageAboutController.swift; sourceTree = "<group>"; };
 		D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCellManager.swift; sourceTree = "<group>"; };
 		D7CCBC89207D88AC009654CB /* CardCreateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCreateManager.swift; sourceTree = "<group>"; };
@@ -235,9 +233,8 @@
 				D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */,
 				D762FCF520689F070021B6F2 /* ManageInvitesCell.swift */,
 				D7CCBC7E206C259A009654CB /* ManageHelpController.swift */,
-				D7CCBC80206C25D6009654CB /* ManageHelpCell.swift */,
-				D7CCBC84206C2B00009654CB /* ManageAboutController.swift */,
 				D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */,
+				D7CCBC84206C2B00009654CB /* ManageAboutController.swift */,
 			);
 			path = Manage;
 			sourceTree = "<group>";
@@ -455,7 +452,6 @@
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
 				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
 				D73F6551203E5A6100144C89 /* Constants.swift in Sources */,
-				D7CCBC81206C25D6009654CB /* ManageHelpCell.swift in Sources */,
 				D762FCF0206899240021B6F2 /* InvitesService.swift in Sources */,
 				D7F66246204769AB0060FA8D /* WelcomeController.swift in Sources */,
 				D790B062205BB4DD00D8697F /* ManageIntegrationsController.swift in Sources */,

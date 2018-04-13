@@ -58,7 +58,7 @@ class ManageController: UITableViewController {
         case .manageInvites: navigationController?.pushViewController(ManageInvitesController(), animated: true)
         case .settings: navigationController?.pushViewController(SettingsController(), animated: true)
         case .help: navigationController?.pushViewController(ManageHelpController(), animated: true)
-        case .about: return //navigationController?.pushViewController(ManageAboutController(), animated: true)
+        case .about: navigationController?.pushViewController(ManageAboutController(), animated: true)
         }
     }
     

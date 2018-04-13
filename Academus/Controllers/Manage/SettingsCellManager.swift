@@ -69,14 +69,6 @@ enum SettingsCellManager {
         }
     }
 
-    func rowCount() -> Int {
-        switch self {
-        case .fingerPrintLock: return 1
-        case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 3
-        default: return 0
-        }
-    }
-
     func getCellType() -> String {
         switch self {
         case .fingerPrintLock: return "MediumCell"

@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         window = UIWindow()
         window?.makeKeyAndVisible()
-        window?.rootViewController = MainController()
+        window?.rootViewController = MainController() //MainNavigationController(rootViewController: IntegrationSelectController())
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false

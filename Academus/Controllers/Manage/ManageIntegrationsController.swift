@@ -20,11 +20,8 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
         navigationItem.title = "Manage Integrations"
         tableView.separatorStyle = .none
         tableView.tableHeaderView = headerView()
+        setupAddButtonInNavBar(selector: #selector(handleAdd))
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
         
         integrationService.userIntegrationsDelegate = self
         integrationService.userIntegrations { (success) in
@@ -41,6 +38,16 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
             self.integrations.append(integration)
         }
     }
+    
+    @objc func handleAdd() {
+        let controller = IntegrationSelectController()
+        controller.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
+        controller.navigationItem.title = "Add an Integration"
+        controller.tableView.tableHeaderView = integrationSelectHeaderView()
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc func handleCancel() { self.navigationController?.popViewController(animated: true) }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
@@ -83,7 +90,7 @@ extension ManageIntegrationsController {
         let circle = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         circle.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
         circle.layer.masksToBounds = true
-        circle.layer.cornerRadius = circle.frame.size.width / 2//view.frame.size.width / 2
+        circle.layer.cornerRadius = circle.frame.size.width / 2
         
         if integration.last_sync_did_error == true {
             circle.backgroundColor = .navigationsRed
@@ -137,6 +144,18 @@ extension ManageIntegrationsController {
         
         background.anchors(top: header.topAnchor, bottom: header.bottomAnchor, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6)
         counter.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
+        return header
+    }
+    
+    private func integrationSelectHeaderView() -> UIView {
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 25))
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        let label = UILabel().setUpLabel(text: "Adding the same integration will cause errors", font: UIFont.subtext!, fontColor: .navigationsRed)
+
+        header.addSubviews(views: [background, label])
+
+        background.anchors(top: header.topAnchor, bottom: header.bottomAnchor, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6)
+        label.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
         return header
     }
 }

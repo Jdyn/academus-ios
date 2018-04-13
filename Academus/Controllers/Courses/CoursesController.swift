@@ -24,6 +24,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 41, 0)
         
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
@@ -118,8 +119,8 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return courses.count }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 70 }
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
+//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
     
     @objc func refreshTable() {
         self.fetchCourses(token: self.authToken!) { (success) in

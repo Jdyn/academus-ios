@@ -20,7 +20,6 @@ class IntegrationLogInController: UIViewController {
     let button = UIButton(type: .system).setUpButton(title: "SIGN IN", font: UIFont.standard!, fontColor: .navigationsGreen)
     
     @objc func logInPressed() {
-        
         guard let fieldsCounts = integration?.fields.count else {return}
         for i in 0...fieldsCounts - 1 {
             if (fields[i].text?.isEmpty)! {
@@ -28,10 +27,13 @@ class IntegrationLogInController: UIViewController {
                 return
             }
         }
-
+        loadingAlert(title: "Pleast wait", message: "Attempting to add new integration")
         integrationService?.addIntegration(fields: fields) { (success) in
             if success {
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: {
+                    self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popToRootViewController(animated: true)
+                })
             } else {
                 print("failure here")
             }
