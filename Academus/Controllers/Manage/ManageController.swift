@@ -137,22 +137,33 @@ extension ManageController {
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let name = UILabel().setUpLabel(text: "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")", font: UIFont.standard!, fontColor: .navigationsWhite)
         let email = UILabel().setUpLabel(text: "\(dictionary?["email"] ?? "Unknown Email")", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
-        
-        let image = UIImageView()
-        image.tintColor = .navigationsLightGrey
-        image.image = #imageLiteral(resourceName: "profile")
+    
+        let profileImage = UIImageView()
+        DispatchQueue.global(qos: .background).async {
+            let url = URL(string: "\(BASE_URL)/api/picture?token=\(dictionary?["authToken"] ?? "")")
+            guard let data = try? Data(contentsOf: url!) else {return}
+
+            DispatchQueue.main.async {
+                profileImage.image = UIImage(data: data)
+                profileImage.layer.masksToBounds = true
+                profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
+                
+            }
+        }
         
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "exit"), for: .normal)
         button.addTarget(self, action: #selector(handleSignout), for: .touchUpInside)
         button.tintColor = .navigationsRed
         
-        view.addSubviews(views: [background, button, name, email, image])
+        let stack = UIStackView(arrangedSubviews: [name, email])
+        stack.axis = .vertical
+        stack.distribution = .equalCentering
+        view.addSubviews(views: [background, stack, button, profileImage])
         
         background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        image.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 48, height: 48)
-        name.anchors(bottom: image.centerYAnchor, left: image.rightAnchor, leftPad: 6)
-        email.anchors(top: image.centerYAnchor, left: image.rightAnchor, leftPad: 6)
+        stack.anchors(left: profileImage.rightAnchor, leftPad: 9, centerY: profileImage.centerYAnchor)
+        profileImage.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 42, height: 42)
         button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
         
         return view
