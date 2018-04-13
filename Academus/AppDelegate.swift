@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         center.delegate = self
         center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-            print(granted)
+            
         }
         
         DispatchQueue.main.async(execute: { UIApplication.shared.registerForRemoteNotifications() })

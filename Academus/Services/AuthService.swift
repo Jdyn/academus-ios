@@ -91,7 +91,6 @@ class AuthService {
                         let json = try JSON(data: data)
                         let success = json["success"].boolValue
                         if (success) {
-                            
                             let token = json["result"]["token"].stringValue
                             let email = json["result"]["user"]["email"].stringValue
                             let firstName = json["result"]["user"]["first_name"].stringValue

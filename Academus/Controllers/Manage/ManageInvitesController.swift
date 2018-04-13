@@ -15,7 +15,7 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
     var addedInvite: Invite?
     let cellID = "userInvitesCell"
     var invitesLeft: Int = 0
-    var counter: UILabel = UILabel().setUpLabel(text: "", font: UIFont.UISubtext!, fontColor: .navigationsWhite)
+    var counter: UILabel = UILabel().setUpLabel(text: "", font: UIFont.subtext!, fontColor: .navigationsWhite)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,16 +31,13 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
                 self.tableView.tableHeaderView = self.header()
             }
         }
-        self.invitesService.inviteDelegate = self
         tableView.separatorStyle = .none
-        tableView.tableFooterView = UIView()
         tableView.register(ManageInvitesCell.self, forCellReuseIdentifier: cellID)
     }
     
     func header() -> UIView {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-//        let counter = UILabel()
         
         if self.invitesLeft == 0 {
             counter.text! = "You've run out of invites! Thank you!"

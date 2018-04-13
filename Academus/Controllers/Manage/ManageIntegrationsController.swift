@@ -10,6 +10,7 @@ import UIKit
 
 class ManageIntegrationsController: UITableViewController, UserIntegrationsDelegate {
 
+    let date = UILabel().setUpLabel(text: "", font: UIFont.subtext!, fontColor: .tableViewLightGrey)
     let integrationService = IntegrationService()
     var integrations = [UserIntegrations]()
     let cellID = "userIntegrationsCell"
@@ -18,9 +19,8 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
         super.viewDidLoad()
         navigationItem.title = "Manage Integrations"
         tableView.separatorStyle = .none
-        tableView.tableHeaderView = self.header()
-        tableView.tableFooterView = UIView()
-        tableView.register(ManageIntegrationsCell.self, forCellReuseIdentifier: cellID)
+        tableView.tableHeaderView = headerView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,13 +43,8 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ManageIntegrationsCell {
-            
-            let integration = self.integrations[indexPath.row]
-            cell.integration = integration
-            return cell
-        }
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        return integrationCell(cell: cell, integration: integrations[indexPath.row])
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -61,7 +56,7 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
                 self.integrationService.userIntegrations(completion: { (success) in
                     if success {
                         self.dismiss(animated: true, completion: {
-                            self.tableView.reloadData()
+                            self.date.text = "Synced"
                         })
                     }
                 })
@@ -73,28 +68,75 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
             }
         }
     }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 65 }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return integrations.count }
+}
+
+extension ManageIntegrationsController {
     
-    func header() -> UIView {
+    private func integrationCell(cell: UITableViewCell, integration: UserIntegrations) -> UITableViewCell {
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        let name = UILabel().setUpLabel(text: integration.name ?? "", font: UIFont.subtext!, fontColor: .navigationsWhite)
+        
+        let circle = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        circle.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
+        circle.layer.masksToBounds = true
+        circle.layer.cornerRadius = circle.frame.size.width / 2//view.frame.size.width / 2
+        
+        if integration.last_sync_did_error == true {
+            circle.backgroundColor = .navigationsRed
+        } else {
+            circle.backgroundColor = .navigationsGreen
+        }
+        
+        let icon = UIImageView()
+        DispatchQueue.global(qos: .background).async {
+            let url = URL(string: integration.icon_url ?? "")
+            guard let data = try? Data(contentsOf: url!) else {return}
+            
+            DispatchQueue.main.async {
+                icon.image = UIImage(data: data)
+            }
+        }
+        
+        let lastSynced = integration.last_synced
+        let formattedDate = timeAgoStringFromDate(date: lastSynced!)
+        date.text = "last synced: \(formattedDate ?? "Error")"
+        
+        let syncIcon = UIImageView().setupImageView(color: .navigationsGreen, image: #imageLiteral(resourceName: "sync"))
+        let sync = UILabel().setUpLabel(text: "Sync now", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
+        
+        cell.backgroundColor = .tableViewDarkGrey
+        cell.selectionStyle = .none
+        
+        let stackView = UIStackView(arrangedSubviews: [ icon, name, date ])
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        
+        cell.addSubviews(views: [background, circle, stackView, icon, name, date, sync, syncIcon])
+            
+        background.anchors(top: cell.topAnchor, topPad: 6, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
+        circle.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 10, height: 10)
+        stackView.anchors(left: circle.rightAnchor, leftPad: 6, centerY: background.centerYAnchor)
+        icon.anchors(left: stackView.leftAnchor, centerY: stackView.centerYAnchor ,width: 28, height: 28)
+        name.anchors(top: icon.topAnchor, left: icon.rightAnchor, leftPad: 6)
+        date.anchors(bottom: icon.bottomAnchor, left: icon.rightAnchor, leftPad: 6)
+        sync.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
+        syncIcon.anchors(right: sync.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 16, height: 16)
+        return cell
+    }
+    
+    private func headerView() -> UIView {
         let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let counter = UILabel().setUpLabel(text: "Current Integrations", font: UIFont.UISubtext!, fontColor: .navigationsWhite)
+        let counter = UILabel().setUpLabel(text: "Current Integrations", font: UIFont.subtext!, fontColor: .navigationsWhite)
         
         header.addSubviews(views: [background, counter])
         
-        background.anchors(top: header.topAnchor, topPad: 0, bottom: header.bottomAnchor, bottomPad: 0, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6, width: 0, height: 0)
+        background.anchors(top: header.topAnchor, bottom: header.bottomAnchor, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6)
         counter.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
         return header
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
-    }
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return integrations.count
     }
 }

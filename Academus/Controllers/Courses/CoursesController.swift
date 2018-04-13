@@ -83,7 +83,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     func errorLabel(show: Bool) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection and swipe down", font: UIFont.UIStandard!, fontColor: .navigationsLightGrey)
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection and swipe down", font: UIFont.standard!, fontColor: .navigationsLightGrey)
         label.textAlignment = .center
         label.numberOfLines = 0
         if show {

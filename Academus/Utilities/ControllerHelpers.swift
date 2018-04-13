@@ -102,7 +102,7 @@ extension UITextField {
         
         let field = UITextField()
         
-        field.font = UIFont.UIStandard
+        field.font = UIFont.standard
         field.textColor = UIColor.navigationsWhite
         
         if bottomBorder {
@@ -116,7 +116,7 @@ extension UITextField {
         if ghostText != "" {
             field.attributedPlaceholder = NSAttributedString(string: ghostText!, attributes: [
                 NSAttributedStringKey.foregroundColor: UIColor.ghostText,
-                NSAttributedStringKey.font: UIFont.UIStandard!
+                NSAttributedStringKey.font: UIFont.standard!
                 ])
         }
         
@@ -153,6 +153,13 @@ extension UIView{
         views.forEach { (view) in
             self.addSubview(view)
         }
+    }
+    
+    func setupImageView(color: UIColor, image: UIImage) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.tintColor = color
+        imageView.image = image
+        return imageView
     }
     
     func setupBackground(bgColor: UIColor) -> UIView{
@@ -229,19 +236,4 @@ func timeAgoStringFromDate(date: Date) -> String? {
         return nil
     }
     return String(format: formatString, timeString)
-}
-
-extension UITableView {
-
-    func registerCell(_ cellClass: UITableViewCell.Type) {
-        let cellReuseIdentifier = cellClass.cellReuseIdentifier()
-        register(cellClass, forCellReuseIdentifier: cellReuseIdentifier)
-    }
-}
-
-extension UITableViewCell {
-
-    class func cellReuseIdentifier() -> String {
-        return "\(self)"
-    }
 }
