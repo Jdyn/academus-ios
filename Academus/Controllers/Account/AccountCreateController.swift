@@ -37,7 +37,7 @@ class AccountCreateController: UIViewController {
             scrollView!.addSubview(textField)
             self.fields.append(textField)
         }
-        
+        fields[3].keyboardType = .emailAddress
         fields[4].isSecureTextEntry = true
         fields[5].isSecureTextEntry = true
         

@@ -147,6 +147,19 @@ extension UIStackView {
     }
 }
 
+extension UITableViewController {
+    func tableViewEmptyLabel(message: String? = "", show: Bool) {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: message!, font: UIFont.standard!, fontColor: .navigationsLightGrey )
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        if show {
+            self.tableView.backgroundView = label
+        } else {
+            self.tableView.backgroundView = nil
+        }
+    }
+}
+
 extension UIView{
     
     func addSubviews(views: [UIView]) {

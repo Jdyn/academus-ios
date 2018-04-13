@@ -32,6 +32,8 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
         
         view.backgroundColor = .tableViewDarkGrey
 
+        emailField.keyboardType = .emailAddress
+        emailField.autocapitalizationType = .none
         stack = UIStackView(arrangedSubviews: [welcomeLabel, emailField, passwordField, logInButton])
         stack!.axis = .vertical
         stack!.spacing = 32
@@ -57,6 +59,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
             authService.logInUser(email: emailField.text!, password: passwordField.text!)
             { (success) in
                 if success {
+                    self.hideKeyboard()
                     self.dismiss(animated: true, completion: {
                         self.dismiss(animated: true, completion: nil)
                     })

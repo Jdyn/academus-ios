@@ -27,17 +27,6 @@ class PlannerController: UITableViewController {
         refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
     }
     
-    func errorLabel(show: Bool) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCreate some cards or comeback later", font: UIFont.standard!, fontColor: .navigationsLightGrey )
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        if show {
-            self.tableView.backgroundView = label
-        } else {
-            self.tableView.backgroundView = nil
-        }
-    }
-    
     @objc func addPlannerCard() {
         let createController = MainNavigationController(rootViewController: PlannerCreateCardController())
         navigationController?.present(createController, animated: true, completion: {
@@ -56,9 +45,9 @@ class PlannerController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         if cards.count == 0 {
-            errorLabel(show: true)
+            self.tableViewEmptyLabel(message: "Oops... :( \nCreate some cards or comeback later", show: true)
         } else {
-            errorLabel(show: false)
+            self.tableViewEmptyLabel(show: false)
         }
         return 1
     }
