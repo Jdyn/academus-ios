@@ -51,6 +51,7 @@ class ManageController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         
         switch cellsFiltered[indexPath.row] {
@@ -93,10 +94,10 @@ extension ManageController {
     
     private func smallCell(c: ManageCellManager, cell: UITableViewCell) -> UITableViewCell {
         cell.backgroundColor = .tableViewDarkGrey
+        cell.selectedBackgroundView = selectedBackgroundView()
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.standard!, fontColor: .navigationsWhite)
-        
         let icon = UIImageView()
         icon.image = c.getImage()
         icon.tintColor = .navigationsGreen
@@ -112,6 +113,7 @@ extension ManageController {
     
     private func mediumCell(c: ManageCellManager, cell: UITableViewCell) -> UITableViewCell {
         cell.backgroundColor = .tableViewDarkGrey
+        cell.selectedBackgroundView = selectedBackgroundView()
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.standard!, fontColor: .navigationsWhite)
@@ -147,7 +149,6 @@ extension ManageController {
                 profileImage.image = UIImage(data: data)
                 profileImage.layer.masksToBounds = true
                 profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
-                
             }
         }
         
@@ -166,6 +167,16 @@ extension ManageController {
         profileImage.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 42, height: 42)
         button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
         
+        return view
+    }
+    
+    private func selectedBackgroundView() -> UIView {
+        let view = UIView()
+        view.backgroundColor = .tableViewDarkGrey
+        let selectedView = UIView()
+        selectedView.backgroundColor =  UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 0.1)
+        view.addSubview(selectedView)
+        selectedView.anchors(top: view.topAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         return view
     }
 }

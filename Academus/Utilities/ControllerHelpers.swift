@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIViewController {
-    
+        
     func setupScrollingNavBar() {
         let statusBar = UIView()
         statusBar.backgroundColor = .navigationsDarkGrey

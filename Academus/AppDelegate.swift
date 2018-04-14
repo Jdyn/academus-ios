@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UINavigationBar.appearance().tintColor = .navigationsGreen
         
         UINavigationBar.appearance().largeTitleTextAttributes = [
-            NSAttributedStringKey.font: UIFont(name: "AvenirNext-demibold", size: 30)!,
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-demibold", size: 29)!,
             NSAttributedStringKey.foregroundColor: UIColor.navigationsWhite,
         ]
         

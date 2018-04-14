@@ -64,20 +64,15 @@ class CourseCell: UITableViewCell {
         label.textColor = .tableViewLightGrey
         return label
     }()
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewDarkGrey
-        selectionStyle = .none
+//        selectionStyle = .none
         
-        let stackView = UIStackView(arrangedSubviews: [
-            gradeLetterLabel, gradePercentLabel
-            ])
+        selectedBackgroundView = selectedBackgroundView()
         
+        let stackView = UIStackView(arrangedSubviews: [ gradeLetterLabel, gradePercentLabel ])
         stackView.axis = .vertical
         stackView.alignment = .center
         
@@ -94,6 +89,16 @@ class CourseCell: UITableViewCell {
         title.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: background.centerYAnchor, width: 200, height: 0)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
+    }
+    
+    func selectedBackgroundView() -> UIView {
+        let view = UIView()
+        view.backgroundColor = .tableViewDarkGrey
+        let selectedView = UIView()
+        selectedView.backgroundColor =  UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 0.1)//UIColor(red: 43/255, green: 43/255, blue: 43/255, alpha: 1)
+        view.addSubview(selectedView)
+        selectedView.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        return view
     }
     
     required init?(coder aDecoder: NSCoder) {

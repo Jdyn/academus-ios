@@ -19,7 +19,7 @@ class PlannerController: UITableViewController {
         view.backgroundColor = .tableViewDarkGrey
         tableView.separatorStyle = .none
         
-        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
+//        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
         
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
@@ -45,7 +45,7 @@ class PlannerController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         if cards.count == 0 {
-            self.tableViewEmptyLabel(message: "Oops... :( \nCreate some cards or comeback later", show: true)
+            self.tableViewEmptyLabel(message: "Oops... :( \nThis feature is a work in progress! \nPlease come back later", show: true)
         } else {
             self.tableViewEmptyLabel(show: false)
         }

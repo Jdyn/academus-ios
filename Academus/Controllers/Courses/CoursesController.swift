@@ -110,6 +110,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let courseDetailsController = CourseDetailsController()
         courseDetailsController.navigationItem.title = courses[indexPath.row].name
         courseDetailsController.courseID = courses[indexPath.row].id

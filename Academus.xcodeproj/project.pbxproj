@@ -26,7 +26,6 @@
 		D762FCF0206899240021B6F2 /* InvitesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCEF206899240021B6F2 /* InvitesService.swift */; };
 		D762FCF2206899C60021B6F2 /* userInvitesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCF1206899C60021B6F2 /* userInvitesModel.swift */; };
 		D762FCF420689AC50021B6F2 /* ManageInvitesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */; };
-		D762FCF620689F070021B6F2 /* ManageInvitesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCF520689F070021B6F2 /* ManageInvitesCell.swift */; };
 		D762FCF82069A4470021B6F2 /* CustomUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCF72069A4470021B6F2 /* CustomUI.swift */; };
 		D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77BC0BB203E555F00AAA505 /* CourseModel.swift */; };
 		D77BC0BF203E589E00AAA505 /* CourseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77BC0BE203E589E00AAA505 /* CourseService.swift */; };
@@ -82,7 +81,6 @@
 		D762FCEF206899240021B6F2 /* InvitesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesService.swift; sourceTree = "<group>"; };
 		D762FCF1206899C60021B6F2 /* userInvitesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInvitesModel.swift; sourceTree = "<group>"; };
 		D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageInvitesController.swift; sourceTree = "<group>"; };
-		D762FCF520689F070021B6F2 /* ManageInvitesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageInvitesCell.swift; sourceTree = "<group>"; };
 		D762FCF72069A4470021B6F2 /* CustomUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUI.swift; sourceTree = "<group>"; };
 		D77BC0BB203E555F00AAA505 /* CourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
 		D77BC0BE203E589E00AAA505 /* CourseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseService.swift; sourceTree = "<group>"; };
@@ -231,7 +229,6 @@
 				D790B061205BB4DD00D8697F /* SettingsController.swift */,
 				D790B060205BB4DD00D8697F /* ManageIntegrationsController.swift */,
 				D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */,
-				D762FCF520689F070021B6F2 /* ManageInvitesCell.swift */,
 				D7CCBC7E206C259A009654CB /* ManageHelpController.swift */,
 				D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */,
 				D7CCBC84206C2B00009654CB /* ManageAboutController.swift */,
@@ -447,7 +444,6 @@
 				D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */,
 				D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */,
 				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,
-				D762FCF620689F070021B6F2 /* ManageInvitesCell.swift in Sources */,
 				D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */,
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
 				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
