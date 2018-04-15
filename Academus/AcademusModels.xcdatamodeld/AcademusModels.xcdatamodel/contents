@@ -6,11 +6,10 @@
     </entity>
     <entity name="ReminderCard" representedClassName="ReminderCard" syncable="YES" codeGenerationType="class">
         <attribute name="dateDue" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="place" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="PlannerCards" positionX="-335" positionY="213" width="128" height="75"/>
-        <element name="ReminderCard" positionX="-155" positionY="315" width="128" height="90"/>
+        <element name="ReminderCard" positionX="-155" positionY="315" width="128" height="75"/>
     </elements>
 </model>
