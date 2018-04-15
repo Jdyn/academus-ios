@@ -16,6 +16,8 @@ class MainController: UITabBarController {
         super.viewDidAppear(true)
         view.backgroundColor = .tableViewDarkGrey
         
+        (UIApplication.shared.delegate as! AppDelegate).mainController = self
+        
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         if dictionary?["isLoggedIn"] == nil {
             let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
@@ -26,8 +28,9 @@ class MainController: UITabBarController {
             if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
                 context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Unlock", reply: { (success, error) in
                     guard error == nil else {
-                        print(error as Any)
-                        self.alertMessage(title: "Authentication Failed", message: "Please login again to confirm your identity.")
+                        if let err = error as NSError? {
+                            if err.code == LAError.Code.userFallback.rawValue { return }
+                        }
                         self.kickUser()
                         return
                     }
@@ -40,7 +43,7 @@ class MainController: UITabBarController {
         }
     }
     
-    func setUpUI(){
+    func setUpUI() {
         let plannerController = PlannerController()
         plannerController.tabBarItem = UITabBarItem(title: "Planner", image: #imageLiteral(resourceName: "planner"), tag: 0)
         
@@ -55,9 +58,16 @@ class MainController: UITabBarController {
     }
     
     func kickUser() {
-        do { try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH) } catch {}
+        let alert = UIAlertController(title: "Authentication Failed", message: "Please login again to confirm your identity.", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: {(alert: UIAlertAction!) in
+            do { try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH) } catch {}
+            
+            let welcomeNav = WelcomeController()
+            let mainNav = MainNavigationController(rootViewController: welcomeNav)
+            UIApplication.shared.keyWindow?.rootViewController?.present(mainNav, animated: true, completion: nil)
+        })
+        alert.addAction(action)
         
-        let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-        self.present(welcomeNavigationController, animated: true, completion: { self.setUpUI() })
+        DispatchQueue.main.async { self.present(alert, animated: true, completion: nil) }
     }
 }
