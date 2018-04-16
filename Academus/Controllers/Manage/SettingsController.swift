@@ -82,8 +82,8 @@ class SettingsController: UITableViewController {
         
         view.addSubviews(views: [background, title])
         
-        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        title.anchors(top: background.topAnchor, topPad: 3, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
+        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, bottomPad: 9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        title.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor)
         return view
     }
     
@@ -92,7 +92,7 @@ class SettingsController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 27 }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 33 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 1 : 3) }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
@@ -114,7 +114,7 @@ extension SettingsController {
         toggle.thumbTintColor = .navigationsWhite
         toggle.onTintColor = .navigationsGreen
         toggle.tintColor = .navigationsWhite
-        toggle.transform = CGAffineTransform(scaleX: 0.60, y: 0.60)
+//        toggle.transform = CGAffineTransform(scaleX: 0.60, y: 0.60)
         
         cell.addSubviews(views: [background, icon, title, toggle])
             

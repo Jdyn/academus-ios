@@ -137,7 +137,7 @@ extension ManageController {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 75))
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let name = UILabel().setUpLabel(text: "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")", font: UIFont.standard!, fontColor: .navigationsWhite)
+        let name = UILabel().setUpLabel(text: "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")", font: UIFont(name: "AvenirNext-medium", size: 20)!, fontColor: .navigationsWhite)
         let email = UILabel().setUpLabel(text: "\(dictionary?["email"] ?? "Unknown Email")", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
     
         let profileImage = UIImageView()

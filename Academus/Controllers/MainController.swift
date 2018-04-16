@@ -27,7 +27,6 @@ class MainController: UITabBarController {
     }
         
     func setUpUI(){
-
         let plannerController = PlannerController()
         plannerController.tabBarItem = UITabBarItem(title: "Planner", image: #imageLiteral(resourceName: "planner"), tag: 0)
         
@@ -39,5 +38,6 @@ class MainController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
+        self.selectedIndex = 1
     }
 }
