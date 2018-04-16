@@ -10,10 +10,10 @@ PODS:
   - FirebaseAnalytics (4.0.9):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - nanopb (~> 0.3)
   - FirebaseCore (4.0.14):
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
   - FirebaseInstanceID (2.0.8):
     - FirebaseCore (~> 4.0)
   - FirebaseMessaging (2.0.8):
@@ -25,7 +25,7 @@ PODS:
   - GoogleToolboxForMac/Defines (2.1.3)
   - GoogleToolboxForMac/Logger (2.1.3):
     - GoogleToolboxForMac/Defines (= 2.1.3)
-  - GoogleToolboxForMac/NSData+zlib (2.1.3):
+  - "GoogleToolboxForMac/NSData+zlib (2.1.3)":
     - GoogleToolboxForMac/Defines (= 2.1.3)
   - Locksmith (4.0.0)
   - nanopb (0.3.8):
@@ -44,6 +44,21 @@ DEPENDENCIES:
   - Locksmith
   - SwiftyJSON
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Crisp
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseInstanceID
+    - FirebaseMessaging
+    - GoogleToolboxForMac
+    - Locksmith
+    - nanopb
+    - Protobuf
+    - SwiftyJSON
+
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Crisp: c957983b131baa9cb10b841abd1ad2e340763006
@@ -60,4 +75,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: d4ef8073c49925031c960ed71b0e12189bdc788c
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

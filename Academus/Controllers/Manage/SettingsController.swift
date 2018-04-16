@@ -88,7 +88,19 @@ class SettingsController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if cell.textLabel?.text == SettingsCellManager.fingerPrintLock.getTitle() {
+                cell.accessoryType = .checkmark
+            }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if cell.textLabel?.text == SettingsCellManager.fingerPrintLock.getTitle() {
+                cell.accessoryType = .none
+            }
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }

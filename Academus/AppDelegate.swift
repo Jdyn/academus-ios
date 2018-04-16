@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import Alamofire
 import Firebase
 import FirebaseInstanceID
 import FirebaseMessaging
@@ -26,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var mainController: MainController?
     var blurController: BackgroundBlurController?
     var isAuthorized: Bool?
+    var apnsToken: String?
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -109,8 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("token: \(token)")
+        apnsToken = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -138,6 +139,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func registerAPNS() {
+        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else { return }
+        guard let token = dictionary["authToken"] as? String else { return }
+        guard let appleToken = apnsToken else { return }
+        
+        let body: Parameters = ["apns_token": appleToken]
+        Alamofire.request(URL(string: "\(BASE_URL)/api/apns?token=\(token)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
+            print(response)
+        }
     }
     
     func parse(payload: [AnyHashable: Any]) {
