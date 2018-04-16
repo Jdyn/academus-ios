@@ -13,7 +13,7 @@ import FirebaseInstanceID
 import FirebaseMessaging
 import Locksmith
 
-class MainNavigationController : UINavigationController {
+class MainNavigationController: UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -23,6 +23,8 @@ class MainNavigationController : UINavigationController {
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
     var mainController: MainController?
+    var blurController: BackgroundBlurController?
+    var isAuthorized: Bool?
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -53,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UITableView.appearance().backgroundColor = .tableViewDarkGrey
         
         let center = UNUserNotificationCenter.current()
-        
+
         center.delegate = self
         center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             
@@ -83,14 +85,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        isAuthorized = false
+        blurController = BackgroundBlurController()
+        application.keyWindow?.rootViewController?.present(blurController!, animated: true, completion: nil)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        if let main = mainController {
-            main.viewDidAppear(true)
-        }
+        guard isAuthorized == true else { mainController?.localAuth(); return }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

@@ -11,22 +11,30 @@ import Locksmith
 import LocalAuthentication
 
 class MainController: UITabBarController {
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         view.backgroundColor = .tableViewDarkGrey
         
         (UIApplication.shared.delegate as! AppDelegate).mainController = self
+        guard (UIApplication.shared.delegate as! AppDelegate).isAuthorized == true else {
+            localAuth()
+            return
+        }
         
+        DispatchQueue.main.async { self.setUpUI() }
+    }
+    
+    func localAuth() {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         if dictionary?["isLoggedIn"] == nil {
-            let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-            present(welcomeNavigationController, animated: true, completion: { self.setUpUI() })
+            let welcomeNav = WelcomeController()
+            let mainNav = MainNavigationController(rootViewController: welcomeNav)
+            UIApplication.shared.keyWindow?.rootViewController?.present(mainNav, animated: true, completion: { self.clearBlur() })
         } else {
             let context = LAContext()
             
             if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
-                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Unlock", reply: { (success, error) in
+                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Authenticate to continue.", reply: { (success, error) in
                     guard error == nil else {
                         if let err = error as NSError? {
                             if err.code == LAError.Code.userFallback.rawValue { return }
@@ -35,11 +43,23 @@ class MainController: UITabBarController {
                         return
                     }
                     
-                    DispatchQueue.main.async { self.setUpUI() }
+                    DispatchQueue.main.async { self.clearBlur() }
                 })
             } else {
-                DispatchQueue.main.async { self.setUpUI() }
+                DispatchQueue.main.async { self.clearBlur() }
             }
+        }
+        
+        (UIApplication.shared.delegate as! AppDelegate).isAuthorized = true
+    }
+    
+    func clearBlur() {
+        if let blurController = (UIApplication.shared.delegate as! AppDelegate).blurController {
+            blurController.dismiss(animated: true, completion: {
+                self.setUpUI()
+            })
+        } else {
+            setUpUI()
         }
     }
     

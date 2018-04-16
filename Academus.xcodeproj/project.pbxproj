@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		580CC7FE205064F400EF59C1 /* IntegrationSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */; };
 		7737EEF80D4E4882DE8EAE8C /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13640B4FD642AD6950DA5EF0 /* Pods_Academus.framework */; };
+		C40ED04A2083FF5600931510 /* BackgroundBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40ED0492083FF5600931510 /* BackgroundBlurView.swift */; };
 		C49FDAEF2068792A005A36EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */; };
 		D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A30204D660300CF4DC4 /* PlannerController.swift */; };
 		D7153A33204DF89D00CF4DC4 /* PlannerCreateCardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */; };
@@ -62,6 +63,7 @@
 		580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrationSelectController.swift; sourceTree = "<group>"; };
 		6CEFE00B8A2B3BE738650395 /* Pods-Academus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.debug.xcconfig"; sourceTree = "<group>"; };
 		890075C57931A0A5D85BA6D9 /* Pods-Academus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.release.xcconfig"; sourceTree = "<group>"; };
+		C40ED0492083FF5600931510 /* BackgroundBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurView.swift; sourceTree = "<group>"; };
 		C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D7153A30204D660300CF4DC4 /* PlannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerController.swift; sourceTree = "<group>"; };
 		D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCreateCardController.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				D79DA987204A337500EA082A /* MainController.swift */,
+				C40ED0492083FF5600931510 /* BackgroundBlurView.swift */,
 				D7F66244204769750060FA8D /* Account */,
 				D7153A2F204D658700CF4DC4 /* Planner */,
 				D73F6552203E761600144C89 /* Courses */,
@@ -446,6 +449,7 @@
 				D762FCF82069A4470021B6F2 /* CustomUI.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,
 				D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */,
+				C40ED04A2083FF5600931510 /* BackgroundBlurView.swift in Sources */,
 				D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */,
 				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,
 				D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */,

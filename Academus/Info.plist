@@ -5,7 +5,7 @@
 	<key>NSTouchIDUsageDescription</key>
 	<string></string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Academus uses FaceID to keep your data secure and private</string>
+	<string>Academus uses FaceID to keep your data secure and private.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
