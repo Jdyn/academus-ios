@@ -32,12 +32,12 @@ class SettingsController: UITableViewController {
         let cellType = cellAtIndex.getCellType()
         let cell = tableView.dequeueReusableCell(withIdentifier: cellType, for: indexPath)
         
-        if cellType == "SmallCell" {
-            return smallCell(c: cellAtIndex, cell: cell)
-        } else if cellType == "MediumCell" {
-            return mediumCell(c: cellAtIndex, cell: cell)
+        switch cellAtIndex {
+        case .fingerPrintLock: return biometricsCell(c: cellAtIndex, cell: cell)
+        case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous:
+            return notificationCell(c: cellAtIndex, cell: cell)
+        default: return UITableViewCell()
         }
-        return UITableViewCell()
     }
     
     @objc func handleSignout() {
@@ -87,6 +87,10 @@ class SettingsController: UITableViewController {
         return view
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 27 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 1 : 3) }
@@ -98,7 +102,7 @@ class SettingsController: UITableViewController {
 
 extension SettingsController {
     
-    private func smallCell(c: SettingsCellManager, cell: UITableViewCell) -> UITableViewCell {
+    private func notificationCell(c: SettingsCellManager, cell: UITableViewCell) -> UITableViewCell {
         cell.backgroundColor = .tableViewDarkGrey
         cell.selectionStyle = .none
         
@@ -122,8 +126,9 @@ extension SettingsController {
         return cell
     }
     
-    private func mediumCell(c: SettingsCellManager, cell: UITableViewCell) -> UITableViewCell {
+    private func biometricsCell(c: SettingsCellManager, cell: UITableViewCell) -> UITableViewCell {
         cell.backgroundColor = .tableViewDarkGrey
+        cell.selectionStyle = .none
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.subheader!, fontColor: .navigationsWhite)

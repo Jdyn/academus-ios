@@ -71,8 +71,8 @@ enum SettingsCellManager {
 
     func getCellType() -> String {
         switch self {
-        case .fingerPrintLock: return "MediumCell"
-        case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return "SmallCell"
+        case .fingerPrintLock: return "FingerprintCell"
+        case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return "NotificationCell"
         default: return ""
         }
     }

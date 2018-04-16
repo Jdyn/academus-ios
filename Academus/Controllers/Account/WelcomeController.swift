@@ -73,6 +73,17 @@ class WelcomeController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         self.setupUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationController?.navigationBar.barTintColor = .tableViewDarkGrey
+        navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        navigationController?.navigationBar.isHidden = false
+    }
 
     @objc func logInPressed() {
         navigationController?.pushViewController(AccountLogInController(), animated: true)

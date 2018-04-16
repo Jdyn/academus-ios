@@ -50,6 +50,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
     }
     
     @objc func logInPressed() {
+        self.passwordField.resignFirstResponder()
         if (emailField.text?.isEmpty)! || (passwordField.text?.isEmpty)! {
             alertMessage(title: "Alert", message: "There is a missing field.")
             return
@@ -59,7 +60,6 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
             authService.logInUser(email: emailField.text!, password: passwordField.text!)
             { (success) in
                 if success {
-                    self.hideKeyboard()
                     self.dismiss(animated: true, completion: {
                         self.dismiss(animated: true, completion: nil)
                     })

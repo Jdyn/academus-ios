@@ -11,18 +11,9 @@ import Locksmith
 
 typealias CompletionHandler = (_ Success: Bool) -> ()
 
-let dictionary = Locksmith.loadDataForUserAccount(userAccount: "userAccount")
-
-let token = dictionary?["authToken"]
-let BASE_URL = "https://app.academus.io"
+let BASE_URL = "https://app-test.academus.io"
 let URL_REGISTER = URL(string: "\(BASE_URL)/api/register")
 let URL_LOGIN = URL(string: "\(BASE_URL)/api/login")
-
-let URL_COURSE = URL(string: "\(BASE_URL)/api/courses?token=\(token!)")
-let URL_ASSIGNMENT = URL(string: "\(BASE_URL)/api/assignments?token=\(token!)&no_grouping=true")
-
-let URL_GET_INTEGRATION = URL(string: "\(BASE_URL)/api/integrations/available?token=\(token!)")
-let URL_ADD_INTEGRATION = URL(string: "\(BASE_URL)/api/integrations")
 
 let USER_AUTH = "userAuth"
 let USER_INFO = "userInfo"
