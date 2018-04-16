@@ -24,6 +24,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 41, 0)
         
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
@@ -83,7 +84,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     func errorLabel(show: Bool) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection and swipe down", font: UIFont.UIStandard!, fontColor: .navigationsLightGrey)
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection and swipe down", font: UIFont.standard!, fontColor: .navigationsLightGrey)
         label.textAlignment = .center
         label.numberOfLines = 0
         if show {
@@ -109,6 +110,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let courseDetailsController = CourseDetailsController()
         courseDetailsController.navigationItem.title = courses[indexPath.row].name
         courseDetailsController.courseID = courses[indexPath.row].id
@@ -118,8 +120,8 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return courses.count }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 70 }
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
+//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
     
     @objc func refreshTable() {
         self.fetchCourses(token: self.authToken!) { (success) in

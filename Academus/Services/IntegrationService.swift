@@ -71,7 +71,7 @@ class IntegrationService {
         let body = Dictionary(uniqueKeysWithValues: zip(fieldsID, textFields))
 
         Alamofire.request(URL(string: "\(BASE_URL)/api/integrations/\(route)?token=\(authToken)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
-        
+            
             if response.result.error == nil {
                 
                 guard let data = response.data else {return}
@@ -79,7 +79,6 @@ class IntegrationService {
                     let json = try JSON(data: data)
                     let success = json["success"].boolValue
                     if (success) {
-                        
                         completion(true)
                     } else {
                         completion(false)

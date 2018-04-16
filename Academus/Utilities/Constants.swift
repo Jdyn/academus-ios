@@ -13,7 +13,6 @@ typealias CompletionHandler = (_ Success: Bool) -> ()
 
 let dictionary = Locksmith.loadDataForUserAccount(userAccount: "userAccount")
 
-
 let token = dictionary?["authToken"]
 let BASE_URL = "https://app-test.academus.io"
 let URL_REGISTER = URL(string: "\(BASE_URL)/api/register")

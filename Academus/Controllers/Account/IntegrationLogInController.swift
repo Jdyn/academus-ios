@@ -17,10 +17,9 @@ class IntegrationLogInController: UIViewController {
 
     let titleLabel = UILabel().setUpLabel(text: "", font: UIFont(name: "AvenirNext-demibold", size: 36)!, fontColor: .navigationsGreen)
     let subtitle = UILabel().setUpLabel(text: "Sign into your", font: UIFont(name: "AvenirNext-medium", size: 24)!, fontColor: .navigationsWhite)
-    let button = UIButton(type: .system).setUpButton(title: "SIGN IN", font: UIFont.UIStandard!, fontColor: .navigationsGreen)
+    let button = UIButton(type: .system).setUpButton(title: "SIGN IN", font: UIFont.standard!, fontColor: .navigationsGreen)
     
     @objc func logInPressed() {
-        
         guard let fieldsCounts = integration?.fields.count else {return}
         for i in 0...fieldsCounts - 1 {
             if (fields[i].text?.isEmpty)! {
@@ -28,10 +27,13 @@ class IntegrationLogInController: UIViewController {
                 return
             }
         }
-
+        loadingAlert(title: "Pleast wait", message: "Attempting to add new integration")
         integrationService?.addIntegration(fields: fields) { (success) in
             if success {
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: {
+                    self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popToRootViewController(animated: true)
+                })
             } else {
                 print("failure here")
             }
@@ -51,7 +53,7 @@ class IntegrationLogInController: UIViewController {
         guard let fieldsCounts = integration?.fields.count else {return}
         for i in 0...fieldsCounts - 1 {
             let field = UITextField().setupTextField(bgColor: .tableViewDarkGrey, bottomBorder: true, ghostText: integration?.fields[i].id, isLeftImage: false, isSecure: false)
-            field.font = UIFont.UIStandard!
+            field.font = UIFont.standard!
             if integration?.fields[i].id == "password" {
                 field.isSecureTextEntry = true
             }

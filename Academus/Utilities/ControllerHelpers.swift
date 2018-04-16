@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIViewController {
-    
+        
     func setupScrollingNavBar() {
         let statusBar = UIView()
         statusBar.backgroundColor = .navigationsDarkGrey
@@ -102,7 +102,7 @@ extension UITextField {
         
         let field = UITextField()
         
-        field.font = UIFont.UIStandard
+        field.font = UIFont.standard
         field.textColor = UIColor.navigationsWhite
         
         if bottomBorder {
@@ -116,7 +116,7 @@ extension UITextField {
         if ghostText != "" {
             field.attributedPlaceholder = NSAttributedString(string: ghostText!, attributes: [
                 NSAttributedStringKey.foregroundColor: UIColor.ghostText,
-                NSAttributedStringKey.font: UIFont.UIStandard!
+                NSAttributedStringKey.font: UIFont.standard!
                 ])
         }
         
@@ -147,12 +147,32 @@ extension UIStackView {
     }
 }
 
+extension UITableViewController {
+    func tableViewEmptyLabel(message: String? = "", show: Bool) {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: message!, font: UIFont.standard!, fontColor: .navigationsLightGrey )
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        if show {
+            self.tableView.backgroundView = label
+        } else {
+            self.tableView.backgroundView = nil
+        }
+    }
+}
+
 extension UIView{
     
     func addSubviews(views: [UIView]) {
         views.forEach { (view) in
             self.addSubview(view)
         }
+    }
+    
+    func setupImageView(color: UIColor, image: UIImage) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.tintColor = color
+        imageView.image = image
+        return imageView
     }
     
     func setupBackground(bgColor: UIColor) -> UIView{
@@ -229,19 +249,4 @@ func timeAgoStringFromDate(date: Date) -> String? {
         return nil
     }
     return String(format: formatString, timeString)
-}
-
-extension UITableView {
-
-    func registerCell(_ cellClass: UITableViewCell.Type) {
-        let cellReuseIdentifier = cellClass.cellReuseIdentifier()
-        register(cellClass, forCellReuseIdentifier: cellReuseIdentifier)
-    }
-}
-
-extension UITableViewCell {
-
-    class func cellReuseIdentifier() -> String {
-        return "\(self)"
-    }
 }

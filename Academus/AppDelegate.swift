@@ -12,8 +12,9 @@ import Firebase
 import FirebaseInstanceID
 import FirebaseMessaging
 import Locksmith
+import Crisp
 
-class MainNavigationController : UINavigationController {
+class MainNavigationController: UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -22,13 +23,18 @@ class MainNavigationController : UINavigationController {
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
+    var mainController: MainController?
+    var blurController: BackgroundBlurController?
+    var isAuthorized: Bool?
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow()
         window?.makeKeyAndVisible()
-        window?.rootViewController = MainController()
+        window?.rootViewController = MainController() //MainNavigationController(rootViewController: IntegrationSelectController())
+        
+        Crisp.initialize(websiteId: "0ac655eb-7e7c-4fdc-a093-5500f76e0ecd")
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
@@ -36,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UINavigationBar.appearance().tintColor = .navigationsGreen
         
         UINavigationBar.appearance().largeTitleTextAttributes = [
-            NSAttributedStringKey.font: UIFont(name: "AvenirNext-demibold", size: 30)!,
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-demibold", size: 29)!,
             NSAttributedStringKey.foregroundColor: UIColor.navigationsWhite,
         ]
         
@@ -117,12 +123,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        isAuthorized = false
+        blurController = BackgroundBlurController()
+        application.keyWindow?.rootViewController?.present(blurController!, animated: true, completion: nil)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        guard isAuthorized == true else { mainController?.localAuth(); return }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

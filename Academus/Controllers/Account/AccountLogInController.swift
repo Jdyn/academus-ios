@@ -17,10 +17,10 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
     var stack: UIStackView?
     var logInError = "Check your internet connection and try again."
     
-    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.UIHeader!, fontColor: .navigationsWhite)
+    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.header!, fontColor: .navigationsWhite)
     let emailField = UITextField().setupTextField(bottomBorder: true, ghostText: "Email")
     let passwordField = UITextField().setupTextField(bottomBorder: true, ghostText: "Password", isSecure: true)
-    let logInButton = UIButton(type: .system).setUpButton(title: "LOG IN", font: UIFont.UIStandard!, fontColor: .navigationsGreen)
+    let logInButton = UIButton(type: .system).setUpButton(title: "LOG IN", font: UIFont.standard!, fontColor: .navigationsGreen)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +32,8 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
         
         view.backgroundColor = .tableViewDarkGrey
 
+        emailField.keyboardType = .emailAddress
+        emailField.autocapitalizationType = .none
         stack = UIStackView(arrangedSubviews: [welcomeLabel, emailField, passwordField, logInButton])
         stack!.axis = .vertical
         stack!.spacing = 32
@@ -57,6 +59,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
             authService.logInUser(email: emailField.text!, password: passwordField.text!)
             { (success) in
                 if success {
+                    self.hideKeyboard()
                     self.dismiss(animated: true, completion: {
                         self.dismiss(animated: true, completion: nil)
                     })

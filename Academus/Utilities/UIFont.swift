@@ -10,9 +10,10 @@ import UIKit
 
 extension UIFont {
     
-    static let UIStandard = UIFont(name: "AvenirNext-medium", size: 16)
-    static let UIHeader = UIFont(name: "AvenirNext-demibold", size: 20)
-    static let UISubtext = UIFont(name: "AvenirNext-medium", size: 12)
+    static let standard = UIFont(name: "AvenirNext-medium", size: 16)
+    static let subheader = UIFont(name: "AvenirNext-medium", size: 14)
+    static let header = UIFont(name: "AvenirNext-demibold", size: 20)
+    static let subtext = UIFont(name: "AvenirNext-medium", size: 12)
     
 }
 

@@ -7,22 +7,31 @@
 //
 
 import UIKit
+import Crisp
+import Locksmith
 
-class ManageHelpController: UITableViewController {
+class ManageHelpController: UIViewController {
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Help"
-        tableView.separatorStyle = .none
-    }
+        navigationItem.title = "Chat"
+        
+        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else { return }
+        let email = dictionary["email"] as! String
+        let firstName = dictionary["firstName"] as! String
+        let lastName = dictionary["lastName"] as! String
+        
+        Crisp.user.set(email: email)
+        Crisp.user.set(nickname: firstName + " " + lastName)
+        
+        Crisp.session.set(segment: "chat")
+        Crisp.session.set(segment: "ios")
+        
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        let crispView = CrispView()
+        view.addSubview(crispView)
+        
+        crispView.anchors(top: view.safeAreaLayoutGuide.topAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor)
     }
 }
