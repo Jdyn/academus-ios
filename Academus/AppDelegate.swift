@@ -80,23 +80,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(received remoteMessage: MessagingRemoteMessage) {
         let data = try! JSONSerialization.data(withJSONObject: remoteMessage.appData, options: .prettyPrinted)
         let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-        print(string ?? "json print failed")
+        print("FCM Received Remote Message: \(string ?? "")")
         
         parse(payload: remoteMessage.appData)
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print(userInfo)
+        let data = try! JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted)
+        let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+        print("APNS Received Remote Message: \(string ?? "")")
+        
+        parse(payload: userInfo)
         completionHandler(.newData)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print(response)
         completionHandler()
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print(notification)
         completionHandler([.alert, .sound])
     }
     
@@ -124,7 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        application.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
