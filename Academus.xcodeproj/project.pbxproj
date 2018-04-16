@@ -304,7 +304,6 @@
 				D7255927203A38DB00DBA62B /* Frameworks */,
 				D7255928203A38DB00DBA62B /* Resources */,
 				35D3B526C3535B68A4D0886A /* [CP] Embed Pods Frameworks */,
-				49A15E21799DB6AA6DC53AF4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -379,6 +378,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Crisp/Crisp.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Locksmith/Locksmith.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
@@ -388,6 +388,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Crisp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
@@ -397,21 +398,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		49A15E21799DB6AA6DC53AF4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9212CCD500F1A5B43776718F /* [CP] Check Pods Manifest.lock */ = {
