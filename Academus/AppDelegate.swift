@@ -9,9 +9,6 @@
 import UIKit
 import UserNotifications
 import Alamofire
-import Firebase
-import FirebaseInstanceID
-import FirebaseMessaging
 import Locksmith
 import Crisp
 
@@ -22,7 +19,7 @@ class MainNavigationController: UINavigationController {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     var mainController: MainController?
     var blurController: BackgroundBlurController?
@@ -31,10 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
         window = UIWindow()
         window?.makeKeyAndVisible()
-        window?.rootViewController = MainController() //MainNavigationController(rootViewController: IntegrationSelectController())
+        window?.rootViewController = MainController()
         
         Crisp.initialize(websiteId: "0ac655eb-7e7c-4fdc-a093-5500f76e0ecd")
         
@@ -71,26 +67,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 DispatchQueue.main.async{ application.registerForRemoteNotifications() }
             }
         })
-        
-        FirebaseApp.configure()
-        Messaging.messaging().delegate = self
-        Messaging.messaging().shouldEstablishDirectChannel = true
-        
-        if let token = InstanceID.instanceID().token() {
-            print("InstanceID: \(token)")
-        }
-        
-        application.applicationIconBadgeNumber = 0
 
         return true
-    }
-    
-    func application(received remoteMessage: MessagingRemoteMessage) {
-        let data = try! JSONSerialization.data(withJSONObject: remoteMessage.appData, options: .prettyPrinted)
-        let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-        print("FCM Received Remote Message: \(string ?? "")")
-        
-        parse(payload: remoteMessage.appData)
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -98,7 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
         print("APNS Received Remote Message: \(string ?? "")")
         
-        parse(payload: userInfo)
         completionHandler(.newData)
     }
     
@@ -112,6 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         apnsToken = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("APNS Token: \(apnsToken ?? "")")
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -152,47 +130,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func parse(payload: [AnyHashable: Any]) {
-        let content = UNMutableNotificationContent()
-        
-        guard let message = payload as? [String : NSObject] else { return }
-        guard let type = message["type"] as? String else { return }
-        switch type {
-        case "grade_posted":
-            guard let courseName = message["course_name"] as? String else { return }
-            guard let assignmentName = message["assignment_name"] as? String else { return }
-            content.title = "New grade posted"
-            content.body = "A new grade for \(assignmentName) in \(courseName) has been posted."
-        case "course_grade_changed":
-            guard let courseName = message["course_name"] as? String else { return }
-            guard let newGrade = message["new_grade"] as? String else { return }
-            content.title = "Course grade updated"
-            content.body = "Your grade in \(courseName) is now \(newGrade)."
-        case "assignment_posted":
-            guard let courseName = message["course_name"] as? String else { return }
-            guard let assignmentName = message["assignment_name"] as? String else { return }
-            content.title = "New assignment posted"
-            content.body = "A new assignment has been posted in \(courseName): \(assignmentName)."
-        default:
-            return
-        }
-        
-        content.sound = UNNotificationSound.default()
-        let identifier = "LocalNotification"
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-        let center = UNUserNotificationCenter.current()
-        
-        center.add(request, withCompletionHandler: { (error) in
-            if let error = error {
-                print(error)
-            } else {
-                DispatchQueue.main.async{
-                    if UIApplication.shared.applicationState == .background {
-                        UIApplication.shared.applicationIconBadgeNumber += 1
-                    }
-                }
-            }
-        })
-    }
+//    func parse(payload: [AnyHashable: Any]) {
+//        let content = UNMutableNotificationContent()
+//
+//        guard let message = payload as? [String : NSObject] else { return }
+//        guard let type = message["type"] as? String else { return }
+//        switch type {
+//        case "grade_posted":
+//            guard let courseName = message["course_name"] as? String else { return }
+//            guard let assignmentName = message["assignment_name"] as? String else { return }
+//            content.title = "New grade posted"
+//            content.body = "A new grade for \(assignmentName) in \(courseName) has been posted."
+//        case "course_grade_changed":
+//            guard let courseName = message["course_name"] as? String else { return }
+//            guard let newGrade = message["new_grade"] as? String else { return }
+//            content.title = "Course grade updated"
+//            content.body = "Your grade in \(courseName) is now \(newGrade)."
+//        case "assignment_posted":
+//            guard let courseName = message["course_name"] as? String else { return }
+//            guard let assignmentName = message["assignment_name"] as? String else { return }
+//            content.title = "New assignment posted"
+//            content.body = "A new assignment has been posted in \(courseName): \(assignmentName)."
+//        default:
+//            return
+//        }
+//
+//        content.sound = UNNotificationSound.default()
+//        let identifier = "LocalNotification"
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+//        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+//        let center = UNUserNotificationCenter.current()
+//
+//        center.add(request, withCompletionHandler: { (error) in
+//            if let error = error {
+//                print(error)
+//            } else {
+//                DispatchQueue.main.async{
+//                    if UIApplication.shared.applicationState != .active {
+//                        UIApplication.shared.applicationIconBadgeNumber += 1
+//                    }
+//                }
+//            }
+//        })
+//    }
 }

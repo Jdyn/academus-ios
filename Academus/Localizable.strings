@@ -1,0 +1,22 @@
+/* 
+  Localization.strings
+  Academus
+
+  Created by Pasha Bouzarjomehri on 4/16/18.
+  Copyright © 2018 Caffeinated Insomniacs. All rights reserved.
+*/
+
+"notif_grade_posted_title" = "New grade posted";
+"notif_grade_posted_desc" = "A new grade for %@ in %@ has been posted.";
+
+"notif_assignment_posted_title" = "New assignment posted";
+"notif_assignment_posted_desc" = "A new assignment has been posted in %@: %@.";
+
+"notif_course_grade_changed_title" = "Course grade updated";
+"notif_course_grade_changed_desc" = "Your grade in %@ is now %@.";
+
+"notif_sync_error_title" = "Integration sync error";
+"notif_sync_error_desc" = "Your %@ integration failed to sync! Check the app for more details.";
+
+"notif_sync_restored_title" = "Integration back online";
+"notif_sync_restored_desc" = "Your %@ integration is back online. Everything is A-OK 👌";
