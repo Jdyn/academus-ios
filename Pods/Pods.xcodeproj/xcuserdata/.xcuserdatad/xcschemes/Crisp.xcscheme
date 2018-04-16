@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'E366566FF66106912669AE9A61EEAA83'
-               BlueprintName = 'Pods-Academus'
+               BlueprintIdentifier = 'F3CAA2555C72D0CA5BB17C66BE9CD92A'
+               BlueprintName = 'Crisp'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Pods-Academus.framework'>
+               BuildableName = 'Crisp.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

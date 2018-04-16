@@ -12,6 +12,7 @@ import Firebase
 import FirebaseInstanceID
 import FirebaseMessaging
 import Locksmith
+import Crisp
 
 class MainNavigationController : UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -29,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window = UIWindow()
         window?.makeKeyAndVisible()
         window?.rootViewController = MainController() //MainNavigationController(rootViewController: IntegrationSelectController())
+        
+        Crisp.initialize(websiteId: "0ac655eb-7e7c-4fdc-a093-5500f76e0ecd")
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
