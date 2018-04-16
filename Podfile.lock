@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.6.0)
+  - Crisp (0.1.12)
   - Firebase/Core (4.8.2):
     - FirebaseAnalytics (= 4.0.9)
     - FirebaseCore (= 4.0.14)
@@ -37,6 +38,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - Crisp
   - Firebase/Core
   - Firebase/Messaging
   - Locksmith
@@ -44,6 +46,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Crisp: c957983b131baa9cb10b841abd1ad2e340763006
   Firebase: 7d3b8cd837ad9fcd391657734c0d56dab8e9a5a3
   FirebaseAnalytics: 388b630c15713f5dbf364071f5f3d6077fb52f4e
   FirebaseCore: 2e0b98fb2d64ca8140136beff15772bdd14d2dd7
@@ -55,6 +58,6 @@ SPEC CHECKSUMS:
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 802602e78d145435a5d870aa10ed26ae0d8e8c63
+PODFILE CHECKSUM: d4ef8073c49925031c960ed71b0e12189bdc788c
 
 COCOAPODS: 1.4.0

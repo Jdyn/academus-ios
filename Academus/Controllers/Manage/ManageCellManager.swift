@@ -21,7 +21,7 @@ enum ManageCellManager {
         case .manageIntegrations: return "Manage Integrations"
         case .manageInvites: return "Manage Invites"
         case .settings: return "Settings"
-        case .help: return "Help"
+        case .help: return "Chat with us"
         case .about: return "About"
         }
     }
