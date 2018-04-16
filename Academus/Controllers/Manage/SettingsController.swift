@@ -87,22 +87,7 @@ class SettingsController: UITableViewController {
         return view
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            if cell.textLabel?.text == SettingsCellManager.fingerPrintLock.getTitle() {
-                cell.accessoryType = .checkmark
-            }
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            if cell.textLabel?.text == SettingsCellManager.fingerPrintLock.getTitle() {
-                cell.accessoryType = .none
-            }
-        }
-    }
-    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 27 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 1 : 3) }
@@ -140,6 +125,7 @@ extension SettingsController {
     
     private func biometricsCell(c: SettingsCellManager, cell: UITableViewCell) -> UITableViewCell {
         cell.backgroundColor = .tableViewDarkGrey
+        cell.selectionStyle = .none
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.subheader!, fontColor: .navigationsWhite)
