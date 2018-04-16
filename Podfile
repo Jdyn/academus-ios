@@ -13,4 +13,5 @@ target 'Academus' do
   pod 'Locksmith'
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
+  pod 'Crisp'
 end
