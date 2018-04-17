@@ -21,7 +21,7 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         super.viewDidLoad()
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
-        tableView.decelerationRate = UIScrollViewDecelerationRateFast;
+//        tableView.decelerationRate = UIScrollViewDecelerationRateFast;
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")

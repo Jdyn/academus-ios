@@ -22,7 +22,11 @@ class ManageController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Manage"
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
+        tableView.separatorInset = UIEdgeInsetsMake(0, 6, 0, 6)
+        tableView.separatorColor = .tableViewSeperator
+        tableView.backgroundColor = .tableViewDarkGrey
+        tableView.tableFooterView = UIView()
         tableView.tableHeaderView = profileView()
         
         cells = [.manageIntegrations, .manageInvites, .settings, .help, .about]
@@ -48,8 +52,34 @@ class ManageController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 15 } // 18
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        background.layer.cornerRadius = 6 // 9
+        background.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        background.layer.masksToBounds = true
+
+        view.addSubview(background)
+        
+        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 7  } // 10
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        background.layer.cornerRadius = 6 // 9
+        background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        background.layer.masksToBounds = true
+        
+        view.addSubview(background)
+        
+        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        return view
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 2 : 3) }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
@@ -116,7 +146,7 @@ extension ManageController {
         cell.addSubviews(views: [background, icon, title])
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
-        icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 20, height: 20)
+        icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 24, height: 24)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
         
         return cell
@@ -136,7 +166,7 @@ extension ManageController {
         cell.addSubviews(views: [background, icon, title])
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
-        icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 20, height: 20)
+        icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 24, height: 24)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
         
         return cell
@@ -145,12 +175,17 @@ extension ManageController {
     private func profileView() -> UIView {
         let dictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 75))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 95))
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let name = UILabel().setUpLabel(text: "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")", font: UIFont(name: "AvenirNext-medium", size: 20)!, fontColor: .navigationsWhite)
         let email = UILabel().setUpLabel(text: "\(dictionary?["email"] ?? "Unknown Email")", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
     
+        background.layer.cornerRadius = 9
+        background.layer.masksToBounds = true
+        background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+
+        
         let profileImage = UIImageView()
         DispatchQueue.global(qos: .background).async {
             let url = URL(string: "\(BASE_URL)/api/picture?token=\(dictionary?["authToken"] ?? "")")
