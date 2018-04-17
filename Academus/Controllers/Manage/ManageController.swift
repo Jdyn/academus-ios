@@ -8,9 +8,15 @@
 
 import UIKit
 import Locksmith
+import Crisp
+
+protocol ChatDelegate {
+    func didGetChatDelegate(chat: ManageHelpController)
+}
 
 class ManageController: UITableViewController {
     
+    var delegate: ChatDelegate?
     var cells = [ManageCellManager]()
     
     override func viewDidLoad() {
@@ -54,11 +60,14 @@ class ManageController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         
+        let chatController = ManageHelpController()
+        self.delegate?.didGetChatDelegate(chat: chatController)
+        
         switch cellsFiltered[indexPath.row] {
         case .manageIntegrations: navigationController?.pushViewController(ManageIntegrationsController(), animated: true)
         case .manageInvites: navigationController?.pushViewController(ManageInvitesController(), animated: true)
         case .settings: navigationController?.pushViewController(SettingsController(), animated: true)
-        case .help: navigationController?.pushViewController(ManageHelpController(), animated: true)
+        case .help: navigationController?.pushViewController(chatController, animated: true)
         case .about: navigationController?.pushViewController(ManageAboutController(), animated: true)
         }
     }
@@ -73,6 +82,8 @@ class ManageController: UITableViewController {
                 } catch let error {
                     debugPrint("could not delete locksmith data:", error)
                 }
+                Crisp.session.reset()
+                
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
                 self.present(welcomeNavigationController, animated: true, completion: {
                     self.tabBarController?.selectedIndex = 0

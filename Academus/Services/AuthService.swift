@@ -56,6 +56,10 @@ class AuthService {
                             "isLoggedIn" : isLoggedIn
                             ], forUserAccount: USER_AUTH)
                         
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                            (UIApplication.shared.delegate as! AppDelegate).registerAPNS()
+                        })
+                        
                         completion(true)
                     } else {
                         completion(false)
@@ -104,6 +108,10 @@ class AuthService {
                                 "lastName" : lastName,
                                 "isLoggedIn" : isLoggedIn
                                 ], forUserAccount: USER_AUTH)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                                (UIApplication.shared.delegate as! AppDelegate).registerAPNS()
+                            })
                             
                             completion(true)
                         } else {
