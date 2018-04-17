@@ -17,7 +17,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
     var stack: UIStackView?
     var logInError = "Check your internet connection and try again."
     
-    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.header!, fontColor: .navigationsWhite)
+    let welcomeLabel = UILabel().setUpLabel(text: "Welcome back.", font: UIFont.header!, fontColor: .navigationsWhite)
     let emailField = UITextField().setupTextField(bottomBorder: true, ghostText: "Email")
     let passwordField = UITextField().setupTextField(bottomBorder: true, ghostText: "Password", isSecure: true)
     let logInButton = UIButton(type: .system).setUpButton(title: "LOG IN", font: UIFont.standard!, fontColor: .navigationsGreen)

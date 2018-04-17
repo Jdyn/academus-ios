@@ -118,6 +118,11 @@ class ManageController: UITableViewController {
                 self.present(welcomeNavigationController, animated: true, completion: {
                     self.tabBarController?.selectedIndex = 0
                 })
+            } else {
+                let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
+                self.present(welcomeNavigationController, animated: true, completion: {
+                    self.tabBarController?.selectedIndex = 0
+                })
             }
         }
         

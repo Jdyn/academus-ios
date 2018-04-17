@@ -10,7 +10,7 @@ import UIKit
 
 class AccountCreateController: UIViewController {
     
-    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.header!, fontColor: .navigationsWhite)
+    let welcomeLabel = UILabel().setUpLabel(text: "Create an account.", font: UIFont.header!, fontColor: .navigationsWhite)
     let signUpButton = UIButton(type: .system).setUpButton(title: "SIGN UP", font: UIFont.standard!, fontColor: .navigationsGreen)
     
     var scrollView: UIScrollView?
@@ -51,7 +51,7 @@ class AccountCreateController: UIViewController {
         fields[4].anchors(top: fields[3].bottomAnchor, topPad: 32, left: fields[0].leftAnchor, right: view.centerXAnchor, rightPad: -6)
         fields[5].anchors(top: fields[3].bottomAnchor, topPad: 32, left: view.centerXAnchor, leftPad: 6, right: fields[0].rightAnchor)
         welcomeLabel.anchors(bottom: fields[0].topAnchor, bottomPad: -32, centerX: view.centerXAnchor)
-        signUpButton.anchors(top: fields[5].bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 64)
+        signUpButton.anchors(top: fields[5].bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 84)
         signUpButton.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
     }
     
@@ -63,10 +63,10 @@ class AccountCreateController: UIViewController {
             }
         }
         if ((fields[4].text! == fields[5].text!) != true) {
-            alertMessage(title: "Watch out..", message: "Passwords do not match.")
+            alertMessage(title: "Watch out...", message: "Passwords do not match.")
             return
         } else if fields[4].text!.count < 6 {
-            alertMessage(title: "What is Security..", message: "Password must be atleast 6 characters.")
+            alertMessage(title: "What is security...", message: "Password must be at least 6 characters.")
             return
         }
         AuthService().registerUser(betaCode: (fields[0].text)!, firstName: (fields[1].text)!, lastName: (fields[2].text)!, email: (fields[3].text)!, password: (fields[4].text)!) { (success) in
@@ -74,7 +74,7 @@ class AccountCreateController: UIViewController {
                 let controller = IntegrationSelectController()
                 self.navigationController?.pushViewController(controller, animated: true)
             } else {
-                self.alertMessage(title: "Alert", message: "An Error has occured. Try Again.")
+                self.alertMessage(title: "Alert", message: "An error has occurred. Try again.")
             }
         }
     }
