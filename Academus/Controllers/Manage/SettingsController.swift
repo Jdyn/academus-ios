@@ -19,7 +19,7 @@ class SettingsController: UITableViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
         
-        cells = [.fingerPrintLock, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous]
+        cells = [.appLock, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous]
         for type in cells {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
         }
@@ -33,7 +33,7 @@ class SettingsController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellType, for: indexPath)
         
         switch cellAtIndex {
-        case .fingerPrintLock: return biometricsCell(c: cellAtIndex, cell: cell)
+        case .appLock: return biometricsCell(c: cellAtIndex, cell: cell)
         case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous:
             return notificationCell(c: cellAtIndex, cell: cell)
         default: return UITableViewCell()
@@ -163,7 +163,7 @@ extension SettingsController {
             for view in superview.subviews {
                 if let title = view as? UILabel {
                     switch title.text {
-                    case SettingsCellManager.fingerPrintLock.getTitle():
+                    case SettingsCellManager.appLock.getTitle():
                         toggle.setOn(UserDefaults.standard.bool(forKey: SettingsBundleKeys.appLockPreference), animated: false)
                         break
                     case SettingsCellManager.notifAssignmentPosted.getTitle():
@@ -185,7 +185,7 @@ extension SettingsController {
             for view in superview.subviews {
                 if let title = view as? UILabel {
                     switch title.text {
-                    case SettingsCellManager.fingerPrintLock.getTitle():
+                    case SettingsCellManager.appLock.getTitle():
                         UserDefaults.standard.set(sender.isOn, forKey: SettingsBundleKeys.appLockPreference)
                         break
                     case SettingsCellManager.notifAssignmentPosted.getTitle():

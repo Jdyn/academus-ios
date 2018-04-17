@@ -12,7 +12,7 @@ import Locksmith
 enum SettingsCellManager {
     
     // Section Rows
-    case fingerPrintLock
+    case appLock
     case notifAssignmentPosted
     case notifCourseGradeUpdated
     case notifMiscellaneous
@@ -24,9 +24,9 @@ enum SettingsCellManager {
     func getTitle() -> String{
 
         switch self {
-        case .fingerPrintLock: return "Fingerprint lock"
-        case .notifAssignmentPosted: return "Assignment posted"
-        case .notifCourseGradeUpdated: return "Course grade posted"
+        case .appLock: return "App Lock"
+        case .notifAssignmentPosted: return "Assignment Posted"
+        case .notifCourseGradeUpdated: return "Course Grade Posted"
         case .notifMiscellaneous: return "Miscellaneous"
         case .privacySecurity: return "Privacy and Security"
         case .notifications: return "Notifications"
@@ -35,7 +35,7 @@ enum SettingsCellManager {
 
     func getSubtext() -> String{
         switch self {
-        case .fingerPrintLock: return ""
+        case .appLock: return ""
         case .notifAssignmentPosted: return ""
         case .notifCourseGradeUpdated: return ""
         case .notifMiscellaneous: return ""
@@ -45,7 +45,7 @@ enum SettingsCellManager {
 
     func getImage() -> UIImage{
         switch self {
-        case .fingerPrintLock: return #imageLiteral(resourceName: "fingerprint")
+        case .appLock: return #imageLiteral(resourceName: "lock")
         case .notifAssignmentPosted: return #imageLiteral(resourceName: "assignmentNotif")
         case .notifCourseGradeUpdated: return #imageLiteral(resourceName: "courseNotif")
         case .notifMiscellaneous: return #imageLiteral(resourceName: "miscNotif")
@@ -55,7 +55,7 @@ enum SettingsCellManager {
     
     func getHeight() -> CGFloat {
         switch self {
-        case .fingerPrintLock: return 55
+        case .appLock: return 55
         case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 50
         default: return 30
         }
@@ -63,7 +63,7 @@ enum SettingsCellManager {
 
     func getSection() -> Int {
         switch self {
-        case .fingerPrintLock: return 0 // Section 0
+        case .appLock: return 0 // Section 0
         case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 1 // Section 1
         default: return 0
         }
@@ -71,7 +71,7 @@ enum SettingsCellManager {
 
     func getCellType() -> String {
         switch self {
-        case .fingerPrintLock: return "FingerprintCell"
+        case .appLock: return "FingerprintCell"
         case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return "NotificationCell"
         default: return ""
         }

@@ -19,9 +19,9 @@ enum ManageCellManager {
     func getTitle() -> String{
         switch self {
         case .manageIntegrations: return "Manage Integrations"
-        case .manageInvites: return "Manage Invites"
+        case .manageInvites: return "Invite Friends"
         case .settings: return "Settings"
-        case .help: return "Chat with us"
+        case .help: return "Chat with Us"
         case .about: return "About"
         }
     }
