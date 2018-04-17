@@ -25,32 +25,35 @@ class MainController: UITabBarController {
     }
     
     func localAuth() {
-        clearBlur()
+        guard UserDefaults.standard.bool(forKey: SettingsBundleKeys.appLockPreference) == true else {
+            clearBlur()
+            return
+        }
         
-//        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-//        if dictionary?["isLoggedIn"] == nil {
-//            let welcomeNav = WelcomeController()
-//            let mainNav = MainNavigationController(rootViewController: welcomeNav)
-//            UIApplication.shared.keyWindow?.rootViewController?.present(mainNav, animated: true, completion: { self.clearBlur() })
-//        } else {
-//            let context = LAContext()
-//
-//            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
-//                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Authenticate to continue.", reply: { (success, error) in
-//                    guard error == nil else {
-//                        if let err = error as NSError? {
-//                            if err.code == LAError.Code.userFallback.rawValue { return }
-//                        }
-//                        self.kickUser()
-//                        return
-//                    }
-//
-//                    DispatchQueue.main.async { self.clearBlur() }
-//                })
-//            } else {
-//                DispatchQueue.main.async { self.clearBlur() }
-//            }
-//        }
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        if dictionary?["isLoggedIn"] == nil {
+            let welcomeNav = WelcomeController()
+            let mainNav = MainNavigationController(rootViewController: welcomeNav)
+            UIApplication.shared.keyWindow?.rootViewController?.present(mainNav, animated: true, completion: { self.clearBlur() })
+        } else {
+            let context = LAContext()
+
+            if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
+                context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Authenticate to continue.", reply: { (success, error) in
+                    guard error == nil else {
+                        if let err = error as NSError? {
+                            if err.code == LAError.Code.userFallback.rawValue { return }
+                        }
+                        self.kickUser()
+                        return
+                    }
+
+                    DispatchQueue.main.async { self.clearBlur() }
+                })
+            } else {
+                DispatchQueue.main.async { self.clearBlur() }
+            }
+        }
         
         (UIApplication.shared.delegate as! AppDelegate).isAuthorized = true
     }
@@ -77,7 +80,7 @@ class MainController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0) }
-        self.selectedIndex = 1
+        //self.selectedIndex = 1
     }
     
     func kickUser() {

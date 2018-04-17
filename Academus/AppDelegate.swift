@@ -67,6 +67,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 DispatchQueue.main.async{ application.registerForRemoteNotifications() }
             }
         })
+        
+        SettingsBundleHelper.setVersionAndBuildNumber()
 
         return true
     }
@@ -103,6 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         isAuthorized = false
+        guard UserDefaults.standard.bool(forKey: SettingsBundleKeys.appLockPreference) == true else { return }
         blurController = BackgroundBlurController()
         application.keyWindow?.rootViewController?.present(blurController!, animated: true, completion: nil)
     }

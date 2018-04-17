@@ -56,7 +56,7 @@ enum SettingsCellManager {
     func getHeight() -> CGFloat {
         switch self {
         case .fingerPrintLock: return 55
-        case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 45
+        case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 50
         default: return 30
         }
     }

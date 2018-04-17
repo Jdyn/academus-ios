@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		580CC7FE205064F400EF59C1 /* IntegrationSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */; };
 		7737EEF80D4E4882DE8EAE8C /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13640B4FD642AD6950DA5EF0 /* Pods_Academus.framework */; };
-		C40ED04A2083FF5600931510 /* BackgroundBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40ED0492083FF5600931510 /* BackgroundBlurView.swift */; };
+		C40ED04A2083FF5600931510 /* BackgroundBlurController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40ED0492083FF5600931510 /* BackgroundBlurController.swift */; };
+		C415EECC2085BCE800F535F0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C415EECB2085BCE800F535F0 /* Settings.bundle */; };
+		C415EECE2085C04300F535F0 /* SettingsBundleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C415EECD2085C04300F535F0 /* SettingsBundleHelper.swift */; };
 		C49FDAEF2068792A005A36EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */; };
 		C6B29CE020851BEB006342EA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6B29CDF20851BEB006342EA /* Localizable.strings */; };
 		D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A30204D660300CF4DC4 /* PlannerController.swift */; };
@@ -64,7 +66,9 @@
 		580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrationSelectController.swift; sourceTree = "<group>"; };
 		6CEFE00B8A2B3BE738650395 /* Pods-Academus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.debug.xcconfig"; sourceTree = "<group>"; };
 		890075C57931A0A5D85BA6D9 /* Pods-Academus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.release.xcconfig"; sourceTree = "<group>"; };
-		C40ED0492083FF5600931510 /* BackgroundBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurView.swift; sourceTree = "<group>"; };
+		C40ED0492083FF5600931510 /* BackgroundBlurController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurController.swift; sourceTree = "<group>"; };
+		C415EECB2085BCE800F535F0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		C415EECD2085C04300F535F0 /* SettingsBundleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundleHelper.swift; sourceTree = "<group>"; };
 		C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C6B29CDF20851BEB006342EA /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		D7153A30204D660300CF4DC4 /* PlannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerController.swift; sourceTree = "<group>"; };
@@ -201,6 +205,7 @@
 				D71857FD20686AF3007B03AA /* Academus.entitlements */,
 				D7A6C63420571F9200605F64 /* Launch Screen.storyboard */,
 				C6B29CDF20851BEB006342EA /* Localizable.strings */,
+				C415EECB2085BCE800F535F0 /* Settings.bundle */,
 			);
 			path = Academus;
 			sourceTree = "<group>";
@@ -262,7 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				D79DA987204A337500EA082A /* MainController.swift */,
-				C40ED0492083FF5600931510 /* BackgroundBlurView.swift */,
+				C40ED0492083FF5600931510 /* BackgroundBlurController.swift */,
 				D7F66244204769750060FA8D /* Account */,
 				D7153A2F204D658700CF4DC4 /* Planner */,
 				D73F6552203E761600144C89 /* Courses */,
@@ -279,6 +284,7 @@
 				D762FCF72069A4470021B6F2 /* CustomUI.swift */,
 				D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */,
 				D73F6550203E5A6100144C89 /* Constants.swift */,
+				C415EECD2085C04300F535F0 /* SettingsBundleHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -366,6 +372,7 @@
 			files = (
 				D7A6C63520571F9200605F64 /* Launch Screen.storyboard in Resources */,
 				C6B29CE020851BEB006342EA /* Localizable.strings in Resources */,
+				C415EECC2085BCE800F535F0 /* Settings.bundle in Resources */,
 				D7255935203A38DB00DBA62B /* Assets.xcassets in Resources */,
 				C49FDAEF2068792A005A36EB /* GoogleService-Info.plist in Resources */,
 			);
@@ -439,9 +446,10 @@
 				D762FCF82069A4470021B6F2 /* CustomUI.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,
 				D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */,
-				C40ED04A2083FF5600931510 /* BackgroundBlurView.swift in Sources */,
+				C40ED04A2083FF5600931510 /* BackgroundBlurController.swift in Sources */,
 				D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */,
 				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,
+				C415EECE2085C04300F535F0 /* SettingsBundleHelper.swift in Sources */,
 				D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */,
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
 				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
