@@ -23,7 +23,6 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         navigationItem.title = "Courses"
         tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .tableViewDarkGrey
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 41, 0)
         
         self.extendedLayoutIncludesOpaqueBars = true

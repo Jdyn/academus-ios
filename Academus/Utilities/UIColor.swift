@@ -22,7 +22,7 @@ extension UIColor {
     static let tableViewLightGrey = UIColor(red: 128/255, green: 128/255, blue: 128/255, alpha: 1)
     static let tableViewMediumGrey = UIColor(red: 40/255, green: 40/255, blue: 40/255, alpha: 1)// were 45/45/45
     static let tableViewDarkGrey = UIColor(red: 35/255, green: 35/255, blue: 35/255, alpha: 1) // were 40/40/40
-    static let tableViewSeperator = UIColor(red: 99/255, green: 99/255, blue: 99/255, alpha: 1)
+    static let tableViewSeperator = UIColor(red: 45/255, green: 45/255, blue: 45/255, alpha: 1)
     
     static let ghostText = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 0.3)
     

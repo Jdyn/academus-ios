@@ -16,7 +16,11 @@ class ManageController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Manage"
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
+        tableView.separatorInset = UIEdgeInsetsMake(0, 6, 0, 6)
+        tableView.separatorColor = .tableViewSeperator
+        tableView.backgroundColor = .tableViewDarkGrey
+        tableView.tableFooterView = UIView()
         tableView.tableHeaderView = profileView()
         
         cells = [.manageIntegrations, .manageInvites, .settings, .help, .about]
@@ -43,11 +47,11 @@ class ManageController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 18 }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 15 } // 18
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.layer.cornerRadius = 9
+        background.layer.cornerRadius = 6 // 9
         background.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         background.layer.masksToBounds = true
 
@@ -57,13 +61,11 @@ class ManageController: UITableViewController {
         return view
     }
     
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 9
-    }
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 7  } // 10
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView()
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.layer.cornerRadius = 9
+        background.layer.cornerRadius = 6 // 9
         background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         background.layer.masksToBounds = true
         

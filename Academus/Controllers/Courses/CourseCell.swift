@@ -95,6 +95,10 @@ class CourseCell: UITableViewCell {
         view.backgroundColor = .tableViewDarkGrey
         let selectedView = UIView()
         selectedView.backgroundColor =  UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 0.1)//UIColor(red: 43/255, green: 43/255, blue: 43/255, alpha: 1)
+        
+        selectedView.layer.cornerRadius = 9
+        selectedView.layer.masksToBounds = true
+        
         view.addSubview(selectedView)
         selectedView.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         return view
