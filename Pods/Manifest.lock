@@ -10,6 +10,13 @@ DEPENDENCIES:
   - Locksmith
   - SwiftyJSON
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - FreshchatSDK
+    - Locksmith
+    - SwiftyJSON
+
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   FreshchatSDK: b7e8affac53b186e689cf1f83d48a3afd7f18bb4
@@ -18,4 +25,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 8d89adfc34f3b969d80cac09ee95e4def5c68c3e
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0
