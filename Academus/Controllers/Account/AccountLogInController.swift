@@ -64,7 +64,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
                 if success {
                     self.dismiss(animated: true, completion: {
                         self.dismiss(animated: true, completion: {
-                            (UIApplication.shared.delegate as! AppDelegate).mainController?.clearBlur ()
+                            (UIApplication.shared.delegate as! AppDelegate).mainController?.clearBlur()
                         })
                     })
                 } else {

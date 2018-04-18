@@ -33,6 +33,7 @@ class IntegrationLogInController: UIViewController {
                 self.dismiss(animated: true, completion: {
                     self.dismiss(animated: true, completion: nil)
                     self.navigationController?.popToRootViewController(animated: true)
+                    (UIApplication.shared.delegate as! AppDelegate).mainController?.clearBlur()
                 })
             } else {
                 print("failure here")
