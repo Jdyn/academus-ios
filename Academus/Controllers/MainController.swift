@@ -32,19 +32,18 @@ class MainController: UITabBarController {
     }
     
     @objc func localAuth() {
-        guard UserDefaults.standard.bool(forKey: SettingsBundleKeys.appLockPreference) == true else {
-            clearBlur()
-            return
-        }
-        
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         if dictionary?["isLoggedIn"] == nil {
             let welcomeNav = WelcomeController()
             let mainNav = MainNavigationController(rootViewController: welcomeNav)
             UIApplication.shared.keyWindow?.rootViewController?.present(mainNav, animated: true, completion: { self.clearBlur() })
         } else {
+            guard UserDefaults.standard.bool(forKey: SettingsBundleKeys.appLockPreference) == true else {
+                clearBlur()
+                return
+            }
+            
             let context = LAContext()
-
             if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) {
                 context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "Authenticate to continue.", reply: { (success, error) in
                     guard error == nil else {

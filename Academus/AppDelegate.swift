@@ -19,7 +19,6 @@ class MainNavigationController: UINavigationController {
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    
     var mainController: MainController?
     var blurController: BackgroundBlurController?
     var isAuthorized: Bool?
@@ -157,13 +156,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        
         var freahchatUnreadCount = Int()
         Freshchat.sharedInstance().unreadCount { (unreadCount) in
             freahchatUnreadCount = unreadCount
         }
         UIApplication.shared.applicationIconBadgeNumber = freahchatUnreadCount
-
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -185,6 +182,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         isAuthorized = false
         guard UserDefaults.standard.bool(forKey: SettingsBundleKeys.appLockPreference) == true else { return }
         guard blurController == nil else { return }
+        print("blur is active")
         blurController = BackgroundBlurController()
         application.keyWindow?.rootViewController?.present(blurController!, animated: true, completion: nil)
     }
