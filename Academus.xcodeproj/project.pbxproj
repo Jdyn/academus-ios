@@ -608,7 +608,7 @@
 				CODE_SIGN_ENTITLEMENTS = Academus/Academus.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GA88828M8M;
 				INFOPLIST_FILE = Academus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -631,7 +631,7 @@
 				CODE_SIGN_ENTITLEMENTS = Academus/Academus.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GA88828M8M;
 				INFOPLIST_FILE = Academus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
