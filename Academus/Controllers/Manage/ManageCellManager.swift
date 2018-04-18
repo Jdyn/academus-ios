@@ -10,6 +10,9 @@ import UIKit
 
 enum ManageCellManager {
     
+    case header1
+    case header2
+    
     case manageIntegrations
     case manageInvites
     case settings
@@ -23,6 +26,7 @@ enum ManageCellManager {
         case .settings: return "Settings"
         case .help: return "Chat with Us"
         case .about: return "About"
+        default: return ""
         }
     }
     
@@ -33,6 +37,7 @@ enum ManageCellManager {
         case .settings: return ""
         case .help: return ""
         case .about: return ""
+        default: return ""
         }
     }
     
@@ -43,6 +48,7 @@ enum ManageCellManager {
         case .settings: return #imageLiteral(resourceName: "settings")
         case .help: return #imageLiteral(resourceName: "help")
         case .about: return #imageLiteral(resourceName: "about")
+        default: return UIImage()
         }
     }
     
@@ -50,6 +56,8 @@ enum ManageCellManager {
         switch self {
         case .manageIntegrations, .manageInvites: return 0
         case .settings, .help, .about: return 1
+        case .header1: return 1
+        case .header2: return 2
         }
     }
     
@@ -57,6 +65,7 @@ enum ManageCellManager {
         switch self {
         case .manageIntegrations, .manageInvites: return 75
         case .settings, .help, .about: return 65
+        default: return 9
         }
     }
     
@@ -64,6 +73,7 @@ enum ManageCellManager {
         switch self {
         case .manageIntegrations, .manageInvites: return "MediumCell"
         case .settings, .help, .about: return "SmallCell"
+        default: return "headerCell"
         }
     }
 }

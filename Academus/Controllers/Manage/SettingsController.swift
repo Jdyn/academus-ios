@@ -18,7 +18,6 @@ class SettingsController: UITableViewController {
         navigationItem.title = "Settings"
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
-        
         cells = [.appLock, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous]
         for type in cells {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())

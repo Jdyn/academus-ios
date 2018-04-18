@@ -23,7 +23,6 @@ class CourseAssignmentCell: UITableViewCell {
     let background: UIView = {
         let view = UIView()
         view.backgroundColor = .tableViewMediumGrey
-        view.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2.25, opacity: 0.15)
         return view
     }()
 
@@ -32,28 +31,30 @@ class CourseAssignmentCell: UITableViewCell {
         label.textAlignment = .left
         label.lineBreakMode = .byTruncatingTail
         label.numberOfLines = 1
-        label.font = UIFont(name: "AvenirNext-medium", size: 16)
+        label.font = UIFont.standard
         label.textColor = .navigationsWhite
         return label
         }()
     
     let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-medium", size: 14)
+        label.font = UIFont.subheader
         label.textColor = .tableViewLightGrey
         return label
     }()
     
     let gradeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-medium", size: 14)
-        label.textColor = .tableViewLightGrey
+        label.font = UIFont.subheader
+        label.textColor = .navigationsGreen
         return label
         }()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewDarkGrey
+        background.roundCorners(corners: .all)
+        
         selectionStyle = .none
         separatorInset = UIEdgeInsets.zero
         addSubview(background)
@@ -61,11 +62,10 @@ class CourseAssignmentCell: UITableViewCell {
         addSubview(dateLabel)
         addSubview(gradeLabel)
 
-        background.anchors(top: topAnchor, topPad: 3, bottom: bottomAnchor, bottomPad: -9, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6, width: 0, height: 0)
-        titleLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 6, width: 300, height: 0)
-        dateLabel.anchors(bottom: gradeLabel.topAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
-        dateLabel.anchors(top: titleLabel.bottomAnchor, topPad: -6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
-        gradeLabel.anchors(bottom: background.bottomAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
+        background.anchors(top: topAnchor, topPad: 0, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
+        titleLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 6, right: background.rightAnchor, rightPad:  -6, width: 0, height: 0)
+        gradeLabel.anchors(top: titleLabel.bottomAnchor, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
+        dateLabel.anchors(top: gradeLabel.bottomAnchor, left: background.leftAnchor, leftPad: 6)
     }
     
     required init?(coder aDecoder: NSCoder) {
