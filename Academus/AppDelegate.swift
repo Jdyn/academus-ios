@@ -106,6 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationDidEnterBackground(_ application: UIApplication) {
         isAuthorized = false
         guard UserDefaults.standard.bool(forKey: SettingsBundleKeys.appLockPreference) == true else { return }
+        guard blurController == nil else { return }
         blurController = BackgroundBlurController()
         application.keyWindow?.rootViewController?.present(blurController!, animated: true, completion: nil)
     }
