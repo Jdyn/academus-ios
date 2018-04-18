@@ -83,9 +83,6 @@ class IntegrationService {
                     } else {
                         completion(false)
                     }
-                } catch let error {
-                    completion(false)
-                    debugPrint(error)
                 }
             } else {
                 completion(false)
@@ -145,9 +142,6 @@ class IntegrationService {
                         print("failed to sync integrations")
                         completion(false)
                     }
-                } catch let error {
-                    completion(false)
-                    debugPrint(error)
                 }
             } else {
                 completion(false)
