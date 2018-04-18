@@ -73,20 +73,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print(userInfo)
+        
         let data = try! JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted)
         let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-        print("APNS Received Remote Message: \(string ?? "")")
+        print("APNS Received Remote Message 1: \(string ?? "")")
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print(userInfo)
+        
+        let data = try! JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted)
+        let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+        print("APNS Received Remote Message 2: \(string ?? "")")
         
         completionHandler(.newData)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print(response.notification.request.content.userInfo)
+        
+        let data = try! JSONSerialization.data(withJSONObject: response.notification.request.content.userInfo, options: .prettyPrinted)
+        let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+        print("APNS User Tapped on Notification: \(string ?? "")")
+        
         completionHandler()
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.alert, .sound])
+        print(notification.request.content.userInfo)
+        
+        let data = try! JSONSerialization.data(withJSONObject: notification.request.content.userInfo, options: .prettyPrinted)
+        let string = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+        print("APNS Received Remote Message 3: \(string ?? "")")
+        
+        if shouldDisplay(payload: notification.request.content.userInfo) {
+            completionHandler([.alert, .sound])
+        } else {
+            completionHandler([])
+        }
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -134,47 +160,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-//    func parse(payload: [AnyHashable: Any]) {
-//        let content = UNMutableNotificationContent()
-//
-//        guard let message = payload as? [String : NSObject] else { return }
-//        guard let type = message["type"] as? String else { return }
-//        switch type {
-//        case "grade_posted":
-//            guard let courseName = message["course_name"] as? String else { return }
-//            guard let assignmentName = message["assignment_name"] as? String else { return }
-//            content.title = "New grade posted"
-//            content.body = "A new grade for \(assignmentName) in \(courseName) has been posted."
-//        case "course_grade_changed":
-//            guard let courseName = message["course_name"] as? String else { return }
-//            guard let newGrade = message["new_grade"] as? String else { return }
-//            content.title = "Course grade updated"
-//            content.body = "Your grade in \(courseName) is now \(newGrade)."
-//        case "assignment_posted":
-//            guard let courseName = message["course_name"] as? String else { return }
-//            guard let assignmentName = message["assignment_name"] as? String else { return }
-//            content.title = "New assignment posted"
-//            content.body = "A new assignment has been posted in \(courseName): \(assignmentName)."
-//        default:
-//            return
-//        }
-//
-//        content.sound = UNNotificationSound.default()
-//        let identifier = "LocalNotification"
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-//        let center = UNUserNotificationCenter.current()
-//
-//        center.add(request, withCompletionHandler: { (error) in
-//            if let error = error {
-//                print(error)
-//            } else {
-//                DispatchQueue.main.async{
-//                    if UIApplication.shared.applicationState != .active {
-//                        UIApplication.shared.applicationIconBadgeNumber += 1
-//                    }
-//                }
-//            }
-//        })
-//    }
+    func shouldDisplay(payload: [AnyHashable: Any]) -> Bool {
+        guard let aps = payload["aps"] as? [String: NSObject] else { return UserDefaults.standard.bool(forKey: SettingsBundleKeys.miscPreference) }
+        guard let alert = aps["alert"] as? [String: NSObject] else { return UserDefaults.standard.bool(forKey: SettingsBundleKeys.miscPreference) }
+        guard let titleKey = alert["title-loc-key"] as? String else { return UserDefaults.standard.bool(forKey: SettingsBundleKeys.miscPreference) }
+        
+        switch titleKey {
+        case "notif_grade_posted_title":
+            return UserDefaults.standard.bool(forKey: SettingsBundleKeys.courseGradePostedPreference)
+        case "notif_course_grade_changed_title":
+            return UserDefaults.standard.bool(forKey: SettingsBundleKeys.courseGradePostedPreference)
+        case "notif_assignment_posted_title":
+            return UserDefaults.standard.bool(forKey: SettingsBundleKeys.assignmentPostedPreference)
+        default:
+            return UserDefaults.standard.bool(forKey: SettingsBundleKeys.miscPreference)
+        }
+    }
 }
