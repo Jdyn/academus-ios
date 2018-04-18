@@ -33,7 +33,7 @@ class InvitesService {
             guard let data = response.data else {return}
             if response.result.error == nil {
                 do {
-                    let json = try JSON(data: data)
+                    let json = JSON(data)
                     let jsonResult = try json["result"].rawData()
                     let userInvites = try JSONDecoder().decode(UserInvites.self, from: jsonResult)
                     if json["success"] == true {
@@ -62,7 +62,7 @@ class InvitesService {
                 
                 guard let data = response.data else {return}
                 do {
-                    let json = try JSON(data: data)
+                    let json = JSON(data)
                     let jsonResult = try json["result"].rawData()
                     let addInvite = try JSONDecoder().decode(Invite.self, from: jsonResult)
                     let success = json["success"].boolValue

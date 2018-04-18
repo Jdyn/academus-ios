@@ -8,9 +8,6 @@
 
 import UIKit
 import UserNotifications
-import Firebase
-import FirebaseInstanceID
-import FirebaseMessaging
 import Locksmith
 
 class MainNavigationController : UINavigationController {
@@ -20,7 +17,7 @@ class MainNavigationController : UINavigationController {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     var window: UIWindow?
 
@@ -59,7 +56,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         DispatchQueue.main.async(execute: { UIApplication.shared.registerForRemoteNotifications() })
+        
+        let freshchatConfig: FreshchatConfig = FreshchatConfig.init(appID: "76490582-1f11-45d5-b5b7-7ec88564c7d6", andAppKey: "5d16672f-543b-4dc9-9c21-9fd5f62a7ad3")
+        freshchatConfig.themeName = "CustomFCTheme.plist"
+        Freshchat.sharedInstance().initWith(freshchatConfig)
+        
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        
+        guard let userID = dictionary?["userID"] else { return true }
+        guard let firstName = dictionary?["firstName"] else { return true }
+        guard let lastName = dictionary?["lastName"] else { return true }
+        guard let email = dictionary?["email"] else { return true }
 
+        Freshchat.sharedInstance().identifyUser(withExternalID: userID as! String, restoreID: nil)
+        
+        let user = FreshchatUser.sharedInstance()
+        
+        user?.firstName = firstName as! String
+        user?.lastName = lastName as! String
+        user?.email = email as! String
+        
+        Freshchat.sharedInstance().setUser(user)
+        
         return true
     }
     
@@ -91,7 +109,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        var freahchatUnreadCount = Int()
+        Freshchat.sharedInstance().unreadCount { (unreadCount) in
+            freahchatUnreadCount = unreadCount
+        }
+        UIApplication.shared.applicationIconBadgeNumber = freahchatUnreadCount
+
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

@@ -10,7 +10,7 @@ import UIKit
 
 class ManageIntegrationsController: UITableViewController, UserIntegrationsDelegate {
 
-    let date = UILabel().setUpLabel(text: "", font: UIFont.subtext!, fontColor: .tableViewLightGrey)
+    let date = UILabel().setUpLabel(text: "", font: UIFont.subheader!, fontColor: .tableViewLightGrey)
     let integrationService = IntegrationService()
     var integrations = [UserIntegrations]()
     let cellID = "userIntegrationsCell"
@@ -76,7 +76,7 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
         }
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 65 }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 85 }
     override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return integrations.count }
 }
@@ -85,10 +85,12 @@ extension ManageIntegrationsController {
     
     private func integrationCell(cell: UITableViewCell, integration: UserIntegrations) -> UITableViewCell {
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let name = UILabel().setUpLabel(text: integration.name ?? "", font: UIFont.subtext!, fontColor: .navigationsWhite)
+        background.roundCorners(corners: .all)
         
-        let circle = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        circle.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
+        let name = UILabel().setUpLabel(text: integration.name ?? "Error", font: UIFont.standard!, fontColor: .navigationsWhite)
+        
+        let circle = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 12))
+        circle.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
         circle.layer.masksToBounds = true
         circle.layer.cornerRadius = circle.frame.size.width / 2
         
@@ -113,32 +115,27 @@ extension ManageIntegrationsController {
         date.text = "last synced: \(formattedDate ?? "Error")"
         
         let syncIcon = UIImageView().setupImageView(color: .navigationsGreen, image: #imageLiteral(resourceName: "sync"))
-        let sync = UILabel().setUpLabel(text: "Sync now", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         
         cell.backgroundColor = .tableViewDarkGrey
         cell.selectionStyle = .none
         
-        let stackView = UIStackView(arrangedSubviews: [ icon, name, date ])
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        
-        cell.addSubviews(views: [background, circle, stackView, icon, name, date, sync, syncIcon])
+        cell.addSubviews(views: [background, circle, icon, name, date, syncIcon])
             
         background.anchors(top: cell.topAnchor, topPad: 6, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
-        circle.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 10, height: 10)
-        stackView.anchors(left: circle.rightAnchor, leftPad: 6, centerY: background.centerYAnchor)
-        icon.anchors(left: stackView.leftAnchor, centerY: stackView.centerYAnchor ,width: 28, height: 28)
-        name.anchors(top: icon.topAnchor, left: icon.rightAnchor, leftPad: 6)
-        date.anchors(bottom: icon.bottomAnchor, left: icon.rightAnchor, leftPad: 6)
-        sync.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
-        syncIcon.anchors(right: sync.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 16, height: 16)
+        circle.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 12, height: 12)
+        icon.anchors(left: circle.rightAnchor, leftPad: 9, centerY: background.centerYAnchor , width: 32, height: 32)
+        name.anchors(bottom: icon.centerYAnchor ,left: icon.rightAnchor, leftPad: 9, right: syncIcon.leftAnchor, rightPad: -6)
+        date.anchors(top: icon.centerYAnchor, topPad: 0, left: icon.rightAnchor, leftPad: 9)
+        syncIcon.anchors(right: background.rightAnchor, rightPad: -16, centerY: background.centerYAnchor, width: 24, height: 24)
         return cell
     }
     
     private func headerView() -> UIView {
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 45))
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let counter = UILabel().setUpLabel(text: "Current Integrations", font: UIFont.subtext!, fontColor: .navigationsWhite)
+        let counter = UILabel().setUpLabel(text: "Current Integrations", font: UIFont.standard!, fontColor: .navigationsWhite)
+        
+        background.roundCorners(corners: .bottom)
         
         header.addSubviews(views: [background, counter])
         
@@ -148,10 +145,12 @@ extension ManageIntegrationsController {
     }
     
     private func integrationSelectHeaderView() -> UIView {
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 25))
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 45))
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let label = UILabel().setUpLabel(text: "Adding the same integration will cause errors", font: UIFont.subtext!, fontColor: .navigationsRed)
-
+        let label = UILabel().setUpLabel(text: "Adding the same integration will cause errors", font: UIFont.subheader!, fontColor: .navigationsRed)
+        
+        background.roundCorners(corners: .bottom)
+        
         header.addSubviews(views: [background, label])
 
         background.anchors(top: header.topAnchor, bottom: header.bottomAnchor, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6)

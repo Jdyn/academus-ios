@@ -18,8 +18,8 @@ class SettingsController: UITableViewController {
         navigationItem.title = "Settings"
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
-        
-        cells = [.fingerPrintLock, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous]
+
+        cells = [.appLock, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous]
         for type in cells {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
         }
@@ -33,7 +33,7 @@ class SettingsController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellType, for: indexPath)
         
         switch cellAtIndex {
-        case .fingerPrintLock: return biometricsCell(c: cellAtIndex, cell: cell)
+        case .appLock: return biometricsCell(c: cellAtIndex, cell: cell)
         case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous:
             return notificationCell(c: cellAtIndex, cell: cell)
         default: return UITableViewCell()
@@ -70,20 +70,22 @@ class SettingsController: UITableViewController {
         let view = UIView().setupBackground(bgColor: .tableViewDarkGrey)
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let title = UILabel().setUpLabel(text: "", font: UIFont.subheader!, fontColor: .navigationsGreen)
+        let subtext = UILabel().setUpLabel(text: "", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         
         let sections: [SettingsCellManager] = [.privacySecurity, .notifications ]
         let item = sections[section]
         
         switch item {
-        case .privacySecurity: title.text = item.getTitle()
-        case .notifications: title.text = item.getTitle()
+        case .privacySecurity: title.text = item.getTitle(); subtext.text = ""
+        case .notifications: title.text = item.getTitle(); subtext.text = " - Configure in iphone settings"
         default: title.text = ""
         }
         
-        view.addSubviews(views: [background, title])
+        view.addSubviews(views: [background, title, subtext])
         
         background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, bottomPad: 9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         title.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor)
+        subtext.anchors(left: title.rightAnchor, leftPad: 0, centerY: background.centerYAnchor)
         return view
     }
     
@@ -109,19 +111,21 @@ extension SettingsController {
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.subheader!, fontColor: .navigationsWhite)
         let icon = UIImageView().setupImageView(color: .navigationsGreen, image: c.getImage())
+        let subtext = UILabel().setUpLabel(text: c.getSubtext(), font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         
         let toggle = UISwitch()
         toggle.thumbTintColor = .navigationsWhite
         toggle.onTintColor = .navigationsGreen
         toggle.tintColor = .navigationsWhite
-//        toggle.transform = CGAffineTransform(scaleX: 0.60, y: 0.60)
+        toggle.isEnabled = false
         
-        cell.addSubviews(views: [background, icon, title, toggle])
+        cell.addSubviews(views: [background, icon, title, toggle, subtext])
             
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 20, height: 20)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
         toggle.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
+        subtext.anchors(top: title.bottomAnchor, left: icon.rightAnchor, leftPad: 12)
         
         return cell
     }
@@ -132,16 +136,25 @@ extension SettingsController {
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.subheader!, fontColor: .navigationsWhite)
+        let subtext = UILabel().setUpLabel(text: c.getSubtext(), font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         
         let icon = UIImageView()
         icon.image = c.getImage()
         icon.tintColor = .navigationsGreen
         
-        cell.addSubviews(views: [background, icon, title])
+        let toggle = UISwitch()
+        toggle.thumbTintColor = .navigationsWhite
+        toggle.onTintColor = .navigationsGreen
+        toggle.tintColor = .navigationsWhite
+        toggle.isEnabled = false
+        
+        cell.addSubviews(views: [background, icon, title, toggle, subtext])
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 20, height: 20)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
+        toggle.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
+        subtext.anchors(top: title.bottomAnchor, left: icon.rightAnchor, leftPad: 12)
         
         return cell
     }

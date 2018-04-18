@@ -21,7 +21,6 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         super.viewDidLoad()
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
-//        tableView.decelerationRate = UIScrollViewDecelerationRateFast;
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
@@ -54,6 +53,14 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         }
     }
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 9
+    }
+    
     func fetchAssignments(token: String, completion: @escaping CompletionHandler) {
         assignmentService.getAssignments { (success) in
             if success {
@@ -82,7 +89,7 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85
+        return 90
     }
     
     func didGetAssignments(assignments: [Assignment]) {

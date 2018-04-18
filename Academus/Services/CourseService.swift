@@ -19,7 +19,6 @@ class CourseService {
     
     var delegate : CourseServiceDelegate?
     
-    
     func getCourses(completion: @escaping CompletionHandler) {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         let authToken = dictionary?["authToken"] as! String
@@ -28,7 +27,7 @@ class CourseService {
             guard let data = response.data else {return}
             if response.result.error == nil {
                 do {
-                    let json = try JSON(data: data)
+                    let json = JSON(data)
                     let jsonResult = try json["result"].rawData()
                     let course = try JSONDecoder().decode([Course].self, from: jsonResult)
                     if json["success"] == true {

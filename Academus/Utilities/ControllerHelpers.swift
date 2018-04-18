@@ -160,12 +160,35 @@ extension UITableViewController {
     }
 }
 
+enum Corners {
+    
+    case top
+    case bottom
+    case all
+}
+
 extension UIView{
     
     func addSubviews(views: [UIView]) {
         views.forEach { (view) in
             self.addSubview(view)
         }
+    }
+    
+
+    
+    func roundCorners(corners: Corners) {
+        switch corners {
+        case .top:
+            self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        case .bottom:
+            self.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        case .all:
+            break
+        }
+        
+        self.layer.cornerRadius = 9
+        self.layer.masksToBounds = true
     }
     
     func setupImageView(color: UIColor, image: UIImage) -> UIImageView {

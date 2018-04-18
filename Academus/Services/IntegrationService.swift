@@ -35,7 +35,7 @@ class IntegrationService {
             guard let data = response.data else {return}
             if response.result.error == nil {
                 do {
-                    let json = try JSON(data: data)
+                    let json = JSON(data)
                     let jsonResult = try json["result"].rawData()
                     let integrations = try JSONDecoder().decode([IntegrationChoice].self, from: jsonResult)
                     
@@ -76,7 +76,7 @@ class IntegrationService {
                 
                 guard let data = response.data else {return}
                 do {
-                    let json = try JSON(data: data)
+                    let json = JSON(data)
                     let success = json["success"].boolValue
                     if (success) {
                         completion(true)
@@ -108,7 +108,7 @@ class IntegrationService {
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .formatted(dateFormatter)
-                let json = try JSON(data: data)
+                let json = JSON(data)
                 let jsonResult = try json["result"].rawData()
                 let integrations = try decoder.decode([UserIntegrations].self, from: jsonResult)
                 if json["success"] == true {
@@ -135,7 +135,7 @@ class IntegrationService {
                 
                 guard let data = response.data else {return}
                 do {
-                    let json = try JSON(data: data)
+                    let json = JSON(data)
                     let success = json["success"].boolValue
                     
                     if (success) {
