@@ -40,6 +40,7 @@ class BackgroundBlurController: UIViewController {
         view.addSubview(lockPic!)
         
         lockLabel = UILabel().setUpLabel(text: "Academus is Locked.", font: UIFont.header!, fontColor: .navigationsGreen)
+        lockLabel?.alpha = 0.5
         view.addSubview(lockLabel!)
         
         lockButton = UIButton(type: .roundedRect).setUpButton(title: "Unlock Academus", font: UIFont.standard!, fontColor: .navigationsWhite)
@@ -47,6 +48,7 @@ class BackgroundBlurController: UIViewController {
         lockButton?.layer.cornerRadius = 10
         lockButton?.clipsToBounds = true
         lockButton?.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+        lockButton?.alpha = 0.5
         if let mainController = (UIApplication.shared.delegate as! AppDelegate).mainController {
             lockButton?.addTarget(mainController, action: #selector(MainController.localAuth), for: .touchUpInside)
         }

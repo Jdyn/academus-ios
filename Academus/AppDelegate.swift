@@ -81,12 +81,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Freshchat.sharedInstance().identifyUser(withExternalID: userID as! String, restoreID: nil)
         
         let user = FreshchatUser.sharedInstance()
-        
         user?.firstName = firstName as! String
         user?.lastName = lastName as! String
         user?.email = email as! String
         
         Freshchat.sharedInstance().setUser(user)
+        
+        blur(application: application)
         
         return true
     }
@@ -148,11 +149,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        isAuthorized = false
-        guard UserDefaults.standard.bool(forKey: SettingsBundleKeys.appLockPreference) == true else { return }
-        guard blurController == nil else { return }
-        blurController = BackgroundBlurController()
-        application.keyWindow?.rootViewController?.present(blurController!, animated: true, completion: nil)
+        blur(application: application)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -182,6 +179,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Alamofire.request(URL(string: "\(BASE_URL)/api/apns?token=\(token)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
             print(response)
         }
+    }
+    
+    func blur(application: UIApplication) {
+        isAuthorized = false
+        guard UserDefaults.standard.bool(forKey: SettingsBundleKeys.appLockPreference) == true else { return }
+        guard blurController == nil else { return }
+        blurController = BackgroundBlurController()
+        application.keyWindow?.rootViewController?.present(blurController!, animated: true, completion: nil)
     }
     
     func shouldDisplay(payload: [AnyHashable: Any]) -> Bool {

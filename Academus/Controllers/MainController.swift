@@ -18,16 +18,16 @@ class MainController: UITabBarController {
         view.backgroundColor = .tableViewDarkGrey
         
         (UIApplication.shared.delegate as! AppDelegate).mainController = self
-        guard (UIApplication.shared.delegate as! AppDelegate).isAuthorized == true else {
-            localAuth()
-            return
-        }
-        
-        DispatchQueue.main.async { self.setUpUI() }
         
         if freshLaunch == true {
             freshLaunch = false
+            DispatchQueue.main.async { self.setUpUI() }
             self.selectedIndex = 1
+        }
+        
+        guard (UIApplication.shared.delegate as! AppDelegate).isAuthorized == true else {
+            localAuth()
+            return
         }
     }
     
@@ -70,13 +70,12 @@ class MainController: UITabBarController {
     }
     
     func clearBlur() {
+        setUpUI()
         if let blurController = (UIApplication.shared.delegate as! AppDelegate).blurController {
             blurController.dismiss(animated: true, completion: {
                 (UIApplication.shared.delegate as! AppDelegate).blurController = nil
             })
         }
-        
-        setUpUI()
     }
     
     func setUpUI() {
@@ -84,6 +83,7 @@ class MainController: UITabBarController {
         plannerController.tabBarItem = UITabBarItem(title: "Planner", image: #imageLiteral(resourceName: "planner"), tag: 0)
         
         let coursesController = CoursesController()
+        setUp(coursesController: coursesController)
         coursesController.tabBarItem = UITabBarItem(title: "Courses", image: #imageLiteral(resourceName: "grades"), tag: 1)
         
         let settingsController = ManageController(style: .grouped)
@@ -91,5 +91,41 @@ class MainController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0) }
+    }
+    
+    func setUp(coursesController: CoursesController) {
+        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
+        coursesController.authToken = (dictionary["authToken"] as? String ?? "")
+        
+        coursesController.courseService.delegate = coursesController
+        let localToken = (dictionary["authToken"] as? String ?? "")
+        if localToken != coursesController.authToken {
+            print("Fetching courses because the token has changed...")
+            coursesController.fetchCourses(token: localToken, completion: { (success) in
+                if success {
+                    UIView.transition(with: coursesController.tableView, duration: 0.2, options: .transitionCrossDissolve, animations: { coursesController.tableView.reloadData() })
+                    coursesController.errorLabel(show: false)
+                } else {
+                    coursesController.errorLabel(show: true)
+                }
+            })
+            return
+        }
+        
+        if coursesController.tableView.visibleCells.isEmpty {
+            print("Fetching courses because the table reloaded...")
+            freshLaunch = false
+            coursesController.fetchCourses(token: localToken, completion: { (success) in
+                if success {
+                    UIView.transition(with: coursesController.tableView, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        coursesController.tableView.reloadData()
+                    })
+                    coursesController.errorLabel(show: false)
+                } else {
+                    coursesController.errorLabel(show: true)
+                }
+            })
+            return
+        }
     }
 }

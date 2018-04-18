@@ -11,7 +11,7 @@ import Locksmith
 
 class CoursesController: UITableViewController, CourseServiceDelegate {
     
-    private let courseService = CourseService()
+    let courseService = CourseService()
     var authToken: String?
     var label: UILabel?
     
@@ -29,43 +29,6 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
         refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
-
-        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
-        self.authToken = (dictionary["authToken"] as? String ?? "")
-     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        courseService.delegate = self
-        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
-        let localToken = (dictionary["authToken"] as? String ?? "")
-
-        if localToken != self.authToken {
-            print("Fetching courses because the token has changed...")
-            fetchCourses(token: localToken, completion: { (success) in
-                if success {
-                    UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
-                    self.errorLabel(show: false)
-                } else {
-                    self.errorLabel(show: true)
-                }
-            })
-            return
-        }
-
-        if courses.isEmpty {
-            print("Fetching courses because the token has changed...")
-            fetchCourses(token: localToken, completion: { (success) in
-                if success {
-                    UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: {
-                        self.tableView.reloadData()
-                    })
-                    self.errorLabel(show: false)
-                } else {
-                    self.errorLabel(show: true)
-                }
-            })
-            return
-        }
     }
     
     func fetchCourses(token: String, completion: @escaping CompletionHandler) {
