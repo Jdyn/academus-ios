@@ -11,6 +11,8 @@ import Locksmith
 import LocalAuthentication
 
 class MainController: UITabBarController {
+    var freshLaunch = true
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         view.backgroundColor = .tableViewDarkGrey
@@ -22,6 +24,11 @@ class MainController: UITabBarController {
         }
         
         DispatchQueue.main.async { self.setUpUI() }
+        
+        if freshLaunch == true {
+            freshLaunch = false
+            self.selectedIndex = 1
+        }
     }
     
     @objc func localAuth() {
@@ -66,11 +73,10 @@ class MainController: UITabBarController {
         if let blurController = (UIApplication.shared.delegate as! AppDelegate).blurController {
             blurController.dismiss(animated: true, completion: {
                 (UIApplication.shared.delegate as! AppDelegate).blurController = nil
-                self.setUpUI()
             })
-        } else {
-            setUpUI()
         }
+        
+        setUpUI()
     }
     
     func setUpUI() {
@@ -85,6 +91,5 @@ class MainController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0) }
-        //self.selectedIndex = 1
     }
 }
