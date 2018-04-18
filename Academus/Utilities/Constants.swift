@@ -18,6 +18,8 @@ let URL_LOGIN = URL(string: "\(BASE_URL)/api/login")
 let USER_AUTH = "userAuth"
 let USER_INFO = "userInfo"
 
+let fieldHeight = CGFloat(45)
+
 extension Double {
     func rounded(toPlaces places:Int) -> Double {
         let divisor = pow(10.0, Double(places))
