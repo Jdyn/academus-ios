@@ -10,11 +10,13 @@ import UIKit
 
 class AccountCreateController: UIViewController {
     
-    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.header!, fontColor: .navigationsWhite)
+    let welcomeLabel = UILabel().setUpLabel(text: "Create an Account", font: UIFont.header!, fontColor: .navigationsWhite)
     let signUpButton = UIButton(type: .system).setUpButton(title: "SIGN UP", font: UIFont.standard!, fontColor: .navigationsGreen)
     
     var scrollView: UIScrollView?
     var fields = [UITextField]()
+    
+    var mainController: MainController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,15 +66,22 @@ class AccountCreateController: UIViewController {
             alertMessage(title: "Watch out..", message: "Passwords do not match.")
             return
         } else if fields[4].text!.count < 6 {
-            alertMessage(title: "What is Security..", message: "Password must be atleast 6 characters.")
+            alertMessage(title: "What is Security...", message: "Password must be at least 6 characters.")
             return
         }
-        AuthService().registerUser(betaCode: (fields[0].text)!, firstName: (fields[1].text)!, lastName: (fields[2].text)!, email: (fields[3].text)!, password: (fields[4].text)!) { (success) in
+        
+        loadingAlert(title: "Attempting to Create Account", message: "Please wait...")
+                
+        AuthService().registerUser(betaCode: (fields[0].text)!, firstName: (fields[1].text)!, lastName: (fields[2].text)!, email: (fields[3].text)!, password: (fields[4].text)!, appleToken: mainController?.apnsToken) { (success) in
             if success {
-                let controller = IntegrationSelectController()
-                self.navigationController?.pushViewController(controller, animated: true)
+                self.dismiss(animated: true, completion: {
+                    let controller = IntegrationSelectController()
+                    self.navigationController?.pushViewController(controller, animated: true)
+                })
             } else {
-                self.alertMessage(title: "Alert", message: "An Error has occured. Try Again.")
+                self.dismiss(animated: true, completion: {
+                    self.alertMessage(title: "Alert", message: "Check your beta code and try again")
+                })
             }
         }
     }

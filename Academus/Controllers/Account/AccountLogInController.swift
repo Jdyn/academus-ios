@@ -10,10 +10,12 @@ import UIKit
 import Locksmith
 
 class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldDelegate {
-    
+
     private let authService = AuthService()
+    var mainController: MainController?
     
     var logInError = "Check your internet connection and try again."
+    var apnsToken: String?
     
     let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.header!, fontColor: .navigationsWhite)
     let emailField = UITextField().setupTextField(bottomBorder: true, ghostText: "Email")
@@ -59,7 +61,17 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
         } else {
             authService.logInErrorDelegate = self
             loadingAlert(title: "Attempting to log in", message: "Please wait...")
-            authService.logInUser(email: emailField.text!, password: passwordField.text!)
+            
+//            guard let token = mainController?.apnsToken else {
+//
+//                self.dismiss(animated: true, completion: {
+//                    self.alertMessage(title: "Ooops.", message: self.logInError)
+//                })
+//
+//                return
+//            }
+            
+            authService.logInUser(email: emailField.text!, password: passwordField.text!, appleToken: mainController?.apnsToken)
             { (success) in
                 if success {
                     self.dismiss(animated: true, completion: {

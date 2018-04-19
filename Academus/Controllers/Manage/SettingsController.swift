@@ -77,7 +77,7 @@ class SettingsController: UITableViewController {
         
         switch item {
         case .privacySecurity: title.text = item.getTitle(); subtext.text = ""
-        case .notifications: title.text = item.getTitle(); subtext.text = " - Configure in iphone settings"
+        case .notifications: title.text = item.getTitle(); subtext.text = " - Configure in iPhone settings"
         default: title.text = ""
         }
         

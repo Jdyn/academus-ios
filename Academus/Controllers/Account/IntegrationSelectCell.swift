@@ -36,10 +36,10 @@ class IntegrationSelectCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewDarkGrey
         selectionStyle = .none
-        
+        background.roundCorners(corners: .all)
         addSubviews(views: [background, icon, title])
         
-        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
+        background.anchors(top: topAnchor, topPad: 9, bottom: bottomAnchor, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
         icon.anchors(left: background.leftAnchor, leftPad: 16, centerY: background.centerYAnchor, width: 32, height: 32)
         title.anchors(left: icon.rightAnchor, leftPad: 16, centerY: background.centerYAnchor)
     }

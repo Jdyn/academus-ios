@@ -18,6 +18,9 @@ let URL_LOGIN = URL(string: "\(BASE_URL)/api/login")
 let USER_AUTH = "userAuth"
 let USER_INFO = "userInfo"
 
+let APPLE_TOKEN = "appleToken"
+let AUTH_TOKEN = "authToken"
+
 let fieldHeight = CGFloat(45)
 
 extension Double {

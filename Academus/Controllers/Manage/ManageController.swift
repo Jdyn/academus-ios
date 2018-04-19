@@ -26,12 +26,6 @@ class ManageController: UITableViewController {
         }
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(true)
-//        self.navigationController?.navigationBar.barTintColor = .navigationsDarkGrey
-//        self.navigationController?.navigationBar.tintColor = .navigationsGreen
-//    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         
@@ -101,10 +95,18 @@ class ManageController: UITableViewController {
             if Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) != nil {
                 do {
                     try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
+                    try Locksmith.deleteDataForUserAccount(userAccount: USER_INFO)
                 } catch let error {
                     debugPrint("could not delete locksmith data:", error)
                 }
+                
+                let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
+                self.present(welcomeNavigationController, animated: true, completion: {
+                    self.tabBarController?.selectedIndex = 0
+                })
+                
             } else {
+                
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
                 self.present(welcomeNavigationController, animated: true, completion: {
                     self.tabBarController?.selectedIndex = 0
@@ -164,13 +166,14 @@ extension ManageController {
     }
     
     private func profileView() -> UIView {
-        let dictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let infoDictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+        let authDictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 95))
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let name = UILabel().setUpLabel(text: "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")", font: UIFont(name: "AvenirNext-medium", size: 20)!, fontColor: .navigationsWhite)
-        let email = UILabel().setUpLabel(text: "\(dictionary?["email"] ?? "Unknown Email")", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
+        let name = UILabel().setUpLabel(text: "\(infoDictionary?["firstName"] ?? "Unkown") \(infoDictionary?["lastName"] ?? "Name")", font: UIFont(name: "AvenirNext-medium", size: 20)!, fontColor: .navigationsWhite)
+        let email = UILabel().setUpLabel(text: "\(infoDictionary?["email"] ?? "Unknown Email")", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
     
         background.layer.cornerRadius = 9
         background.layer.masksToBounds = true
@@ -179,7 +182,7 @@ extension ManageController {
         
         let profileImage = UIImageView()
         DispatchQueue.global(qos: .background).async {
-            let url = URL(string: "\(BASE_URL)/api/picture?token=\(dictionary?["authToken"] ?? "")")
+            let url = URL(string: "\(BASE_URL)/api/picture?token=\(authDictionary?[AUTH_TOKEN] ?? "")")
             guard let data = try? Data(contentsOf: url!) else {return}
 
             DispatchQueue.main.async {

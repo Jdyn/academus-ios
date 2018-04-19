@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import SwiftyJSON
 import Locksmith
 
 class MainNavigationController : UINavigationController {
@@ -18,14 +19,15 @@ class MainNavigationController : UINavigationController {
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    
+
     var window: UIWindow?
+    var mainController = MainController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow()
         window?.makeKeyAndVisible()
-        window?.rootViewController = MainController() //MainNavigationController(rootViewController: IntegrationSelectController())
+        window?.rootViewController = mainController //MainNavigationController(rootViewController: IntegrationSelectController())
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
@@ -49,13 +51,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UITableView.appearance().backgroundColor = .tableViewDarkGrey
         
         let center = UNUserNotificationCenter.current()
-        
         center.delegate = self
+
         center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
             
         }
         
-        DispatchQueue.main.async(execute: { UIApplication.shared.registerForRemoteNotifications() })
+        let NotificationAuthOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        center.requestAuthorization(options: NotificationAuthOptions) { (success, error) in
+            if success {
+                
+                center.getNotificationSettings(completionHandler: { (settings) in
+                    if settings.authorizationStatus != .authorized {
+                        return
+                    } else {
+                        DispatchQueue.main.async(execute: { UIApplication.shared.registerForRemoteNotifications() })
+                    }
+                    
+                })
+            }
+            
+        }
         
         let freshchatConfig: FreshchatConfig = FreshchatConfig.init(appID: "76490582-1f11-45d5-b5b7-7ec88564c7d6", andAppKey: "5d16672f-543b-4dc9-9c21-9fd5f62a7ad3")
         freshchatConfig.themeName = "CustomFCTheme.plist"
@@ -81,13 +97,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
     
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        let data = JSON(userInfo).rawString()
+        print("APNS Received Remote Message 1: \(data ?? "Error")")
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        let data = JSON(userInfo).rawString()
+        print("APNS Received Remote Message 2: \(data ?? "")")
+        
+        completionHandler(.newData)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print(response.notification.request.content.userInfo)
+        
+        let data = JSON(response.notification.request.content.userInfo).rawString()
+        print("APNS User Tapped on Notification: \(data ?? "Tapped Error")")
+        
+        completionHandler()
+    }
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print(notification.request.content.userInfo)
+        
+        let data = JSON(notification.request.content.userInfo).rawString()
+        print("APNS Received Remote Message 3: \(data ?? "")")
+
         completionHandler([.alert, .sound])
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("token: \(token)")
+        mainController.apnsToken = token
+        print("APP DELEGATE: ", mainController.apnsToken!)
+        
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        guard let currentAppleToken = dictionary?[APPLE_TOKEN] else { print("RETURNEED"); return }
+        
+        if token != currentAppleToken as! String {
+            
+            print("APP DELEGATE TOKEN: ", token)
+            print("MY TOKEN: ", currentAppleToken)
+            
+            let authToken = dictionary![AUTH_TOKEN] as! String
+            AuthService().registerAPNS(token: authToken, appleToken: token)
+            do {
+                try Locksmith.updateData(data: [
+                    APPLE_TOKEN : token,
+                    AUTH_TOKEN : authToken
+                    ], forUserAccount: USER_AUTH)
+            } catch {
+                if authToken.isEmpty {
+                    let welcomeController = WelcomeController()
+                    welcomeController.mainController = mainController
+                    let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)
+                    UIApplication.shared.keyWindow?.rootViewController?.present(welcomeNavigationController, animated: false, completion: {
+                        self.mainController.setUpUI()
+                    })
+                }
+            }
+        }
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

@@ -11,21 +11,30 @@ import Locksmith
 
 class MainController: UITabBarController {
     
+    var apnsToken: String?
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
         view.backgroundColor = .tableViewDarkGrey
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+
         if dictionary?["isLoggedIn"] == nil {
-            let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-            present(welcomeNavigationController, animated: true, completion: {
+            let welcomeController = WelcomeController()
+            welcomeController.mainController = self
+            let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)
+            present(welcomeNavigationController, animated: false, completion: {
                 self.setUpUI()
             })
-            return
         } else {
             setUpUI()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                let dictionary1 = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+                print(dictionary1)
+            })
         }
     }
-        
+    
     func setUpUI(){
         let plannerController = PlannerController()
         plannerController.tabBarItem = UITabBarItem(title: "Planner", image: #imageLiteral(resourceName: "planner"), tag: 0)
