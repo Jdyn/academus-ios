@@ -12,3 +12,13 @@ target 'Academus' do
   pod 'FreshchatSDK'
   
 end
+
+target 'AcademusUITests' do
+    
+  use_frameworks!
+  pod 'Alamofire'
+  pod 'SwiftyJSON'
+  pod 'Locksmith'
+  pod 'FreshchatSDK'
+    
+end

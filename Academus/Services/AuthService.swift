@@ -18,6 +18,11 @@ protocol logInErrorDelegate {
 class AuthService {
     
     var logInErrorDelegate: logInErrorDelegate?
+    var userAuth: String? {
+        get {
+            return USER_AUTH
+        }
+    }
     
     func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, completion: @escaping CompletionHandler) {
         let lowerCaseEmail = email.lowercased()

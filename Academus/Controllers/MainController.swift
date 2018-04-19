@@ -20,9 +20,7 @@ class MainController: UITabBarController {
         (UIApplication.shared.delegate as! AppDelegate).mainController = self
         
         if freshLaunch == true {
-            freshLaunch = false
             DispatchQueue.main.async { self.setUpUI() }
-            self.selectedIndex = 1
         }
         
         guard (UIApplication.shared.delegate as! AppDelegate).isAuthorized == true else {
@@ -90,6 +88,11 @@ class MainController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0) }
+        
+        if freshLaunch {
+            self.selectedIndex = 1
+            freshLaunch = false
+        }
     }
     
     func setUp(coursesController: CoursesController) {
