@@ -100,6 +100,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         let data = JSON(userInfo).rawString()
         print("APNS Received Remote Message 1: \(data ?? "Error")")
+        
+        if Freshchat.sharedInstance().isFreshchatNotification(userInfo) {
+            Freshchat.sharedInstance().handleRemoteNotification(userInfo, andAppstate: application.applicationState)
+        }
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -116,7 +120,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let data = JSON(response.notification.request.content.userInfo).rawString()
         print("APNS User Tapped on Notification: \(data ?? "Tapped Error")")
         
-        completionHandler()
+        if Freshchat.sharedInstance().isFreshchatNotification(response.notification.request.content.userInfo) {
+            Freshchat.sharedInstance().handleRemoteNotification(response.notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)
+        } else {
+            completionHandler()
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -125,13 +133,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let data = JSON(notification.request.content.userInfo).rawString()
         print("APNS Received Remote Message 3: \(data ?? "")")
 
-        completionHandler([.alert, .sound])
+        if Freshchat.sharedInstance().isFreshchatNotification(notification.request.content.userInfo) {
+            Freshchat.sharedInstance().handleRemoteNotification(notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)  //Handled for freshchat notifications
+        } else {
+            completionHandler([.alert, .sound, .badge])
+        }
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         mainController.apnsToken = token
         print("APP DELEGATE: ", mainController.apnsToken!)
+        
+        Freshchat.sharedInstance().setPushRegistrationToken(deviceToken)
         
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         guard let currentAppleToken = dictionary?[APPLE_TOKEN] else { print("RETURNEED"); return }
