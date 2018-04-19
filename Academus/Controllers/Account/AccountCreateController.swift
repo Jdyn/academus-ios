@@ -10,7 +10,7 @@ import UIKit
 
 class AccountCreateController: UIViewController {
     
-    let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.header!, fontColor: .navigationsWhite)
+    let welcomeLabel = UILabel().setUpLabel(text: "Create an account.", font: UIFont.header!, fontColor: .navigationsWhite)
     let signUpButton = UIButton(type: .system).setUpButton(title: "SIGN UP", font: UIFont.standard!, fontColor: .navigationsGreen)
     
     var scrollView: UIScrollView?
@@ -23,9 +23,6 @@ class AccountCreateController: UIViewController {
     }
     
     private func setupUI() {
-        
-        view.backgroundColor = .tableViewDarkGrey
-        
         let titles = ["Beta Code", "First Name", "Last Name", "Email", "Password", "Verify Password"]
         let screen = UIScreen.main.bounds
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height))
@@ -37,21 +34,22 @@ class AccountCreateController: UIViewController {
             scrollView!.addSubview(textField)
             self.fields.append(textField)
         }
+        
         fields[3].keyboardType = .emailAddress
         fields[4].isSecureTextEntry = true
         fields[5].isSecureTextEntry = true
         
-        view.addSubview(scrollView!)
         view.backgroundColor = .tableViewDarkGrey
-        
-        fields[0].anchors(top: scrollView!.topAnchor, topPad: view.bounds.height * 1/4, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32)
-        fields[1].anchors(top: fields[0].bottomAnchor, topPad: 32, left: fields[0].leftAnchor, right: view.centerXAnchor, rightPad: -6)
-        fields[2].anchors(top: fields[0].bottomAnchor, topPad: 32, left: view.centerXAnchor, leftPad: 6, right: fields[0].rightAnchor)
-        fields[3].anchors(top: fields[2].bottomAnchor, topPad: 32, left: fields[0].leftAnchor, right: fields[0].rightAnchor)
-        fields[4].anchors(top: fields[3].bottomAnchor, topPad: 32, left: fields[0].leftAnchor, right: view.centerXAnchor, rightPad: -6)
-        fields[5].anchors(top: fields[3].bottomAnchor, topPad: 32, left: view.centerXAnchor, leftPad: 6, right: fields[0].rightAnchor)
+        view.addSubview(scrollView!)
+                
+        fields[0].anchors(top: scrollView!.topAnchor, topPad: view.bounds.height * 1/4, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, height: fieldHeight)
+        fields[1].anchors(top: fields[0].bottomAnchor, topPad: 16, left: fields[0].leftAnchor, right: view.centerXAnchor, rightPad: -6, height: fieldHeight)
+        fields[2].anchors(top: fields[0].bottomAnchor, topPad: 16, left: view.centerXAnchor, leftPad: 6, right: fields[0].rightAnchor, height: fieldHeight)
+        fields[3].anchors(top: fields[2].bottomAnchor, topPad: 16, left: fields[0].leftAnchor, right: fields[0].rightAnchor, height: fieldHeight)
+        fields[4].anchors(top: fields[3].bottomAnchor, topPad: 16, left: fields[0].leftAnchor, right: view.centerXAnchor, rightPad: -6, height: fieldHeight)
+        fields[5].anchors(top: fields[3].bottomAnchor, topPad: 16, left: view.centerXAnchor, leftPad: 6, right: fields[0].rightAnchor, height: fieldHeight)
         welcomeLabel.anchors(bottom: fields[0].topAnchor, bottomPad: -32, centerX: view.centerXAnchor)
-        signUpButton.anchors(top: fields[5].bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 64)
+        signUpButton.anchors(top: fields[5].bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 100, height: 84)
         signUpButton.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
     }
     
@@ -63,10 +61,10 @@ class AccountCreateController: UIViewController {
             }
         }
         if ((fields[4].text! == fields[5].text!) != true) {
-            alertMessage(title: "Watch out..", message: "Passwords do not match.")
+            alertMessage(title: "Watch out...", message: "Passwords do not match.")
             return
         } else if fields[4].text!.count < 6 {
-            alertMessage(title: "What is Security..", message: "Password must be atleast 6 characters.")
+            alertMessage(title: "What is security...", message: "Password must be at least 6 characters.")
             return
         }
         AuthService().registerUser(betaCode: (fields[0].text)!, firstName: (fields[1].text)!, lastName: (fields[2].text)!, email: (fields[3].text)!, password: (fields[4].text)!) { (success) in
@@ -74,7 +72,7 @@ class AccountCreateController: UIViewController {
                 let controller = IntegrationSelectController()
                 self.navigationController?.pushViewController(controller, animated: true)
             } else {
-                self.alertMessage(title: "Alert", message: "An Error has occured. Try Again.")
+                self.alertMessage(title: "Alert", message: "An error has occurred. Try again.")
             }
         }
     }

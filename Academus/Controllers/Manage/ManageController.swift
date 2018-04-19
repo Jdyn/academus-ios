@@ -9,18 +9,20 @@
 import UIKit
 import Locksmith
 
+protocol ChatDelegate {
+    func didGetChatDelegate(chat: ManageHelpController)
+}
+
 class ManageController: UITableViewController {
     
+    var delegate: ChatDelegate?
     var cells = [ManageCellManager]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Manage"
-        tableView.separatorStyle = .singleLine
-        tableView.separatorInset = UIEdgeInsetsMake(0, 6, 0, 6)
-        tableView.separatorColor = .tableViewSeperator
-        tableView.backgroundColor = .tableViewDarkGrey
-        tableView.tableFooterView = UIView()
+        tableView.separatorStyle = .none
+
         tableView.tableHeaderView = profileView()
         
         cells = [.manageIntegrations, .manageInvites, .settings, .help, .about]
@@ -28,6 +30,12 @@ class ManageController: UITableViewController {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
         }
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(true)
+//        self.navigationController?.navigationBar.barTintColor = .navigationsDarkGrey
+//        self.navigationController?.navigationBar.tintColor = .navigationsGreen
+//    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
@@ -47,31 +55,27 @@ class ManageController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 15 } // 18
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 } // 18
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.layer.cornerRadius = 6 // 9
-        background.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        background.layer.masksToBounds = true
-
-        view.addSubview(background)
-        
-        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        return view
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 7  } // 10
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView()
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.layer.cornerRadius = 6 // 9
-        background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        background.layer.masksToBounds = true
+        background.roundCorners(corners: .top)
         
         view.addSubview(background)
         
         background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 18  }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        background.roundCorners(corners: .bottom)
+
+        view.addSubview(background)
+        
+        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         return view
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 2 : 3) }
@@ -84,28 +88,40 @@ class ManageController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         
+        let chatController = ManageHelpController()
+        self.delegate?.didGetChatDelegate(chat: chatController)
+        
+        
         switch cellsFiltered[indexPath.row] {
-        case .manageIntegrations: navigationController?.pushViewController(ManageIntegrationsController(), animated: true)
-        case .manageInvites: navigationController?.pushViewController(ManageInvitesController(), animated: true)
-        case .settings: navigationController?.pushViewController(SettingsController(), animated: true)
-        case .help: navigationController?.pushViewController(ManageHelpController(), animated: true)
-        case .about: navigationController?.pushViewController(ManageAboutController(), animated: true)
+        case .manageIntegrations: navigationController?.pushViewController(ManageIntegrationsController(style: .grouped), animated: true)
+        case .manageInvites: navigationController?.pushViewController(ManageInvitesController(style: .grouped), animated: true)
+        case .settings: navigationController?.pushViewController(SettingsController(style: .plain), animated: true)
+        case .help: navigationController?.pushViewController(Freshchat.sharedInstance().getConversationsControllerForEmbed()
+, animated: true)
+        case .about: navigationController?.pushViewController(ManageAboutController(style: .grouped), animated: true)
+        default: break
         }
     }
     
     @objc func handleSignout() {
         let alert = UIAlertController(title: "Sign Out?", message: "Are you sure you want to sign out?", preferredStyle: .alert)
         let actionYes = UIAlertAction(title: "Yes", style: .default) { (action) in
-            
+            (UIApplication.shared.delegate as! AppDelegate).mainController?.freshLaunch = true
             if Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) != nil {
                 do {
                     try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
                 } catch let error {
                     debugPrint("could not delete locksmith data:", error)
                 }
+                
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
                 self.present(welcomeNavigationController, animated: true, completion: {
-                    self.tabBarController?.selectedIndex = 0
+                    self.tabBarController?.selectedIndex = 1
+                })
+            } else {
+                let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
+                self.present(welcomeNavigationController, animated: true, completion: {
+                    self.tabBarController?.selectedIndex = 1
                 })
             }
         }
@@ -189,6 +205,8 @@ extension ManageController {
         
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "exit"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsetsMake(15.0, 0.0, 15.0, 0.0)
         button.addTarget(self, action: #selector(handleSignout), for: .touchUpInside)
         button.tintColor = .navigationsRed
         
@@ -197,10 +215,10 @@ extension ManageController {
         stack.distribution = .equalCentering
         view.addSubviews(views: [background, stack, button, profileImage])
         
-        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         stack.anchors(left: profileImage.rightAnchor, leftPad: 9, centerY: profileImage.centerYAnchor)
-        profileImage.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 42, height: 42)
-        button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
+        profileImage.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 64, height: 64)
+        button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 64, height: 64)
         
         return view
     }

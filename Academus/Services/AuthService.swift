@@ -16,7 +16,6 @@ protocol logInErrorDelegate {
 }
 
 class AuthService {
-    
     var logInErrorDelegate: logInErrorDelegate?
     
     func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, completion: @escaping CompletionHandler) {
@@ -38,7 +37,7 @@ class AuthService {
                 guard let data = response.data else {return}
                 do {
                     
-                    let json = try JSON(data: data)
+                    let json = JSON(data)
                     let success = json["success"].boolValue
                     if (success) {
 
@@ -46,15 +45,30 @@ class AuthService {
                         let email = json["result"]["user"]["email"].stringValue
                         let firstName = json["result"]["user"]["first_name"].stringValue
                         let lastName = json["result"]["user"]["last_name"].stringValue
+                        let userID = json["result"]["user"]["id"].stringValue
                         let isLoggedIn = true
                         
+                        Freshchat.sharedInstance().identifyUser(withExternalID: userID, restoreID: nil)
+                        let user = FreshchatUser.sharedInstance()
+                        
+                        user?.firstName = firstName
+                        user?.lastName = lastName
+                        user?.email = email
+                        
+                        Freshchat.sharedInstance().setUser(user)
+
                         try Locksmith.updateData(data: [
                             "authToken" : token,
                             "email" : email,
                             "firstName" : firstName,
                             "lastName" : lastName,
-                            "isLoggedIn" : isLoggedIn
+                            "isLoggedIn" : isLoggedIn,
+                            "userID" : userID
                             ], forUserAccount: USER_AUTH)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                            (UIApplication.shared.delegate as! AppDelegate).registerAPNS()
+                        })
                         
                         completion(true)
                     } else {
@@ -88,22 +102,38 @@ class AuthService {
                 guard let data = response.data else {return}
                     do {
                         
-                        let json = try JSON(data: data)
+                        let json = JSON(data)
                         let success = json["success"].boolValue
                         if (success) {
                             let token = json["result"]["token"].stringValue
                             let email = json["result"]["user"]["email"].stringValue
                             let firstName = json["result"]["user"]["first_name"].stringValue
                             let lastName = json["result"]["user"]["last_name"].stringValue
+                            let userID = json["result"]["user"]["id"].stringValue
                             let isLoggedIn = true
+                            
+                            Freshchat.sharedInstance().identifyUser(withExternalID: userID, restoreID: nil)
+                            
+                            let user = FreshchatUser.sharedInstance()
+                            
+                            user?.firstName = firstName
+                            user?.lastName = lastName
+                            user?.email = email
+                            
+                            Freshchat.sharedInstance().setUser(user)
                             
                             try Locksmith.updateData(data: [
                                 "authToken" : token,
                                 "email" : email,
                                 "firstName" : firstName,
                                 "lastName" : lastName,
-                                "isLoggedIn" : isLoggedIn
+                                "isLoggedIn" : isLoggedIn,
+                                "userID" : userID
                                 ], forUserAccount: USER_AUTH)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                                (UIApplication.shared.delegate as! AppDelegate).registerAPNS()
+                            })
                             
                             completion(true)
                         } else {

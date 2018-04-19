@@ -7,14 +7,13 @@
 //
 
 import UIKit
+import Locksmith
 
-class ManageHelpController: UITableViewController {
+class ManageHelpController: UIViewController {
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Help"
-        tableView.separatorStyle = .none
-        
-        tableView.backgroundView = UILabel().setUpLabel(text: "TJ GET A CHATTING SERVICE", font: UIFont.header!, fontColor: .navigationsRed)
+        navigationItem.title = "Chat"
     }
 }

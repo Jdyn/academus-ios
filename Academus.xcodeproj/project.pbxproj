@@ -9,7 +9,13 @@
 /* Begin PBXBuildFile section */
 		580CC7FE205064F400EF59C1 /* IntegrationSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */; };
 		7737EEF80D4E4882DE8EAE8C /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13640B4FD642AD6950DA5EF0 /* Pods_Academus.framework */; };
+		AAC83652F86B2DE97B27B644 /* Pods_AcademusUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92FA86EE4EC610B2DDCE5552 /* Pods_AcademusUITests.framework */; };
+		C40ED04A2083FF5600931510 /* BackgroundBlurController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40ED0492083FF5600931510 /* BackgroundBlurController.swift */; };
+		C415EECC2085BCE800F535F0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C415EECB2085BCE800F535F0 /* Settings.bundle */; };
+		C415EECE2085C04300F535F0 /* SettingsBundleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C415EECD2085C04300F535F0 /* SettingsBundleHelper.swift */; };
+		C41B5F032087FD1B003C0F1E /* AcademusUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41B5F022087FD1B003C0F1E /* AcademusUITests.swift */; };
 		C49FDAEF2068792A005A36EB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */; };
+		C6B29CE020851BEB006342EA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6B29CDF20851BEB006342EA /* Localizable.strings */; };
 		D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A30204D660300CF4DC4 /* PlannerController.swift */; };
 		D7153A33204DF89D00CF4DC4 /* PlannerCreateCardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */; };
 		D725592E203A38DB00DBA62B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D725592D203A38DB00DBA62B /* AppDelegate.swift */; };
@@ -23,6 +29,7 @@
 		D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F655B203FA09E00144C89 /* AssignmentModel.swift */; };
 		D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F655D203FE8F800144C89 /* CourseDetailsController.swift */; };
 		D73F6560203FE92500144C89 /* CourseAssignmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F655F203FE92500144C89 /* CourseAssignmentCell.swift */; };
+		D75CB49E20871B6300AAC7E0 /* CustomFCTheme.plist in Resources */ = {isa = PBXBuildFile; fileRef = D75CB49D2087199100AAC7E0 /* CustomFCTheme.plist */; };
 		D762FCF0206899240021B6F2 /* InvitesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCEF206899240021B6F2 /* InvitesService.swift */; };
 		D762FCF2206899C60021B6F2 /* userInvitesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCF1206899C60021B6F2 /* userInvitesModel.swift */; };
 		D762FCF420689AC50021B6F2 /* ManageInvitesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */; };
@@ -46,6 +53,7 @@
 		D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E4272062FFF7002099B9 /* UIFont.swift */; };
 		D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E42D20630009002099B9 /* SettingsCellManager.swift */; };
 		D7D1E43820635F56002099B9 /* ManageCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E43720635F56002099B9 /* ManageCellManager.swift */; };
+		D7DD8C032081A4E800AC0FAA /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7DD8C022081A4E800AC0FAA /* LocalAuthentication.framework */; };
 		D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */; };
 		D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */; };
 		D7F66243204757A70060FA8D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F66242204757A70060FA8D /* AuthService.swift */; };
@@ -56,12 +64,32 @@
 		D7FA4880203B1894007ADFE0 /* AcademusModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D7FA487E203B1894007ADFE0 /* AcademusModels.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C41B5F052087FD1B003C0F1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D7255922203A38DB00DBA62B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D7255929203A38DB00DBA62B;
+			remoteInfo = Academus;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		13640B4FD642AD6950DA5EF0 /* Pods_Academus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Academus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrationSelectController.swift; sourceTree = "<group>"; };
+		5BE8D8F62719B7898E80F55F /* Pods-AcademusUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcademusUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AcademusUITests/Pods-AcademusUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6CEFE00B8A2B3BE738650395 /* Pods-Academus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.debug.xcconfig"; sourceTree = "<group>"; };
 		890075C57931A0A5D85BA6D9 /* Pods-Academus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.release.xcconfig"; sourceTree = "<group>"; };
+		92FA86EE4EC610B2DDCE5552 /* Pods_AcademusUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AcademusUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE236F3BFE3D9849A64CFF7F /* Pods-AcademusUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcademusUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AcademusUITests/Pods-AcademusUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C40ED0492083FF5600931510 /* BackgroundBlurController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurController.swift; sourceTree = "<group>"; };
+		C415EECB2085BCE800F535F0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		C415EECD2085C04300F535F0 /* SettingsBundleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundleHelper.swift; sourceTree = "<group>"; };
+		C41B5F002087FD1B003C0F1E /* AcademusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AcademusUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C41B5F022087FD1B003C0F1E /* AcademusUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademusUITests.swift; sourceTree = "<group>"; };
+		C41B5F042087FD1B003C0F1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C6B29CDF20851BEB006342EA /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		D7153A30204D660300CF4DC4 /* PlannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerController.swift; sourceTree = "<group>"; };
 		D7153A32204DF89D00CF4DC4 /* PlannerCreateCardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCreateCardController.swift; sourceTree = "<group>"; };
 		D71857FD20686AF3007B03AA /* Academus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Academus.entitlements; sourceTree = "<group>"; };
@@ -78,6 +106,8 @@
 		D73F655B203FA09E00144C89 /* AssignmentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentModel.swift; sourceTree = "<group>"; };
 		D73F655D203FE8F800144C89 /* CourseDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDetailsController.swift; sourceTree = "<group>"; };
 		D73F655F203FE92500144C89 /* CourseAssignmentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseAssignmentCell.swift; sourceTree = "<group>"; };
+		D75CB49A208700D400AAC7E0 /* Academus-bridging-header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Academus-bridging-header.h"; sourceTree = "<group>"; };
+		D75CB49D2087199100AAC7E0 /* CustomFCTheme.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CustomFCTheme.plist; sourceTree = "<group>"; };
 		D762FCEF206899240021B6F2 /* InvitesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitesService.swift; sourceTree = "<group>"; };
 		D762FCF1206899C60021B6F2 /* userInvitesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userInvitesModel.swift; sourceTree = "<group>"; };
 		D762FCF320689AC50021B6F2 /* ManageInvitesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageInvitesController.swift; sourceTree = "<group>"; };
@@ -101,6 +131,7 @@
 		D7D1E4272062FFF7002099B9 /* UIFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		D7D1E42D20630009002099B9 /* SettingsCellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCellManager.swift; sourceTree = "<group>"; };
 		D7D1E43720635F56002099B9 /* ManageCellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCellManager.swift; sourceTree = "<group>"; };
+		D7DD8C022081A4E800AC0FAA /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerHelpers.swift; sourceTree = "<group>"; };
 		D7F66242204757A70060FA8D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -112,10 +143,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C41B5EFD2087FD1B003C0F1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAC83652F86B2DE97B27B644 /* Pods_AcademusUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7255927203A38DB00DBA62B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7DD8C032081A4E800AC0FAA /* LocalAuthentication.framework in Frameworks */,
 				7737EEF80D4E4882DE8EAE8C /* Pods_Academus.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,7 +166,9 @@
 		0801296D7860CA158CBBBB5C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D7DD8C022081A4E800AC0FAA /* LocalAuthentication.framework */,
 				13640B4FD642AD6950DA5EF0 /* Pods_Academus.framework */,
+				92FA86EE4EC610B2DDCE5552 /* Pods_AcademusUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -146,8 +188,19 @@
 			children = (
 				6CEFE00B8A2B3BE738650395 /* Pods-Academus.debug.xcconfig */,
 				890075C57931A0A5D85BA6D9 /* Pods-Academus.release.xcconfig */,
+				AE236F3BFE3D9849A64CFF7F /* Pods-AcademusUITests.debug.xcconfig */,
+				5BE8D8F62719B7898E80F55F /* Pods-AcademusUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C41B5F012087FD1B003C0F1E /* AcademusUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C41B5F022087FD1B003C0F1E /* AcademusUITests.swift */,
+				C41B5F042087FD1B003C0F1E /* Info.plist */,
+			);
+			path = AcademusUITests;
 			sourceTree = "<group>";
 		};
 		D7153A2F204D658700CF4DC4 /* Planner */ = {
@@ -163,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				D725592C203A38DB00DBA62B /* Academus */,
+				C41B5F012087FD1B003C0F1E /* AcademusUITests */,
 				D725592B203A38DB00DBA62B /* Products */,
 				A145413D4A5DE0A064FA7720 /* Pods */,
 				0801296D7860CA158CBBBB5C /* Frameworks */,
@@ -173,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				D725592A203A38DB00DBA62B /* Academus.app */,
+				C41B5F002087FD1B003C0F1E /* AcademusUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -180,6 +235,7 @@
 		D725592C203A38DB00DBA62B /* Academus */ = {
 			isa = PBXGroup;
 			children = (
+				D75CB49A208700D400AAC7E0 /* Academus-bridging-header.h */,
 				D725592D203A38DB00DBA62B /* AppDelegate.swift */,
 				D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */,
 				D7FA4874203A4794007ADFE0 /* Controllers */,
@@ -189,9 +245,12 @@
 				D7255934203A38DB00DBA62B /* Assets.xcassets */,
 				D7255939203A38DB00DBA62B /* Info.plist */,
 				C49FDAEE2068792A005A36EB /* GoogleService-Info.plist */,
+				D75CB49D2087199100AAC7E0 /* CustomFCTheme.plist */,
 				D7FA487E203B1894007ADFE0 /* AcademusModels.xcdatamodeld */,
 				D71857FD20686AF3007B03AA /* Academus.entitlements */,
 				D7A6C63420571F9200605F64 /* Launch Screen.storyboard */,
+				C6B29CDF20851BEB006342EA /* Localizable.strings */,
+				C415EECB2085BCE800F535F0 /* Settings.bundle */,
 			);
 			path = Academus;
 			sourceTree = "<group>";
@@ -253,6 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				D79DA987204A337500EA082A /* MainController.swift */,
+				C40ED0492083FF5600931510 /* BackgroundBlurController.swift */,
 				D7F66244204769750060FA8D /* Account */,
 				D7153A2F204D658700CF4DC4 /* Planner */,
 				D73F6552203E761600144C89 /* Courses */,
@@ -269,6 +329,7 @@
 				D762FCF72069A4470021B6F2 /* CustomUI.swift */,
 				D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */,
 				D73F6550203E5A6100144C89 /* Constants.swift */,
+				C415EECD2085C04300F535F0 /* SettingsBundleHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -288,6 +349,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C41B5EFF2087FD1B003C0F1E /* AcademusUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C41B5F092087FD1B003C0F1E /* Build configuration list for PBXNativeTarget "AcademusUITests" */;
+			buildPhases = (
+				C1B9618FBC30CA4F08A12721 /* [CP] Check Pods Manifest.lock */,
+				C41B5EFC2087FD1B003C0F1E /* Sources */,
+				C41B5EFD2087FD1B003C0F1E /* Frameworks */,
+				C41B5EFE2087FD1B003C0F1E /* Resources */,
+				9063ED23EA4AC205FD85F883 /* [CP] Embed Pods Frameworks */,
+				F3BD231C7A2C61DCACA85E03 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C41B5F062087FD1B003C0F1E /* PBXTargetDependency */,
+			);
+			name = AcademusUITests;
+			productName = AcademusUITests;
+			productReference = C41B5F002087FD1B003C0F1E /* AcademusUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		D7255929203A38DB00DBA62B /* Academus */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D725593C203A38DB00DBA62B /* Build configuration list for PBXNativeTarget "Academus" */;
@@ -297,7 +379,7 @@
 				D7255927203A38DB00DBA62B /* Frameworks */,
 				D7255928203A38DB00DBA62B /* Resources */,
 				35D3B526C3535B68A4D0886A /* [CP] Embed Pods Frameworks */,
-				49A15E21799DB6AA6DC53AF4 /* [CP] Copy Pods Resources */,
+				F1BCF2457CE0BD1C1D36D056 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -314,10 +396,15 @@
 		D7255922203A38DB00DBA62B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Caffeinated Insomniacs";
 				TargetAttributes = {
+					C41B5EFF2087FD1B003C0F1E = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = D7255929203A38DB00DBA62B;
+					};
 					D7255929203A38DB00DBA62B = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -346,17 +433,28 @@
 			projectRoot = "";
 			targets = (
 				D7255929203A38DB00DBA62B /* Academus */,
+				C41B5EFF2087FD1B003C0F1E /* AcademusUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C41B5EFE2087FD1B003C0F1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7255928203A38DB00DBA62B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				D7A6C63520571F9200605F64 /* Launch Screen.storyboard in Resources */,
+				C6B29CE020851BEB006342EA /* Localizable.strings in Resources */,
+				C415EECC2085BCE800F535F0 /* Settings.bundle in Resources */,
 				D7255935203A38DB00DBA62B /* Assets.xcassets in Resources */,
+				D75CB49E20871B6300AAC7E0 /* CustomFCTheme.plist in Resources */,
 				C49FDAEF2068792A005A36EB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -372,39 +470,40 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Locksmith/Locksmith.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		49A15E21799DB6AA6DC53AF4 /* [CP] Copy Pods Resources */ = {
+		9063ED23EA4AC205FD85F883 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AcademusUITests/Pods-AcademusUITests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Locksmith/Locksmith.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AcademusUITests/Pods-AcademusUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9212CCD500F1A5B43776718F /* [CP] Check Pods Manifest.lock */ = {
@@ -425,9 +524,79 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C1B9618FBC30CA4F08A12721 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AcademusUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F1BCF2457CE0BD1C1D36D056 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-resources.sh",
+				"${PODS_ROOT}/FreshchatSDK/FreshchatSDK/FCResources.bundle",
+				"${PODS_ROOT}/FreshchatSDK/FreshchatSDK/FreshchatModels.bundle",
+				"${PODS_ROOT}/FreshchatSDK/FreshchatSDK/FCLocalization.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FCResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FreshchatModels.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FCLocalization.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F3BD231C7A2C61DCACA85E03 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AcademusUITests/Pods-AcademusUITests-resources.sh",
+				"${PODS_ROOT}/FreshchatSDK/FreshchatSDK/FCResources.bundle",
+				"${PODS_ROOT}/FreshchatSDK/FreshchatSDK/FreshchatModels.bundle",
+				"${PODS_ROOT}/FreshchatSDK/FreshchatSDK/FCLocalization.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FCResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FreshchatModels.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FCLocalization.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AcademusUITests/Pods-AcademusUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C41B5EFC2087FD1B003C0F1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C41B5F032087FD1B003C0F1E /* AcademusUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7255926203A38DB00DBA62B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -442,8 +611,10 @@
 				D762FCF82069A4470021B6F2 /* CustomUI.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,
 				D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */,
+				C40ED04A2083FF5600931510 /* BackgroundBlurController.swift in Sources */,
 				D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */,
 				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,
+				C415EECE2085C04300F535F0 /* SettingsBundleHelper.swift in Sources */,
 				D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */,
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
 				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
@@ -480,7 +651,52 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		C41B5F062087FD1B003C0F1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D7255929203A38DB00DBA62B /* Academus */;
+			targetProxy = C41B5F052087FD1B003C0F1E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		C41B5F072087FD1B003C0F1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE236F3BFE3D9849A64CFF7F /* Pods-AcademusUITests.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GA88828M8M;
+				INFOPLIST_FILE = AcademusUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.academus.AcademusUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Academus;
+			};
+			name = Debug;
+		};
+		C41B5F082087FD1B003C0F1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BE8D8F62719B7898E80F55F /* Pods-AcademusUITests.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GA88828M8M;
+				INFOPLIST_FILE = AcademusUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.academus.AcademusUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Academus;
+			};
+			name = Release;
+		};
 		D725593A203A38DB00DBA62B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -531,12 +747,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OBJC_BRIDGING_HEADER = "Academus/Academus-bridging-header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -584,10 +802,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "Academus/Academus-bridging-header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -598,8 +818,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Academus/Academus.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = GA88828M8M;
 				INFOPLIST_FILE = Academus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -610,6 +832,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -619,23 +842,36 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Academus/Academus.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = GA88828M8M;
 				INFOPLIST_FILE = Academus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.academus.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C41B5F092087FD1B003C0F1E /* Build configuration list for PBXNativeTarget "AcademusUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C41B5F072087FD1B003C0F1E /* Debug */,
+				C41B5F082087FD1B003C0F1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D7255925203A38DB00DBA62B /* Build configuration list for PBXProject "Academus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

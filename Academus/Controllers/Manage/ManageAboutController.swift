@@ -83,7 +83,9 @@ extension ManageAboutController {
         let background = UIView()
         background.backgroundColor = .tableViewMediumGrey
         let nameLabel = UILabel().setUpLabel(text: "Academus", font: UIFont.standard!, fontColor: .navigationsWhite)
-        let versionLabel = UILabel().setUpLabel(text: "Version: 0.0.0", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+        let versionLabel = UILabel().setUpLabel(text: "Version: \(version) (\(build))", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         let image = UIImageView()
         image.image = #imageLiteral(resourceName: "logo_colored")
         

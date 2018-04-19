@@ -33,6 +33,7 @@ class IntegrationLogInController: UIViewController {
                 self.dismiss(animated: true, completion: {
                     self.dismiss(animated: true, completion: nil)
                     self.navigationController?.popToRootViewController(animated: true)
+                    (UIApplication.shared.delegate as! AppDelegate).mainController?.clearBlur()
                 })
             } else {
                 print("failure here")
@@ -70,7 +71,7 @@ class IntegrationLogInController: UIViewController {
         stackView.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor, centerY: view.centerYAnchor, CenterYPad: -32)
         subtitle.anchors(top: view.safeAreaLayoutGuide.topAnchor, topPad: 32, centerX: view.centerXAnchor)
         titleLabel.anchors(top: subtitle.bottomAnchor, centerX: view.centerXAnchor, width: 0, height: 0)
-        button.anchors(top: stackView.bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 64)
+        button.anchors(top: stackView.bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 84)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
     }
 }

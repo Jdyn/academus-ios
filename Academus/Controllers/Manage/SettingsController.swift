@@ -18,8 +18,7 @@ class SettingsController: UITableViewController {
         navigationItem.title = "Settings"
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
-        
-        cells = [.fingerPrintLock, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous]
+        cells = [.appLock, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous]
         for type in cells {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
         }
@@ -33,7 +32,7 @@ class SettingsController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellType, for: indexPath)
         
         switch cellAtIndex {
-        case .fingerPrintLock: return biometricsCell(c: cellAtIndex, cell: cell)
+        case .appLock: return biometricsCell(c: cellAtIndex, cell: cell)
         case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous:
             return notificationCell(c: cellAtIndex, cell: cell)
         default: return UITableViewCell()
@@ -87,10 +86,7 @@ class SettingsController: UITableViewController {
         return view
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-    }
-    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 33 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 1 : 3) }
@@ -114,7 +110,7 @@ extension SettingsController {
         toggle.thumbTintColor = .navigationsWhite
         toggle.onTintColor = .navigationsGreen
         toggle.tintColor = .navigationsWhite
-//        toggle.transform = CGAffineTransform(scaleX: 0.60, y: 0.60)
+        toggle.addTarget(self, action: #selector(didToggle), for: .valueChanged)
         
         cell.addSubviews(views: [background, icon, title, toggle])
             
@@ -122,6 +118,10 @@ extension SettingsController {
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 20, height: 20)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
         toggle.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            self.setState(toggle: toggle)
+        })
         
         return cell
     }
@@ -137,13 +137,68 @@ extension SettingsController {
         icon.image = c.getImage()
         icon.tintColor = .navigationsGreen
         
-        cell.addSubviews(views: [background, icon, title])
+        let toggle = UISwitch()
+        toggle.thumbTintColor = .navigationsWhite
+        toggle.onTintColor = .navigationsGreen
+        toggle.tintColor = .navigationsWhite
+        toggle.addTarget(self, action: #selector(didToggle), for: .valueChanged)
+        
+        cell.addSubviews(views: [background, icon, title, toggle])
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 20, height: 20)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
+        toggle.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            self.setState(toggle: toggle)
+        })
         
         return cell
+    }
+    
+    func setState(toggle: UISwitch) {
+        if let superview = toggle.superview {
+            for view in superview.subviews {
+                if let title = view as? UILabel {
+                    switch title.text {
+                    case SettingsCellManager.appLock.getTitle():
+                        toggle.setOn(UserDefaults.standard.bool(forKey: SettingsBundleKeys.appLockPreference), animated: false)
+                        break
+                    case SettingsCellManager.notifAssignmentPosted.getTitle():
+                        toggle.setOn(UserDefaults.standard.bool(forKey: SettingsBundleKeys.assignmentPostedPreference), animated: false)
+                    case SettingsCellManager.notifCourseGradeUpdated.getTitle():
+                        toggle.setOn(UserDefaults.standard.bool(forKey: SettingsBundleKeys.courseGradePostedPreference), animated: false)
+                    case SettingsCellManager.notifMiscellaneous.getTitle():
+                        toggle.setOn(UserDefaults.standard.bool(forKey: SettingsBundleKeys.miscPreference), animated: false)
+                    default:
+                        break
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc func didToggle(_ sender: UISwitch) {
+        if let superview = sender.superview {
+            for view in superview.subviews {
+                if let title = view as? UILabel {
+                    switch title.text {
+                    case SettingsCellManager.appLock.getTitle():
+                        UserDefaults.standard.set(sender.isOn, forKey: SettingsBundleKeys.appLockPreference)
+                        break
+                    case SettingsCellManager.notifAssignmentPosted.getTitle():
+                        UserDefaults.standard.set(sender.isOn, forKey: SettingsBundleKeys.assignmentPostedPreference)
+                    case SettingsCellManager.notifCourseGradeUpdated.getTitle():
+                        UserDefaults.standard.set(sender.isOn, forKey: SettingsBundleKeys.courseGradePostedPreference)
+                    case SettingsCellManager.notifMiscellaneous.getTitle():
+                        UserDefaults.standard.set(sender.isOn, forKey: SettingsBundleKeys.miscPreference)
+                    default:
+                        break
+                    }
+                }
+            }
+        }
     }
 }
 
