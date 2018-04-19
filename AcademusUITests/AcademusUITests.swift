@@ -8,19 +8,21 @@
 
 import XCTest
 
-import Foundation
-import UIKit
-import Alamofire
-import Locksmith
-import SwiftyJSON
-@testable import Academus
-
 class AcademusUITests: XCTestCase {
+    // Will fail if App Lock with Passcode is enabled
+    // since passcode entry menu is not part of app
+    var app: XCUIApplication!
         
     override func setUp() {
         super.setUp()
+        
+        app = XCUIApplication()
         continueAfterFailure = false
-        XCUIApplication().launch()
+        app.launch()
+        
+        if app.tabBars.buttons["Manage"].exists {
+            logout()
+        }
     }
     
     override func tearDown() {
@@ -28,7 +30,6 @@ class AcademusUITests: XCTestCase {
     }
     
     func login() {
-        let app = XCUIApplication()
         app.buttons["LOG IN"].tap()
         app/*@START_MENU_TOKEN@*/.textFields["Email"]/*[[".scrollViews.textFields[\"Email\"]",".textFields[\"Email\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         
@@ -92,27 +93,37 @@ class AcademusUITests: XCTestCase {
         eKey.tap()
         rKey.tap()
         app/*@START_MENU_TOKEN@*/.buttons["LOG IN"]/*[[".scrollViews.buttons[\"LOG IN\"]",".buttons[\"LOG IN\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        
+        if app.alerts["“Academus” Would Like to Send You Notifications"].exists {
+            app.alerts["“Academus” Would Like to Send You Notifications"].buttons["Allow"].tap()
+        }
+    }
+    
+    func logout() {
+        app.tabBars.buttons["Manage"].tap()
+        app.tables.buttons["exit"].tap()
+        app.alerts["Sign Out?"].buttons["Yes"].tap()
     }
     
     func testCoursesTabIsDefault() {
         login()
         
-        let coursesTab = XCUIApplication().tabBars.buttons["Courses"]
+        let coursesTab = app.tabBars.buttons["Courses"]
         XCTAssert(coursesTab.isSelected)
     }
     
     func testCoursesExist() {
         login()
         
-        let tablesQuery = XCUIApplication().tables
-        XCTAssert(tablesQuery.cells.count > 0)
+        let tablesQuery = app.tables
+        XCTAssert(tablesQuery.cells.element(boundBy: 0).exists)
     }
     
     func testAssignmentsExist() {
         login()
         
-        let tablesQuery = XCUIApplication().tables
-        tablesQuery/*@START_MENU_TOKEN@*/.cells.containing(.staticText, identifier:"ENG 12")/*[[".cells.containing(.staticText, identifier:\"ENG 12\")",".cells.containing(.staticText, identifier:\"1\")",".cells.containing(.staticText, identifier:\"(89.2)\")"],[[[-1,2],[-1,1],[-1,0]]],[2]]@END_MENU_TOKEN@*/.children(matching: .other).element.tap()
-        XCTAssert(tablesQuery.cells.count > 0)
+        let tablesQuery = app.tables
+        tablesQuery.cells.element(boundBy: 0).tap()
+        XCTAssert(tablesQuery.cells.element(boundBy: 0).exists)
     }
 }

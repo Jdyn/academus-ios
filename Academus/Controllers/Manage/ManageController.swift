@@ -106,7 +106,7 @@ class ManageController: UITableViewController {
     @objc func handleSignout() {
         let alert = UIAlertController(title: "Sign Out?", message: "Are you sure you want to sign out?", preferredStyle: .alert)
         let actionYes = UIAlertAction(title: "Yes", style: .default) { (action) in
-            
+            (UIApplication.shared.delegate as! AppDelegate).mainController?.freshLaunch = true
             if Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) != nil {
                 do {
                     try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
@@ -116,12 +116,12 @@ class ManageController: UITableViewController {
                 
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
                 self.present(welcomeNavigationController, animated: true, completion: {
-                    self.tabBarController?.selectedIndex = 0
+                    self.tabBarController?.selectedIndex = 1
                 })
             } else {
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
                 self.present(welcomeNavigationController, animated: true, completion: {
-                    self.tabBarController?.selectedIndex = 0
+                    self.tabBarController?.selectedIndex = 1
                 })
             }
         }
