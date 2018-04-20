@@ -15,9 +15,14 @@ protocol logInErrorDelegate {
     var logInError: String {get set}
 }
 
+protocol accountCreateErrorDelegate {
+    var accountCreateError: String {get set}
+}
+
 class AuthService {
     
     var logInErrorDelegate: logInErrorDelegate?
+    var accountCreateDelegate: accountCreateErrorDelegate?
     
     func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, appleToken: String? = nil, completion: @escaping CompletionHandler) {
         let lowerCaseEmail = email.lowercased()
@@ -85,6 +90,7 @@ class AuthService {
                     }
                     
                 } else {
+                    self.accountCreateDelegate?.accountCreateError = json["error"].stringValue
                     completion(false)
                 }
                 
@@ -151,6 +157,7 @@ class AuthService {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                             self.registerAPNS(token: token, appleToken: appleToken)
                         })
+                        
                     } catch let error {
                         debugPrint("LOG IN CATCH ERROR: ", error)
                     }

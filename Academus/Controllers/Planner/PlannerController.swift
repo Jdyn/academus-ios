@@ -21,6 +21,7 @@ class PlannerController: UITableViewController {
         tableView.separatorStyle = .none
         
 //        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
+        setupChatButtonInNavBar()
         
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()

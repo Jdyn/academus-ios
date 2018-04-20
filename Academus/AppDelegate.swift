@@ -72,27 +72,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
         }
-        
-        let userDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
-        
+                
         let freshchatConfig: FreshchatConfig = FreshchatConfig.init(appID: "76490582-1f11-45d5-b5b7-7ec88564c7d6", andAppKey: "5d16672f-543b-4dc9-9c21-9fd5f62a7ad3")
         freshchatConfig.themeName = "CustomFCTheme.plist"
         Freshchat.sharedInstance().initWith(freshchatConfig)
-        
-        guard let userID = userDictionary?["userID"] else { return true }
-        guard let firstName = userDictionary?["firstName"] else { return true }
-        guard let lastName = userDictionary?["lastName"] else { return true }
-        guard let email = userDictionary?["email"] else { return true }
-
-        Freshchat.sharedInstance().identifyUser(withExternalID: userID as! String, restoreID: nil)
-        
-        let user = FreshchatUser.sharedInstance()
-        
-        user?.firstName = firstName as! String
-        user?.lastName = lastName as! String
-        user?.email = email as! String
-        
-        Freshchat.sharedInstance().setUser(user)
         
         return true
     }

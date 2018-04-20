@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccountCreateController: UIViewController {
+class AccountCreateController: UIViewController, accountCreateErrorDelegate {
     
     let welcomeLabel = UILabel().setUpLabel(text: "Create an Account", font: UIFont.header!, fontColor: .navigationsWhite)
     let signUpButton = UIButton(type: UIButtonType.roundedRect).setUpButton(title: "SIGN UP", font: UIFont.standard!, fontColor: .navigationsGreen)
@@ -19,6 +19,8 @@ class AccountCreateController: UIViewController {
     let impact = UIImpactFeedbackGenerator()
     
     var mainController: MainController?
+    var accountCreateError: String = "An unknown error has occured. Please try again."
+    let authService = AuthService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,7 @@ class AccountCreateController: UIViewController {
             self.fields.append(textField)
         }
         
+        fields[0].autocapitalizationType = .none
         fields[3].keyboardType = .emailAddress
         fields[4].isSecureTextEntry = true
         fields[5].isSecureTextEntry = true
@@ -95,8 +98,8 @@ class AccountCreateController: UIViewController {
         }
 
         loadingAlert(title: "Attempting to Create Account", message: "Please wait...")
-
-        AuthService().registerUser(betaCode: (fields[0].text)!, firstName: (fields[1].text)!, lastName: (fields[2].text)!, email: (fields[3].text)!, password: (fields[4].text)!, appleToken: mainController?.apnsToken) { (success) in
+        authService.accountCreateDelegate = self
+        authService.registerUser(betaCode: (fields[0].text)!, firstName: (fields[1].text)!, lastName: (fields[2].text)!, email: (fields[3].text)!, password: (fields[4].text)!, appleToken: mainController?.apnsToken) { (success) in
             if success {
                 self.dismiss(animated: true, completion: {
                     let controller = IntegrationSelectController()
@@ -104,7 +107,7 @@ class AccountCreateController: UIViewController {
                 })
             } else {
                 self.dismiss(animated: true, completion: {
-                    self.alertMessage(title: "Alert", message: "Check your beta code and try again")
+                    self.alertMessage(title: "Alert", message: self.accountCreateError)
                 })
             }
         }

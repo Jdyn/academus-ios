@@ -11,7 +11,7 @@ import Locksmith
 
 typealias CompletionHandler = (_ Success: Bool) -> ()
 
-let BASE_URL = "https://app-test.academus.io"
+let BASE_URL = "https://app.academus.io"
 let URL_REGISTER = URL(string: "\(BASE_URL)/api/register")
 let URL_LOGIN = URL(string: "\(BASE_URL)/api/login")
 

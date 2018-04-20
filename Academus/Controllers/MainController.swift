@@ -16,7 +16,7 @@ class MainController: UITabBarController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         view.backgroundColor = .tableViewDarkGrey
-        
+        print("MainController")
         let userDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         
         if userDictionary?["isLoggedIn"] == nil {
