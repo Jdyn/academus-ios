@@ -11,10 +11,12 @@ import UIKit
 class AccountCreateController: UIViewController {
     
     let welcomeLabel = UILabel().setUpLabel(text: "Create an Account", font: UIFont.header!, fontColor: .navigationsWhite)
-    let signUpButton = UIButton(type: .system).setUpButton(title: "SIGN UP", font: UIFont.standard!, fontColor: .navigationsGreen)
+    let signUpButton = UIButton(type: UIButtonType.roundedRect).setUpButton(title: "SIGN UP", font: UIFont.standard!, fontColor: .navigationsGreen)
     
     var scrollView: UIScrollView?
     var fields = [UITextField]()
+    
+    let impact = UIImpactFeedbackGenerator()
     
     var mainController: MainController?
 
@@ -41,9 +43,20 @@ class AccountCreateController: UIViewController {
         fields[4].isSecureTextEntry = true
         fields[5].isSecureTextEntry = true
         
+        if signUpButton.isHighlighted {
+            signUpButton.backgroundColor = .red
+        }
+        
+        
+//        signUpButton.layer.borderColor = UIColor.navigationsGreen.cgColor
+//        signUpButton.layer.borderWidth = 1
+        signUpButton.layer.cornerRadius = 9
+//        signUpButton.backgroundColor = .tableViewMediumGrey
+        signUpButton.layer.masksToBounds = true
+        
         view.backgroundColor = .tableViewDarkGrey
         view.addSubview(scrollView!)
-                
+        
         fields[0].anchors(top: scrollView!.topAnchor, topPad: view.bounds.height * 1/4, left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, height: fieldHeight)
         fields[1].anchors(top: fields[0].bottomAnchor, topPad: 16, left: fields[0].leftAnchor, right: view.centerXAnchor, rightPad: -6, height: fieldHeight)
         fields[2].anchors(top: fields[0].bottomAnchor, topPad: 16, left: view.centerXAnchor, leftPad: 6, right: fields[0].rightAnchor, height: fieldHeight)
@@ -51,11 +64,22 @@ class AccountCreateController: UIViewController {
         fields[4].anchors(top: fields[3].bottomAnchor, topPad: 16, left: fields[0].leftAnchor, right: view.centerXAnchor, rightPad: -6, height: fieldHeight)
         fields[5].anchors(top: fields[3].bottomAnchor, topPad: 16, left: view.centerXAnchor, leftPad: 6, right: fields[0].rightAnchor, height: fieldHeight)
         welcomeLabel.anchors(bottom: fields[0].topAnchor, bottomPad: -32, centerX: view.centerXAnchor)
-        signUpButton.anchors(top: fields[5].bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 100, height: 84)
+        signUpButton.anchors(top: fields[5].bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 145, height: 45)
         signUpButton.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
     }
     
     @objc func signUpPressed() {
+        impact.impactOccurred()
+//        signUpButton.transform = CGAffineTransform((scaleX: 0.8, y: 0.8))
+//
+//        UIView.animate(withDuration: 0.5,
+//                       delay: 0,
+//                       usingSpringWithDamping: CGFloat(0.4),
+//                       initialSpringVelocity: CGFloat(10.0),
+//                       options: UIViewAnimationOptions.allowUserInteraction,
+//                       animations: { self.signUpButton.transform = CGAffineTransform.identity },
+//                       completion: { Void in()  })
+        
         for field in fields {
             if (field.text?.isEmpty)! {
                 self.alertMessage(title: "Wrong.", message: "There are missing fields.")
@@ -69,9 +93,9 @@ class AccountCreateController: UIViewController {
             alertMessage(title: "What is Security...", message: "Password must be at least 6 characters.")
             return
         }
-        
+
         loadingAlert(title: "Attempting to Create Account", message: "Please wait...")
-                
+
         AuthService().registerUser(betaCode: (fields[0].text)!, firstName: (fields[1].text)!, lastName: (fields[2].text)!, email: (fields[3].text)!, password: (fields[4].text)!, appleToken: mainController?.apnsToken) { (success) in
             if success {
                 self.dismiss(animated: true, completion: {

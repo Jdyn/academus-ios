@@ -13,8 +13,12 @@ class CourseAssignmentCell: UITableViewCell {
     var assignment : Assignment? {
         didSet {
             guard let assignedDate = assignment?.due_date else {return}
-            let date = timeAgoStringFromDate(date: assignedDate)
-            dateLabel.text = "Posted: \(date!)"
+            if assignedDate < Date() {
+                let date = timeAgoStringFromDate(date: assignedDate)
+                dateLabel.text = "Posted: \(date!)"
+            } else {
+                dateLabel.text = "Posted: Unknown"
+            }
             titleLabel.text = assignment?.name ?? " "
             gradeLabel.text = "\(assignment!.score.text!)"
         }

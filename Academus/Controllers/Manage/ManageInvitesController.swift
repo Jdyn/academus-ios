@@ -119,6 +119,7 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
         let view = UIView()
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         background.roundCorners(corners: .top)
@@ -132,14 +133,18 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 18 }
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView()
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.roundCorners(corners: .bottom)
-        
-        view.addSubview(background)
-        
-        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        return view
+        if invites.count > 0 {
+            let view = UIView()
+            let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+            background.roundCorners(corners: .bottom)
+            
+            view.addSubview(background)
+            
+            background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+            return view
+
+        }
+        return UIView()
     }
     
     

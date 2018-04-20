@@ -15,22 +15,22 @@ class MainController: UITabBarController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
         view.backgroundColor = .tableViewDarkGrey
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
-
-        if dictionary?["isLoggedIn"] == nil {
+        
+        let userDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+        
+        if userDictionary?["isLoggedIn"] == nil {
             let welcomeController = WelcomeController()
             welcomeController.mainController = self
             let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)
-            present(welcomeNavigationController, animated: false, completion: {
+            self.present(welcomeNavigationController, animated: false, completion: {
                 self.setUpUI()
             })
         } else {
-            setUpUI()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+            self.setUpUI()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                 let dictionary1 = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-                print(dictionary1)
+                print(dictionary1 as Any)
             })
         }
     }
@@ -49,4 +49,40 @@ class MainController: UITabBarController {
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
         self.selectedIndex = 1
     }
+    
+    func notificationManager() {
+        print("notification manager called")
+        
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        guard let currentAppleToken = dictionary?[APPLE_TOKEN] else { print("RETURNEED"); return }
+        
+        if apnsToken != currentAppleToken as? String {
+            
+            print("APP DELEGATE TOKEN: ", apnsToken as Any)
+            print("MY TOKEN: ", currentAppleToken)
+            
+            let authToken = dictionary![AUTH_TOKEN] as! String
+            
+            do {
+                try Locksmith.updateData(data: [
+                    APPLE_TOKEN : apnsToken as Any,
+                    AUTH_TOKEN : authToken
+                    ], forUserAccount: USER_AUTH)
+                
+                AuthService().registerAPNS(token: authToken, appleToken: apnsToken)
+                let dictionary1 = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+                print("DICTIONARY: ", dictionary1 as Any)
+            } catch {
+                if authToken.isEmpty {
+                    let welcomeController = WelcomeController()
+                    welcomeController.mainController = self
+                    let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)
+                    UIApplication.shared.keyWindow?.rootViewController?.present(welcomeNavigationController, animated: false, completion: {
+                        self.setUpUI()
+                    })
+                }
+            }
+        }
+    }
+    
 }

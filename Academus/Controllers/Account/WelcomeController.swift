@@ -60,7 +60,7 @@ class WelcomeController: UIViewController {
         subwelcomeLabel.anchors(top: welcomeLabel.bottomAnchor, centerX: view.centerXAnchor)
         divider.anchors(top: subwelcomeLabel.bottomAnchor, topPad: 12, centerX: view.centerXAnchor, width: 150, height: 1)
         signUpButton.anchors(top: divider.bottomAnchor, topPad: 6,centerX: view.centerXAnchor, width: 128)
-        logInButton.anchors(bottom: view.safeAreaLayoutGuide.bottomAnchor, centerX: view.centerXAnchor, width: 128)
+        logInButton.anchors(bottom: view.safeAreaLayoutGuide.bottomAnchor, bottomPad: -6, centerX: view.centerXAnchor, width: 128, height: 55)
         logInLabel.anchors(bottom: logInButton.topAnchor, centerX: view.centerXAnchor)
         
         signUpButton.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
