@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         window = UIWindow()
         window?.makeKeyAndVisible()
-        window?.rootViewController = mainController //MainNavigationController(rootViewController: IntegrationSelectController())
+        window?.rootViewController = mainController
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
@@ -72,27 +72,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
         }
-        
+                
         let freshchatConfig: FreshchatConfig = FreshchatConfig.init(appID: "76490582-1f11-45d5-b5b7-7ec88564c7d6", andAppKey: "5d16672f-543b-4dc9-9c21-9fd5f62a7ad3")
         freshchatConfig.themeName = "CustomFCTheme.plist"
         Freshchat.sharedInstance().initWith(freshchatConfig)
-        
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-        
-        guard let userID = dictionary?["userID"] else { return true }
-        guard let firstName = dictionary?["firstName"] else { return true }
-        guard let lastName = dictionary?["lastName"] else { return true }
-        guard let email = dictionary?["email"] else { return true }
-
-        Freshchat.sharedInstance().identifyUser(withExternalID: userID as! String, restoreID: nil)
-        
-        let user = FreshchatUser.sharedInstance()
-        
-        user?.firstName = firstName as! String
-        user?.lastName = lastName as! String
-        user?.email = email as! String
-        
-        Freshchat.sharedInstance().setUser(user)
         
         return true
     }
@@ -144,35 +127,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         mainController.apnsToken = token
         print("APP DELEGATE: ", mainController.apnsToken!)
-        
         Freshchat.sharedInstance().setPushRegistrationToken(deviceToken)
-        
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-        guard let currentAppleToken = dictionary?[APPLE_TOKEN] else { print("RETURNEED"); return }
-        
-        if token != currentAppleToken as! String {
-            
-            print("APP DELEGATE TOKEN: ", token)
-            print("MY TOKEN: ", currentAppleToken)
-            
-            let authToken = dictionary![AUTH_TOKEN] as! String
-            AuthService().registerAPNS(token: authToken, appleToken: token)
-            do {
-                try Locksmith.updateData(data: [
-                    APPLE_TOKEN : token,
-                    AUTH_TOKEN : authToken
-                    ], forUserAccount: USER_AUTH)
-            } catch {
-                if authToken.isEmpty {
-                    let welcomeController = WelcomeController()
-                    welcomeController.mainController = mainController
-                    let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)
-                    UIApplication.shared.keyWindow?.rootViewController?.present(welcomeNavigationController, animated: false, completion: {
-                        self.mainController.setUpUI()
-                    })
-                }
-            }
-        }
+        mainController.notificationManager()
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -190,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        mainController.notificationManager()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

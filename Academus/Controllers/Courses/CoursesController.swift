@@ -24,19 +24,22 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 41, 0)
         
+        setupChatButtonInNavBar()
+        
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
         refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
-        
-        fetchCourses(completion: { (success) in
-            if success {
-                UIView.transition(with: self.tableView,duration: 0.1, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
-                self.errorLabel(show: false)
-            } else {
-                self.errorLabel(show: true)
-            }
-        })
+        if courses.isEmpty {
+            fetchCourses(completion: { (success) in
+                if success {
+                    UIView.transition(with: self.tableView,duration: 0.1, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
+                    self.errorLabel(show: false)
+                } else {
+                    self.errorLabel(show: true)
+                }
+            })
+        }
      }
 
     func fetchCourses(completion: @escaping CompletionHandler) {

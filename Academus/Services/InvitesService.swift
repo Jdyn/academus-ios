@@ -44,7 +44,7 @@ class InvitesService {
                     }
                 } catch let error {
                     completion(false)
-                    debugPrint(error)
+                    debugPrint("Invite service error: ", error)
                 }
             } else {
                 completion(false)
@@ -75,11 +75,11 @@ class InvitesService {
                     }
                 } catch let error {
                     completion(false)
-                    debugPrint(error)
+                    debugPrint("Invite service error: ", error)
                 }
             } else {
                 completion(false)
-                debugPrint(response.result.error!)
+                debugPrint("invite service: ", response.result.error!)
             }
         }
     }

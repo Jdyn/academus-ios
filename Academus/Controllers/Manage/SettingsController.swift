@@ -89,9 +89,9 @@ class SettingsController: UITableViewController {
         return view
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-    }
+//    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        <#code#>
+//    }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 33 }
@@ -113,11 +113,15 @@ extension SettingsController {
         let icon = UIImageView().setupImageView(color: .navigationsGreen, image: c.getImage())
         let subtext = UILabel().setUpLabel(text: c.getSubtext(), font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         
-        let toggle = UISwitch()
+        let toggle = notifSwitch()
         toggle.thumbTintColor = .navigationsWhite
         toggle.onTintColor = .navigationsGreen
-        toggle.tintColor = .navigationsWhite
-        toggle.isEnabled = false
+        toggle.tintColor = .navigationsDarkGrey
+        toggle.isEnabled = true
+        toggle.cellType = c
+        toggle.addTarget(self, action: #selector(didToggle), for: .valueChanged)
+        
+//        setState(toggle: toggle, cellType: c)
         
         cell.addSubviews(views: [background, icon, title, toggle, subtext])
             
@@ -126,6 +130,10 @@ extension SettingsController {
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
         toggle.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
         subtext.anchors(top: title.bottomAnchor, left: icon.rightAnchor, leftPad: 12)
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+//            self.setState(toggle: toggle, cellType: c)
+//        })
         
         return cell
     }
@@ -157,6 +165,25 @@ extension SettingsController {
         subtext.anchors(top: title.bottomAnchor, left: icon.rightAnchor, leftPad: 12)
         
         return cell
+    }
+    
+    func setState(toggle: UISwitch, cellType: SettingsCellManager) {
+        switch cellType {
+        case .notifAssignmentPosted: toggle.setOn(UserDefaults.standard.bool(forKey: SettingsBundleKeys.assignmentPostedPreference), animated: false)
+        case .notifCourseGradeUpdated: toggle.setOn(UserDefaults.standard.bool(forKey: SettingsBundleKeys.courseGradePostedPreference), animated: false)
+        case .notifMiscellaneous: toggle.setOn(UserDefaults.standard.bool(forKey: SettingsBundleKeys.miscPreference), animated: false)
+        default: break
+        }
+    }
+    
+    @objc func didToggle(_ sender: notifSwitch) {
+        guard let cellType: SettingsCellManager = sender.cellType else { return }
+        switch cellType {
+        case .notifAssignmentPosted: UserDefaults.standard.set(sender.isOn, forKey: SettingsBundleKeys.appLockPreference)
+        case .notifCourseGradeUpdated: UserDefaults.standard.set(sender.isOn, forKey: SettingsBundleKeys.courseGradePostedPreference)
+        case .notifMiscellaneous: UserDefaults.standard.set(sender.isOn, forKey: SettingsBundleKeys.miscPreference)
+        default: break
+        }
     }
 }
 

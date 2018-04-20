@@ -24,6 +24,14 @@ extension UIViewController {
     func setupCancelButtonInNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelModal))
     }
+    
+    func setupChatButtonInNavBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "feedback"), style: .plain, target: self, action: #selector(handleFreshchat))
+    }
+    
+    @objc func handleFreshchat() {
+        Freshchat.sharedInstance().showConversations(self)
+    }
 
     @objc func handleCancelModal() {
         dismiss(animated: true, completion: nil)

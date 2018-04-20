@@ -15,11 +15,16 @@ protocol logInErrorDelegate {
     var logInError: String {get set}
 }
 
+protocol accountCreateErrorDelegate {
+    var accountCreateError: String {get set}
+}
+
 class AuthService {
     
     var logInErrorDelegate: logInErrorDelegate?
+    var accountCreateDelegate: accountCreateErrorDelegate?
     
-    func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, appleToken: String?, completion: @escaping CompletionHandler) {
+    func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, appleToken: String? = nil, completion: @escaping CompletionHandler) {
         let lowerCaseEmail = email.lowercased()
         
         let body: Parameters = [
@@ -69,21 +74,23 @@ class AuthService {
                             ], forUserAccount: USER_INFO)
                         
                         try Locksmith.updateData(data: [
-                            APPLE_TOKEN : appleToken ?? "nil",
+                            APPLE_TOKEN : appleToken as Any,
                             AUTH_TOKEN : token
                             ], forUserAccount: USER_AUTH)
+                        
+                        completion(true)
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                             self.registerAPNS(token: token, appleToken: appleToken ?? "")
                         })
                         
-                        completion(true)
                     } catch let error {
                         completion(false)
                         debugPrint(error)
                     }
                     
                 } else {
+                    self.accountCreateDelegate?.accountCreateError = json["error"].stringValue
                     completion(false)
                 }
                 
@@ -94,7 +101,7 @@ class AuthService {
         }
     }
     
-    func logInUser(email: String, password: String, appleToken: String?, completion: @escaping CompletionHandler) {
+    func logInUser(email: String, password: String, appleToken: String? = nil, completion: @escaping CompletionHandler) {
         
         let lowerCaseEmail = email.lowercased()
         
@@ -140,15 +147,17 @@ class AuthService {
                             ], forUserAccount: USER_INFO)
                         
                         try Locksmith.updateData(data: [
-                            APPLE_TOKEN : appleToken ?? "nil",
+                            APPLE_TOKEN : appleToken as Any,
                             AUTH_TOKEN : token
                             ], forUserAccount: USER_AUTH)
                         
+                        print(APPLE_TOKEN)
+                        completion(true)
+
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                             self.registerAPNS(token: token, appleToken: appleToken)
                         })
-                            
-                        completion(true)
+                        
                     } catch let error {
                         debugPrint("LOG IN CATCH ERROR: ", error)
                     }
@@ -164,16 +173,13 @@ class AuthService {
     
     func registerAPNS(token: String, appleToken: String?) {
 
-        if appleToken == "nil" {
+        guard appleToken != nil else { return }
+        let body: Parameters = ["apns_token": appleToken as Any]
             
-            let body: Parameters = ["apns_token": appleToken ?? "nil"]
-            
-            Alamofire.request(URL(string: "\(BASE_URL)/api/apns?token=\(token)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
-                print(response)
-                print(appleToken as Any)
-            }
-        } else {
-            print("APNS TOKEN IS EMPTY")
+        Alamofire.request(URL(string: "\(BASE_URL)/api/apns?token=\(token)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
+            print(response)
         }
+        
+        print("APNS TOKEN IS EMPTY")
     }
 }

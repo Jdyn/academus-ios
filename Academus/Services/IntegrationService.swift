@@ -75,18 +75,15 @@ class IntegrationService {
             if response.result.error == nil {
                 
                 guard let data = response.data else {return}
-                do {
-                    let json = JSON(data)
-                    let success = json["success"].boolValue
-                    if (success) {
-                        completion(true)
-                    } else {
-                        completion(false)
-                    }
-                } catch let error {
+                
+                let json = JSON(data)
+                
+                if json["success"].boolValue {
+                    completion(true)
+                } else {
                     completion(false)
-                    debugPrint(error)
                 }
+                
             } else {
                 completion(false)
                 debugPrint(response.result.error!)
@@ -134,21 +131,17 @@ class IntegrationService {
             if response.result.error == nil {
                 
                 guard let data = response.data else {return}
-                do {
-                    let json = JSON(data)
-                    let success = json["success"].boolValue
+                
+                let json = JSON(data)
+                
+                if json["success"].boolValue {
                     
-                    if (success) {
-                        
-                        completion(true)
-                    } else {
-                        print("failed to sync integrations")
-                        completion(false)
-                    }
-                } catch let error {
+                    completion(true)
+                } else {
+                    print("failed to sync integrations")
                     completion(false)
-                    debugPrint(error)
                 }
+                    
             } else {
                 completion(false)
                 debugPrint(response.result.error!)

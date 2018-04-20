@@ -62,15 +62,6 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
             authService.logInErrorDelegate = self
             loadingAlert(title: "Attempting to log in", message: "Please wait...")
             
-//            guard let token = mainController?.apnsToken else {
-//
-//                self.dismiss(animated: true, completion: {
-//                    self.alertMessage(title: "Ooops.", message: self.logInError)
-//                })
-//
-//                return
-//            }
-            
             authService.logInUser(email: emailField.text!, password: passwordField.text!, appleToken: mainController?.apnsToken)
             { (success) in
                 if success {
