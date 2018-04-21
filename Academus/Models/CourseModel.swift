@@ -11,8 +11,10 @@ struct Course : Decodable {
     let name : String?
     let period : Int?
     let custom_name : String?
+    let classroom_number : String?
     let integration : Integration?
     let grade : Grade?
+    let teacher : Teacher?
     struct Integration : Decodable {
         let id : Int?
         let type : String?
@@ -22,4 +24,12 @@ struct Course : Decodable {
         let letter : String?
         let percent : Float?
     }
+    struct Teacher : Decodable {
+        let name : String?
+        let email : String?
+    }
+    let total_students : Int?
+    let average_grade : Float?
+    let highest_grade : Float?
+    let lowest_grade : Float?
 }

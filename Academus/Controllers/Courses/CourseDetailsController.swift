@@ -15,10 +15,12 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     var assignments = [Assignment]()
     var assignmentID = "AssignmentCell"
     var authToken: String?
+    var course: Course?
     var courseID : Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
@@ -101,5 +103,11 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    @objc func handleCourseInfo() {
+        let courseInfoController = CourseInfoController()
+        courseInfoController.course = course
+        navigationController?.pushViewController(courseInfoController, animated: true)
     }
 }
