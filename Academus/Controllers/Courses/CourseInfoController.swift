@@ -50,14 +50,14 @@ class CourseInfoController: UITableViewController {
         view.addSubviews(views: [background, icon, title])
         
         background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, bottomPad: 9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        icon.anchors(top: background.topAnchor, topPad: 9, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor)
+        icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 20, height: 20)
         title.anchors(bottomPad: -9, left: icon.rightAnchor, leftPad: 9, centerY: background.centerYAnchor)
         return view
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 3 }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return (section == 1) ? 50 : 40 }
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 50 }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 50 }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 40 }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return (section == 1) ? 2 : 4 }
 }
