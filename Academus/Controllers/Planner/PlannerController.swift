@@ -47,7 +47,7 @@ class PlannerController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         if cards.count == 0 {
-            self.tableViewEmptyLabel(message: "Hey :) \nThis feature is coming soon!", show: true)
+            self.tableViewEmptyLabel(message: "Hello :) \nThis feature is coming soon!", show: true)
         } else {
             self.tableViewEmptyLabel(show: false)
         }

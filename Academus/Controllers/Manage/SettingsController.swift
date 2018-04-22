@@ -21,6 +21,8 @@ class SettingsController: UITableViewController {
 
     var cells = [SettingsCellManager]()
     var notifDictionary = Dictionary<String, Any>()
+    var notificationService = NotificationService()
+    var didChange: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,9 +35,26 @@ class SettingsController: UITableViewController {
         for type in cells {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
         }
-        print("view did load")
+        
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
         notifDictionary = dictionary!
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        NotificationService().patchNotificationState(didChange: didChange) { (success) in
+            if success {
+                print ("success")
+            } else {
+                print("failure")
+            }
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -145,6 +164,10 @@ extension SettingsController {
         let arrow = UIImageView().setupImageView(color: .navigationsGreen, image: #imageLiteral(resourceName: "arrowRight"))
         subtext.numberOfLines = 2
         subtext.lineBreakMode = .byWordWrapping
+        background.roundCorners(corners: .bottom)
+        
+        let subBackground = UIView().setupBackground(bgColor: .navigationsMediumGrey)
+        subBackground.roundCorners(corners: .bottom)
         
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
             if settings.authorizationStatus == .authorized {
@@ -158,19 +181,21 @@ extension SettingsController {
             }
         }
         
-        cell.addSubviews(views: [background, title, icon, subtext, arrow])
+        cell.addSubviews(views: [background, subBackground, title, icon, subtext, arrow])
         
         background.anchors(top: cell.topAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6, height: 55)
+        subBackground.anchors(top: background.bottomAnchor, bottom: cell.bottomAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 24, height: 24)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 32, height: 32)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: background.centerYAnchor)
-        subtext.anchors(top: background.bottomAnchor, topPad: 9, left: background.leftAnchor, leftPad: 12, right: arrow.rightAnchor, rightPad: -12)
+        subtext.anchors(top: subBackground.topAnchor, topPad: 6, left: subBackground.leftAnchor, leftPad: 6, right: subBackground.rightAnchor, rightPad: -6)
         
         let selectionView = UIView()
         selectionView.backgroundColor = .tableViewDarkGrey
         
         let backgroundView = UIView()
         backgroundView.backgroundColor =  UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 0.1)
+        backgroundView.roundCorners(corners: .bottom)
         
         selectionView.addSubview(backgroundView)
         
@@ -198,7 +223,7 @@ extension SettingsController {
         
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
         switch c {
-        case .notifAssignmentPosted: toggle.isOn = dictionary?[isAssignmentsPosted] as! Bool
+        case .notifAssignmentPosted: toggle.isOn = dictionary?[isAssignmentsPosted] as! Bool; background.roundCorners(corners: .top)
         case .notifCourseGradeUpdated: toggle.isOn = dictionary?[isCoursePosted] as! Bool
         case .notifMiscellaneous: toggle.isOn = dictionary?[isMisc] as! Bool
         default: break
@@ -259,20 +284,19 @@ extension SettingsController {
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 24, height: 24)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
         toggle.anchors(right: background.rightAnchor, rightPad: -9, centerY: background.centerYAnchor)
-        subtext.anchors(top: title.bottomAnchor, left: icon.rightAnchor, leftPad: 12)
+        subtext.anchors(left: title.rightAnchor, leftPad: 6, centerY: background.centerYAnchor)
         
         return cell
     }
     
     @objc func didToggle(_ sender: notifSwitch) {
+        didChange = true
         guard let cellType: SettingsCellManager = sender.cellType else { return }
         switch cellType {
         case .notifAssignmentPosted:
             notifDictionary[isAssignmentsPosted] = sender.isOn
             do {
                 try Locksmith.updateData(data: notifDictionary, forUserAccount: USER_NOTIF)
-                let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
-                print(dictionary as Any)
             } catch let error {
                 print(error)
             }
@@ -280,8 +304,6 @@ extension SettingsController {
             notifDictionary[isCoursePosted] = sender.isOn
             do {
                 try Locksmith.updateData(data: notifDictionary, forUserAccount: USER_NOTIF)
-                let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
-                print(dictionary as Any)
             } catch let error {
                 print(error)
             }
@@ -290,8 +312,6 @@ extension SettingsController {
             notifDictionary[isMisc] = sender.isOn
             do {
                 try Locksmith.updateData(data: notifDictionary, forUserAccount: USER_NOTIF)
-                let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
-                print(dictionary as Any)
             } catch let error {
                 print(error)
             }
@@ -299,4 +319,3 @@ extension SettingsController {
         }
     }
 }
-

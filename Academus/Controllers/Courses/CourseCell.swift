@@ -82,11 +82,10 @@ class CourseCell: UITableViewCell {
         addSubview(periodLabel)
         addSubview(title)
 
-
         background.anchors(top: topAnchor, topPad: 9, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
         stackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
-        periodLabel.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 0, height: 0)
-        title.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: background.centerYAnchor, width: 200, height: 0)
+        periodLabel.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 0, height: 0)
+        title.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: background.centerYAnchor, width: self.bounds.size.width * 3/4, height: 0)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 32, height: 32)
     }
     

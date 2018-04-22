@@ -47,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().barTintColor = .navigationsDarkGrey
         UITabBar.appearance().tintColor = .navigationsGreen
+        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -4)
         
         UITableView.appearance().backgroundColor = .tableViewDarkGrey
         
@@ -80,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
         if dictionary?[isFirstLaunch] == nil  {
-        let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+            let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
 
             do {
                 try Locksmith.updateData(data: [
@@ -120,31 +121,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        print("THIS WAS CALLED")
-        let data = JSON(userInfo).rawString()
-        print("APNS Received Remote Message 1: \(data ?? "Error")")
+//        print("THIS WAS CALLED")
+//        let data = JSON(userInfo).rawString()
+//        print("APNS Received Remote Message 1: \(data ?? "Error")")
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print("DID RECEIVE REMOTE NOTIF", userInfo)
-        
-        let data = JSON(userInfo)
-        if shouldDisplay(payload: data) {
-            completionHandler(.newData)
-        } else {
-            return
-        }
+//        print("DID RECEIVE REMOTE NOTIF", userInfo)
+//
+//        let data = JSON(userInfo)
+//        if shouldDisplay(payload: data) {
+//            completionHandler(.newData)
+//        } else {
+//            return
+//        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("WILL PRESENT IS CALLED", notification.request.content.userInfo)
-        
-        let data = JSON(notification.request.content.userInfo)
-        if shouldDisplay(payload: data) {
-            completionHandler([.alert, .sound])
-        } else {
-            completionHandler([])
-        }
+//        print("WILL PRESENT IS CALLED", notification.request.content.userInfo)
+//
+//        let data = JSON(notification.request.content.userInfo)
+//        if shouldDisplay(payload: data) {
+//            completionHandler([.alert, .sound])
+//        } else {
+//            completionHandler([])
+//        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) { completionHandler() }

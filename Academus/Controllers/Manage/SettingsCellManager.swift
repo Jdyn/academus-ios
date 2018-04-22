@@ -39,7 +39,7 @@ enum SettingsCellManager {
 
     func getSubtext() -> String{
         switch self {
-//        case .appLock: return "Feature coming soon"
+        case .appLock: return " - Feature coming soon"
 //        case .notifAssignmentPosted: return "Feature coming soon"
 //        case .notifCourseGradeUpdated: return "Feature coming soon"
 //        case .notifMiscellaneous: return "Feature coming soon"

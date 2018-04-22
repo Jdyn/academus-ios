@@ -28,7 +28,10 @@ class MainController: UITabBarController {
             })
         } else {
             self.setUpUI()
-
+            DispatchQueue.main.async {
+                let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+                print(dictionary as Any)
+            }
         }
     }
     
@@ -44,37 +47,30 @@ class MainController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
-        if selectedIndex != 1 {
-            
-        } else {
-            self.selectedIndex = 1
-        }
+        self.selectedIndex = 1
     }
     
     func notificationManager() {
         print("notification manager called")
         
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-        guard let currentAppleToken = dictionary?[APPLE_TOKEN] else { print("RETURNEED"); return }
+        let currentAppleToken = dictionary?[APPLE_TOKEN] as? String
         
-        if apnsToken != currentAppleToken as? String {
+        if apnsToken != currentAppleToken {
             
-//            print("APP DELEGATE TOKEN: ", apnsToken as Any)
-//            print("MY TOKEN: ", currentAppleToken)
-            
-            let authToken = dictionary![AUTH_TOKEN] as! String
+            let authToken = dictionary?[AUTH_TOKEN]
             
             do {
                 try Locksmith.updateData(data: [
                     APPLE_TOKEN : apnsToken as Any,
-                    AUTH_TOKEN : authToken
+                    AUTH_TOKEN : authToken as! String
                     ], forUserAccount: USER_AUTH)
                 
-                AuthService().registerAPNS(token: authToken, appleToken: apnsToken)
+                AuthService().registerAPNS(token: authToken as! String, appleToken: apnsToken)
                 let dictionary1 = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
                 print("DICTIONARY: ", dictionary1 as Any)
             } catch {
-                if authToken.isEmpty {
+                if authToken == nil {
                     let welcomeController = WelcomeController()
                     welcomeController.mainController = self
                     let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)

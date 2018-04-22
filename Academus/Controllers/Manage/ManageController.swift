@@ -188,7 +188,7 @@ extension ManageController {
         
         background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         stack.anchors(left: profileImage.rightAnchor, leftPad: 9, centerY: profileImage.centerYAnchor)
-        profileImage.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 64, height: 64)
+        profileImage.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 64, height: 64)
         button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 64, height: 64)
         
         return view
