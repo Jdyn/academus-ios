@@ -21,6 +21,7 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
         super.viewDidLoad()
         navigationItem.title = "Invite Friends"
         view.backgroundColor = .tableViewDarkGrey
+        self.extendedLayoutIncludesOpaqueBars = true
         invitesService.inviteDelegate = self
         invitesService.getInvites { (success) in
             if success {

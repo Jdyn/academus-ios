@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().barTintColor = .navigationsDarkGrey
         UINavigationBar.appearance().tintColor = .navigationsGreen
-        
+
         UINavigationBar.appearance().largeTitleTextAttributes = [
             NSAttributedStringKey.font: UIFont(name: "AvenirNext-demibold", size: 29)!,
             NSAttributedStringKey.foregroundColor: UIColor.navigationsWhite,
@@ -72,56 +72,124 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
         }
-                
+        
+        
         let freshchatConfig: FreshchatConfig = FreshchatConfig.init(appID: "76490582-1f11-45d5-b5b7-7ec88564c7d6", andAppKey: "5d16672f-543b-4dc9-9c21-9fd5f62a7ad3")
         freshchatConfig.themeName = "CustomFCTheme.plist"
         Freshchat.sharedInstance().initWith(freshchatConfig)
+        
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
+        if dictionary?[isFirstLaunch] == nil  {
+        let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+
+            do {
+                try Locksmith.updateData(data: [
+                    isAssignmentsPosted : false,
+                    isCoursePosted : false,
+                    isMisc : false,
+                    isFirstLaunch : true
+                    ], forUserAccount: USER_NOTIF)
+            } catch let error {
+                print(error)
+            }
+            
+            guard
+                let email = authDictionary?["email"],
+                let firstName = authDictionary?["firstName"],
+                let lastName = authDictionary?["lastName"],
+                let isLoggedIn = authDictionary?["isLoggedIn"],
+                let userID = authDictionary?["userID"]
+                else {
+                    return true
+            }
+            
+            do {
+                try Locksmith.updateData(data: [
+                    "email" : email,
+                    "firstName" : firstName,
+                    "lastName" : lastName,
+                    "isLoggedIn" : isLoggedIn,
+                    "userID" : userID
+                    ], forUserAccount: USER_INFO)
+            } catch let error {
+                print(error)
+            }
+        }
         
         return true
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print("THIS WAS CALLED")
         let data = JSON(userInfo).rawString()
         print("APNS Received Remote Message 1: \(data ?? "Error")")
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("DID RECEIVE REMOTE NOTIF", userInfo)
         
-        let data = JSON(userInfo).rawString()
-        print("APNS Received Remote Message 2: \(data ?? "")")
-        
-        completionHandler(.newData)
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print(response.notification.request.content.userInfo)
-        
-        let data = JSON(response.notification.request.content.userInfo).rawString()
-        print("APNS User Tapped on Notification: \(data ?? "Tapped Error")")
-        
-        completionHandler()
+        let data = JSON(userInfo)
+        if shouldDisplay(payload: data) {
+            completionHandler(.newData)
+        } else {
+            return
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print(notification.request.content.userInfo)
+        print("WILL PRESENT IS CALLED", notification.request.content.userInfo)
         
-        let data = JSON(notification.request.content.userInfo).rawString()
-        print("APNS Received Remote Message 3: \(data ?? "")")
-
-        completionHandler([.alert, .sound])
+        let data = JSON(notification.request.content.userInfo)
+        if shouldDisplay(payload: data) {
+            completionHandler([.alert, .sound])
+        } else {
+            completionHandler([])
+        }
     }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) { completionHandler() }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         mainController.apnsToken = token
-        print("APP DELEGATE: ", mainController.apnsToken!)
         mainController.notificationManager()
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Remote Notifications Failure: \(error)")
     }
+    
+    func shouldDisplay(payload: JSON) -> Bool {
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
+        let titleKey = payload["aps"]["alert"]["title-loc-key"]
+        
+        switch titleKey {
+        case "notif_grade_posted_title", "notif_assignment_posted_title":
+            return dictionary?[isAssignmentsPosted] as! Bool
+        case "notif_course_grade_changed_title":
+            return dictionary?[isCoursePosted] as! Bool
+        default:
+            return dictionary?[isMisc] as! Bool
+        }
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        mainController.notificationManager()
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        var freahchatUnreadCount = Int()
+        Freshchat.sharedInstance().unreadCount { (unreadCount) in
+            freahchatUnreadCount = unreadCount
+        }
+        UIApplication.shared.applicationIconBadgeNumber = freahchatUnreadCount
+    }
 
+    
+    
+    
+    
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -132,18 +200,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        mainController.notificationManager()
-    }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        var freahchatUnreadCount = Int()
-        Freshchat.sharedInstance().unreadCount { (unreadCount) in
-            freahchatUnreadCount = unreadCount
-        }
-        UIApplication.shared.applicationIconBadgeNumber = freahchatUnreadCount
-
-    }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

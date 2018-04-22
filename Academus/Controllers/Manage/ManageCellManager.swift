@@ -63,8 +63,8 @@ enum ManageCellManager {
     
     func getHeight() -> CGFloat {
         switch self {
-        case .manageIntegrations, .inviteFriends: return 75
-        case .settings, .help, .about: return 65
+        case .manageIntegrations, .inviteFriends: return 66
+        case .settings, .help, .about: return 56
         default: return 9
         }
     }

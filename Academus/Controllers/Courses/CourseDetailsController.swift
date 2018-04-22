@@ -21,15 +21,11 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         super.viewDidLoad()
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
+        self.extendedLayoutIncludesOpaqueBars = true
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
         self.authToken = (dictionary["authToken"] as? String ?? "")
     }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        navigationController?.hidesBarsOnSwipe = true
-//        setupScrollingNavBar()
-//    }
     
     override func viewWillAppear(_ animated: Bool) {
         assignmentService.delegate = self

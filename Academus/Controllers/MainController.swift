@@ -16,7 +16,7 @@ class MainController: UITabBarController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         view.backgroundColor = .tableViewDarkGrey
-        print("MainController")
+        
         let userDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         
         if userDictionary?["isLoggedIn"] == nil {
@@ -28,10 +28,7 @@ class MainController: UITabBarController {
             })
         } else {
             self.setUpUI()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                let dictionary1 = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-                print(dictionary1 as Any)
-            })
+
         }
     }
     
@@ -47,7 +44,11 @@ class MainController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
-        self.selectedIndex = 1
+        if selectedIndex != 1 {
+            
+        } else {
+            self.selectedIndex = 1
+        }
     }
     
     func notificationManager() {
@@ -58,8 +59,8 @@ class MainController: UITabBarController {
         
         if apnsToken != currentAppleToken as? String {
             
-            print("APP DELEGATE TOKEN: ", apnsToken as Any)
-            print("MY TOKEN: ", currentAppleToken)
+//            print("APP DELEGATE TOKEN: ", apnsToken as Any)
+//            print("MY TOKEN: ", currentAppleToken)
             
             let authToken = dictionary![AUTH_TOKEN] as! String
             

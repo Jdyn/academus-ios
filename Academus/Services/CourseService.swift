@@ -40,7 +40,6 @@ class CourseService {
                 completion(true)
             } else {
                 completion(false)
-                print(response.response?.statusCode)
                 debugPrint(response.result.error as Any)
             }
         }

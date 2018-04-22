@@ -136,6 +136,7 @@ class AuthService {
                     user?.email = email
                     
                     Freshchat.sharedInstance().setUser(user)
+                    
                     do {
 
                         try Locksmith.updateData(data: [

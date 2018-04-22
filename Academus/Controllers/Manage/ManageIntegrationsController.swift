@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Locksmith
 
 class ManageIntegrationsController: UITableViewController, UserIntegrationsDelegate {
 
@@ -21,6 +22,7 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
         tableView.separatorStyle = .none
         tableView.tableHeaderView = headerView()
         setupAddButtonInNavBar(selector: #selector(handleAdd))
+        self.extendedLayoutIncludesOpaqueBars = true
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         
         integrationService.userIntegrationsDelegate = self

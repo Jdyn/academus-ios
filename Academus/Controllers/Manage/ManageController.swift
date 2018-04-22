@@ -17,6 +17,7 @@ class ManageController: UITableViewController {
         super.viewDidLoad()
         navigationItem.title = "Manage"
         tableView.separatorStyle = .none
+        self.extendedLayoutIncludesOpaqueBars = true
 
         tableView.tableHeaderView = profileView()
         
@@ -43,31 +44,13 @@ class ManageController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 } // 18
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.roundCorners(corners: .top)
-        
-        view.addSubview(background)
-        
-        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        return view
-    }
-    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 18 }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return setupSection(type: .header) }
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 18  }
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView()
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.roundCorners(corners: .bottom)
-
-        view.addSubview(background)
-        
-        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        return view
-    }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { return setupSection(type: .footer) }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 2 : 3) }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         return cellsFiltered[indexPath.row].getHeight()
@@ -80,9 +63,8 @@ class ManageController: UITableViewController {
         switch cellsFiltered[indexPath.row] {
         case .manageIntegrations: navigationController?.pushViewController(ManageIntegrationsController(style: .grouped), animated: true)
         case .inviteFriends: navigationController?.pushViewController(ManageInvitesController(style: .grouped), animated: true)
-        case .settings: navigationController?.pushViewController(SettingsController(style: .plain), animated: true)
-        case .help: navigationController?.pushViewController(Freshchat.sharedInstance().getConversationsControllerForEmbed()
-, animated: true)
+        case .settings: navigationController?.pushViewController(SettingsController(style: .grouped), animated: true)
+        case .help: navigationController?.pushViewController(Freshchat.sharedInstance().getConversationsControllerForEmbed(), animated: true)
         case .about: navigationController?.pushViewController(ManageAboutController(style: .grouped), animated: true)
         default: break
         }
