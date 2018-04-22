@@ -29,10 +29,6 @@ class MainController: UITabBarController {
             })
         } else {
             self.setUpUI()
-            DispatchQueue.main.async {
-                let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-                print(dictionary as Any)
-            }
         }
     }
     

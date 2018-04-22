@@ -23,6 +23,9 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
         self.extendedLayoutIncludesOpaqueBars = true
+
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         fetchAssignments()
     }

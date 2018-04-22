@@ -124,7 +124,6 @@ class SettingsController: UITableViewController {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         switch cellsFiltered[indexPath.row] {
         case .notifSettings:
-            print("SELECTED")
             if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
             UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
             }

@@ -9,15 +9,16 @@
 import Foundation
 
 class CourseInfoController: UITableViewController {
+
     var course: Course?
     var cells = [CourseInfoCellManager]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "\(course?.name ?? "Course") INFO"
+        navigationItem.title = "Course Information"
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
 
         self.extendedLayoutIncludesOpaqueBars = true
         

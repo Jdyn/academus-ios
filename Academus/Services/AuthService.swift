@@ -180,7 +180,6 @@ class AuthService {
         Alamofire.request(URL(string: "\(BASE_URL)/api/apns?token=\(token)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
             print(response)
         }
-        
         print("APNS TOKEN IS EMPTY")
     }
 }
