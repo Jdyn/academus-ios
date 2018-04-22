@@ -33,14 +33,34 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         if courses.isEmpty {
             fetchCourses(completion: { (success) in
                 if success {
-                    UIView.transition(with: self.tableView,duration: 0.1, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
                     self.errorLabel(show: false)
+                    UIView.transition(with: self.tableView,duration: 0.1, options: .transitionCrossDissolve, animations: {
+                        self.tableView.reloadData()
+                        if self.courses.isEmpty {
+                            self.addIntegrationLabel(show: true)
+                        }
+                    })
                 } else {
                     self.errorLabel(show: true)
                 }
             })
         }
-     }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            if self.courses.isEmpty && self.tableView.backgroundView == nil {
+                self.loadingAlert(title: "Loading Courses", message: "This will take just a moment...")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                    self.refreshTable()
+                    print(self.courses)
+                    self.dismiss(animated: true, completion: nil)
+                })
+            }
+        })
+    }
 
     func fetchCourses(completion: @escaping CompletionHandler) {
         print("Fetching Courses...")
@@ -57,14 +77,39 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     func errorLabel(show: Bool) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection and refresh", font: UIFont.standard!, fontColor: .navigationsLightGrey)
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection and refresh", font: UIFont.standard!, fontColor: .navigationsLightGrey)
         label.textAlignment = .center
         label.numberOfLines = 0
         if show {
-            self.tableView.backgroundView = label
+            tableView.backgroundView = label
         } else {
-            self.tableView.backgroundView = nil
+            tableView.backgroundView = nil
         }
+    }
+    
+    func addIntegrationLabel(show: Bool) {
+        let bgView = UIView()
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: "You don't have any courses!", font: UIFont.standard!, fontColor: .navigationsLightGrey)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        let button = UIButton().setUpButton(title: "Get Started", font: UIFont.standard!, fontColor: .navigationsGreen)
+        button.addTarget(self, action: #selector(addIntegration), for: .touchUpInside)
+        
+        bgView.addSubviews(views: [label, button])
+        label.anchors(centerX: bgView.centerXAnchor, centerY: bgView.centerYAnchor)
+        button.anchors(top: label.bottomAnchor, topPad: 6, centerX: bgView.centerXAnchor)
+        
+        if show {
+            tableView.backgroundView = bgView
+        } else {
+            tableView.backgroundView = nil
+        }
+    }
+    
+    @objc func addIntegration() {
+        let controller = IntegrationSelectController()
+        navigationController?.pushViewController(controller, animated: true)
+        tableView.backgroundView = nil
     }
     
     func didGetCourses(courses: [Course]) {
@@ -96,12 +141,16 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 90 }
     
     @objc func refreshTable() {
-        self.fetchCourses() { (success) in
+        fetchCourses() { (success) in
             if success {
+                self.errorLabel(show: false)
                 Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { (time) in
                     self.refreshControl?.endRefreshing()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
                         self.tableView.reloadData()
+                        if self.courses.isEmpty {
+                            self.addIntegrationLabel(show: true)
+                        }
                     })
                 })
             } else {
