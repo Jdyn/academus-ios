@@ -77,6 +77,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         freshchatConfig.themeName = "CustomFCTheme.plist"
         Freshchat.sharedInstance().initWith(freshchatConfig)
         
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
+        if dictionary?[isFirstLaunch] == nil  {
+            let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+            
+            do {
+                try Locksmith.updateData(data: [
+                    isAssignmentsPosted : false,
+                    isCoursePosted : false,
+                    isMisc : false,
+                    isFirstLaunch : true
+                    ], forUserAccount: USER_NOTIF)
+            } catch let error {
+                print(error)
+            }
+            
+            guard
+                let email = authDictionary?["email"],
+                let firstName = authDictionary?["firstName"],
+                let lastName = authDictionary?["lastName"],
+                let isLoggedIn = authDictionary?["isLoggedIn"],
+                let userID = authDictionary?["userID"]
+                else {
+                    return true
+            }
+            
+            do {
+                try Locksmith.updateData(data: [
+                    "email" : email,
+                    "firstName" : firstName,
+                    "lastName" : lastName,
+                    "isLoggedIn" : isLoggedIn,
+                    "userID" : userID
+                    ], forUserAccount: USER_INFO)
+            } catch let error {
+                print(error)
+            }
+        }
+        
         return true
     }
     
