@@ -26,58 +26,6 @@
 			<key>DefaultValue</key>
 			<string>1</string>
 		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>Privacy and Security</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>App Lock</string>
-			<key>Key</key>
-			<string>appLockPreference</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>Notifications</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Assignment Posted</string>
-			<key>Key</key>
-			<string>assignmentPostedPreference</string>
-			<key>DefaultValue</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Course Grade Posted</string>
-			<key>Key</key>
-			<string>courseGradePostedPreference</string>
-			<key>DefaultValue</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Miscellaneous</string>
-			<key>Key</key>
-			<string>miscPreference</string>
-			<key>DefaultValue</key>
-			<true/>
-		</dict>
 	</array>
 </dict>
 </plist>

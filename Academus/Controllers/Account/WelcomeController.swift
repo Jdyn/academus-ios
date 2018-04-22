@@ -12,7 +12,7 @@ import Locksmith
 class WelcomeController: UIViewController {
     
     let appLogo = UIImageView().setupImageView(color: .clear, image: #imageLiteral(resourceName: "logo_colored"))
-    let divider = UIView().setupBackground(bgColor: .tableViewSeperator)
+    let divider = UIView().setupBackground(bgColor: .tableViewLightGrey)
     let signUpButton = UIButton(type: .system).setUpButton(bgColor: .none, title: "GET STARTED", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
     let welcomeLabel = UILabel().setUpLabel(text: "Welcome to Academus", font: UIFont(name: "AvenirNext-demibold", size: 26)!, fontColor: .navigationsWhite)
     let subwelcomeLabel = UILabel().setUpLabel(text: "A student's best friend.", font: UIFont(name: "AvenirNext-medium", size: 18)!, fontColor: .navigationsWhite)
@@ -20,6 +20,7 @@ class WelcomeController: UIViewController {
     let logInButton = UIButton(type: .system).setUpButton(bgColor: .none, title: "LOG IN", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
 
     var mainController: MainController?
+    var impact = UIImpactFeedbackGenerator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +40,14 @@ class WelcomeController: UIViewController {
     }
 
     @objc func logInPressed() {
+        impact.impactOccurred()
         let accountLogInController = AccountLogInController()
         accountLogInController.mainController = self.mainController
         navigationController?.pushViewController(accountLogInController, animated: true)
     }
     
     @objc func signUpPressed() {
+        impact.impactOccurred()
         let accountCreateController = AccountCreateController()
         accountCreateController.mainController = self.mainController
         navigationController?.pushViewController(accountCreateController, animated: true)
@@ -59,7 +62,7 @@ class WelcomeController: UIViewController {
         welcomeLabel.anchors(top: appLogo.bottomAnchor, topPad: 16, centerX: view.centerXAnchor)
         subwelcomeLabel.anchors(top: welcomeLabel.bottomAnchor, centerX: view.centerXAnchor)
         divider.anchors(top: subwelcomeLabel.bottomAnchor, topPad: 12, centerX: view.centerXAnchor, width: 150, height: 1)
-        signUpButton.anchors(top: divider.bottomAnchor, topPad: 6,centerX: view.centerXAnchor, width: 128)
+        signUpButton.anchors(top: divider.bottomAnchor, topPad: 16,centerX: view.centerXAnchor, width: 128)
         logInButton.anchors(bottom: view.safeAreaLayoutGuide.bottomAnchor, bottomPad: -6, centerX: view.centerXAnchor, width: 128, height: 55)
         logInLabel.anchors(bottom: logInButton.topAnchor, centerX: view.centerXAnchor)
         

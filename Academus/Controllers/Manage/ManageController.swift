@@ -20,6 +20,7 @@ class ManageController: UITableViewController {
         navigationItem.title = "Manage"
         tableView.separatorStyle = .none
         tableView.tableHeaderView = profileView()
+        self.extendedLayoutIncludesOpaqueBars = true
         
         cells = [.manageIntegrations, .inviteFriends, .settings, .help, .about]
         cells.forEach { (type) in
@@ -44,31 +45,13 @@ class ManageController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 } // 18
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.roundCorners(corners: .top)
-        
-        view.addSubview(background)
-        
-        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        return view
-    }
-    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 18 }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return setupSection(type: .header) }
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 18  }
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView()
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.roundCorners(corners: .bottom)
-
-        view.addSubview(background)
-        
-        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        return view
-    }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { return setupSection(type: .footer) }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 2 : 3) }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         return cellsFiltered[indexPath.row].getHeight()
@@ -81,9 +64,8 @@ class ManageController: UITableViewController {
         switch cellsFiltered[indexPath.row] {
         case .manageIntegrations: navigationController?.pushViewController(ManageIntegrationsController(style: .grouped), animated: true)
         case .inviteFriends: navigationController?.pushViewController(ManageInvitesController(style: .grouped), animated: true)
-        case .settings: navigationController?.pushViewController(SettingsController(style: .plain), animated: true)
-        case .help: navigationController?.pushViewController(Freshchat.sharedInstance().getConversationsControllerForEmbed()
-, animated: true)
+        case .settings: navigationController?.pushViewController(SettingsController(style: .grouped), animated: true)
+        case .help: navigationController?.pushViewController(Freshchat.sharedInstance().getConversationsControllerForEmbed(), animated: true)
         case .about: navigationController?.pushViewController(ManageAboutController(style: .grouped), animated: true)
         default: break
         }
@@ -199,7 +181,7 @@ extension ManageController: ImageCacheDelegate {
         
         background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         stack.anchors(left: profileImage.rightAnchor, leftPad: 9, centerY: profileImage.centerYAnchor)
-        profileImage.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 64, height: 64)
+        profileImage.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 64, height: 64)
         button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 64, height: 64)
         
         let url = URL(string: "\(BASE_URL)/api/picture?token=\(authDictionary?[AUTH_TOKEN] ?? "")")

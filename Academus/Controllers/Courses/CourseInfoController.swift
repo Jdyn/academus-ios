@@ -14,9 +14,12 @@ class CourseInfoController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "\(course?.name ?? "Course") Info"
+        navigationItem.title = "\(course?.name ?? "Course") INFO"
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+
+        self.extendedLayoutIncludesOpaqueBars = true
         
         cells = [.courseName, .customName, .period, .classroomNumber, .teacherName, .email, .total, .average, .highest, .lowest]
         for cell in cells {
@@ -37,28 +40,31 @@ class CourseInfoController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView().setupBackground(bgColor: .tableViewDarkGrey)
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let title = UILabel().setUpLabel(text: "", font: UIFont.subheader!, fontColor: .navigationsGreen)
+        let title = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .navigationsGreen)
         
         let sections: [CourseInfoCellManager] = [.courseInfo, .teacherInfo, .statsInfo]
         let item = sections[section]
         title.text = item.getTitle()
         
+        background.roundCorners(corners: .top)
+
         let icon = UIImageView()
         icon.image = item.getImage()
         icon.tintColor = .navigationsGreen
         
         view.addSubviews(views: [background, icon, title])
         
-        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, bottomPad: 9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 20, height: 20)
-        title.anchors(bottomPad: -9, left: icon.rightAnchor, leftPad: 9, centerY: background.centerYAnchor)
+        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 24, height: 24)
+        title.anchors(left: icon.rightAnchor, leftPad: 9, centerY: background.centerYAnchor)
         return view
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int { return 3 }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 50 }
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 40 }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { return setupSection(type: .footer) }
     
+    override func numberOfSections(in tableView: UITableView) -> Int { return 3 }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 44 }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 44 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return (section == 1) ? 2 : 4 }
 }
 

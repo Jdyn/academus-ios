@@ -83,13 +83,13 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
         let courseDetailsController = CourseDetailsController()
         courseDetailsController.navigationItem.title = courses[indexPath.row].name
         courseDetailsController.course = courses[indexPath.row]
         courseDetailsController.courseID = courses[indexPath.row].id
         
         navigationController?.pushViewController(courseDetailsController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return courses.count }

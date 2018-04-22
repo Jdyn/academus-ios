@@ -81,8 +81,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        let data = JSON(userInfo).rawString()
-        print("APNS Received Remote Message 1: \(data ?? "Error")")
         
         if Freshchat.sharedInstance().isFreshchatNotification(userInfo) {
             Freshchat.sharedInstance().handleRemoteNotification(userInfo, andAppstate: application.applicationState)
@@ -91,18 +89,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        let data = JSON(userInfo).rawString()
-        print("APNS Received Remote Message 2: \(data ?? "")")
-        
         completionHandler(.newData)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         print(response.notification.request.content.userInfo)
-        
-        let data = JSON(response.notification.request.content.userInfo).rawString()
-        print("APNS User Tapped on Notification: \(data ?? "Tapped Error")")
-        
+
         if Freshchat.sharedInstance().isFreshchatNotification(response.notification.request.content.userInfo) {
             Freshchat.sharedInstance().handleRemoteNotification(response.notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)
         } else {
@@ -111,11 +103,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print(notification.request.content.userInfo)
-        
-        let data = JSON(notification.request.content.userInfo).rawString()
-        print("APNS Received Remote Message 3: \(data ?? "")")
-
         if Freshchat.sharedInstance().isFreshchatNotification(notification.request.content.userInfo) {
             Freshchat.sharedInstance().handleRemoteNotification(notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)  //Handled for freshchat notifications
         } else {
@@ -126,9 +113,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         mainController.apnsToken = token
-        print("APP DELEGATE: ", mainController.apnsToken!)
-        Freshchat.sharedInstance().setPushRegistrationToken(deviceToken)
         mainController.notificationManager()
+        Freshchat.sharedInstance().setPushRegistrationToken(deviceToken)
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        var freahchatUnreadCount = Int()
+        Freshchat.sharedInstance().unreadCount { (unreadCount) in
+            freahchatUnreadCount = unreadCount
+        }
+        UIApplication.shared.applicationIconBadgeNumber = freahchatUnreadCount
+        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -149,16 +144,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         mainController.notificationManager()
     }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        var freahchatUnreadCount = Int()
-        Freshchat.sharedInstance().unreadCount { (unreadCount) in
-            freahchatUnreadCount = unreadCount
-        }
-        UIApplication.shared.applicationIconBadgeNumber = freahchatUnreadCount
-
-    }
-
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func shouldDisplay(payload: JSON) -> Bool {
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
+        let titleKey = payload["aps"]["alert"]["title-loc-key"]
+        
+        switch titleKey {
+        case "notif_grade_posted_title", "notif_assignment_posted_title":
+            return dictionary?[isAssignmentsPosted] as! Bool
+        case "notif_course_grade_changed_title":
+            return dictionary?[isCoursePosted] as! Bool
+        default:
+            return dictionary?[isMisc] as! Bool
+        }
     }
 }

@@ -16,6 +16,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
     
     var logInError = "Check your internet connection and try again."
     var apnsToken: String?
+    var impact = UIImpactFeedbackGenerator()
     
     let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.header!, fontColor: .navigationsWhite)
     let emailField = UITextField().setupTextField(bottomBorder: true, ghostText: "Email")
@@ -55,6 +56,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
     
     @objc func logInPressed() {
         self.passwordField.resignFirstResponder()
+        impact.impactOccurred()
         if (emailField.text?.isEmpty)! || (passwordField.text?.isEmpty)! {
             alertMessage(title: "Alert", message: "There is a missing field.")
             return
