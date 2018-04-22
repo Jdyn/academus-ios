@@ -11,8 +11,11 @@ import Locksmith
 
 enum SettingsCellManager {
     
-    // Section Rows
-    case fingerPrintLock
+    // Section 0 Rows
+    case appLock
+    
+    // Section 1 Rows
+    case notifSettings
     case notifAssignmentPosted
     case notifCourseGradeUpdated
     case notifMiscellaneous
@@ -24,7 +27,8 @@ enum SettingsCellManager {
     func getTitle() -> String{
 
         switch self {
-        case .fingerPrintLock: return "Fingerprint lock"
+        case .appLock: return ""
+        case .notifSettings: return "Manage Notifications"
         case .notifAssignmentPosted: return "Assignment posted"
         case .notifCourseGradeUpdated: return "Course grade posted"
         case .notifMiscellaneous: return "Miscellaneous"
@@ -35,17 +39,19 @@ enum SettingsCellManager {
 
     func getSubtext() -> String{
         switch self {
-        case .fingerPrintLock: return ""
-        case .notifAssignmentPosted: return ""
-        case .notifCourseGradeUpdated: return ""
-        case .notifMiscellaneous: return ""
+        case .appLock: return "- Feature coming soon"
+//        case .notifAssignmentPosted: return "Feature coming soon"
+//        case .notifCourseGradeUpdated: return "Feature coming soon"
+//        case .notifMiscellaneous: return "Feature coming soon"
+//        case .notifications: return ""
         default: return ""
         }
     }
 
     func getImage() -> UIImage{
         switch self {
-        case .fingerPrintLock: return #imageLiteral(resourceName: "fingerprint")
+        case .appLock: return #imageLiteral(resourceName: "fingerprint")
+        case .notifSettings: return #imageLiteral(resourceName: "notification")
         case .notifAssignmentPosted: return #imageLiteral(resourceName: "assignmentNotif")
         case .notifCourseGradeUpdated: return #imageLiteral(resourceName: "courseNotif")
         case .notifMiscellaneous: return #imageLiteral(resourceName: "miscNotif")
@@ -55,24 +61,25 @@ enum SettingsCellManager {
     
     func getHeight() -> CGFloat {
         switch self {
-        case .fingerPrintLock: return 55
-        case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 45
-        default: return 30
+        case .appLock: return 55
+        case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 55
+        case .notifSettings: return 119
+        default: return 0
         }
     }
 
     func getSection() -> Int {
         switch self {
-        case .fingerPrintLock: return 0 // Section 0
-        case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 1 // Section 1
+        case .appLock: return 0 // Section 0
+        case .notifSettings, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 1 // Section 1
         default: return 0
         }
     }
 
     func getCellType() -> String {
         switch self {
-        case .fingerPrintLock: return "FingerprintCell"
-        case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return "NotificationCell"
+        case .appLock: return "FingerprintCell"
+        case .notifSettings, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return "NotificationCell"
         default: return ""
         }
     }

@@ -31,7 +31,7 @@ class AssignmentService {
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                     let decoder = JSONDecoder()
                     decoder.dateDecodingStrategy = .formatted(dateFormatter)
-                    let json = try JSON(data: data)
+                    let json = JSON(data)
                     let jsonResult = try json["result"].rawData()
                     let assignment = try decoder.decode([Assignment].self, from: jsonResult)
                     if json["success"] == true {

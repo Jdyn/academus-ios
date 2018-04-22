@@ -12,18 +12,17 @@ import Locksmith
 class ManageController: UITableViewController {
     
     var cells = [ManageCellManager]()
+    let profileImage = UIImageView()
+    private let cacheService = CacheService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Manage"
-        tableView.separatorStyle = .singleLine
-        tableView.separatorInset = UIEdgeInsetsMake(0, 6, 0, 6)
-        tableView.separatorColor = .tableViewSeperator
-        tableView.backgroundColor = .tableViewDarkGrey
-        tableView.tableFooterView = UIView()
+        tableView.separatorStyle = .none
         tableView.tableHeaderView = profileView()
+        self.extendedLayoutIncludesOpaqueBars = true
         
-        cells = [.manageIntegrations, .manageInvites, .settings, .help, .about]
+        cells = [.manageIntegrations, .inviteFriends, .settings, .help, .about]
         cells.forEach { (type) in
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
         }
@@ -46,35 +45,13 @@ class ManageController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 18 }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return setupSection(type: .header) }
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 18  }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { return setupSection(type: .footer) }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 15 } // 18
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.layer.cornerRadius = 6 // 9
-        background.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        background.layer.masksToBounds = true
-
-        view.addSubview(background)
-        
-        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        return view
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 7  } // 10
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView()
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        background.layer.cornerRadius = 6 // 9
-        background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        background.layer.masksToBounds = true
-        
-        view.addSubview(background)
-        
-        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
-        return view
-    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 2 : 3) }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         return cellsFiltered[indexPath.row].getHeight()
@@ -83,13 +60,14 @@ class ManageController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
-        
+
         switch cellsFiltered[indexPath.row] {
-        case .manageIntegrations: navigationController?.pushViewController(ManageIntegrationsController(), animated: true)
-        case .manageInvites: navigationController?.pushViewController(ManageInvitesController(), animated: true)
-        case .settings: navigationController?.pushViewController(SettingsController(), animated: true)
-        case .help: navigationController?.pushViewController(ManageHelpController(), animated: true)
-        case .about: navigationController?.pushViewController(ManageAboutController(), animated: true)
+        case .manageIntegrations: navigationController?.pushViewController(ManageIntegrationsController(style: .grouped), animated: true)
+        case .inviteFriends: navigationController?.pushViewController(ManageInvitesController(style: .grouped), animated: true)
+        case .settings: navigationController?.pushViewController(SettingsController(style: .grouped), animated: true)
+        case .help: navigationController?.pushViewController(Freshchat.sharedInstance().getConversationsControllerForEmbed(), animated: true)
+        case .about: navigationController?.pushViewController(ManageAboutController(style: .grouped), animated: true)
+        default: break
         }
     }
     
@@ -100,9 +78,18 @@ class ManageController: UITableViewController {
             if Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) != nil {
                 do {
                     try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
+                    try Locksmith.deleteDataForUserAccount(userAccount: USER_INFO)
                 } catch let error {
                     debugPrint("could not delete locksmith data:", error)
                 }
+                
+                let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
+                self.present(welcomeNavigationController, animated: true, completion: {
+                    self.tabBarController?.selectedIndex = 0
+                })
+                
+            } else {
+                
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
                 self.present(welcomeNavigationController, animated: true, completion: {
                     self.tabBarController?.selectedIndex = 0
@@ -120,7 +107,7 @@ class ManageController: UITableViewController {
     }
 }
 
-extension ManageController {
+extension ManageController: ImageCacheDelegate {
     
     private func smallCell(c: ManageCellManager, cell: UITableViewCell) -> UITableViewCell {
         cell.backgroundColor = .tableViewDarkGrey
@@ -162,33 +149,28 @@ extension ManageController {
     }
     
     private func profileView() -> UIView {
-        let dictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let infoDictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+        let authDictionary: Dictionary? = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 95))
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let name = UILabel().setUpLabel(text: "\(dictionary?["firstName"] ?? "Unkown") \(dictionary?["lastName"] ?? "Name")", font: UIFont(name: "AvenirNext-medium", size: 20)!, fontColor: .navigationsWhite)
-        let email = UILabel().setUpLabel(text: "\(dictionary?["email"] ?? "Unknown Email")", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
+        let name = UILabel().setUpLabel(text: "\(infoDictionary?["firstName"] ?? "Unkown") \(infoDictionary?["lastName"] ?? "Name")", font: UIFont(name: "AvenirNext-medium", size: 20)!, fontColor: .navigationsWhite)
+        let email = UILabel().setUpLabel(text: "\(infoDictionary?["email"] ?? "Unknown Email")", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
     
         background.layer.cornerRadius = 9
         background.layer.masksToBounds = true
         background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-
         
-        let profileImage = UIImageView()
-        DispatchQueue.global(qos: .background).async {
-            let url = URL(string: "\(BASE_URL)/api/picture?token=\(dictionary?["authToken"] ?? "")")
-            guard let data = try? Data(contentsOf: url!) else {return}
-
-            DispatchQueue.main.async {
-                profileImage.image = UIImage(data: data)
-                profileImage.layer.masksToBounds = true
-                profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
-            }
-        }
+        cacheService.imageCacheDelegate = self
+        profileImage.image = UIImage()
+        profileImage.layer.masksToBounds = true
+        profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "exit"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsetsMake(15.0, 0.0, 15.0, 0.0)
         button.addTarget(self, action: #selector(handleSignout), for: .touchUpInside)
         button.tintColor = .navigationsRed
         
@@ -197,10 +179,13 @@ extension ManageController {
         stack.distribution = .equalCentering
         view.addSubviews(views: [background, stack, button, profileImage])
         
-        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         stack.anchors(left: profileImage.rightAnchor, leftPad: 9, centerY: profileImage.centerYAnchor)
-        profileImage.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 42, height: 42)
-        button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor)
+        profileImage.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 64, height: 64)
+        button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 64, height: 64)
+        
+        let url = URL(string: "\(BASE_URL)/api/picture?token=\(authDictionary?[AUTH_TOKEN] ?? "")")
+        cacheService.getImage(url: url!, completion: { _ in })
         
         return view
     }
@@ -213,5 +198,13 @@ extension ManageController {
         view.addSubview(selectedView)
         selectedView.anchors(top: view.topAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         return view
+    }
+    
+    func didGetImage(image: UIImage) {
+        DispatchQueue.main.async {
+            self.profileImage.image = image
+            self.profileImage.layer.masksToBounds = true
+            self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2
+        }
     }
 }

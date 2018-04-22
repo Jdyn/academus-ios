@@ -24,6 +24,14 @@ extension UIViewController {
     func setupCancelButtonInNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancelModal))
     }
+    
+    func setupChatButtonInNavBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "feedback"), style: .plain, target: self, action: #selector(handleFreshchat))
+    }
+    
+    @objc func handleFreshchat() {
+        Freshchat.sharedInstance().showConversations(self)
+    }
 
     @objc func handleCancelModal() {
         dismiss(animated: true, completion: nil)
@@ -147,6 +155,11 @@ extension UIStackView {
     }
 }
 
+enum SectionType {
+    case header
+    case footer
+}
+
 extension UITableViewController {
     func tableViewEmptyLabel(message: String? = "", show: Bool) {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: message!, font: UIFont.standard!, fontColor: .navigationsLightGrey )
@@ -158,6 +171,35 @@ extension UITableViewController {
             self.tableView.backgroundView = nil
         }
     }
+    
+    func setupSection(type: SectionType) -> UIView {
+        let view = UIView()
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        var botPad: CGFloat
+        var topPad: CGFloat
+        switch type {
+        case .header:
+            background.roundCorners(corners: .top)
+            botPad = 0
+            topPad = 9
+        case .footer:
+            background.roundCorners(corners: .bottom)
+            botPad = -9
+            topPad = 0
+        }
+        
+        view.addSubview(background)
+        
+        background.anchors(top: view.topAnchor, topPad: topPad, bottom: view.bottomAnchor, bottomPad: botPad, left: view.leftAnchor, leftPad: 5, right: view.rightAnchor, rightPad: -5, height: 9)
+        return view
+    }
+}
+
+enum Corners {
+    
+    case top
+    case bottom
+    case all
 }
 
 extension UIView{
@@ -166,6 +208,20 @@ extension UIView{
         views.forEach { (view) in
             self.addSubview(view)
         }
+    }
+    
+    func roundCorners(corners: Corners) {
+        switch corners {
+        case .top:
+            self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        case .bottom:
+            self.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        case .all:
+            break
+        }
+        
+        self.layer.cornerRadius = 9
+        self.layer.masksToBounds = true
     }
     
     func setupImageView(color: UIColor, image: UIImage) -> UIImageView {
@@ -250,3 +306,14 @@ func timeAgoStringFromDate(date: Date) -> String? {
     }
     return String(format: formatString, timeString)
 }
+
+    func daysBetween(date: Date) -> Int {
+        let currentDate = Date()
+        return Calendar.current.dateComponents([.day], from: currentDate, to: date).day!
+    }
+
+
+
+
+
+

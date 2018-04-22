@@ -12,9 +12,7 @@ class ManageHelpController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Help"
+        navigationItem.title = ""
         tableView.separatorStyle = .none
-        
-        tableView.backgroundView = UILabel().setUpLabel(text: "TJ GET A CHATTING SERVICE", font: UIFont.header!, fontColor: .navigationsRed)
     }
 }

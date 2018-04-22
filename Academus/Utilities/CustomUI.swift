@@ -13,6 +13,10 @@ class shareButton: UIButton {
     var urlString: String?
 }
 
+class notifSwitch: UISwitch {
+    var cellType: SettingsCellManager?
+}
+
 class UIColoredDatePicker: UIDatePicker {
     var changed = false
     override func addSubview(_ view: UIView) {

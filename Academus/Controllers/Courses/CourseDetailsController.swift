@@ -14,52 +14,33 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     private let assignmentService = AssignmentService()
     var assignments = [Assignment]()
     var assignmentID = "AssignmentCell"
-    var authToken: String?
+    var course: Course?
     var courseID : Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
-//        tableView.decelerationRate = UIScrollViewDecelerationRateFast;
+        self.extendedLayoutIncludesOpaqueBars = true
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
-        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
-        self.authToken = (dictionary["authToken"] as? String ?? "")
+        fetchAssignments()
+    }
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        navigationController?.hidesBarsOnSwipe = true
-//        setupScrollingNavBar()
-//    }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 9
+    }
     
-    override func viewWillAppear(_ animated: Bool) {
+    func fetchAssignments() {
         assignmentService.delegate = self
-        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
-        let localToken = (dictionary["authToken"] as? String ?? "")
-        
-        if localToken != self.authToken {
-            print("Fetching courses because the token has changed...")
-            self.fetchAssignments(token: localToken, completion: { (success) in
-                UIView.transition(with: self.tableView, duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
-            })
-            return
-        }
-        
-        if assignments.isEmpty {
-            print("Fetching assignments because the list is empty...")
-            self.fetchAssignments(token: localToken, completion: { (success) in
-                UIView.transition(with: self.tableView, duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
-            })
-            return
-        }
-    }
-    
-    func fetchAssignments(token: String, completion: @escaping CompletionHandler) {
         assignmentService.getAssignments { (success) in
             if success {
-                self.authToken = token
+                self.tableView.reloadData()
                 print("We finished that.")
-                completion(true)
             } else {
                 print("failed to get courses")
             }
@@ -82,7 +63,7 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85
+        return 100
     }
     
     func didGetAssignments(assignments: [Assignment]) {
@@ -94,5 +75,11 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    @objc func handleCourseInfo() {
+        let courseInfoController = CourseInfoController(style: .grouped)
+        courseInfoController.course = course
+        navigationController?.pushViewController(courseInfoController, animated: true)
     }
 }

@@ -12,78 +12,52 @@ import Locksmith
 class CoursesController: UITableViewController, CourseServiceDelegate {
     
     private let courseService = CourseService()
-    var authToken: String?
     var label: UILabel?
     
     var courses = [Course]()
-    let courseID = "courseCell"
+    private let cellId = "courseCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Courses"
-        tableView.register(CourseCell.self, forCellReuseIdentifier: courseID)
+        tableView.register(CourseCell.self, forCellReuseIdentifier: cellId)
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 41, 0)
+        
+        setupChatButtonInNavBar()
         
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
         refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
-
-        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
-        self.authToken = (dictionary["authToken"] as? String ?? "")
-     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        courseService.delegate = self
-        guard let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) else {return}
-        let localToken = (dictionary["authToken"] as? String ?? "")
-
-        if localToken != self.authToken {
-            print("Fetching courses because the token has changed...")
-            fetchCourses(token: localToken, completion: { (success) in
-                if success {
-                    UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
-                    self.errorLabel(show: false)
-                } else {
-                    self.errorLabel(show: true)
-                }
-            })
-            return
-        }
-
         if courses.isEmpty {
-            print("Fetching courses because the token has changed...")
-            fetchCourses(token: localToken, completion: { (success) in
+            fetchCourses(completion: { (success) in
                 if success {
-                    UIView.transition(with: self.tableView,duration: 0.2, options: .transitionCrossDissolve, animations: {
-                        self.tableView.reloadData()
-                    })
+                    UIView.transition(with: self.tableView,duration: 0.1, options: .transitionCrossDissolve, animations: { self.tableView.reloadData() })
                     self.errorLabel(show: false)
                 } else {
                     self.errorLabel(show: true)
                 }
             })
-            return
         }
-    }
-    
-    func fetchCourses(token: String, completion: @escaping CompletionHandler) {
-        self.courseService.delegate? = self
+     }
+
+    func fetchCourses(completion: @escaping CompletionHandler) {
+        print("Fetching Courses...")
+        courseService.delegate = self
         courseService.getCourses { (success) in
             if success {
-                self.authToken = token
                 print("We finished that.")
                 completion(true)
             } else {
-                completion(false)
                 print("failed to get courses")
+                completion(false)
             }
         }
     }
     
     func errorLabel(show: Bool) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection and swipe down", font: UIFont.standard!, fontColor: .navigationsLightGrey)
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection and refresh", font: UIFont.standard!, fontColor: .navigationsLightGrey)
         label.textAlignment = .center
         label.numberOfLines = 0
         if show {
@@ -94,7 +68,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     func didGetCourses(courses: [Course]) {
-        print("Calling protocols...")
+        print("Initiating Course Protocol...")
         self.courses.removeAll()
         for course in courses {
             self.courses.append(course)
@@ -102,28 +76,27 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: courseID, for: indexPath) as! CourseCell
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CourseCell
         let course = self.courses[indexPath.row]
         cell.course = course
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
         let courseDetailsController = CourseDetailsController()
         courseDetailsController.navigationItem.title = courses[indexPath.row].name
+        courseDetailsController.course = courses[indexPath.row]
         courseDetailsController.courseID = courses[indexPath.row].id
         
         navigationController?.pushViewController(courseDetailsController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return courses.count }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 90 }
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
-//    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
     
     @objc func refreshTable() {
-        self.fetchCourses(token: self.authToken!) { (success) in
+        self.fetchCourses() { (success) in
             if success {
                 Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { (time) in
                     self.refreshControl?.endRefreshing()

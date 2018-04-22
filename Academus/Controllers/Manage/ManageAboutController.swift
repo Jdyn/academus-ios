@@ -16,6 +16,7 @@ class ManageAboutController: UITableViewController {
         super.viewDidLoad()
         navigationItem.title = "About"
         tableView.separatorStyle = .none
+        self.extendedLayoutIncludesOpaqueBars = true
         cells = [.alamofire, .locksmith, .swiftyJson]
         cells.forEach { (type) in
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
@@ -48,8 +49,17 @@ class ManageAboutController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cells.count }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return cells[indexPath.row].getHeight() }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 9
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return sectionFooterView()
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 33 }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return sectionHeaderView() }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 27 }
     override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
 }
 
@@ -60,7 +70,7 @@ extension ManageAboutController {
         cell.selectionStyle = .none
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.subheader!, fontColor: .navigationsGreen)
+        let title = UILabel().setUpLabel(text: c.getTitle(), font: UIFont.standard!, fontColor: .navigationsGreen)
         let subtext = UILabel().setUpLabel(text: c.getSubtext(), font: UIFont.subheader!, fontColor: .navigationsWhite)
         subtext.numberOfLines = 0
         subtext.lineBreakMode = .byWordWrapping
@@ -71,7 +81,7 @@ extension ManageAboutController {
         cell.addSubviews(views: [background, title, subtext, divider, icon])
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, bottomPad: 0, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
-        icon.anchors(right: background.rightAnchor, rightPad: -3, centerY: title.centerYAnchor, width: 18, height: 18)
+        icon.anchors(right: background.rightAnchor, rightPad: -3, centerY: title.centerYAnchor, width: 22, height: 22)
         title.anchors(top: background.topAnchor, topPad: 3, left: background.leftAnchor, leftPad: 6)
         divider.anchors(top: title.bottomAnchor, topPad: 3, left: background.leftAnchor, leftPad: 6, right: background.rightAnchor, rightPad: -6, height: 1)
         subtext.anchors(top: divider.bottomAnchor, topPad: 3, left: background.leftAnchor, leftPad: 6, width: subtextWidth)
@@ -83,9 +93,11 @@ extension ManageAboutController {
         let background = UIView()
         background.backgroundColor = .tableViewMediumGrey
         let nameLabel = UILabel().setUpLabel(text: "Academus", font: UIFont.standard!, fontColor: .navigationsWhite)
-        let versionLabel = UILabel().setUpLabel(text: "Version: 0.0.0", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
+        let versionLabel = UILabel().setUpLabel(text: "Version: 1.0.1 (4)", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         let image = UIImageView()
         image.image = #imageLiteral(resourceName: "logo_colored")
+        
+        background.roundCorners(corners: .bottom)
         
         view.addSubviews(views: [background, image, nameLabel, versionLabel])
         
@@ -102,10 +114,23 @@ extension ManageAboutController {
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let title = UILabel().setUpLabel(text: item.getTitle(), font: UIFont.standard!, fontColor: .navigationsGreen)
 
+        background.roundCorners(corners: .top)
+        
         view.addSubviews(views: [background, title])
 
         background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         title.anchors(top: background.topAnchor, topPad: 3, left: background.leftAnchor, leftPad: 6)
+        return view
+    }
+    
+    private func sectionFooterView() -> UIView {
+        let view = UIView().setupBackground(bgColor: .tableViewDarkGrey)
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        background.roundCorners(corners: .bottom)
+        
+        view.addSubviews(views: [background])
+        
+        background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         return view
     }
 }

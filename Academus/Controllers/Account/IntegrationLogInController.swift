@@ -58,7 +58,7 @@ class IntegrationLogInController: UIViewController {
                 field.isSecureTextEntry = true
             }
             view.addSubview(field)
-            field.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, width: 0, height: 0)
+            field.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, width: 0, height: 45)
             fields.append(field)
         }
 
@@ -70,7 +70,7 @@ class IntegrationLogInController: UIViewController {
         stackView.anchors(left: view.leftAnchor, leftPad: 32, right: view.rightAnchor, rightPad: -32, centerX: view.centerXAnchor, centerY: view.centerYAnchor, CenterYPad: -32)
         subtitle.anchors(top: view.safeAreaLayoutGuide.topAnchor, topPad: 32, centerX: view.centerXAnchor)
         titleLabel.anchors(top: subtitle.bottomAnchor, centerX: view.centerXAnchor, width: 0, height: 0)
-        button.anchors(top: stackView.bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 64)
+        button.anchors(top: stackView.bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 84)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
     }
 }

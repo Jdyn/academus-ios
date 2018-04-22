@@ -17,6 +17,8 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = false
+        navigationItem.title = "Select an Integration"
         navigationItem.hidesBackButton = true
         tableView.separatorStyle = .none
 
@@ -49,7 +51,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
         return UITableViewCell()
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 70 }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 80 }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let integrationController = IntegrationLogInController()

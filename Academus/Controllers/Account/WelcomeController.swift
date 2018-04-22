@@ -10,63 +10,17 @@ import UIKit
 import Locksmith
 
 class WelcomeController: UIViewController {
+    
+    let appLogo = UIImageView().setupImageView(color: .clear, image: #imageLiteral(resourceName: "logo_colored"))
+    let divider = UIView().setupBackground(bgColor: .tableViewLightGrey)
+    let signUpButton = UIButton(type: .system).setUpButton(bgColor: .none, title: "GET STARTED", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
+    let welcomeLabel = UILabel().setUpLabel(text: "Welcome to Academus", font: UIFont(name: "AvenirNext-demibold", size: 26)!, fontColor: .navigationsWhite)
+    let subwelcomeLabel = UILabel().setUpLabel(text: "A student's best friend.", font: UIFont(name: "AvenirNext-medium", size: 18)!, fontColor: .navigationsWhite)
+    let logInLabel = UILabel().setUpLabel(text: "Already have an account?", font: UIFont(name: "AvenirNext-medium", size: 12)!, fontColor: .navigationsWhite)
+    let logInButton = UIButton(type: .system).setUpButton(bgColor: .none, title: "LOG IN", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
 
-    let appLogo: UIImageView = {
-        let view = UIImageView()
-        view.image = #imageLiteral(resourceName: "logo_colored")
-        return view
-    }()
-    
-    let divider: UIView = {
-        let view = UIView()
-        view.backgroundColor = .tableViewSeperator
-        return view
-    }()
-    
-    let signUpButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .none
-        button.setTitle("GET STARTED", for: .normal)
-        button.titleLabel?.font = UIFont.standard
-        button.setTitleColor(.navigationsGreen, for: .normal)
-        button.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
-        return button
-    }()
-    
-    let welcomeText: UILabel = {
-        let label = UILabel()
-        label.text = "Welcome to Academus"
-        label.font = UIFont(name: "AvenirNext-demibold", size: 26)
-        label.textColor = .navigationsWhite
-        return label
-    }()
-    
-    let subWelcomeText: UILabel = {
-        let label = UILabel()
-        label.text = "A student's best friend."
-        label.font = UIFont(name: "AvenirNext-medium", size: 18)
-        label.textColor = .navigationsWhite
-        return label
-    }()
-    
-    let logInText: UILabel = {
-        let label = UILabel()
-        label.text = "Already have an account?"
-        label.font = UIFont(name: "AvenirNext-medium", size: 12)
-        label.font = label.font.withSize(12)
-        label.textColor = .navigationsWhite
-        return label
-    }()
-    
-    let logInButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .none
-        button.setTitle("LOG IN", for: .normal)
-        button.titleLabel?.font = UIFont.standard
-        button.setTitleColor(.navigationsGreen, for: .normal)
-        button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
-        return button
-    }()
+    var mainController: MainController?
+    var impact = UIImpactFeedbackGenerator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,29 +40,33 @@ class WelcomeController: UIViewController {
     }
 
     @objc func logInPressed() {
-        navigationController?.pushViewController(AccountLogInController(), animated: true)
+        impact.impactOccurred()
+        let accountLogInController = AccountLogInController()
+        accountLogInController.mainController = self.mainController
+        navigationController?.pushViewController(accountLogInController, animated: true)
     }
     
     @objc func signUpPressed() {
-        navigationController?.pushViewController(AccountCreateController(), animated: true)
+        impact.impactOccurred()
+        let accountCreateController = AccountCreateController()
+        accountCreateController.mainController = self.mainController
+        navigationController?.pushViewController(accountCreateController, animated: true)
     }
     
     func setupUI() {
-        
         view.backgroundColor = .tableViewDarkGrey
-        let stackView = UIStackView(arrangedSubviews: [ appLogo, welcomeText, subWelcomeText, divider, signUpButton])
         
-        stackView.axis = .vertical
+        view.addSubviews(views: [logInButton, logInLabel, appLogo, welcomeLabel, subwelcomeLabel, divider, signUpButton])
         
-        view.addSubviews(views: [stackView, logInButton, logInText, appLogo, welcomeText, subWelcomeText, divider, signUpButton])
+        appLogo.anchors(top: view.topAnchor, topPad: UIScreen.main.bounds.size.height * 1/6, centerX: view.centerXAnchor, width: 128, height: 128)
+        welcomeLabel.anchors(top: appLogo.bottomAnchor, topPad: 16, centerX: view.centerXAnchor)
+        subwelcomeLabel.anchors(top: welcomeLabel.bottomAnchor, centerX: view.centerXAnchor)
+        divider.anchors(top: subwelcomeLabel.bottomAnchor, topPad: 12, centerX: view.centerXAnchor, width: 150, height: 1)
+        signUpButton.anchors(top: divider.bottomAnchor, topPad: 16,centerX: view.centerXAnchor, width: 128)
+        logInButton.anchors(bottom: view.safeAreaLayoutGuide.bottomAnchor, bottomPad: -6, centerX: view.centerXAnchor, width: 128, height: 55)
+        logInLabel.anchors(bottom: logInButton.topAnchor, centerX: view.centerXAnchor)
         
-        stackView.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 0, height: 350)
-        appLogo.anchors(top: stackView.topAnchor, centerX: stackView.centerXAnchor, width: 128, height: 128)
-        welcomeText.anchors(top: appLogo.bottomAnchor, topPad: 16, centerX: stackView.centerXAnchor, width: 0, height: 0)
-        subWelcomeText.anchors(top: welcomeText.bottomAnchor, centerX: stackView.centerXAnchor, width: 0, height: 0)
-        divider.anchors(top: subWelcomeText.bottomAnchor, topPad: 12, centerX: stackView.centerXAnchor, width: 150, height: 1)
-        signUpButton.anchors(top: divider.bottomAnchor, topPad: 6,centerX: stackView.centerXAnchor, width: 128, height: 0)
-        logInButton.anchors(bottom: view.safeAreaLayoutGuide.bottomAnchor, centerX: view.centerXAnchor, width: 128, height: 0)
-        logInText.anchors(bottom: logInButton.topAnchor, centerX: view.centerXAnchor, width: 0, height: 0)
+        signUpButton.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
+        logInButton.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
     }
 }

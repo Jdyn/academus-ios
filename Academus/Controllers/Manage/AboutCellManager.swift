@@ -44,7 +44,7 @@ enum AboutCellManager {
     
     func getHeight() -> CGFloat {
         switch self {
-        default: return 80
+        default: return 90
         }
     }
     

@@ -12,15 +12,18 @@ class CourseCell: UITableViewCell {
 
     var course: Course? {
         didSet {
-            
             let coursePercent = Double(exactly: (course?.grade?.percent)!)?.rounded(toPlaces: 1)
+            let teacher = course?.teacher?.name
             title.text = course?.name
             periodLabel.text = "\(course?.period ?? 0)"
             gradeLetterLabel.text = course?.grade?.letter
             gradePercentLabel.text = "(\(coursePercent ?? 0.0))"
+            teacherName.text = teacher ?? "Unknown"
         }
     }
     
+    let teacherName = UILabel().setUpLabel(text: "", font: UIFont.subtext!, fontColor: .tableViewLightGrey)
+
     let background: UIView = {
         let view = UIView()
         view.backgroundColor = .tableViewMediumGrey
@@ -72,21 +75,20 @@ class CourseCell: UITableViewCell {
         
         selectedBackgroundView = selectedBackgroundView()
         
-        let stackView = UIStackView(arrangedSubviews: [ gradeLetterLabel, gradePercentLabel ])
-        stackView.axis = .vertical
-        stackView.alignment = .center
+        let gradeStackView = UIStackView(arrangedSubviews: [ gradeLetterLabel, gradePercentLabel ])
+        gradeStackView.axis = .vertical
+        gradeStackView.alignment = .center
         
-        addSubview(background)
-        addSubview(arrow)
-        addSubview(stackView)
-        addSubview(periodLabel)
-        addSubview(title)
-
+        let titleStackView = UIStackView(arrangedSubviews: [teacherName, title])
+        titleStackView.axis = .vertical
+        titleStackView.alignment = .leading
+        
+        addSubviews(views: [background, arrow, gradeStackView, titleStackView, periodLabel])
 
         background.anchors(top: topAnchor, topPad: 9, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
-        stackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
-        periodLabel.anchors(left: background.leftAnchor, leftPad: 6, centerY: background.centerYAnchor, width: 0, height: 0)
-        title.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: background.centerYAnchor, width: 200, height: 0)
+        titleStackView.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: background.centerYAnchor, width: self.bounds.size.width * 3/4)
+        gradeStackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
+        periodLabel.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 0, height: 0)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 32, height: 32)
     }
     
@@ -94,7 +96,7 @@ class CourseCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .tableViewDarkGrey
         let selectedView = UIView()
-        selectedView.backgroundColor =  UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 0.1)//UIColor(red: 43/255, green: 43/255, blue: 43/255, alpha: 1)
+        selectedView.backgroundColor =  UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 0.1)
         
         selectedView.layer.cornerRadius = 9
         selectedView.layer.masksToBounds = true

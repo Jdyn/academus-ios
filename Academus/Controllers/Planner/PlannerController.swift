@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Locksmith
 
 class PlannerController: UITableViewController {
     
@@ -20,6 +21,7 @@ class PlannerController: UITableViewController {
         tableView.separatorStyle = .none
         
 //        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
+        setupChatButtonInNavBar()
         
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
@@ -45,7 +47,7 @@ class PlannerController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         if cards.count == 0 {
-            self.tableViewEmptyLabel(message: "Oops... :( \nThis feature is a work in progress! \nPlease come back later", show: true)
+            self.tableViewEmptyLabel(message: "Hello :) \nThis feature is coming soon!", show: true)
         } else {
             self.tableViewEmptyLabel(show: false)
         }

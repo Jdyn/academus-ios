@@ -15,12 +15,13 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
     var addedInvite: Invite?
     let id = "InviteCell"
     var invitesLeft: Int = 0
-    var counter: UILabel = UILabel().setUpLabel(text: "", font: UIFont.subtext!, fontColor: .navigationsWhite)
+    var counter: UILabel = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .navigationsWhite)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Manage Invites"
+        navigationItem.title = "Invite Friends"
         view.backgroundColor = .tableViewDarkGrey
+        self.extendedLayoutIncludesOpaqueBars = true
         invitesService.inviteDelegate = self
         invitesService.getInvites { (success) in
             if success {
@@ -43,7 +44,7 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
     }
     
     func header() -> UIView {
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
+        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 45))
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         
         if self.invitesLeft == 0 {
@@ -54,9 +55,10 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
             counter.text! = "You have \(self.invitesLeft) more invites to use!"
         }
         
+        background.roundCorners(corners: .bottom)
         header.addSubviews(views: [background, counter])
         
-        background.anchors(top: header.topAnchor, topPad: 0, bottom: header.bottomAnchor, bottomPad: 0, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6, width: 0, height: 0)
+        background.anchors(top: header.topAnchor, topPad: 0, bottom: header.bottomAnchor, bottomPad: -9, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6, width: 0, height: 0)
         counter.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
         return header
     }
@@ -114,9 +116,40 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
         return UITableViewCell()
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 65 }
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 75 }
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if invites.count > 0 {
+            let view = UIView()
+            let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+            background.roundCorners(corners: .top)
+            
+            view.addSubview(background)
+            
+            background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+            return view
+        }
+        return UIView()
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 18 }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if invites.count > 0 {
+            let view = UIView()
+            let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+            background.roundCorners(corners: .bottom)
+            
+            view.addSubview(background)
+            
+            background.anchors(top: view.topAnchor, topPad: 0, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+            return view
+
+        }
+        return UIView()
+    }
+    
+    
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -141,10 +174,9 @@ extension ManageInvitesController {
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let inviteCode = UILabel().setUpLabel(text: "Invite Code: \(invite.code ?? "Unknown")", font: UIFont.standard!, fontColor: .navigationsWhite)
-        let redeemer = UILabel().setUpLabel(text: "", font: UIFont.subtext!, fontColor: .tableViewLightGrey)
+        let redeemer = UILabel().setUpLabel(text: "", font: UIFont.subheader!, fontColor: .tableViewLightGrey)
         
-        let circle = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        circle.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
+        let circle = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 12))
         circle.layer.masksToBounds = true
         circle.layer.cornerRadius = circle.frame.size.width / 2
         
@@ -160,9 +192,9 @@ extension ManageInvitesController {
         cell.addSubviews(views: [background, inviteCode, redeemer, circle])
         
         background.anchors(top: cell.topAnchor, topPad: 0, bottom: cell.bottomAnchor, bottomPad: 0, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
-        circle.anchors(left: background.leftAnchor, leftPad: 12, centerY: background.centerYAnchor, width: 10, height: 10)
-        inviteCode.anchors(top: background.topAnchor, topPad: 14, left: circle.rightAnchor, leftPad: 12)
-        redeemer.anchors(bottom: background.bottomAnchor, bottomPad: -14, left: inviteCode.leftAnchor)
+        circle.anchors(left: background.leftAnchor, leftPad: 12, centerY: background.centerYAnchor, width: 12, height: 12)
+        inviteCode.anchors(bottom: circle.centerYAnchor, bottomPad: 0, left: circle.rightAnchor, leftPad: 9)
+        redeemer.anchors(top: circle.centerYAnchor, topPad: 0, left: circle.rightAnchor, leftPad: 9)
         
         if invite.redeemed == false {
             let button = shareButton(type: .system)
@@ -171,7 +203,7 @@ extension ManageInvitesController {
             button.inviteCode = invite.code
             button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
             cell.addSubview(button)
-            button.anchors(right: background.rightAnchor, rightPad: -12, centerY: background.centerYAnchor, width: 32, height: 32)
+            button.anchors(right: background.rightAnchor, rightPad: -16, centerY: background.centerYAnchor, width: 32, height: 32)
         }
         
         return cell
@@ -179,7 +211,7 @@ extension ManageInvitesController {
     
     @objc func buttonClicked(_ sender: shareButton) {
         guard let code = sender.inviteCode else {return}
-        let message = "Hey, Try out Academus on the app store. Get notified when your grades change and more. Use this code: \(code)"
+        let message = "Hey, Try out Academus on the App Store. Get notified when your grades change and more. Use this code: \(code)"
         let objectsToShare = [message] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         self.present(activityVC, animated: true, completion: nil)
