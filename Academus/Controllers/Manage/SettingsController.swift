@@ -100,7 +100,7 @@ class SettingsController: UITableViewController {
 
         view.addSubviews(views: [background, title, subtext])
 
-        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         title.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor)
         subtext.anchors(left: title.rightAnchor, leftPad: 0, centerY: background.centerYAnchor)
         return view
@@ -169,6 +169,9 @@ extension SettingsController {
         let subBackground = UIView().setupBackground(bgColor: .navigationsMediumGrey)
         subBackground.roundCorners(corners: .bottom)
         
+        let bottomCornerBackground = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        bottomCornerBackground.roundCorners(corners: .top)
+        
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
             if settings.authorizationStatus == .authorized {
                 DispatchQueue.main.async(execute: {
@@ -181,10 +184,11 @@ extension SettingsController {
             }
         }
         
-        cell.addSubviews(views: [background, subBackground, title, icon, subtext, arrow])
+        cell.addSubviews(views: [background, subBackground, bottomCornerBackground, title, icon, subtext, arrow])
         
         background.anchors(top: cell.topAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6, height: 55)
-        subBackground.anchors(top: background.bottomAnchor, bottom: cell.bottomAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
+        subBackground.anchors(top: background.bottomAnchor, bottom: bottomCornerBackground.topAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
+        bottomCornerBackground.anchors(bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 5, right: cell.rightAnchor, rightPad: -5, height: 9)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 24, height: 24)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 32, height: 32)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: background.centerYAnchor)
@@ -223,7 +227,7 @@ extension SettingsController {
         
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
         switch c {
-        case .notifAssignmentPosted: toggle.isOn = dictionary?[isAssignmentsPosted] as! Bool; background.roundCorners(corners: .top)
+        case .notifAssignmentPosted: toggle.isOn = dictionary?[isAssignmentsPosted] as! Bool
         case .notifCourseGradeUpdated: toggle.isOn = dictionary?[isCoursePosted] as! Bool
         case .notifMiscellaneous: toggle.isOn = dictionary?[isMisc] as! Bool
         default: break

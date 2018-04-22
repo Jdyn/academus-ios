@@ -12,14 +12,15 @@ import Locksmith
 class ManageController: UITableViewController {
     
     var cells = [ManageCellManager]()
+    let profileImage = UIImageView()
+    private let cacheService = CacheService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Manage"
         tableView.separatorStyle = .none
-        self.extendedLayoutIncludesOpaqueBars = true
-
         tableView.tableHeaderView = profileView()
+        self.extendedLayoutIncludesOpaqueBars = true
         
         cells = [.manageIntegrations, .inviteFriends, .settings, .help, .about]
         cells.forEach { (type) in
@@ -106,7 +107,7 @@ class ManageController: UITableViewController {
     }
 }
 
-extension ManageController {
+extension ManageController: ImageCacheDelegate {
     
     private func smallCell(c: ManageCellManager, cell: UITableViewCell) -> UITableViewCell {
         cell.backgroundColor = .tableViewDarkGrey
@@ -160,19 +161,11 @@ extension ManageController {
         background.layer.cornerRadius = 9
         background.layer.masksToBounds = true
         background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-
         
-        let profileImage = UIImageView()
-        DispatchQueue.global(qos: .background).async {
-            let url = URL(string: "\(BASE_URL)/api/picture?token=\(authDictionary?[AUTH_TOKEN] ?? "")")
-            guard let data = try? Data(contentsOf: url!) else {return}
-
-            DispatchQueue.main.async {
-                profileImage.image = UIImage(data: data)
-                profileImage.layer.masksToBounds = true
-                profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
-            }
-        }
+        cacheService.imageCacheDelegate = self
+        profileImage.image = UIImage()
+        profileImage.layer.masksToBounds = true
+        profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "exit"), for: .normal)
@@ -191,6 +184,9 @@ extension ManageController {
         profileImage.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 64, height: 64)
         button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 64, height: 64)
         
+        let url = URL(string: "\(BASE_URL)/api/picture?token=\(authDictionary?[AUTH_TOKEN] ?? "")")
+        cacheService.getImage(url: url!, completion: { _ in })
+        
         return view
     }
     
@@ -202,5 +198,13 @@ extension ManageController {
         view.addSubview(selectedView)
         selectedView.anchors(top: view.topAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         return view
+    }
+    
+    func didGetImage(image: UIImage) {
+        DispatchQueue.main.async {
+            self.profileImage.image = image
+            self.profileImage.layer.masksToBounds = true
+            self.profileImage.layer.cornerRadius = self.profileImage.frame.size.width / 2
+        }
     }
 }

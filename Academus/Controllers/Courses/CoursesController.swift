@@ -85,6 +85,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let courseDetailsController = CourseDetailsController()
         courseDetailsController.navigationItem.title = courses[indexPath.row].name
+        courseDetailsController.course = courses[indexPath.row]
         courseDetailsController.courseID = courses[indexPath.row].id
         
         navigationController?.pushViewController(courseDetailsController, animated: true)

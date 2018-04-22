@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().barTintColor = .navigationsDarkGrey
         UINavigationBar.appearance().tintColor = .navigationsGreen
-
+        
         UINavigationBar.appearance().largeTitleTextAttributes = [
             NSAttributedStringKey.font: UIFont(name: "AvenirNext-demibold", size: 29)!,
             NSAttributedStringKey.foregroundColor: UIColor.navigationsWhite,
@@ -47,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().barTintColor = .navigationsDarkGrey
         UITabBar.appearance().tintColor = .navigationsGreen
-        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -4)
         
         UITableView.appearance().backgroundColor = .tableViewDarkGrey
         
@@ -73,8 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
             
         }
-        
-        
+                
         let freshchatConfig: FreshchatConfig = FreshchatConfig.init(appID: "76490582-1f11-45d5-b5b7-7ec88564c7d6", andAppKey: "5d16672f-543b-4dc9-9c21-9fd5f62a7ad3")
         freshchatConfig.themeName = "CustomFCTheme.plist"
         Freshchat.sharedInstance().initWith(freshchatConfig)
@@ -82,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
         if dictionary?[isFirstLaunch] == nil  {
             let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-
+            
             do {
                 try Locksmith.updateData(data: [
                     isAssignmentsPosted : false,
@@ -121,43 +119,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-//        print("THIS WAS CALLED")
-//        let data = JSON(userInfo).rawString()
-//        print("APNS Received Remote Message 1: \(data ?? "Error")")
+        
+        if Freshchat.sharedInstance().isFreshchatNotification(userInfo) {
+            Freshchat.sharedInstance().handleRemoteNotification(userInfo, andAppstate: application.applicationState)
+        }
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-//        print("DID RECEIVE REMOTE NOTIF", userInfo)
-//
-//        let data = JSON(userInfo)
-//        if shouldDisplay(payload: data) {
-//            completionHandler(.newData)
-//        } else {
-//            return
-//        }
+        
+        completionHandler(.newData)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print(response.notification.request.content.userInfo)
+
+        if Freshchat.sharedInstance().isFreshchatNotification(response.notification.request.content.userInfo) {
+            Freshchat.sharedInstance().handleRemoteNotification(response.notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)
+        } else {
+            completionHandler()
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        print("WILL PRESENT IS CALLED", notification.request.content.userInfo)
-//
-//        let data = JSON(notification.request.content.userInfo)
-//        if shouldDisplay(payload: data) {
-//            completionHandler([.alert, .sound])
-//        } else {
-//            completionHandler([])
-//        }
+        if Freshchat.sharedInstance().isFreshchatNotification(notification.request.content.userInfo) {
+            Freshchat.sharedInstance().handleRemoteNotification(notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)  //Handled for freshchat notifications
+        } else {
+            completionHandler([.alert, .sound, .badge])
+        }
     }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) { completionHandler() }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         mainController.apnsToken = token
         mainController.notificationManager()
+        Freshchat.sharedInstance().setPushRegistrationToken(deviceToken)
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        var freahchatUnreadCount = Int()
+        Freshchat.sharedInstance().unreadCount { (unreadCount) in
+            freahchatUnreadCount = unreadCount
+        }
+        UIApplication.shared.applicationIconBadgeNumber = freahchatUnreadCount
+        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Remote Notifications Failure: \(error)")
+    }
+
+    func applicationWillResignActive(_ application: UIApplication) {
+        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        mainController.notificationManager()
+    }
+
+    func applicationWillTerminate(_ application: UIApplication) {
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
     func shouldDisplay(payload: JSON) -> Bool {
@@ -172,38 +198,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         default:
             return dictionary?[isMisc] as! Bool
         }
-    }
-    
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        mainController.notificationManager()
-    }
-    
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        var freahchatUnreadCount = Int()
-        Freshchat.sharedInstance().unreadCount { (unreadCount) in
-            freahchatUnreadCount = unreadCount
-        }
-        UIApplication.shared.applicationIconBadgeNumber = freahchatUnreadCount
-    }
-
-    
-    
-    
-    
-    
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 }

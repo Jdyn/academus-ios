@@ -42,6 +42,10 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow Freshchat to upload photos you choose.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow Freshchat to take pictures you choose.</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

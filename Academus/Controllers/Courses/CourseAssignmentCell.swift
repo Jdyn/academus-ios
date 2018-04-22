@@ -70,9 +70,9 @@ class CourseAssignmentCell: UITableViewCell {
         addSubview(gradeLabel)
 
         background.anchors(top: topAnchor, topPad: 0, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
-        titleLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 6, right: background.rightAnchor, rightPad:  -6, width: 0, height: 0)
-        gradeLabel.anchors(top: titleLabel.bottomAnchor, left: background.leftAnchor, leftPad: 6, width: 0, height: 0)
-        dateLabel.anchors(top: gradeLabel.bottomAnchor, left: background.leftAnchor, leftPad: 6)
+        titleLabel.anchors(top: background.topAnchor, topPad: 9, left: background.leftAnchor, leftPad: 12, right: background.rightAnchor, rightPad:  -6, width: 0, height: 0)
+        gradeLabel.anchors(top: titleLabel.bottomAnchor, left: background.leftAnchor, leftPad: 12, width: 0, height: 0)
+        dateLabel.anchors(top: gradeLabel.bottomAnchor, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 12)
     }
     
     required init?(coder aDecoder: NSCoder) {
