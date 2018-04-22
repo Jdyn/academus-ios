@@ -30,7 +30,7 @@ class PlannerController: UITableViewController {
     }
     
     @objc func addPlannerCard() {
-        let createController = MainNavigationController(rootViewController: PlannerCreateCardController())
+        let createController = MainNavigationController(rootViewController: CardCreationController())
         navigationController?.present(createController, animated: true, completion: {
             // COMPLETION CODE HERE
         })
@@ -54,7 +54,10 @@ class PlannerController: UITableViewController {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { return UITableViewCell() }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 150 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }

@@ -40,7 +40,6 @@ class IntegrationService {
                     let integrations = try JSONDecoder().decode([IntegrationChoice].self, from: jsonResult)
                     
                     if json["success"] == true {
-                        print(integrations)
                         self.integrationChoiceDelegate?.didGetIntegration(integrations: integrations)
                         completion(true)
                     }
@@ -149,4 +148,3 @@ class IntegrationService {
         }
     }
 }
-
