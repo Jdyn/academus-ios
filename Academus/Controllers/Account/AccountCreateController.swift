@@ -45,18 +45,7 @@ class AccountCreateController: UIViewController, accountCreateErrorDelegate {
         fields[3].keyboardType = .emailAddress
         fields[4].isSecureTextEntry = true
         fields[5].isSecureTextEntry = true
-        
-        if signUpButton.isHighlighted {
-            signUpButton.backgroundColor = .red
-        }
-        
-        
-//        signUpButton.layer.borderColor = UIColor.navigationsGreen.cgColor
-//        signUpButton.layer.borderWidth = 1
-        signUpButton.layer.cornerRadius = 9
-//        signUpButton.backgroundColor = .tableViewMediumGrey
-        signUpButton.layer.masksToBounds = true
-        
+
         view.backgroundColor = .tableViewDarkGrey
         view.addSubview(scrollView!)
         
@@ -72,17 +61,9 @@ class AccountCreateController: UIViewController, accountCreateErrorDelegate {
     }
     
     @objc func signUpPressed() {
+        self.fields[5].resignFirstResponder()
         impact.impactOccurred()
-//        signUpButton.transform = CGAffineTransform((scaleX: 0.8, y: 0.8))
-//
-//        UIView.animate(withDuration: 0.5,
-//                       delay: 0,
-//                       usingSpringWithDamping: CGFloat(0.4),
-//                       initialSpringVelocity: CGFloat(10.0),
-//                       options: UIViewAnimationOptions.allowUserInteraction,
-//                       animations: { self.signUpButton.transform = CGAffineTransform.identity },
-//                       completion: { Void in()  })
-        
+
         for field in fields {
             if (field.text?.isEmpty)! {
                 self.alertMessage(title: "Wrong.", message: "There are missing fields.")
@@ -90,7 +71,7 @@ class AccountCreateController: UIViewController, accountCreateErrorDelegate {
             }
         }
         if ((fields[4].text! == fields[5].text!) != true) {
-            alertMessage(title: "Watch out..", message: "Passwords do not match.")
+            alertMessage(title: "Watch out...", message: "Passwords do not match.")
             return
         } else if fields[4].text!.count < 6 {
             alertMessage(title: "What is Security...", message: "Password must be at least 6 characters.")

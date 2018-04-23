@@ -57,24 +57,21 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
     @objc func logInPressed() {
         self.passwordField.resignFirstResponder()
         impact.impactOccurred()
+
         if (emailField.text?.isEmpty)! || (passwordField.text?.isEmpty)! {
             alertMessage(title: "Alert", message: "There is a missing field.")
             return
-        } else {
-            authService.logInErrorDelegate = self
-            loadingAlert(title: "Attempting to log in", message: "Please wait...")
-            
-            authService.logInUser(email: emailField.text!, password: passwordField.text!, appleToken: mainController?.apnsToken)
-            { (success) in
-                if success {
-                    self.dismiss(animated: true, completion: {
-                        self.dismiss(animated: true, completion: nil)
-                    })
-                } else {
-                    self.dismiss(animated: true, completion: {
-                        self.alertMessage(title: "Ooops.", message: self.logInError)
-                    })
-                }
+        }
+        
+        authService.logInErrorDelegate = self
+        loadingAlert(title: "Attempting to log in", message: "Please wait...")
+        
+        authService.logInUser(email: emailField.text!, password: passwordField.text!, appleToken: mainController?.apnsToken)
+        { (success) in
+            if success {
+                self.dismiss(animated: true, completion: { self.dismiss(animated: true, completion: nil) })
+            } else {
+                self.dismiss(animated: true, completion: { self.alertMessage(title: "Ooops.", message: self.logInError) })
             }
         }
     }

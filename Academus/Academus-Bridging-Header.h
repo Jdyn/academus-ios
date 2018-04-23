@@ -8,7 +8,7 @@
 
 #ifndef Academus_Bridging_Header_h
 #define Academus_Bridging_Header_h
-#import "FreshchatSDK.h"
 
+#import "FreshchatSDK.h"
 
 #endif /* Academus_Bridging_Header_h */

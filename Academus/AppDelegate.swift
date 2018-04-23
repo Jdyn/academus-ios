@@ -22,12 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
     var mainController = MainController()
+    var isLaunch: Bool = true
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow()
         window?.makeKeyAndVisible()
         window?.rootViewController = mainController
+
+        mainController.isLaunch = self.isLaunch
         
         UINavigationBar.appearance().prefersLargeTitles = true
         UINavigationBar.appearance().isTranslucent = false
@@ -53,26 +56,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let center = UNUserNotificationCenter.current()
         center.delegate = self
 
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-            
-        }
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in }
+
         
         let NotificationAuthOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         center.requestAuthorization(options: NotificationAuthOptions) { (success, error) in
             if success {
-                
                 center.getNotificationSettings(completionHandler: { (settings) in
                     if settings.authorizationStatus != .authorized {
                         return
                     } else {
                         DispatchQueue.main.async(execute: { UIApplication.shared.registerForRemoteNotifications() })
                     }
-                    
                 })
             }
-            
         }
-                
+    
         let freshchatConfig: FreshchatConfig = FreshchatConfig.init(appID: "76490582-1f11-45d5-b5b7-7ec88564c7d6", andAppKey: "5d16672f-543b-4dc9-9c21-9fd5f62a7ad3")
         freshchatConfig.themeName = "CustomFCTheme.plist"
         Freshchat.sharedInstance().initWith(freshchatConfig)
@@ -126,13 +125,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
         completionHandler(.newData)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print(response.notification.request.content.userInfo)
-
         if Freshchat.sharedInstance().isFreshchatNotification(response.notification.request.content.userInfo) {
             Freshchat.sharedInstance().handleRemoteNotification(response.notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)
         } else {
@@ -161,16 +157,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             freahchatUnreadCount = unreadCount
         }
         UIApplication.shared.applicationIconBadgeNumber = freahchatUnreadCount
-        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Remote Notifications Failure: \(error)")
-    }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -178,13 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        mainController.notificationManager()
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
+    func applicationWillEnterForeground(_ application: UIApplication) { mainController.notificationManager() }
     
     func shouldDisplay(payload: JSON) -> Bool {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)

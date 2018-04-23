@@ -12,6 +12,7 @@ import Locksmith
 class MainController: UITabBarController {
     
     var apnsToken: String?
+    var isLaunch: Bool? = true
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -28,10 +29,6 @@ class MainController: UITabBarController {
             })
         } else {
             self.setUpUI()
-            DispatchQueue.main.async {
-                let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-                print(dictionary as Any)
-            }
         }
     }
     
@@ -47,12 +44,13 @@ class MainController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
-        self.selectedIndex = 1
+        if isLaunch! {
+            self.selectedIndex = 1
+            isLaunch = false
+        }
     }
     
     func notificationManager() {
-        print("notification manager called")
-        
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         let currentAppleToken = dictionary?[APPLE_TOKEN] as? String
         
@@ -67,8 +65,6 @@ class MainController: UITabBarController {
                     ], forUserAccount: USER_AUTH)
                 
                 AuthService().registerAPNS(token: authToken as! String, appleToken: apnsToken)
-                let dictionary1 = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-                print("DICTIONARY: ", dictionary1 as Any)
             } catch {
                 if authToken == nil {
                     let welcomeController = WelcomeController()

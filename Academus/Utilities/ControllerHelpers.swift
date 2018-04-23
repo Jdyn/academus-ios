@@ -9,6 +9,33 @@
 import UIKit
 
 extension UIViewController {
+    
+    func hideKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+        
+        view.addGestureRecognizer(tap)
+    }
+    
+    func setDoneOnKeyboard(textView: UITextView? = nil, textField: UITextField? = nil) {
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.sizeToFit()
+        let flexBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissKeyboard))
+        keyboardToolbar.items = [flexBarButton, doneBarButton]
+        
+        if textView != nil {
+            textView?.inputAccessoryView = keyboardToolbar
+        }
+        if textField != nil {
+            textField?.inputAccessoryView = keyboardToolbar
+        }
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
         
     func setupScrollingNavBar() {
         let statusBar = UIView()
@@ -44,18 +71,6 @@ extension UIViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
         
-    }
-    
-    func hideKeyboard() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(UIViewController.dismissKeyboard))
-            
-        view.addGestureRecognizer(tap)
-    }
-        
-        @objc func dismissKeyboard() {
-            view.endEditing(true)
     }
     
     func loadingAlert(title: String, message: String) {

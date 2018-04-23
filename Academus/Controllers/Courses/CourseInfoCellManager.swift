@@ -116,10 +116,7 @@ enum CourseInfoCellManager {
     
     func getCellType() -> String {
         switch self {
-        case .courseName, .customName, .period, .classroomNumber: return "CourseInfo"
-        case .teacherName, .email: return "TeacherInfo"
-        case .total, .average, .highest, .lowest: return "StatsInfo"
-        default: return ""
+        default: return "InfoCell"
         }
     }
 }
