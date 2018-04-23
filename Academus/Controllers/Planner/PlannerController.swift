@@ -10,9 +10,12 @@ import UIKit
 import CoreData
 import Locksmith
 
-class PlannerController: UITableViewController {
+class PlannerController: UITableViewController, PlannerCardDelegate {
     
-    var cards = [PlannerCards]()
+    var cards = [UpdatedCourses]()
+    var plannerService = PlannerService()
+    var cells = [PlannerCellManager]()
+    var cellId = "dmgonsdjg"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +30,27 @@ class PlannerController: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
         refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+        
+        tableView.register(PlannerCell.self, forCellReuseIdentifier: cellId)
+
+        plannerService.delegate = self
+        plannerService.getPlannerCards { (success) in
+            if success {
+                
+                self.cards.forEach({ (card) in
+                    self.cells.append(.coursePlannerCard)
+                })
+                print(self.cells)
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func didGetPlannerCards(cards: [UpdatedCourses]) {
+        self.cards.removeAll()
+        for card in cards {
+            self.cards.append(card)
+        }
     }
     
     @objc func addPlannerCard() {
@@ -54,12 +78,39 @@ class PlannerController: UITableViewController {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> PlannerCell {
+        
+        let model = cards[indexPath.row]
+        let manager = cells[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! PlannerCell
+        cell.setup(type: manager.getTitle(), createdDate: (model.currentGrade?.loggedAt)!)
+        return coursePlannerCard(cell: cell, model: model, manager: manager)
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 150 }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 165 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
+}
+
+extension PlannerController {
+    
+    func coursePlannerCard(cell: PlannerCell, model: UpdatedCourses, manager: PlannerCellManager) -> PlannerCell {
+        cell.backgroundColor = .tableViewDarkGrey
+        
+        let title = UILabel().setUpLabel(text: "Your grade in \((model.course?.name)!) has changed:" , font: UIFont.standard!, fontColor: .navigationsWhite)
+        let grade = UILabel().setUpLabel(text: "Grade: \(model.previousGrade?.gradePercent ?? 0)% → \(model.currentGrade?.gradePercent ?? 0)%", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        title.numberOfLines = 2
+        title.adjustsFontSizeToFitWidth = true
+        title.lineBreakMode = .byWordWrapping
+//        title.backgroundColor = .red
+        
+        cell.addSubviews(views: [title, grade])
+        
+        title.anchors(top: cell.divider.bottomAnchor, topPad: 9, left: cell.background.leftAnchor, leftPad: 12, right: cell.background.rightAnchor, rightPad: 0)
+        grade.anchors(top: title.bottomAnchor, topPad: 9, left: cell.background.leftAnchor, leftPad: 12, right: cell.background.rightAnchor, rightPad: -6)
+        
+        return cell
+    }
 }

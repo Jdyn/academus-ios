@@ -22,7 +22,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         navigationItem.title = "Courses"
         tableView.register(CourseCell.self, forCellReuseIdentifier: cellId)
         tableView.separatorStyle = .none
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 41, 0)
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         
         setupChatButtonInNavBar()
         
