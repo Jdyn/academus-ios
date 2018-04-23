@@ -61,11 +61,26 @@ class CourseInfoController: UITableViewController {
         return view
     }
     
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { return setupSection(type: .footer) }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard section == 2 else { return setupSection(type: .footer) }
+        
+        let view = UIView()
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        let label = UILabel().setUpLabel(text: "These statistics are an estimate — the more students that are in the class that sign up, the more accurate they will be.", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
+        
+        label.numberOfLines = 0
+        background.roundCorners(corners: .bottom)
+        view.addSubviews(views: [background, label])
+        
+        background.anchors(top: view.topAnchor, left: view.leftAnchor, leftPad: 5, right: view.rightAnchor, rightPad: -5, height: 9)
+        label.anchors(top: background.bottomAnchor, topPad: 6, left: background.leftAnchor, leftPad: 13, right: background.rightAnchor, rightPad: -13)
+        return view
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 3 }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 44 }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 50 }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 44 }
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return (section == 2) ? 150 : 18 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return (section == 1) ? 2 : 4 }
 }
 
@@ -79,14 +94,14 @@ extension CourseInfoController {
         let subtext = UILabel()
         subtext.textAlignment = .right
         
-        if c.getSubtext(course: course)?.isEmpty != true {
+        if c.getSubtext(course: course)?.isEmpty == false {
             subtext.text = c.getSubtext(course: course)
             subtext.font = UIFont.subheader!
             subtext.textColor = .navigationsLightGrey
         } else {
             subtext.text = c.getAltSubtext()
             subtext.font = UIFont.italic!
-            subtext.textColor = .navigationsMediumGrey
+            subtext.textColor = .tableViewLightGrey
         }
         
         cell.addSubviews(views: [background, title, subtext])

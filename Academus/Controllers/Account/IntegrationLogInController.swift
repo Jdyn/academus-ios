@@ -27,7 +27,7 @@ class IntegrationLogInController: UIViewController {
                 return
             }
         }
-        loadingAlert(title: "Pleast wait", message: "Attempting to add new integration")
+        loadingAlert(title: "Please wait", message: "Attempting to add new integration")
         integrationService?.addIntegration(fields: fields) { (success) in
             if success {
                 self.dismiss(animated: true, completion: {
