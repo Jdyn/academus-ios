@@ -37,7 +37,7 @@ enum CourseInfoCellManager {
         case .teacherInfo: return "Teacher Information"
         case .statsInfo: return "Course Statistics"
         case .courseName: return "Course Name"
-        case .customName: return "Custom Course Name"
+        case .customName: return "Custom Name"
         case .period: return "Period"
         case .classroomNumber: return "Classroom Number"
         case .teacherName: return "Teacher Name"
@@ -52,7 +52,7 @@ enum CourseInfoCellManager {
     func getAltSubtext() -> String {
         switch self {
         case .courseName: return "No Course Name Available"
-        case .customName: return "No Custom Name Set"
+        case .customName: return "Coming Soon"
         case .period: return "No Period Number Available"
         case .classroomNumber: return "No Classroom Number Available"
         case .teacherName: return "No Teacher Name Available"
@@ -78,7 +78,7 @@ enum CourseInfoCellManager {
         case .email: return course?.teacher?.email
         case .total:
             if let total = course?.total_students {
-                return String(format: "%d students", total)
+                return String(format: "%d", total)
             } else { return nil }
         case .average:
             if let average = course?.average_grade {
