@@ -66,7 +66,7 @@ class CourseInfoController: UITableViewController {
         
         let view = UIView()
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let label = UILabel().setUpLabel(text: "These statistics are an estimate — the more students that are in the class that sign up, the more accurate they will be.", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
+        let label = UILabel().setUpLabel(text: "These statistics are an estimate — the more students in this class that use Academus, the more accurate they will be.", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         
         label.numberOfLines = 0
         background.roundCorners(corners: .bottom)
