@@ -11,6 +11,7 @@ import UIKit
 class IntegrationSelectController: UITableViewController, IntegrationChoiceDelegate {
     
     private let integrationService = IntegrationService()
+    var coursesController: CoursesController?
     
     var integrations = [IntegrationChoice]()
     let integrationCellID = "GetIntegrationCell"
@@ -59,6 +60,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
         integrationService.integration = self.integrations[indexPath.row]
         integrationController.integration = self.integrations[indexPath.row]
         integrationController.integrationService = integrationService
+        integrationController.coursesController = self.coursesController
         integrationController.titleLabel.text! = self.integrations[indexPath.row].name!
         
         navigationController?.pushViewController(integrationController, animated: true)

@@ -13,6 +13,7 @@ class IntegrationLogInController: UIViewController {
     var integrationService: IntegrationService?
     var integration: IntegrationChoice?
     var integrationName: String?
+    var coursesController: CoursesController?
     var fields: [UITextField] = []
 
     let titleLabel = UILabel().setUpLabel(text: "", font: UIFont(name: "AvenirNext-demibold", size: 36)!, fontColor: .navigationsGreen)
@@ -33,6 +34,7 @@ class IntegrationLogInController: UIViewController {
                 self.dismiss(animated: true, completion: {
                     self.dismiss(animated: true, completion: nil)
                     self.navigationController?.popToRootViewController(animated: true)
+                    self.coursesController?.didAddIntegration()
                 })
             } else {
                 print("failure here")

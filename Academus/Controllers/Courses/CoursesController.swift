@@ -48,17 +48,11 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            if CoursesController.coursesFetched && self.courses.isEmpty && self.tableView.backgroundView == nil {
-                self.loadingAlert(title: "Loading Courses", message: "This will take just a moment...")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                    self.refreshTable()
-                    self.dismiss(animated: true, completion: nil)
-                })
-            }
+    func didAddIntegration() {
+        self.loadingAlert(title: "Loading Courses", message: "This will take just a moment...")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            self.refreshTable()
+            self.dismiss(animated: true, completion: nil)
         })
     }
 
@@ -110,6 +104,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     @objc func addIntegration() {
         let controller = IntegrationSelectController()
+        controller.coursesController = self
         navigationController?.pushViewController(controller, animated: true)
         tableView.backgroundView = nil
     }
