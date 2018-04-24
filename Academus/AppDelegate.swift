@@ -53,6 +53,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UITableView.appearance().backgroundColor = .tableViewDarkGrey
         
+        UITextField.appearance().keyboardAppearance = .dark
+        
         let center = UNUserNotificationCenter.current()
         center.delegate = self
 

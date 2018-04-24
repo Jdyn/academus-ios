@@ -9,14 +9,14 @@
 import UIKit
 import Locksmith
 
-class CoursesController: UITableViewController, CourseServiceDelegate {
+class CoursesController: UITableViewController, CourseServiceDelegate, UserIntegrationsDelegate {
     
+    private let integrationService = IntegrationService()
     private let courseService = CourseService()
     var label: UILabel?
     
     var courses = [Course]()
     private let cellId = "courseCell"
-    static var coursesFetched = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,9 +37,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
                     self.errorLabel(show: false)
                     UIView.transition(with: self.tableView,duration: 0.1, options: .transitionCrossDissolve, animations: {
                         self.tableView.reloadData()
-                        if self.courses.isEmpty {
-                            self.addIntegrationLabel(show: true)
-                        }
+                        if self.courses.isEmpty { self.checkIntegrations() }
                     })
                 } else {
                     self.errorLabel(show: true)
@@ -55,10 +53,19 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
             self.dismiss(animated: true, completion: nil)
         })
     }
+    
+    func didGetUserIntegrations(integrations: [UserIntegrations]) {
+        print(integrations)
+        if integrations.isEmpty {
+            addIntegrationLabel(show: true)
+        } else {
+            addIntegrationLabel(show: false)
+            didAddIntegration()
+        }
+    }
 
     func fetchCourses(completion: @escaping CompletionHandler) {
         print("Fetching Courses...")
-        CoursesController.coursesFetched = false
         courseService.delegate = self
         courseService.getCourses { (success) in
             if success {
@@ -69,7 +76,11 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
                 completion(false)
             }
         }
-        CoursesController.coursesFetched = true
+    }
+    
+    func checkIntegrations() {
+        integrationService.userIntegrationsDelegate = self
+        integrationService.userIntegrations(completion: { _ in })
     }
     
     func errorLabel(show: Bool) {
@@ -145,9 +156,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
                     self.refreshControl?.endRefreshing()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
                         self.tableView.reloadData()
-                        if self.courses.isEmpty {
-                            self.addIntegrationLabel(show: true)
-                        }
+                        if self.courses.isEmpty { self.checkIntegrations() }
                     })
                 })
             } else {
