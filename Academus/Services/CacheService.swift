@@ -13,6 +13,7 @@ protocol ImageCacheDelegate {
 }
 
 class CacheService {
+    
     var imageCacheDelegate: ImageCacheDelegate?
     
     func getImage(url: URL, completion: @escaping CompletionHandler) {

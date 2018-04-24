@@ -30,10 +30,10 @@ class AuthService {
         let body: Parameters = [
             "beta_code": betaCode,
             "user": [
-                "first_name": firstName,
-                "last_name": lastName,
-                "email": lowerCaseEmail,
-                "password": password,
+                "first_name": firstName.trimmingCharacters(in: .whitespacesAndNewlines),
+                "last_name": lastName.trimmingCharacters(in: .whitespacesAndNewlines),
+                "email": lowerCaseEmail.trimmingCharacters(in: .whitespacesAndNewlines),
+                "password": password
             ]
         ]
         

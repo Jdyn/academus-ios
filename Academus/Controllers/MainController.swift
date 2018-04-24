@@ -17,7 +17,6 @@ class MainController: UITabBarController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         view.backgroundColor = .tableViewDarkGrey
-        
         let userDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         
         if userDictionary?["isLoggedIn"] == nil {
@@ -28,6 +27,7 @@ class MainController: UITabBarController {
                 self.setUpUI()
             })
         } else {
+            notificationManager()
             self.setUpUI()
         }
     }
@@ -56,21 +56,22 @@ class MainController: UITabBarController {
     }
     
     func notificationManager() {
+        print("NOTIFICATION MANAGER CALLED")
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        
         let currentAppleToken = dictionary?[APPLE_TOKEN] as? String
         
         if apnsToken != currentAppleToken {
-            
             let authToken = dictionary?[AUTH_TOKEN]
-            
-            do {
-                try Locksmith.updateData(data: [
-                    APPLE_TOKEN : apnsToken as Any,
-                    AUTH_TOKEN : authToken as! String
-                    ], forUserAccount: USER_AUTH)
-                
-                AuthService().registerAPNS(token: authToken as! String, appleToken: apnsToken)
-            } catch {
+            if (apnsToken != nil) {
+                do {
+                    try Locksmith.updateData(data: [
+                        APPLE_TOKEN : apnsToken!,
+                        AUTH_TOKEN : authToken!
+                        ], forUserAccount: USER_AUTH)
+                    
+                    AuthService().registerAPNS(token: authToken as! String, appleToken: apnsToken)
+                } catch {
                 if authToken == nil {
                     let welcomeController = WelcomeController()
                     welcomeController.mainController = self
@@ -78,9 +79,11 @@ class MainController: UITabBarController {
                     UIApplication.shared.keyWindow?.rootViewController?.present(welcomeNavigationController, animated: false, completion: {
                         self.setUpUI()
                     })
+                    }
                 }
+            } else {
+                return
             }
         }
     }
-    
 }

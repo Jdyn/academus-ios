@@ -148,6 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("TOKEN:", type(of: token))
         mainController.apnsToken = token
         mainController.notificationManager()
         Freshchat.sharedInstance().setPushRegistrationToken(deviceToken)
