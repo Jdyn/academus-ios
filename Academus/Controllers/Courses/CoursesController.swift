@@ -16,6 +16,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
     
     var courses = [Course]()
     private let cellId = "courseCell"
+    static var coursesFetched = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,11 +52,10 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         super.viewWillAppear(animated)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            if self.courses.isEmpty && self.tableView.backgroundView == nil {
+            if CoursesController.coursesFetched && self.courses.isEmpty && self.tableView.backgroundView == nil {
                 self.loadingAlert(title: "Loading Courses", message: "This will take just a moment...")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                     self.refreshTable()
-                    print(self.courses)
                     self.dismiss(animated: true, completion: nil)
                 })
             }
@@ -64,6 +64,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
 
     func fetchCourses(completion: @escaping CompletionHandler) {
         print("Fetching Courses...")
+        CoursesController.coursesFetched = false
         courseService.delegate = self
         courseService.getCourses { (success) in
             if success {
@@ -74,6 +75,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
                 completion(false)
             }
         }
+        CoursesController.coursesFetched = true
     }
     
     func errorLabel(show: Bool) {
