@@ -19,43 +19,41 @@ import UIKit
 
 enum PlannerCellManager {
     
-    case coursePlannerCard
+    case courseUpdatedCard
+    case assignmentPostedCard
+    case assignmentUpdatedCard
+    case upcomingAssignmentCard
     
     func getTitle() -> String {
         switch self {
-        case .coursePlannerCard: return "Course Update"
-//        default: return ""
-        }
-    }
-    
-    func getCreatedTime(time: UpdatedCourses) -> Date {
-        switch self {
-        case .coursePlannerCard:
-            
-            return Date()
-            
-//        default: return Date()
+        case .courseUpdatedCard: return "Course Grade Update"
+        case .assignmentPostedCard: return "Assignment Posted"
+        case .assignmentUpdatedCard: return "Assignment Grade Update"
+        case .upcomingAssignmentCard: return "Upcoming Assignment"
         }
     }
     
     func getSection() -> Int {
         switch self {
-        case .coursePlannerCard: return 0
-//        default: return 0
+        default: return 0
         }
     }
     
-    func getHeight() -> CGFloat {
+    func getColor() -> UIColor {
         switch self {
-        case .coursePlannerCard: return 105
-//        default: return 0
+        case .courseUpdatedCard: return UIColor.navigationsBlue
+        case .assignmentPostedCard: return UIColor.navigationsOrange
+        case .assignmentUpdatedCard: return UIColor.navigationsPurple
+        case .upcomingAssignmentCard: return UIColor.navigationsRed
         }
     }
     
     func getType() -> String {
         switch self {
-        case .coursePlannerCard: return "coursePlannerCard"
-//        default: return ""
+        case .courseUpdatedCard: return "coursePlannerCard"
+        case .assignmentPostedCard: return "assignmentPostedCard"
+        case .assignmentUpdatedCard: return "assignmentUpdatedCard"
+        case .upcomingAssignmentCard: return "upcomingAssignmentCard"
         }
     }
 }

@@ -12,7 +12,7 @@ import SwiftyJSON
 import Locksmith
 
 protocol PlannerCardDelegate {
-    func didGetPlannerCards(cards: [UpdatedCourses])
+    func didGetPlannerCards(cards: [PlannerCard])
 }
 
 class PlannerService {
@@ -23,7 +23,7 @@ class PlannerService {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         let authToken = dictionary?[AUTH_TOKEN]
         
-        Alamofire.request(URL(string: "\(BASE_URL)/api/feed?token=\(authToken ?? "")")!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
+        Alamofire.request(URL(string: "\(BASE_URL)/api/feedtest?token=\(authToken ?? "")")!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
 
             guard let data = response.data else { return }
             if response.result.error == nil {
@@ -34,10 +34,9 @@ class PlannerService {
                     let decoder = JSONDecoder()
                     decoder.dateDecodingStrategy = .formatted(dateFormatter)
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    
                     let json = JSON(data)
-                    let jsonResult = try json["result"]["updated_courses"].rawData()
-                    let plannerCards = try decoder.decode([UpdatedCourses].self, from: jsonResult)
+                    let jsonResult = try json["result"].rawData()
+                    let plannerCards = try decoder.decode([PlannerCard].self, from: jsonResult)
                     self.delegate?.didGetPlannerCards(cards: plannerCards)
                     completion(true)
                 } catch let error {

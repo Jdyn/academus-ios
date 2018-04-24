@@ -55,7 +55,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
                 self.loadingAlert(title: "Loading Courses", message: "This will take just a moment...")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                     self.refreshTable()
-                    print(self.courses)
+//                    print(self.courses)
                     self.dismiss(animated: true, completion: nil)
                 })
             }
