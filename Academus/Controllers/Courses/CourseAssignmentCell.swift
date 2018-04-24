@@ -22,8 +22,8 @@ class CourseAssignmentCell: UITableViewCell {
                 let date = timeAgoStringFromDate(date: assignedDate)
                 dateLabel.text = "Posted \(date!)"
             }
-            titleLabel.text = assignment?.name ?? " "
-            gradeLabel.text = "\(assignment!.score.text!)"
+            titleLabel.text = assignment?.name ?? ""
+            gradeLabel.text = "\(assignment!.score?.text! ?? "")"
         }
     }
     

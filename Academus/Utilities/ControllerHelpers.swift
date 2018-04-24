@@ -199,13 +199,13 @@ extension UITableViewController {
             topPad = 9
         case .footer:
             background.roundCorners(corners: .bottom)
-            botPad = -9
+            botPad = 0
             topPad = 0
         }
         
         view.addSubview(background)
         
-        background.anchors(top: view.topAnchor, topPad: topPad, bottom: view.bottomAnchor, bottomPad: botPad, left: view.leftAnchor, leftPad: 5, right: view.rightAnchor, rightPad: -5, height: 9)
+        background.anchors(top: view.topAnchor, topPad: topPad, bottom: view.bottomAnchor, bottomPad: botPad, left: view.leftAnchor, leftPad: 5, right: view.rightAnchor, rightPad: -5)
         return view
     }
 }
@@ -214,6 +214,7 @@ enum Corners {
     
     case top
     case bottom
+    case left
     case all
 }
 
@@ -231,6 +232,8 @@ extension UIView{
             self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         case .bottom:
             self.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        case .left:
+            self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
         case .all:
             break
         }
@@ -326,6 +329,15 @@ func timeAgoStringFromDate(date: Date) -> String? {
         let currentDate = Date()
         return Calendar.current.dateComponents([.day], from: currentDate, to: date).day!
     }
+
+extension NSMutableAttributedString {
+    
+    func setColorForText(textForAttribute: String, withColor color: UIColor) {
+        let range: NSRange = self.mutableString.range(of: textForAttribute, options: .caseInsensitive)
+        self.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: range)
+    }
+    
+}
 
 
 

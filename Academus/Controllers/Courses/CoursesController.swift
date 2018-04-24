@@ -22,7 +22,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
         navigationItem.title = "Courses"
         tableView.register(CourseCell.self, forCellReuseIdentifier: cellId)
         tableView.separatorStyle = .none
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 41, 0)
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         
         setupChatButtonInNavBar()
         
@@ -55,7 +55,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate {
                 self.loadingAlert(title: "Loading Courses", message: "This will take just a moment...")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                     self.refreshTable()
-                    print(self.courses)
+//                    print(self.courses)
                     self.dismiss(animated: true, completion: nil)
                 })
             }

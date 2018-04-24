@@ -70,7 +70,7 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     }
     
     func didGetAssignments(assignments: [Assignment]) {
-        let filtered = assignments.filter { $0.course.id == courseID }
+        let filtered = assignments.filter { $0.course?.id == courseID }
         for assignment in filtered {
             self.assignments.append(assignment)
         }

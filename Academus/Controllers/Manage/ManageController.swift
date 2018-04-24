@@ -47,7 +47,7 @@ class ManageController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 18 }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return setupSection(type: .header) }
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 18  }
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 9  }
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { return setupSection(type: .footer) }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 2 : 3) }
@@ -179,7 +179,7 @@ extension ManageController: ImageCacheDelegate {
         stack.distribution = .equalCentering
         view.addSubviews(views: [background, stack, button, profileImage])
         
-        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: -9, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
         stack.anchors(left: profileImage.rightAnchor, leftPad: 9, centerY: profileImage.centerYAnchor)
         profileImage.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 64, height: 64)
         button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 64, height: 64)

@@ -9,8 +9,8 @@
 struct Course : Decodable {
     let id : Int?
     let name : String?
-    let period : Int?
     let custom_name : String?
+    let period : Int?
     let classroom_number : String?
     let integration : Integration?
     let grade : Grade?

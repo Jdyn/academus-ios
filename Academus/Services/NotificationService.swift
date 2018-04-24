@@ -29,25 +29,42 @@ class NotificationService {
             ]
             
             let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-            let apnsToken = authDictionary?[APPLE_TOKEN]
-            let authToken = authDictionary?[AUTH_TOKEN]
-            
-            Alamofire.request(URL(string: "\(BASE_URL)/api/apns/\(apnsToken ?? "")?token=\(authToken ?? "")")!, method: .patch, parameters: body, encoding: JSONEncoding.default).responseJSON { (response) in
-                guard let data = response.data else {print("RETURNED"); return }
-                print("this was called")
-                if response.result.error == nil {
-                    
-                    let json = JSON(data)
-                    print(json)
-                    completion(true)
-                    
-                } else {
-                    MainController().notificationManager()
-                    completion(false)
+            guard let apnsToken = authDictionary?[APPLE_TOKEN] as? String else { return }
+            if apnsToken == authDictionary?[APPLE_TOKEN] as? String {
+                
+                let authToken = authDictionary?[AUTH_TOKEN]
+
+                Alamofire.request(URL(string: "\(BASE_URL)/api/apns/\(apnsToken)?token=\(authToken ?? "")")!, method: .patch, parameters: body, encoding: JSONEncoding.default).responseJSON { (response) in
+                    guard let data = response.data else {print("RETURNED"); return }
+                    print("this was called")
+                    if response.result.error == nil {
+                        do {
+                            let json = JSON(data)
+                            let notifMisc = json["result"]["notify_misc"].boolValue
+                            let notifAss = json["result"]["notify_assignments"].boolValue
+                            let notifCourses = json["result"]["notify_courses"].boolValue
+                            print(json)
+                            try Locksmith.updateData(data: [
+                                isAssignmentsPosted : notifAss,
+                                isCoursePosted : notifCourses,
+                                isMisc : notifMisc
+                                
+                                ], forUserAccount: USER_NOTIF)
+                            
+                            completion(true)
+                        } catch let error {
+                            completion(false)
+                            print(error)
+                        }
+                        
+                    } else {
+                        MainController().notificationManager()
+                        completion(false)
+                    }
                 }
+            } else {
+                return
             }
-        } else {
-            return
         }
     }
 }
