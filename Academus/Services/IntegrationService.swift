@@ -54,7 +54,7 @@ class IntegrationService {
     }
     
     
-    func addIntegration(fields: [UITextField], completion: @escaping CompletionHandler) {
+    func addIntegration(fields: [UITextField], completion: @escaping (_ Success: Bool, _ Error: String?) -> ()) {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         let authToken = dictionary?["authToken"] as! String
         guard let route = integration?.route else {return}
@@ -78,14 +78,14 @@ class IntegrationService {
                 let json = JSON(data)
                 
                 if json["success"].boolValue {
-                    completion(true)
+                    completion(true, nil)
                 } else {
-                    completion(false)
+                    completion(false, nil)
                 }
                 
             } else {
-                completion(false)
                 debugPrint(response.result.error!)
+                completion(false, response.result.error?.localizedDescription)
             }
         }
     }

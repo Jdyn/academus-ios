@@ -32,6 +32,11 @@ class MainController: UITabBarController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        isLaunch = true
+    }
+    
     func setUpUI(){
         let plannerController = PlannerController()
         plannerController.tabBarItem = UITabBarItem(title: "Planner", image: #imageLiteral(resourceName: "planner"), tag: 0)

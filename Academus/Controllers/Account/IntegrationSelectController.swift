@@ -11,6 +11,8 @@ import UIKit
 class IntegrationSelectController: UITableViewController, IntegrationChoiceDelegate {
     
     private let integrationService = IntegrationService()
+    var coursesController: CoursesController?
+    var titleDisplayMode: UINavigationItem.LargeTitleDisplayMode?
     
     var integrations = [IntegrationChoice]()
     let integrationCellID = "GetIntegrationCell"
@@ -18,6 +20,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
+        titleDisplayMode = navigationItem.largeTitleDisplayMode
         navigationItem.title = "Select an Integration"
         navigationItem.hidesBackButton = true
         tableView.separatorStyle = .none
@@ -28,6 +31,13 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
             if (success) {
                 self.tableView.reloadData()
             }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let displayMode = titleDisplayMode {
+            navigationItem.largeTitleDisplayMode = displayMode
         }
     }
     
@@ -59,6 +69,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
         integrationService.integration = self.integrations[indexPath.row]
         integrationController.integration = self.integrations[indexPath.row]
         integrationController.integrationService = integrationService
+        integrationController.coursesController = self.coursesController
         integrationController.titleLabel.text! = self.integrations[indexPath.row].name!
         
         navigationController?.pushViewController(integrationController, animated: true)
