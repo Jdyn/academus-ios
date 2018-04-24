@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Locksmith
 
 class AccountCreateController: UIViewController, accountCreateErrorDelegate {
     
@@ -18,7 +19,7 @@ class AccountCreateController: UIViewController, accountCreateErrorDelegate {
     
     let impact = UIImpactFeedbackGenerator()
     
-    var mainController: MainController?
+    var mainController: MainBarController?
     var accountCreateError: String = "An unknown error has occured. Please try again."
     let authService = AuthService()
 
@@ -80,6 +81,9 @@ class AccountCreateController: UIViewController, accountCreateErrorDelegate {
 
         loadingAlert(title: "Attempting to Create Account", message: "Please wait...")
         authService.accountCreateDelegate = self
+        
+//        dictonary = Locksmith
+        
         authService.registerUser(betaCode: (fields[0].text)!, firstName: (fields[1].text)!, lastName: (fields[2].text)!, email: (fields[3].text)!, password: (fields[4].text)!, appleToken: mainController?.apnsToken) { (success) in
             if success {
                 self.dismiss(animated: true, completion: {

@@ -29,12 +29,13 @@ class NotificationService {
             ]
             
             let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-            guard let apnsToken = authDictionary?[APPLE_TOKEN] as? String else { return }
-            if apnsToken == authDictionary?[APPLE_TOKEN] as? String {
+            let apnsToken = authDictionary?[APPLE_TOKEN] as? String
+            
+            if apnsToken != nil {
                 
                 let authToken = authDictionary?[AUTH_TOKEN]
 
-                Alamofire.request(URL(string: "\(BASE_URL)/api/apns/\(apnsToken)?token=\(authToken ?? "")")!, method: .patch, parameters: body, encoding: JSONEncoding.default).responseJSON { (response) in
+                Alamofire.request(URL(string: "\(BASE_URL)/api/apns/\(apnsToken!)?token=\(authToken ?? "")")!, method: .patch, parameters: body, encoding: JSONEncoding.default).responseJSON { (response) in
                     guard let data = response.data else {print("RETURNED"); return }
                     print("this was called")
                     if response.result.error == nil {
@@ -58,7 +59,7 @@ class NotificationService {
                         }
                         
                     } else {
-                        MainController().notificationManager()
+//                        MainBarController().notificationManager()
                         completion(false)
                     }
                 }

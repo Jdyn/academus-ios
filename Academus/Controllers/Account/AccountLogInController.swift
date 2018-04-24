@@ -12,7 +12,7 @@ import Locksmith
 class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldDelegate {
 
     private let authService = AuthService()
-    var mainController: MainController?
+    var mainController: MainBarController?
     
     var logInError = "Check your internet connection and try again."
     var apnsToken: String?
