@@ -57,6 +57,15 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let assignmentDetailController = AssignmentDetailController()
+        assignmentDetailController.navigationItem.title = assignments[indexPath.row].name
+        assignmentDetailController.assignment = assignments[indexPath.row]
+        
+        navigationController?.pushViewController(assignmentDetailController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return assignments.count
     }
