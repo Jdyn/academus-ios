@@ -79,9 +79,7 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
                 }
             }
         }
-        let actionNo = UIAlertAction(title: "No", style: .default) { (action) in
-            self.dismiss(animated: true, completion: nil)
-        }
+        let actionNo = UIAlertAction(title: "No", style: .default, handler: nil)
         
         alert.addAction(actionNo)
         alert.addAction(actionYes)

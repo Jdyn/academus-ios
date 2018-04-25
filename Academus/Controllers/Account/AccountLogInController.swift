@@ -12,10 +12,8 @@ import Locksmith
 class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldDelegate {
 
     private let authService = AuthService()
-    var mainController: MainController?
-    
+    var mainController: MainController? // An instance of MainController
     var logInError = "Check your internet connection and try again."
-    var apnsToken: String?
     var impact = UIImpactFeedbackGenerator()
     
     let welcomeLabel = UILabel().setUpLabel(text: "Welcome Back", font: UIFont.header!, fontColor: .navigationsWhite)
@@ -30,7 +28,6 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
     }
     
     func setupUI() {
-        
         view.backgroundColor = .tableViewDarkGrey
         
         emailField.keyboardType = .emailAddress
@@ -56,6 +53,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
     
     @objc func logInPressed() {
         self.passwordField.resignFirstResponder()
+        self.emailField.resignFirstResponder()
         impact.impactOccurred()
 
         if (emailField.text?.isEmpty)! || (passwordField.text?.isEmpty)! {
@@ -66,7 +64,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
         authService.logInErrorDelegate = self
         loadingAlert(title: "Attempting to log in", message: "Please wait...")
         
-        authService.logInUser(email: emailField.text!, password: passwordField.text!, appleToken: mainController?.apnsToken)
+        authService.logInUser(email: emailField.text!, password: passwordField.text!, appleToken: self.mainController?.apnsToken)
         { (success) in
             if success {
                 self.dismiss(animated: true, completion: { self.dismiss(animated: true, completion: nil) })

@@ -64,7 +64,10 @@ class ManageController: UITableViewController {
         switch cellsFiltered[indexPath.row] {
         case .manageIntegrations: navigationController?.pushViewController(ManageIntegrationsController(style: .grouped), animated: true)
         case .inviteFriends: navigationController?.pushViewController(ManageInvitesController(style: .grouped), animated: true)
-        case .settings: navigationController?.pushViewController(SettingsController(style: .grouped), animated: true)
+        case .settings:
+            let settingsController = SettingsController(style: .grouped)
+            settingsController.manageController = self
+            navigationController?.pushViewController(settingsController, animated: true)
         case .help: navigationController?.pushViewController(Freshchat.sharedInstance().getConversationsControllerForEmbed(), animated: true)
         case .about: navigationController?.pushViewController(ManageAboutController(style: .grouped), animated: true)
         default: break
@@ -73,7 +76,7 @@ class ManageController: UITableViewController {
     
     @objc func handleSignout() {
         let alert = UIAlertController(title: "Sign Out?", message: "Are you sure you want to sign out?", preferredStyle: .alert)
-        let actionYes = UIAlertAction(title: "Yes", style: .default) { (action) in
+        let actionYes = UIAlertAction(title: "Yes", style: .destructive) { (action) in
             
             if Locksmith.loadDataForUserAccount(userAccount: USER_AUTH) != nil {
                 do {
@@ -82,14 +85,13 @@ class ManageController: UITableViewController {
                 } catch let error {
                     debugPrint("could not delete locksmith data:", error)
                 }
-                
-                let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
-                self.present(welcomeNavigationController, animated: true, completion: {
-                    self.tabBarController?.selectedIndex = 0
+                self.dismiss(animated: true, completion: {
+                    let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
+                    self.present(welcomeNavigationController, animated: true, completion: {
+                        self.tabBarController?.selectedIndex = 0
+                    })
                 })
-                
             } else {
-                
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
                 self.present(welcomeNavigationController, animated: true, completion: {
                     self.tabBarController?.selectedIndex = 0
@@ -97,9 +99,7 @@ class ManageController: UITableViewController {
             }
         }
         
-        let actionNo = UIAlertAction(title: "No", style: .default) { (action) in
-            self.dismiss(animated: true, completion: nil)
-        }
+        let actionNo = UIAlertAction(title: "No", style: .cancel, handler: nil)
         
         alert.addAction(actionNo)
         alert.addAction(actionYes)

@@ -24,7 +24,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate {
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         
 //        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
-        setupChatButtonInNavBar()
+//        setupChatButtonInNavBar()
         
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
@@ -49,7 +49,11 @@ class PlannerController: UITableViewController, PlannerCardDelegate {
                         self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
                     }
                 })
-                self.tableView.reloadData()
+                UIView.transition(with: self.tableView,duration: 0.2, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
+                    self.tableView.reloadData()
+                })
+            } else {
+                self.errorLabel(show: true)
             }
         }
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -61,27 +65,43 @@ class PlannerController: UITableViewController, PlannerCardDelegate {
     }
     
     func didGetPlannerCards(cards: [PlannerCard]) {
-        print("DID GET CARDS")
         self.cards.removeAll()
         for card in cards {
             self.cards.append(card)
         }
-        print(self.cards)
+    }
+    
+    func fetchCards(completion: @escaping CompletionHandler) {
+        plannerService.delegate = self
+        plannerService.getPlannerCards { (success) in
+            if success {
+                self.cards.forEach({ (card) in
+                    if card.type == "course_updated" {
+                        self.cells.append(.courseUpdatedCard)
+                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
+                    } else if card.type == "assignment_posted" {
+                        self.cells.append(.assignmentPostedCard)
+                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
+                    } else if card.type == "assignment_updated" {
+                        self.cells.append(.assignmentUpdatedCard)
+                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
+                    } else if card.type == "upcoming_assignment" {
+                        self.cells.append(.upcomingAssignmentCard)
+                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
+                    }
+                })
+                completion(true)
+            } else {
+                completion(false)
+                self.errorLabel(show: true)
+            }
+        }
     }
     
     @objc func addPlannerCard() {
         let createController = MainNavigationController(rootViewController: CardCreationController())
         navigationController?.present(createController, animated: true, completion: {
             // COMPLETION CODE HERE
-        })
-    }
-    
-    @objc func refreshTable() {
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (time) in
-            self.refreshControl?.endRefreshing()
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
-                self.tableView.reloadData()
-            })
         })
     }
     
@@ -114,9 +134,41 @@ class PlannerController: UITableViewController, PlannerCardDelegate {
         }
     }
     
+    func errorLabel(show: Bool) {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection \nand refresh", font: UIFont.standard!, fontColor: .navigationsLightGrey)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        if show {
+            tableView.backgroundView = label
+        } else {
+            tableView.backgroundView = nil
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
+    
+    @objc func refreshTable() {
+        fetchCards { (success) in
+            if success {
+                self.errorLabel(show: false)
+                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { (time) in
+                    self.refreshControl?.endRefreshing()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
+                        self.tableView.reloadData()
+                    })
+                })
+            } else {
+                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { (time) in
+                    self.refreshControl?.endRefreshing()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
+                        self.alertMessage(title: "Could not refresh :(", message: "Check your internet connection and try again")
+                    })
+                })
+            }
+        }
+    }
 }
 
 extension PlannerController {
@@ -152,7 +204,7 @@ extension PlannerController {
         let courseNameString: NSMutableAttributedString = NSMutableAttributedString(string: courseTitle)
         courseNameString.setColorForText(textForAttribute: "\((model.course?.name) ?? "unknown")", withColor: UIColor.navigationsGreen)
         cell.titleLabel.textColor = .navigationsWhite
-        cell.titleLabel.font = UIFont.subheader
+        cell.titleLabel.font = UIFont.standard
         cell.titleLabel.attributedText = courseNameString
 
         cell.titleLabel.numberOfLines = 2
@@ -204,7 +256,7 @@ extension PlannerController {
         titleString.setColorForText(textForAttribute: "\"\(model.assignment?.name ?? "an Assignment")\"", withColor: UIColor.navigationsGreen)
         titleString.setColorForText(textForAttribute: "\(model.assignment?.course?.name ?? "a course")", withColor: UIColor.navigationsGreen)
         cell.titleLabel.textColor = .navigationsWhite
-        cell.titleLabel.font = UIFont.subheader
+        cell.titleLabel.font = UIFont.standard
         cell.titleLabel.attributedText = titleString
         cell.titleLabel.numberOfLines = 0
         cell.titleLabel.adjustsFontSizeToFitWidth = true
@@ -242,7 +294,7 @@ extension PlannerController {
         titleString.setColorForText(textForAttribute: "\(model.assignment?.name ?? "an Assignment")", withColor: UIColor.navigationsGreen)
         titleString.setColorForText(textForAttribute: "\(model.assignment?.course?.name ?? "a course")", withColor: UIColor.navigationsGreen)
         cell.titleLabel.textColor = .navigationsWhite
-        cell.titleLabel.font = UIFont.subheader
+        cell.titleLabel.font = UIFont.standard
         cell.titleLabel.attributedText = titleString
         cell.titleLabel.numberOfLines = 0
         cell.titleLabel.adjustsFontSizeToFitWidth = true

@@ -24,7 +24,7 @@ class AuthService {
     var logInErrorDelegate: logInErrorDelegate?
     var accountCreateDelegate: accountCreateErrorDelegate?
     
-    func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, appleToken: String? = nil, completion: @escaping CompletionHandler) {
+    func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, appleToken: String?, completion: @escaping CompletionHandler) {
         let lowerCaseEmail = email.lowercased()
         
         let body: Parameters = [
@@ -101,7 +101,7 @@ class AuthService {
         }
     }
     
-    func logInUser(email: String, password: String, appleToken: String? = nil, completion: @escaping CompletionHandler) {
+    func logInUser(email: String, password: String, appleToken: String?, completion: @escaping CompletionHandler) {
         
         let lowerCaseEmail = email.lowercased()
         
@@ -120,6 +120,7 @@ class AuthService {
                 let json = JSON(data)
                 let success = json["success"].boolValue
                 if (success) {
+                    
                     let token = json["result"]["token"].stringValue
                     let email = json["result"]["user"]["email"].stringValue
                     let firstName = json["result"]["user"]["first_name"].stringValue
@@ -148,11 +149,10 @@ class AuthService {
                             ], forUserAccount: USER_INFO)
                         
                         try Locksmith.updateData(data: [
-                            APPLE_TOKEN : appleToken as Any,
+                            APPLE_TOKEN : appleToken,
                             AUTH_TOKEN : token
                             ], forUserAccount: USER_AUTH)
                         
-                        print(APPLE_TOKEN)
                         completion(true)
 
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -174,8 +174,8 @@ class AuthService {
     
     func registerAPNS(token: String, appleToken: String?) {
 
-        guard appleToken != nil else { return }
-        let body: Parameters = ["apns_token": appleToken as Any]
+        guard appleToken != nil else {print("REGISTER APNS RETURNED"); return }
+        let body: Parameters = ["apns_token": appleToken!]
             
         Alamofire.request(URL(string: "\(BASE_URL)/api/apns?token=\(token)")!, method: .post, parameters: body, encoding: JSONEncoding.default).responseString { (response) in
             print(response)

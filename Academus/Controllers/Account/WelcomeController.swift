@@ -19,7 +19,7 @@ class WelcomeController: UIViewController {
     let logInLabel = UILabel().setUpLabel(text: "Already have an account?", font: UIFont(name: "AvenirNext-medium", size: 12)!, fontColor: .navigationsWhite)
     let logInButton = UIButton(type: .system).setUpButton(bgColor: .none, title: "LOG IN", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
 
-    var mainController: MainController?
+    var mainController: MainController? // An instance of MainController
     var impact = UIImpactFeedbackGenerator()
     
     override func viewDidLoad() {
