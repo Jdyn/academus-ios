@@ -45,7 +45,7 @@
 		D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA98B204A5EB700EA082A /* IntegrationChoiceModel.swift */; };
 		D79DA992204A631D00EA082A /* IntegrationSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA991204A631D00EA082A /* IntegrationSelectCell.swift */; };
 		D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA993204A799300EA082A /* IntegrationLogInController.swift */; };
-		D7A6C63520571F9200605F64 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7A6C63420571F9200605F64 /* Launch Screen.storyboard */; };
+		D7BA9876208FCE6800F7E735 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7BA9875208FCE6800F7E735 /* Launch Screen.storyboard */; };
 		D7C06F8A208D9E5C00E74581 /* PlannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C06F89208D9E5C00E74581 /* PlannerService.swift */; };
 		D7C06F8C208DA2EC00E74581 /* PlannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C06F8B208DA2EC00E74581 /* PlannerModel.swift */; };
 		D7C06F8E208DB15700E74581 /* PlannerCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C06F8D208DB15700E74581 /* PlannerCellManager.swift */; };
@@ -112,7 +112,7 @@
 		D79DA98B204A5EB700EA082A /* IntegrationChoiceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationChoiceModel.swift; sourceTree = "<group>"; };
 		D79DA991204A631D00EA082A /* IntegrationSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationSelectCell.swift; sourceTree = "<group>"; };
 		D79DA993204A799300EA082A /* IntegrationLogInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationLogInController.swift; sourceTree = "<group>"; };
-		D7A6C63420571F9200605F64 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		D7BA9875208FCE6800F7E735 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D7C06F89208D9E5C00E74581 /* PlannerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerService.swift; sourceTree = "<group>"; };
 		D7C06F8B208DA2EC00E74581 /* PlannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerModel.swift; sourceTree = "<group>"; };
 		D7C06F8D208DB15700E74581 /* PlannerCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCellManager.swift; sourceTree = "<group>"; };
@@ -207,6 +207,7 @@
 				D75CB49F2087E10D00AAC7E0 /* Academus-Bridging-Header.h */,
 				D725592D203A38DB00DBA62B /* AppDelegate.swift */,
 				D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */,
+				58F72B87208FAC450079D6F5 /* MainController.swift */,
 				D7FA4874203A4794007ADFE0 /* Controllers */,
 				D7FA4875203A4D30007ADFE0 /* Utilities */,
 				D77BC0BD203E588500AAA505 /* Services */,
@@ -218,7 +219,7 @@
 				D75CB4EB20881FCB00AAC7E0 /* Localizable.strings */,
 				D7FA487E203B1894007ADFE0 /* AcademusModels.xcdatamodeld */,
 				D71857FD20686AF3007B03AA /* Academus.entitlements */,
-				D7A6C63420571F9200605F64 /* Launch Screen.storyboard */,
+				D7BA9875208FCE6800F7E735 /* Launch Screen.storyboard */,
 			);
 			path = Academus;
 			sourceTree = "<group>";
@@ -284,7 +285,6 @@
 		D7FA4874203A4794007ADFE0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				58F72B87208FAC450079D6F5 /* MainController.swift */,
 				58F72B85208FAB9B0079D6F5 /* MainBarController.swift */,
 				D7F66244204769750060FA8D /* Account */,
 				D7153A2F204D658700CF4DC4 /* Planner */,
@@ -392,8 +392,8 @@
 			files = (
 				D75CB4A22087F64C00AAC7E0 /* CustomFCTheme.plist in Resources */,
 				D75CB4EC20881FCC00AAC7E0 /* Localizable.strings in Resources */,
-				D7A6C63520571F9200605F64 /* Launch Screen.storyboard in Resources */,
 				D75CB4EA2087FA4400AAC7E0 /* Settings.bundle in Resources */,
+				D7BA9876208FCE6800F7E735 /* Launch Screen.storyboard in Resources */,
 				D7255935203A38DB00DBA62B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

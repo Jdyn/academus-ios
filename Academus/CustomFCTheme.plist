@@ -362,9 +362,9 @@
 		<key>SubTitleTextStyle</key>
 		<dict>
 			<key>fontName</key>
-			<string>SYS_DEFAULT_FONT_NAME</string>
+			<string>AvenirNext-bold</string>
 			<key>textColor</key>
-			<string>#6D6D6D</string>
+			<string>#eeeeee</string>
 		</dict>
 	</dict>
 	<key>FAQDetail</key>

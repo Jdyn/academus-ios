@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Locksmith
 
 class MainBarController: UITabBarController {
     

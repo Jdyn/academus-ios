@@ -13,23 +13,23 @@ import Locksmith
 
 class NotificationService {
     
-    func patchNotificationState(didChange: Bool, completion: @escaping CompletionHandler) {
+    func patchNotificationState(didChange: Bool, dictionary: Dictionary<String, Any>, completion: @escaping CompletionHandler) {
         
         if didChange {
-            let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
             
-            let assignments = dictionary?[isAssignmentsPosted] as! Bool
-            let courses = dictionary?[isCoursePosted] as! Bool
-            let misc = dictionary?[isMisc] as! Bool
+                let assignments = dictionary[isAssignmentsPosted] as? Bool
+                let courses = dictionary[isCoursePosted] as? Bool
+                let misc = dictionary[isMisc] as? Bool
             
             let body: Parameters = [
-                "notify_assignments": assignments,
-                "notify_courses": courses,
-                "notify_misc" : misc
+                "notify_assignments": assignments!,
+                "notify_courses": courses!,
+                "notify_misc" : misc!
             ]
             
             let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
             let apnsToken = authDictionary?[APPLE_TOKEN] as? String
+            print(authDictionary as Any)
             
             if apnsToken != nil {
                 
@@ -37,34 +37,39 @@ class NotificationService {
 
                 Alamofire.request(URL(string: "\(BASE_URL)/api/apns/\(apnsToken!)?token=\(authToken ?? "")")!, method: .patch, parameters: body, encoding: JSONEncoding.default).responseJSON { (response) in
                     guard let data = response.data else {print("RETURNED"); return }
-                    print("this was called")
+                    
                     if response.result.error == nil {
                         do {
                             let json = JSON(data)
-                            let notifMisc = json["result"]["notify_misc"].boolValue
-                            let notifAss = json["result"]["notify_assignments"].boolValue
-                            let notifCourses = json["result"]["notify_courses"].boolValue
-                            print(json)
-                            try Locksmith.updateData(data: [
-                                isAssignmentsPosted : notifAss,
-                                isCoursePosted : notifCourses,
-                                isMisc : notifMisc
+                            if json["success"].boolValue {
+                                let notifMisc = json["result"]["notify_misc"].boolValue
+                                let notifAss = json["result"]["notify_assignments"].boolValue
+                                let notifCourses = json["result"]["notify_courses"].boolValue
+                                print(json)
                                 
-                                ], forUserAccount: USER_NOTIF)
-                            
-                            completion(true)
-                        } catch let error {
+                                try Locksmith.updateData(data: [
+                                    isAssignmentsPosted : notifAss,
+                                    isCoursePosted : notifCourses,
+                                    isMisc : notifMisc,
+                                    isFirstLaunch: true
+                                    ], forUserAccount: USER_NOTIF)
+                                
+                                let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
+                                print("JSON RESPONSE UPDATE", dictionary as Any)
+                                
+                                completion(true)
+                                return
+                            } else {
+                                completion(false)
+                            }
+                        } catch {
                             completion(false)
-                            print(error)
+                            return
                         }
-                        
                     } else {
-//                        MainBarController().notificationManager()
                         completion(false)
                     }
                 }
-            } else {
-                return
             }
         }
     }

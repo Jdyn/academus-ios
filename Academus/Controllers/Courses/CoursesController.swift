@@ -25,7 +25,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate, UserInteg
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         
-        setupChatButtonInNavBar()
+//        setupChatButtonInNavBar()
         
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
@@ -84,7 +84,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate, UserInteg
     }
     
     func errorLabel(show: Bool) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection and refresh", font: UIFont.standard!, fontColor: .navigationsLightGrey)
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection \nand refresh", font: UIFont.standard!, fontColor: .navigationsLightGrey)
         label.textAlignment = .center
         label.numberOfLines = 0
         if show {

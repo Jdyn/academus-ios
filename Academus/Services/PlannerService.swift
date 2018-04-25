@@ -40,9 +40,11 @@ class PlannerService {
                     self.delegate?.didGetPlannerCards(cards: plannerCards)
                     completion(true)
                 } catch let error {
+                    completion(false)
                     print(error)
                 }
             } else {
+                completion(false)
                 print(response.result.error as Any)
             }
         }

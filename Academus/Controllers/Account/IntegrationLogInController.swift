@@ -23,11 +23,13 @@ class IntegrationLogInController: UIViewController {
     @objc func logInPressed() {
         guard let fieldsCounts = integration?.fields.count else {return}
         for i in 0...fieldsCounts - 1 {
+            fields[i].resignFirstResponder()
             if (fields[i].text?.isEmpty)! {
                 alertMessage(title: "Alert", message: "There is a missing field.")
                 return
             }
         }
+        
         loadingAlert(title: "Please wait", message: "Attempting to add new integration")
         integrationService?.addIntegration(fields: fields) { (success, error) in
             if success {
@@ -42,6 +44,11 @@ class IntegrationLogInController: UIViewController {
                 })
             }
         }
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
     }
 
     override func viewDidLoad() {

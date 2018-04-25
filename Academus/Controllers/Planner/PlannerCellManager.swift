@@ -42,8 +42,8 @@ enum PlannerCellManager {
     func getColor() -> UIColor {
         switch self {
         case .courseUpdatedCard: return UIColor.navigationsBlue
-        case .assignmentPostedCard: return UIColor.navigationsOrange
-        case .assignmentUpdatedCard: return UIColor.navigationsPurple
+        case .assignmentPostedCard: return UIColor.navigationsDarkGreen
+        case .assignmentUpdatedCard: return UIColor.navigationsOrange
         case .upcomingAssignmentCard: return UIColor.navigationsRed
         }
     }

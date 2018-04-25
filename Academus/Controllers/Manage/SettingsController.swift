@@ -22,6 +22,7 @@ class SettingsController: UITableViewController {
     var cells = [SettingsCellManager]()
     var notifDictionary = Dictionary<String, Any>()
     var notificationService = NotificationService()
+    var manageController: ManageController?
     var didChange: Bool = false
     
     override func viewDidLoad() {
@@ -38,21 +39,17 @@ class SettingsController: UITableViewController {
         
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
         notifDictionary = dictionary!
+        print(notifDictionary)
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        NotificationService().patchNotificationState(didChange: didChange) { (success) in
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        NotificationService().patchNotificationState(didChange: didChange, dictionary: notifDictionary) { (success) in
             if success {
                 print ("success")
             } else {
-                print("failure")
+                print("failed")
+                self.manageController?.alertMessage(title: "Failed to save notification preferences", message: "Restart Academus or check your internet...")
             }
         }
     }
@@ -107,7 +104,7 @@ class SettingsController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 18
+        return 9
     }
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return setupSection(type: .footer)
@@ -200,9 +197,17 @@ extension SettingsController {
         backgroundView.backgroundColor =  UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 0.1)
         backgroundView.roundCorners(corners: .bottom)
         
-        selectionView.addSubview(backgroundView)
+        let subBackground2 = UIView().setupBackground(bgColor: .navigationsMediumGrey)
+        subBackground2.roundCorners(corners: .bottom)
+        
+        let bottomCornerBackground2 = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        bottomCornerBackground2.roundCorners(corners: .top)
+        
+        selectionView.addSubviews(views: [backgroundView, subBackground2, bottomCornerBackground2])
         
         backgroundView.anchors(top: selectionView.topAnchor, left: selectionView.leftAnchor, leftPad: 6, right: selectionView.rightAnchor, rightPad: -6, height: 55)
+        subBackground2.anchors(top: backgroundView.bottomAnchor, bottom: bottomCornerBackground2.topAnchor, bottomPad: -6, left: backgroundView.leftAnchor, leftPad: 9, right: backgroundView.rightAnchor, rightPad: -9)
+        bottomCornerBackground2.anchors(bottom: selectionView.bottomAnchor, left: selectionView.leftAnchor, leftPad: 5, right: selectionView.rightAnchor, rightPad: -5, height: 9)
         
         cell.selectedBackgroundView = selectionView
         
@@ -298,27 +303,21 @@ extension SettingsController {
         switch cellType {
         case .notifAssignmentPosted:
             notifDictionary[isAssignmentsPosted] = sender.isOn
-            do {
-                try Locksmith.updateData(data: notifDictionary, forUserAccount: USER_NOTIF)
-            } catch let error {
-                print(error)
-            }
         case .notifCourseGradeUpdated:
             notifDictionary[isCoursePosted] = sender.isOn
-            do {
-                try Locksmith.updateData(data: notifDictionary, forUserAccount: USER_NOTIF)
-            } catch let error {
-                print(error)
-            }
-
-        case .notifMiscellaneous:
-            notifDictionary[isMisc] = sender.isOn
-            do {
-                try Locksmith.updateData(data: notifDictionary, forUserAccount: USER_NOTIF)
-            } catch let error {
-                print(error)
-            }
+            
+        case .notifMiscellaneous: notifDictionary[isMisc] = sender.isOn
         default: break
         }
+        
+//        do {
+//            try Locksmith.updateData(data: notifDictionary, forUserAccount: USER_NOTIF)
+//            
+//            let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
+//            print(dictionary as Any)
+//            
+//        } catch {
+//            return
+//        }
     }
 }

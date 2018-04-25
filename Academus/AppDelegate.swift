@@ -76,21 +76,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         freshchatConfig.themeName = "CustomFCTheme.plist"
         Freshchat.sharedInstance().initWith(freshchatConfig)
         
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)        
         if dictionary?[isFirstLaunch] == nil  {
             let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
             
             do {
                 try Locksmith.updateData(data: [
-                    isAssignmentsPosted : false,
-                    isCoursePosted : false,
-                    isMisc : false,
+                    isAssignmentsPosted : true,
+                    isCoursePosted : true,
+                    isMisc : true,
                     isFirstLaunch : true
                     ], forUserAccount: USER_NOTIF)
+
             } catch let error {
                 print(error)
             }
-            
+
             guard
                 let email = authDictionary?["email"],
                 let firstName = authDictionary?["firstName"],
@@ -100,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 else {
                     return true
             }
-            
+
             do {
                 try Locksmith.updateData(data: [
                     "email" : email,
@@ -146,9 +147,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-        print("TOKEN:", type(of: token))
+        print("APP DELEGATE TOKEN: ", token)
         mainController.apnsToken = token
-        mainController.notificationManager()
+        mainController.notificationTokenManager()
         Freshchat.sharedInstance().setPushRegistrationToken(deviceToken)
     }
     
@@ -169,7 +170,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(_ application: UIApplication) { mainController.notificationManager() }
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        
+    }
     
     func shouldDisplay(payload: JSON) -> Bool {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
