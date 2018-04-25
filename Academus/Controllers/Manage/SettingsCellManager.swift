@@ -12,7 +12,7 @@ import Locksmith
 enum SettingsCellManager {
     
     // Section 0 Rows
-    case appLock
+//    case appLock
     
     // Section 1 Rows
     case notifSettings
@@ -21,25 +21,25 @@ enum SettingsCellManager {
     case notifMiscellaneous
     
     // Section Headers
-    case privacySecurity
+//    case privacySecurity
     case notifications
 
     func getTitle() -> String{
 
         switch self {
-        case .appLock: return ""
+//        case .appLock: return ""
         case .notifSettings: return "Manage Notifications"
         case .notifAssignmentPosted: return "Assignment posted"
         case .notifCourseGradeUpdated: return "Course grade posted"
         case .notifMiscellaneous: return "Miscellaneous"
-        case .privacySecurity: return "Privacy and Security"
+//        case .privacySecurity: return "Privacy and Security"
         case .notifications: return "Notifications"
         }
     }
 
     func getSubtext() -> String{
         switch self {
-        case .appLock: return "- Feature coming soon"
+//        case .appLock: return "- Feature coming soon"
 //        case .notifAssignmentPosted: return "Feature coming soon"
 //        case .notifCourseGradeUpdated: return "Feature coming soon"
 //        case .notifMiscellaneous: return "Feature coming soon"
@@ -50,7 +50,7 @@ enum SettingsCellManager {
 
     func getImage() -> UIImage{
         switch self {
-        case .appLock: return #imageLiteral(resourceName: "fingerprint")
+//        case .appLock: return #imageLiteral(resourceName: "fingerprint")
         case .notifSettings: return #imageLiteral(resourceName: "notification")
         case .notifAssignmentPosted: return #imageLiteral(resourceName: "assignmentNotif")
         case .notifCourseGradeUpdated: return #imageLiteral(resourceName: "courseNotif")
@@ -61,7 +61,7 @@ enum SettingsCellManager {
     
     func getHeight() -> CGFloat {
         switch self {
-        case .appLock: return 55
+//        case .appLock: return 55
         case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 55
         case .notifSettings: return 119
         default: return 0
@@ -70,15 +70,15 @@ enum SettingsCellManager {
 
     func getSection() -> Int {
         switch self {
-        case .appLock: return 0 // Section 0
-        case .notifSettings, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 1 // Section 1
+//        case .appLock: return 0 // Section 0
+        case .notifSettings, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return 0 // Section 1
         default: return 0
         }
     }
 
     func getCellType() -> String {
         switch self {
-        case .appLock: return "FingerprintCell"
+//        case .appLock: return "FingerprintCell"
         case .notifSettings, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous: return "NotificationCell"
         default: return ""
         }

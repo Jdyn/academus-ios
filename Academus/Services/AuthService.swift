@@ -24,11 +24,11 @@ class AuthService {
     var logInErrorDelegate: logInErrorDelegate?
     var accountCreateDelegate: accountCreateErrorDelegate?
     
-    func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, appleToken: String?, completion: @escaping CompletionHandler) {
+    func registerUser(firstName: String, lastName: String, email:String, password: String, appleToken: String?, completion: @escaping CompletionHandler) {
         let lowerCaseEmail = email.lowercased()
         
         let body: Parameters = [
-            "beta_code": betaCode,
+            "beta_code": "SMHS",
             "user": [
                 "first_name": firstName.trimmingCharacters(in: .whitespacesAndNewlines),
                 "last_name": lastName.trimmingCharacters(in: .whitespacesAndNewlines),

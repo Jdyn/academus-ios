@@ -32,7 +32,7 @@ class SettingsController: UITableViewController {
         tableView.backgroundColor = .tableViewDarkGrey
         self.extendedLayoutIncludesOpaqueBars = true
 
-        cells = [.appLock, .notifSettings, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous]
+        cells = [.notifSettings, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous] // .appLock,
         for type in cells {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
         }
@@ -62,7 +62,7 @@ class SettingsController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellType, for: indexPath)
         
         switch cellAtIndex {
-        case .appLock: return biometricsCell(c: cellAtIndex, cell: cell)
+//        case .appLock: return biometricsCell(c: cellAtIndex, cell: cell)
         case .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous:
             return notificationCell(c: cellAtIndex, cell: cell)
         case .notifSettings: return notificationSettingsCell(c: cellAtIndex, cell: cell)
@@ -77,11 +77,11 @@ class SettingsController: UITableViewController {
         let title = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .navigationsGreen)
         let subtext = UILabel().setUpLabel(text: "", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         
-        let sections: [SettingsCellManager] = [.privacySecurity, .notifications ]
+        let sections: [SettingsCellManager] = [.notifications ] // .privacySecurity,
         let item = sections[section]
 
         switch item {
-        case .privacySecurity: title.text = item.getTitle();
+//        case .privacySecurity: title.text = item.getTitle();
         case .notifications: title.text = item.getTitle()
             UNUserNotificationCenter.current().getNotificationSettings { (settings) in
                 if settings.authorizationStatus == .authorized {
@@ -110,8 +110,8 @@ class SettingsController: UITableViewController {
         return setupSection(type: .footer)
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 1 : 4) }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return(section == 0 ? 4 : 0) } // return(section == 0 ? 1 : 4)
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
         return cellsFiltered[indexPath.row].getHeight()
