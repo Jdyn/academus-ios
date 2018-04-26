@@ -76,43 +76,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         freshchatConfig.themeName = "CustomFCTheme.plist"
         Freshchat.sharedInstance().initWith(freshchatConfig)
         
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)        
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)        
         if dictionary?[isFirstLaunch] == nil  {
             let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-            
+            print("THIS WAS CALLED NJISDNGIONSDGNONG")
             do {
                 try Locksmith.updateData(data: [
+                    isAppLock : false,
                     isAssignmentsPosted : true,
                     isCoursePosted : true,
                     isMisc : true,
                     isFirstLaunch : true
-                    ], forUserAccount: USER_NOTIF)
+                    ], forUserAccount: USER_SETTINGS)
 
             } catch let error {
                 print(error)
             }
 
             guard
-                let email = authDictionary?["email"],
-                let firstName = authDictionary?["firstName"],
-                let lastName = authDictionary?["lastName"],
-                let isLoggedIn = authDictionary?["isLoggedIn"],
-                let userID = authDictionary?["userID"]
+                let authToken = authDictionary?[AUTH_TOKEN]
                 else {
                     return true
             }
-
+            
+            let userDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+            var settings = userDictionary
+            settings?[AUTH_TOKEN] = authToken
             do {
-                try Locksmith.updateData(data: [
-                    "email" : email,
-                    "firstName" : firstName,
-                    "lastName" : lastName,
-                    "isLoggedIn" : isLoggedIn,
-                    "userID" : userID
-                    ], forUserAccount: USER_INFO)
+                try Locksmith.updateData(data: settings!, forUserAccount: USER_INFO)
+                try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
             } catch let error {
                 print(error)
             }
+            
         }
         
         return true
@@ -175,7 +171,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func shouldDisplay(payload: JSON) -> Bool {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)
         let titleKey = payload["aps"]["alert"]["title-loc-key"]
         
         switch titleKey {

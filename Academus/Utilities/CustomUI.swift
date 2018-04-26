@@ -13,7 +13,7 @@ class shareButton: UIButton {
     var urlString: String?
 }
 
-class notifSwitch: UISwitch {
+class settingSwitch: UISwitch {
     var cellType: SettingsCellManager?
 }
 
