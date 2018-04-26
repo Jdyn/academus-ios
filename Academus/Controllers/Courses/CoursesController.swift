@@ -39,10 +39,6 @@ class CoursesController: UITableViewController, CourseServiceDelegate, UserInteg
                     UIView.transition(with: self.tableView,duration: 0.1, options: .transitionCrossDissolve, animations: {
                         self.tableView.reloadData()
                         if self.courses.isEmpty { self.checkIntegrations() }
-                        while self.viewIfLoaded?.window == nil {}
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                            self.guidedTutorial()
-                        })
                     })
                 } else {
                     self.errorLabel(show: true)
@@ -52,19 +48,16 @@ class CoursesController: UITableViewController, CourseServiceDelegate, UserInteg
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidAppear(true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: { self.guidedTutorial() })
     }
     
     func guidedTutorial() {
-        guard UserDefaults.standard.bool(forKey: "CoursesOpened") != true else { return }
-        guard !tableView.visibleCells.isEmpty else { return }
-        guard let first = tableView.visibleCells.first else { return }
-        guard let firstCourse = first as? CourseCell else { return }
-        
-        UserDefaults.standard.set(true, forKey: "CoursesOpened")
+//        guard UserDefaults.standard.bool(forKey: "CoursesOpened") != true else { return }
+//        UserDefaults.standard.set(true, forKey: "CoursesOpened")
         
         let showcase = MaterialShowcase()
-        showcase.setTargetView(view: firstCourse.background)
+        showcase.setTargetView(tableView: tableView, section: 0, row: 0)
         showcase.primaryText = "Tap on a class to view its assignments."
         showcase.secondaryText = ""
         showcase.shouldSetTintColor = false
