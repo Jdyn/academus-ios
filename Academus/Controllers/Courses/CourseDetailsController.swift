@@ -8,6 +8,7 @@
 
 import UIKit
 import Locksmith
+import MaterialShowcase
 
 class CourseDetailsController: UITableViewController, AssignmentServiceDelegate {
     
@@ -29,6 +30,26 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         fetchAssignments()
     }
+    
+    func guidedTutorial() {
+        guard UserDefaults.standard.bool(forKey: "CourseDetailsOpened") != true else { return }
+        guard !tableView.visibleCells.isEmpty else { return }
+        guard let first = tableView.visibleCells.first else { return }
+        guard let firstAssignment = first as? CourseAssignmentCell else { return }
+        
+        UserDefaults.standard.set(true, forKey: "CourseDetailsOpened")
+        
+        let showcase = MaterialShowcase()
+        showcase.setTargetView(view: firstAssignment.background)
+        showcase.primaryText = "Tap on an assignment to see details about it."
+        showcase.secondaryText = ""
+        showcase.shouldSetTintColor = false
+        showcase.targetHolderColor = .clear
+        showcase.targetHolderRadius = 0
+        showcase.backgroundPromptColor = .navigationsDarkGrey
+        showcase.backgroundPromptColorAlpha = 0.9
+        showcase.show(completion: nil)
+    }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UIView()
@@ -43,6 +64,7 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
         assignmentService.getAssignments { (success) in
             if success {
                 self.tableView.reloadData()
+                self.guidedTutorial()
                 print("We finished that.")
             } else {
                 print("failed to get courses")

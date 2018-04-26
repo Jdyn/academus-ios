@@ -8,6 +8,7 @@
 
 import UIKit
 import Locksmith
+import MaterialShowcase
 
 class CoursesController: UITableViewController, CourseServiceDelegate, UserIntegrationsDelegate {
     
@@ -38,12 +39,40 @@ class CoursesController: UITableViewController, CourseServiceDelegate, UserInteg
                     UIView.transition(with: self.tableView,duration: 0.1, options: .transitionCrossDissolve, animations: {
                         self.tableView.reloadData()
                         if self.courses.isEmpty { self.checkIntegrations() }
+                        while self.viewIfLoaded?.window == nil {}
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            self.guidedTutorial()
+                        })
                     })
                 } else {
                     self.errorLabel(show: true)
                 }
             })
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    func guidedTutorial() {
+        guard UserDefaults.standard.bool(forKey: "CoursesOpened") != true else { return }
+        guard !tableView.visibleCells.isEmpty else { return }
+        guard let first = tableView.visibleCells.first else { return }
+        guard let firstCourse = first as? CourseCell else { return }
+        
+        UserDefaults.standard.set(true, forKey: "CoursesOpened")
+        
+        let showcase = MaterialShowcase()
+        showcase.setTargetView(view: firstCourse.background)
+        showcase.primaryText = "Tap on a class to view its assignments."
+        showcase.secondaryText = ""
+        showcase.shouldSetTintColor = false
+        showcase.targetHolderColor = .clear
+        showcase.targetHolderRadius = 0
+        showcase.backgroundPromptColor = .navigationsDarkGrey
+        showcase.backgroundPromptColorAlpha = 0.9
+        showcase.show(completion: nil)
     }
     
     func didAddIntegration() {
@@ -157,6 +186,7 @@ class CoursesController: UITableViewController, CourseServiceDelegate, UserInteg
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
                         self.tableView.reloadData()
                         if self.courses.isEmpty { self.checkIntegrations() }
+                        self.guidedTutorial()
                     })
                 })
             } else {

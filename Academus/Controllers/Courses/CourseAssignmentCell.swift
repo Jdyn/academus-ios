@@ -71,11 +71,9 @@ class CourseAssignmentCell: UITableViewCell {
         
         selectionStyle = .none
         separatorInset = UIEdgeInsets.zero
+        
+        background.addSubviews(views: [titleLabel, dateLabel, gradeLabel, arrow])
         addSubview(background)
-        addSubview(titleLabel)
-        addSubview(dateLabel)
-        addSubview(gradeLabel)
-        addSubview(arrow)
 
         background.anchors(top: topAnchor, topPad: 0, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
         titleLabel.anchors(top: background.topAnchor, topPad: 9, left: background.leftAnchor, leftPad: 12, right: background.rightAnchor, rightPad:  -6, width: 0, height: 0)
