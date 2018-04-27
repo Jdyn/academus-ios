@@ -90,6 +90,11 @@ class AccountCreateController: UIViewController, accountCreateErrorDelegate {
                 self.dismiss(animated: true, completion: {
                     let controller = IntegrationSelectController()
                     self.navigationController?.pushViewController(controller, animated: true)
+                    let plannerIcon = UIApplicationShortcutIcon(templateImageName: "planner")
+                    let coursesIcon = UIApplicationShortcutIcon(templateImageName: "grades")
+                    let plannerShortcut = UIApplicationShortcutItem(type: "plannerShortcut", localizedTitle: "Planner", localizedSubtitle: nil, icon: plannerIcon)
+                    let coursesShortcut = UIApplicationShortcutItem(type: "coursesShortcut", localizedTitle: "Courses", localizedSubtitle: nil, icon: coursesIcon)
+                    UIApplication.shared.shortcutItems = [plannerShortcut, coursesShortcut]
                 })
             } else {
                 self.dismiss(animated: true, completion: {

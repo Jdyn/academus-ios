@@ -51,6 +51,7 @@ class MainController: UIViewController {
                     }
                 }
             } else {
+                UIApplication.shared.shortcutItems = nil
                 loginUser()
             }
         }
@@ -99,7 +100,13 @@ class MainController: UIViewController {
             let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
             let authToken = dictionary?[AUTH_TOKEN] as? String
             if authToken != nil {
-                self.present(MainBarController(), animated: true, completion: nil)
+                self.present(MainBarController(), animated: true, completion: {
+                    let plannerIcon = UIApplicationShortcutIcon(templateImageName: "planner")
+                    let coursesIcon = UIApplicationShortcutIcon(templateImageName: "grades")
+                    let plannerShortcut = UIApplicationShortcutItem(type: "plannerShortcut", localizedTitle: "Planner", localizedSubtitle: nil, icon: plannerIcon)
+                    let coursesShortcut = UIApplicationShortcutItem(type: "coursesShortcut", localizedTitle: "Courses", localizedSubtitle: nil, icon: coursesIcon)
+                    UIApplication.shared.shortcutItems = [plannerShortcut, coursesShortcut]
+                })
             } else {
                 self.kickUser()
             }

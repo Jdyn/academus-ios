@@ -1,11 +1,11 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire" "${PODS_CONFIGURATION_BUILD_DIR}/Locksmith" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire" "${PODS_CONFIGURATION_BUILD_DIR}/Locksmith" "${PODS_CONFIGURATION_BUILD_DIR}/MaterialShowcase" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/FreshchatSDK"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
 LIBRARY_SEARCH_PATHS = $(inherited) "$(PODS_ROOT)/FreshchatSDK" "${PODS_ROOT}/FreshchatSDK/FreshchatSDK"
-OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Locksmith/Locksmith.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON/SwiftyJSON.framework/Headers" -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/FreshchatSDK"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"FDFreshchatSDK" -framework "AVFoundation" -framework "Alamofire" -framework "AudioToolbox" -framework "CoreData" -framework "CoreMedia" -framework "Foundation" -framework "ImageIO" -framework "Locksmith" -framework "Photos" -framework "Security" -framework "SwiftyJSON" -framework "SystemConfiguration"
+OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Locksmith/Locksmith.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/MaterialShowcase/MaterialShowcase.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON/SwiftyJSON.framework/Headers" -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/FreshchatSDK"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"FDFreshchatSDK" -framework "AVFoundation" -framework "Alamofire" -framework "AudioToolbox" -framework "CoreData" -framework "CoreMedia" -framework "Foundation" -framework "ImageIO" -framework "Locksmith" -framework "MaterialShowcase" -framework "Photos" -framework "Security" -framework "SwiftyJSON" -framework "SystemConfiguration"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

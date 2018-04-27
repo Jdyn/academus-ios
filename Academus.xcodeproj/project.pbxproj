@@ -15,6 +15,8 @@
 		C4C856B3208AE14000CC17C7 /* CourseInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B2208AE14000CC17C7 /* CourseInfoController.swift */; };
 		C4C856B5208AE84400CC17C7 /* CourseInfoCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */; };
 		C4D78241208C2DA100F92BAF /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D78240208C2DA100F92BAF /* CacheService.swift */; };
+		C6C916E72090F7B2000CB2D2 /* AssignmentDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */; };
+		C6C916E92090F7CA000CB2D2 /* AssignmentDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C916E82090F7CA000CB2D2 /* AssignmentDetailCell.swift */; };
 		D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A30204D660300CF4DC4 /* PlannerController.swift */; };
 		D7153A33204DF89D00CF4DC4 /* CardCreationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A32204DF89D00CF4DC4 /* CardCreationController.swift */; };
 		D725592E203A38DB00DBA62B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D725592D203A38DB00DBA62B /* AppDelegate.swift */; };
@@ -78,6 +80,8 @@
 		C4C856B2208AE14000CC17C7 /* CourseInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseInfoController.swift; sourceTree = "<group>"; };
 		C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseInfoCellManager.swift; sourceTree = "<group>"; };
 		C4D78240208C2DA100F92BAF /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
+		C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentDetailController.swift; sourceTree = "<group>"; };
+		C6C916E82090F7CA000CB2D2 /* AssignmentDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentDetailCell.swift; sourceTree = "<group>"; };
 		D7153A30204D660300CF4DC4 /* PlannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerController.swift; sourceTree = "<group>"; };
 		D7153A32204DF89D00CF4DC4 /* CardCreationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCreationController.swift; sourceTree = "<group>"; };
 		D71857FD20686AF3007B03AA /* Academus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Academus.entitlements; sourceTree = "<group>"; };
@@ -233,6 +237,8 @@
 				C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */,
 				C4C856B2208AE14000CC17C7 /* CourseInfoController.swift */,
 				D73F655F203FE92500144C89 /* CourseAssignmentCell.swift */,
+				C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */,
+				C6C916E82090F7CA000CB2D2 /* AssignmentDetailCell.swift */,
 			);
 			path = Courses;
 			sourceTree = "<group>";
@@ -410,12 +416,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Locksmith/Locksmith.framework",
+				"${BUILT_PRODUCTS_DIR}/MaterialShowcase/MaterialShowcase.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Locksmith.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialShowcase.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,11 +485,13 @@
 				D7CCBC8C207D9226009654CB /* PlannerCell.swift in Sources */,
 				D73F655A203FA06400144C89 /* AssignmentService.swift in Sources */,
 				D762FCF82069A4470021B6F2 /* CustomUI.swift in Sources */,
+				C6C916E92090F7CA000CB2D2 /* AssignmentDetailCell.swift in Sources */,
 				58F72B86208FAB9B0079D6F5 /* MainBarController.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,
 				D7C06F8A208D9E5C00E74581 /* PlannerService.swift in Sources */,
 				D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */,
 				C4C856B3208AE14000CC17C7 /* CourseInfoController.swift in Sources */,
+				C6C916E72090F7B2000CB2D2 /* AssignmentDetailController.swift in Sources */,
 				D7C06F8C208DA2EC00E74581 /* PlannerModel.swift in Sources */,
 				D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */,
 				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,

@@ -88,12 +88,14 @@ class ManageController: UITableViewController {
                 self.dismiss(animated: true, completion: {
                     let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
                     self.present(welcomeNavigationController, animated: true, completion: {
+                        UIApplication.shared.shortcutItems = nil
                         self.tabBarController?.selectedIndex = 0
                     })
                 })
             } else {
                 let welcomeNavigationController = MainNavigationController(rootViewController: WelcomeController())
                 self.present(welcomeNavigationController, animated: true, completion: {
+                    UIApplication.shared.shortcutItems = nil
                     self.tabBarController?.selectedIndex = 0
                 })
             }

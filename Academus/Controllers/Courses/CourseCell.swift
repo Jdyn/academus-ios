@@ -83,7 +83,9 @@ class CourseCell: UITableViewCell {
         titleStackView.axis = .vertical
         titleStackView.alignment = .leading
         
-        addSubviews(views: [background, arrow, gradeStackView, titleStackView, periodLabel])
+        background.addSubviews(views: [arrow, gradeStackView, titleStackView, periodLabel])
+        
+        addSubview(background)
 
         background.anchors(top: topAnchor, topPad: 9, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
         

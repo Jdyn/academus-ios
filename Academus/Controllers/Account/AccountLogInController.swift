@@ -67,7 +67,15 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
         authService.logInUser(email: emailField.text!, password: passwordField.text!, appleToken: self.mainController?.apnsToken)
         { (success) in
             if success {
-                self.dismiss(animated: true, completion: { self.dismiss(animated: true, completion: nil) })
+                self.dismiss(animated: true, completion: {
+                    self.dismiss(animated: true, completion: {
+                        let plannerIcon = UIApplicationShortcutIcon(templateImageName: "planner")
+                        let coursesIcon = UIApplicationShortcutIcon(templateImageName: "grades")
+                        let plannerShortcut = UIApplicationShortcutItem(type: "plannerShortcut", localizedTitle: "Planner", localizedSubtitle: nil, icon: plannerIcon)
+                        let coursesShortcut = UIApplicationShortcutItem(type: "coursesShortcut", localizedTitle: "Courses", localizedSubtitle: nil, icon: coursesIcon)
+                        UIApplication.shared.shortcutItems = [plannerShortcut, coursesShortcut]
+                    })
+                })
             } else {
                 self.dismiss(animated: true, completion: { self.alertMessage(title: "Ooops.", message: self.logInError) })
             }

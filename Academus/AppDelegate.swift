@@ -160,6 +160,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Remote Notifications Failure: \(error)")
     }
+    
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        guard let barController = mainController.presentedViewController as? UITabBarController else { completionHandler(false); return }
+        
+        switch shortcutItem.type {
+        case "plannerShortcut": barController.selectedIndex = 0
+        case "coursesShortcut": barController.selectedIndex = 1
+        default: break
+        }
+        
+        completionHandler(true)
+    }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
