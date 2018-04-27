@@ -162,7 +162,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        guard let barController = mainController.presentedViewController as? UITabBarController else { completionHandler(false); return }
+        guard let barController = mainController.presentedViewController as? UITabBarController else {
+            UserDefaults.standard.set(true, forKey: "shortcutTapped")
+            
+            switch shortcutItem.type {
+            case "plannerShortcut": UserDefaults.standard.set(0, forKey: "preferredTab")
+            case "coursesShortcut": UserDefaults.standard.set(1, forKey: "preferredTab")
+            default: break
+            }
+            
+            completionHandler(true)
+            return
+        }
         
         switch shortcutItem.type {
         case "plannerShortcut": barController.selectedIndex = 0

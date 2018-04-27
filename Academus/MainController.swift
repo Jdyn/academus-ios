@@ -100,7 +100,15 @@ class MainController: UIViewController {
             let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
             let authToken = dictionary?[AUTH_TOKEN] as? String
             if authToken != nil {
-                self.present(MainBarController(), animated: true, completion: {
+                let barController = MainBarController()
+                if UserDefaults.standard.bool(forKey: "shortcutTapped") {
+                    UserDefaults.standard.set(false, forKey: "shortcutTapped")
+                    barController.selectedIndex = UserDefaults.standard.integer(forKey: "preferredTab")
+                }
+                
+                self.present(barController, animated: true, completion: {
+                    guard UIApplication.shared.shortcutItems == nil else { return }
+                    
                     let plannerIcon = UIApplicationShortcutIcon(templateImageName: "planner")
                     let coursesIcon = UIApplicationShortcutIcon(templateImageName: "grades")
                     let plannerShortcut = UIApplicationShortcutItem(type: "plannerShortcut", localizedTitle: "Planner", localizedSubtitle: nil, icon: plannerIcon)
