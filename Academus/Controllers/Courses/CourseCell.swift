@@ -86,8 +86,10 @@ class CourseCell: UITableViewCell {
         addSubviews(views: [background, arrow, gradeStackView, titleStackView, periodLabel])
 
         background.anchors(top: topAnchor, topPad: 9, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
-        titleStackView.anchors(left: periodLabel.rightAnchor, leftPad: 12, centerY: background.centerYAnchor, width: self.bounds.size.width * 3/4 - 15)
-        gradeStackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 0, height: 0)
+        
+        titleStackView.anchors(left: periodLabel.rightAnchor, leftPad: 9, right: gradeStackView.leftAnchor, rightPad: -6, centerY: background.centerYAnchor)
+        gradeStackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 48, height: 0)
+        
         periodLabel.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 0, height: 0)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 32, height: 32)
     }

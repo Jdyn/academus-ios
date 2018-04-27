@@ -147,7 +147,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 9 }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 3  }
     
     @objc func refreshTable() {
         fetchCards { (success) in
@@ -196,93 +196,66 @@ extension PlannerController {
         let gradeString: NSMutableAttributedString = NSMutableAttributedString(string: gradeText)
         gradeString.setColorForText(textForAttribute: "\(previousGrade)%", withColor: previousGradeColor)
         gradeString.setColorForText(textForAttribute: "\(currentGrade)%", withColor: currentGradeColor)
+
         cell.gradeLabel.textColor = .tableViewLightGrey
-        cell.gradeLabel.font = UIFont.standard
         cell.gradeLabel.attributedText = gradeString
         
-        let courseTitle = "Your grade in \((model.course?.name) ?? "a course") has been updated:"
+        let courseTitle = "Your grade in \((model.course?.name) ?? "a course") has been updated"
         let courseNameString: NSMutableAttributedString = NSMutableAttributedString(string: courseTitle)
         courseNameString.setColorForText(textForAttribute: "\((model.course?.name) ?? "unknown")", withColor: UIColor.navigationsGreen)
-        cell.titleLabel.textColor = .navigationsWhite
-        cell.titleLabel.font = UIFont.standard
         cell.titleLabel.attributedText = courseNameString
-
-        cell.titleLabel.numberOfLines = 2
-        cell.titleLabel.adjustsFontSizeToFitWidth = true
-        cell.titleLabel.lineBreakMode = .byWordWrapping
         
         cell.addSubviews(views: [cell.titleLabel, cell.gradeLabel])
         
-        cell.titleLabel.anchors(top: cell.divider.bottomAnchor, topPad: 6, left: cell.background.leftAnchor, leftPad: 12, right: cell.background.rightAnchor, rightPad: -9)
-        cell.gradeLabel.anchors(top: cell.titleLabel.bottomAnchor, topPad: 16, bottom: cell.background.bottomAnchor, bottomPad: -12, left: cell.background.leftAnchor, leftPad: 12, right: cell.background.rightAnchor, rightPad: -6)
+        cell.titleLabel.anchors(top: cell.subBackground.topAnchor, topPad: 6, left: cell.subBackground.leftAnchor, leftPad: 12, right: cell.subBackground.rightAnchor, rightPad: -12)
+        cell.gradeLabel.anchors(top: cell.titleLabel.bottomAnchor, topPad: 16, bottom: cell.subBackground.bottomAnchor, bottomPad: -12, left: cell.subBackground.leftAnchor, leftPad: 12)
         
         return cell
     }
     
     func assignmentPostedCell(cell: PlannerCell, model: PlannerCard, manager: PlannerCellManager) -> PlannerCell {
         
-        
         let titleText = "\"\((model.assignment?.name) ?? "Assignment")\" has been posted in \(model.assignment?.course?.name ?? "a course")"
         let titleString: NSMutableAttributedString = NSMutableAttributedString(string: titleText)
         titleString.setColorForText(textForAttribute: "\"\(model.assignment?.name ?? "An assignment")\"", withColor: UIColor.navigationsGreen)
         titleString.setColorForText(textForAttribute: "\(model.assignment?.course?.name ?? "a course")", withColor: UIColor.navigationsGreen)
-        cell.titleLabel.textColor = .navigationsWhite
-        cell.titleLabel.font = UIFont.standard
         cell.titleLabel.attributedText = titleString
-        cell.titleLabel.numberOfLines = 0
-        cell.titleLabel.adjustsFontSizeToFitWidth = true
-        cell.titleLabel.lineBreakMode = .byWordWrapping
 
         let gradeText = "Grade: \(model.assignment?.score?.text ?? "N/A")"
         let gradeString: NSMutableAttributedString = NSMutableAttributedString(string: gradeText)
         gradeString.setColorForText(textForAttribute: "\(model.assignment?.score?.text ?? "N/A")", withColor: .navigationsWhite)
         cell.gradeLabel.textColor = .tableViewLightGrey
-        cell.gradeLabel.font = UIFont.standard
         cell.gradeLabel.attributedText = gradeString
         
         cell.addSubviews(views: [cell.titleLabel, cell.gradeLabel])
         
-        cell.titleLabel.anchors(top: cell.divider.bottomAnchor, topPad: 6, left: cell.background.leftAnchor, leftPad: 12, right: cell.background.rightAnchor, rightPad: -9)
-        cell.gradeLabel.anchors(top: cell.titleLabel.bottomAnchor, topPad: 16, bottom: cell.background.bottomAnchor, bottomPad: -12, left: cell.background.leftAnchor, leftPad: 12, right: cell.background.rightAnchor, rightPad: -6)
-
-        
+        cell.titleLabel.anchors(top: cell.subBackground.topAnchor, topPad: 6, left: cell.subBackground.leftAnchor, leftPad: 12, right: cell.subBackground.rightAnchor, rightPad: -12)
+        cell.gradeLabel.anchors(top: cell.titleLabel.bottomAnchor, topPad: 12, bottom: cell.background.bottomAnchor, bottomPad: -12, left: cell.background.leftAnchor, leftPad: 12, right: cell.background.rightAnchor, rightPad: -12)
         return cell
     }
     
     func assignmentUpdatedCell(cell: PlannerCell, model: PlannerCard, manager: PlannerCellManager) -> PlannerCell {
-        
+
         let titleText = "Your grade on \"\(model.assignment?.name ?? "an Assignment")\" in \(model.assignment?.course?.name ?? "a course") has been updated"
         let titleString: NSMutableAttributedString = NSMutableAttributedString(string: titleText)
         titleString.setColorForText(textForAttribute: "\"\(model.assignment?.name ?? "an Assignment")\"", withColor: UIColor.navigationsGreen)
         titleString.setColorForText(textForAttribute: "\(model.assignment?.course?.name ?? "a course")", withColor: UIColor.navigationsGreen)
-        cell.titleLabel.textColor = .navigationsWhite
-        cell.titleLabel.font = UIFont.standard
         cell.titleLabel.attributedText = titleString
-        cell.titleLabel.numberOfLines = 0
-        cell.titleLabel.adjustsFontSizeToFitWidth = true
-        cell.titleLabel.lineBreakMode = .byWordWrapping
-        
+
         let gradeText = "\(model.previousScore?.scoreText ?? "N/A")"
         cell.gradeLabel.textColor = .tableViewLightGrey
-        cell.gradeLabel.font = UIFont.standard
         cell.gradeLabel.text = gradeText
-        
         
         let grade2Text = "\(model.newScore?.scoreText ?? "N/A")"
         cell.gradeTwoLabel.textColor = .tableViewLightGrey
-        cell.gradeTwoLabel.font = UIFont.standard
         cell.gradeTwoLabel.text = grade2Text
         
         cell.addSubviews(views: [cell.titleLabel, cell.gradeLabel, cell.gradeTwoLabel, cell.downArrow, ])
         
-        cell.titleLabel.anchors(top: cell.divider.bottomAnchor, topPad: 6, left: cell.background.leftAnchor, leftPad: 12, right: cell.background.rightAnchor, rightPad: -9)
-        
-        
+        cell.titleLabel.anchors(top: cell.subBackground.topAnchor, topPad: 6, left: cell.subBackground.leftAnchor, leftPad: 12, right: cell.subBackground.rightAnchor, rightPad: -12)
         cell.gradeLabel.anchors(top: cell.titleLabel.bottomAnchor, topPad: 9, centerX: cell.background.centerXAnchor)
-        
-        cell.downArrow.anchors(top: cell.gradeLabel.bottomAnchor, topPad: 3, centerX: cell.background.centerXAnchor, width: 24, height: 24)
-        
-        cell.gradeTwoLabel.anchors(top: cell.downArrow.bottomAnchor, topPad: 3, bottom: cell.background.bottomAnchor, bottomPad: -12, centerX: cell.background.centerXAnchor)
+        cell.downArrow.anchors(top: cell.gradeLabel.bottomAnchor, topPad: 0, centerX: cell.background.centerXAnchor, width: 26, height: 26)
+        cell.gradeTwoLabel.anchors(top: cell.downArrow.bottomAnchor, topPad: 0, bottom: cell.background.bottomAnchor, bottomPad: -12, centerX: cell.background.centerXAnchor)
         
         return cell
     }
@@ -293,16 +266,11 @@ extension PlannerController {
         let titleString: NSMutableAttributedString = NSMutableAttributedString(string: titleText)
         titleString.setColorForText(textForAttribute: "\(model.assignment?.name ?? "an Assignment")", withColor: UIColor.navigationsGreen)
         titleString.setColorForText(textForAttribute: "\(model.assignment?.course?.name ?? "a course")", withColor: UIColor.navigationsGreen)
-        cell.titleLabel.textColor = .navigationsWhite
-        cell.titleLabel.font = UIFont.standard
         cell.titleLabel.attributedText = titleString
-        cell.titleLabel.numberOfLines = 0
-        cell.titleLabel.adjustsFontSizeToFitWidth = true
-        cell.titleLabel.lineBreakMode = .byWordWrapping
         
         cell.addSubviews(views: [cell.titleLabel])
         
-        cell.titleLabel.anchors(top: cell.divider.bottomAnchor, topPad: 16, bottom: cell.background.bottomAnchor, bottomPad: -16, left: cell.background.leftAnchor, leftPad: 12, right: cell.background.rightAnchor, rightPad: -9)
+        cell.titleLabel.anchors(top: cell.subBackground.topAnchor, topPad: 16, bottom: cell.subBackground.bottomAnchor, bottomPad: -16, left: cell.subBackground.leftAnchor, leftPad: 12, right: cell.subBackground.rightAnchor, rightPad: -12)
         
         return cell
     }

@@ -115,13 +115,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        
+        print(userInfo)
         if Freshchat.sharedInstance().isFreshchatNotification(userInfo) {
             Freshchat.sharedInstance().handleRemoteNotification(userInfo, andAppstate: application.applicationState)
         }
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print(userInfo)
         completionHandler(.newData)
     }
     
@@ -136,9 +137,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         if Freshchat.sharedInstance().isFreshchatNotification(notification.request.content.userInfo) {
             Freshchat.sharedInstance().handleRemoteNotification(notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)  //Handled for freshchat notifications
-        } else {
-            completionHandler([.alert, .sound, .badge])
         }
+        completionHandler([.alert, .sound, .badge])
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

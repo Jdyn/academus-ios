@@ -17,6 +17,9 @@ class MainController: UIViewController {
     var appLock: Bool?
     var logo: UIImageView?
     
+    var tryAgain = UIButton().setUpButton(bgColor: .tableViewMediumGrey, title: "TRY AGAIN", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
+    var logout = UIButton().setUpButton(bgColor: .tableViewMediumGrey, title: "LOG OUT", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
+    
     override func viewDidLoad() {
         view.backgroundColor = .tableViewMediumGrey
         
@@ -68,21 +71,26 @@ class MainController: UIViewController {
             }
         } else {
             completion(false)
+            switch authError! {
+            default: alertMessage(title: "Try again later...", message: authError!.localizedDescription)
+            }
         }
     }
     
     func showLockOptions() {
         DispatchQueue.main.async {
-            let tryAgain = UIButton().setUpButton(bgColor: .tableViewMediumGrey, title: "TRY AGAIN", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
-            let logout = UIButton().setUpButton(bgColor: .tableViewMediumGrey, title: "LOG OUT", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
+            self.tryAgain.isHidden = false
+            self.logout.isHidden = false
             
-            logout.addTarget(self, action: #selector(self.logoutPressed), for: .touchUpInside)
-            tryAgain.addTarget(self, action: #selector(self.tryAgainPressed), for: .touchUpInside)
+            self.logout.addTarget(self, action: #selector(self.logoutPressed), for: .touchUpInside)
+            self.tryAgain.addTarget(self, action: #selector(self.tryAgainPressed), for: .touchUpInside)
             
-            self.view.addSubviews(views: [tryAgain, logout])
+            UIView.transition(with: self.view, duration: 0.6, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
+                self.view.addSubviews(views: [self.tryAgain, self.logout])
+            })
             
-            tryAgain.anchors(top: self.logo?.bottomAnchor, topPad: 16, centerX: self.view.centerXAnchor, width: 128, height: 45 )
-            logout.anchors(bottom: self.view.bottomAnchor, bottomPad: -32, centerX: self.view.centerXAnchor, width: 128, height: 45 )
+            self.tryAgain.anchors(top: self.logo?.bottomAnchor, topPad: 32, centerX: self.view.centerXAnchor, width: 128, height: 45 )
+            self.logout.anchors(bottom: self.view.bottomAnchor, bottomPad: -32, centerX: self.view.centerXAnchor, width: 128, height: 45 )
         }
     }
     
@@ -114,12 +122,15 @@ class MainController: UIViewController {
         
         let settings1 = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)
         print(settings1 as Any)
+        
+        tryAgain.isHidden = true
+        logout.isHidden = true
 
         self.present(welcomeNavigationController, animated: true, completion: nil)
     }
     
     @objc func logoutPressed() {
-        let alert = UIAlertController(title: "WARNING", message: "Logging out will disable biometric security on your account.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "WARNING", message: "Logging out will remove the lock on your account.", preferredStyle: .alert)
         let actionYes = UIAlertAction(title: "Yes", style: .destructive) { (action) in
             self.kickUser()
         }

@@ -288,9 +288,9 @@ extension SettingsController {
         icon.tintColor = .navigationsGreen
         
         if biometricType() == .touchID {
-            title.text = "Use Touch ID to Unlock"
+            title.text = "Use Touch ID to unlock"
         } else if biometricType() == .faceID {
-            title.text = "Face ID"
+            title.text = "Use Face ID to unlock"
         } else {
             title.text = "App Lock"
         }
