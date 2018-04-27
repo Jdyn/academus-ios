@@ -53,25 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UITextField.appearance().keyboardAppearance = .dark
         
-        let center = UNUserNotificationCenter.current()
-        center.delegate = self
 
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in }
-
-        
-        let NotificationAuthOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        center.requestAuthorization(options: NotificationAuthOptions) { (success, error) in
-            if success {
-                center.getNotificationSettings(completionHandler: { (settings) in
-                    if settings.authorizationStatus != .authorized {
-                        return
-                    } else {
-                        DispatchQueue.main.async(execute: { UIApplication.shared.registerForRemoteNotifications() })
-                    }
-                })
-            }
-        }
-    
         let freshchatConfig: FreshchatConfig = FreshchatConfig.init(appID: "76490582-1f11-45d5-b5b7-7ec88564c7d6", andAppKey: "5d16672f-543b-4dc9-9c21-9fd5f62a7ad3")
         freshchatConfig.themeName = "CustomFCTheme.plist"
         Freshchat.sharedInstance().initWith(freshchatConfig)
@@ -124,21 +106,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print(userInfo)
         completionHandler(.newData)
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        if Freshchat.sharedInstance().isFreshchatNotification(response.notification.request.content.userInfo) {
-            Freshchat.sharedInstance().handleRemoteNotification(response.notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)
-        } else {
-            completionHandler()
-        }
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        if Freshchat.sharedInstance().isFreshchatNotification(notification.request.content.userInfo) {
-            Freshchat.sharedInstance().handleRemoteNotification(notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)  //Handled for freshchat notifications
-        }
-        completionHandler([.alert, .sound, .badge])
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

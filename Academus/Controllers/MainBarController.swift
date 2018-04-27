@@ -8,6 +8,7 @@
 
 import UIKit
 import Locksmith
+import UserNotifications
 
 class MainBarController: UITabBarController {
     
@@ -15,6 +16,8 @@ class MainBarController: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .tableViewDarkGrey
         self.setUpUI()
+        
+        notificationPresent()
         
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         if dictionary?["isLoggedIn"] != nil {
@@ -46,5 +49,41 @@ class MainBarController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
+    }
+}
+
+extension MainBarController: UNUserNotificationCenterDelegate {
+    
+    func notificationPresent() {
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        
+        let NotificationAuthOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        center.requestAuthorization(options: NotificationAuthOptions) { (success, error) in
+            if success {
+                center.getNotificationSettings(completionHandler: { (settings) in
+                    if settings.authorizationStatus != .authorized {
+                        return
+                    } else {
+                        DispatchQueue.main.async(execute: { UIApplication.shared.registerForRemoteNotifications() })
+                    }
+                })
+            }
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if Freshchat.sharedInstance().isFreshchatNotification(response.notification.request.content.userInfo) {
+            Freshchat.sharedInstance().handleRemoteNotification(response.notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)
+        } else {
+            completionHandler()
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        if Freshchat.sharedInstance().isFreshchatNotification(notification.request.content.userInfo) {
+            Freshchat.sharedInstance().handleRemoteNotification(notification.request.content.userInfo, andAppstate: UIApplication.shared.applicationState)  //Handled for freshchat notifications
+        }
+        completionHandler([.alert, .sound, .badge])
     }
 }
