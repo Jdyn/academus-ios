@@ -20,7 +20,7 @@ class AssignmentService {
     var delegate : AssignmentServiceDelegate?
     
     func getAssignments(completion: @escaping CompletionHandler) {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let authToken = dictionary?["authToken"] as! String
         Alamofire.request(URL(string: "\(BASE_URL)/api/assignments?token=\(authToken)&no_grouping=true")!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON { (response) in
             

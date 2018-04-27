@@ -103,12 +103,12 @@ extension CourseInfoController {
             subtext.font = UIFont.italic!
             subtext.textColor = .tableViewLightGrey
         }
-        
+        subtext.adjustsFontSizeToFitWidth = true
         cell.addSubviews(views: [background, title, subtext])
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
         title.anchors(top: background.topAnchor, topPad: 9, left: background.leftAnchor, leftPad: 12, centerY: background.centerYAnchor)
-        subtext.anchors(top: background.topAnchor, topPad: 9, right: background.rightAnchor, rightPad: -12, centerY: background.centerYAnchor)
+        subtext.anchors(top: background.topAnchor, topPad: 9, left: title.rightAnchor, leftPad: 12, right: background.rightAnchor, rightPad: -12, centerY: title.centerYAnchor)
 
         return cell
     }

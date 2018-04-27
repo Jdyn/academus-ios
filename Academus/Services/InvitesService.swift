@@ -25,7 +25,7 @@ class InvitesService {
     var addInviteDelegate: userAddInviteDelegate?
     
     func getInvites(completion: @escaping CompletionHandler) {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let authToken = dictionary?["authToken"] as! String
         Alamofire.request(URL(string: "\(BASE_URL)/api/invites?token=\(authToken)")!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON {
             (response) in
@@ -53,7 +53,7 @@ class InvitesService {
     }
     
     func addInvite(completion: @escaping CompletionHandler) {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let authToken = dictionary?["authToken"] as! String
 
         Alamofire.request(URL(string: "\(BASE_URL)/api/invites/?token=\(authToken)")!, method: .post, encoding: JSONEncoding.default).responseString { (response) in

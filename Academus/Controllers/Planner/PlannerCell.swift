@@ -25,6 +25,8 @@ class PlannerCell: UITableViewCell {
     var type: String? {
         didSet {
             typeLabel.text = "\(type ?? "unknown")"
+            typeLabel.adjustsFontSizeToFitWidth = true
+            typeLabel.sizeToFit()
         }
     }
     
@@ -41,10 +43,13 @@ class PlannerCell: UITableViewCell {
         self.color = color
     }
     
-    let divider = UIView().setupBackground(bgColor: .tableViewSeperator)
+    let divider = UIView().setupBackground(bgColor: .navigationsMediumGrey)
+    
     let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+    let subBackground = UIView().setupBackground(bgColor: .tableViewGrey)
+    
     let dateLabel = UILabel().setUpLabel(text: "", font: UIFont.subheader!, fontColor: .tableViewLightGrey)
-    let typeLabel = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .navigationsGreen)
+    let typeLabel = UILabel().setUpLabel(text: "", font: UIFont.demiStandard!, fontColor: .navigationsGreen)
     let colorView = UIView()
     
     let downArrow = UIImageView().setupImageView(color: .navigationsGreen, image: #imageLiteral(resourceName: "downArrow"))
@@ -57,19 +62,37 @@ class PlannerCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewDarkGrey
         selectionStyle = .none
+        
+        dateLabel.font = UIFont.demiStandard
+        gradeLabel.font = UIFont.standard
+        gradeTwoLabel.font = UIFont.standard
+
+        titleLabel.textColor = .navigationsWhite
+        titleLabel.font = UIFont.standard
+        titleLabel.numberOfLines = 0
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.lineBreakMode = .byWordWrapping
+        
         background.roundCorners(corners: .all)
+        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
+        
+        colorView.setUpShadow(color: .black, offset: CGSize(width: -2, height: 0), radius: 2, opacity: 0.25)
+        subBackground.roundCorners(corners: .bottom)
         
         colorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         colorView.layer.cornerRadius = 3
-        colorView.layer.masksToBounds = true
+        colorView.layer.masksToBounds = false
         
-        addSubviews(views: [background, divider, typeLabel, dateLabel, colorView])
+        addSubviews(views: [background, divider, typeLabel, dateLabel, titleLabel, colorView, subBackground])
         
-        colorView.anchors(top: background.topAnchor, topPad: 6, bottom: background.bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, width: 3)
-        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: colorView.rightAnchor, leftPad: 0, right: rightAnchor, rightPad: -6)
-        typeLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 12)
-        dateLabel.anchors(top: background.topAnchor, topPad: 6, right: background.rightAnchor, rightPad: -9)
-        divider.anchors(top: typeLabel.bottomAnchor, topPad: 6, left: background.leftAnchor, right: background.rightAnchor, height: 1)
+        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: colorView.rightAnchor, leftPad: 0, right: rightAnchor, rightPad: -9)
+        divider.anchors(top: typeLabel.bottomAnchor, topPad: 3, left: background.leftAnchor, right: background.rightAnchor, height: 1)
+        
+        subBackground.anchors(top: divider.bottomAnchor, topPad: 0, bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor)
+        
+        colorView.anchors(top: background.topAnchor, topPad: 6, bottom: background.bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 9, width: 6)
+        typeLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 12, right: dateLabel.leftAnchor, rightPad: -6)
+        dateLabel.anchors(right: background.rightAnchor, rightPad: -9, centerY: typeLabel.centerYAnchor)
     }
 
     required init?(coder aDecoder: NSCoder) {

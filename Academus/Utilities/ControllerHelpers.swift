@@ -239,7 +239,6 @@ extension UIView{
         }
         
         self.layer.cornerRadius = 9
-        self.layer.masksToBounds = true
     }
     
     func setupImageView(color: UIColor, image: UIImage) -> UIImageView {

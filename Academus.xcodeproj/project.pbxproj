@@ -179,9 +179,9 @@
 		D7153A2F204D658700CF4DC4 /* Planner */ = {
 			isa = PBXGroup;
 			children = (
-				D7C06F8D208DB15700E74581 /* PlannerCellManager.swift */,
 				D7153A30204D660300CF4DC4 /* PlannerController.swift */,
 				D7CCBC8B207D9226009654CB /* PlannerCell.swift */,
+				D7C06F8D208DB15700E74581 /* PlannerCellManager.swift */,
 				582142C9207E832300F92E1B /* PlannerCardCreation */,
 			);
 			path = Planner;
@@ -303,12 +303,12 @@
 		D7FA4875203A4D30007ADFE0 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				C4C856B0208ADAE900CC17C7 /* SettingsBundleHelper.swift */,
-				D7D1E4272062FFF7002099B9 /* UIFont.swift */,
 				D7FA4876203A560D007ADFE0 /* UIColor.swift */,
-				D762FCF72069A4470021B6F2 /* CustomUI.swift */,
-				D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */,
+				D7D1E4272062FFF7002099B9 /* UIFont.swift */,
 				D73F6550203E5A6100144C89 /* Constants.swift */,
+				D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */,
+				D762FCF72069A4470021B6F2 /* CustomUI.swift */,
+				C4C856B0208ADAE900CC17C7 /* SettingsBundleHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";

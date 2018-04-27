@@ -27,7 +27,7 @@ class IntegrationService {
     var integration: IntegrationChoice?
 
     func getIntegrations(completion: @escaping CompletionHandler) {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let authToken = dictionary?[AUTH_TOKEN] as! String
         Alamofire.request(URL(string: "\(BASE_URL)/api/integrations/available?token=\(authToken)")!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON {
             (response) in
@@ -55,7 +55,7 @@ class IntegrationService {
     
     
     func addIntegration(fields: [UITextField], completion: @escaping (_ Success: Bool, _ Error: String?) -> ()) {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let authToken = dictionary?["authToken"] as! String
         guard let route = integration?.route else {return}
         
@@ -91,7 +91,7 @@ class IntegrationService {
     }
     
     func userIntegrations(completion: @escaping CompletionHandler) {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let authToken = dictionary?["authToken"] as! String
         
         Alamofire.request(URL(string: "\(BASE_URL)/api/integrations?token=\(authToken)")!, method: .get, encoding: JSONEncoding.default).responseString { (response) in
@@ -123,8 +123,8 @@ class IntegrationService {
     }
     
     func syncIntegration(id: Int, completion: @escaping CompletionHandler) {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-        let authToken = dictionary?["authToken"] as! String
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+        let authToken = dictionary?[AUTH_TOKEN] as! String
         
         Alamofire.request(URL(string: "\(BASE_URL)/api/integrations/\(id)/sync?token=\(authToken)")!, method: .post, encoding: JSONEncoding.default).responseString { (response) in
             if response.result.error == nil {

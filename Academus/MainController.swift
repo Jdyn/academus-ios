@@ -8,32 +8,97 @@
 
 import UIKit
 import Locksmith
+import LocalAuthentication
 
 
 class MainController: UIViewController {
     
     var apnsToken: String?
+    var appLock: Bool?
+    var logo: UIImageView?
+    
+    var tryAgain = UIButton().setUpButton(bgColor: .tableViewMediumGrey, title: "TRY AGAIN", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
+    var logout = UIButton().setUpButton(bgColor: .tableViewMediumGrey, title: "LOG OUT", font: UIFont.standard!, fontColor: .navigationsGreen, state: .normal)
     
     override func viewDidLoad() {
-        view.backgroundColor = .navigationsDarkGrey
+        view.backgroundColor = .tableViewMediumGrey
         
-        let logo = UIImageView()
-        logo.image = #imageLiteral(resourceName: "logo_colored")
-        view.addSubview(logo)
-        logo.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 128, height: 128)
+        logo = UIImageView()
+        logo?.image = #imageLiteral(resourceName: "logo_colored")
+        view.addSubview(logo!)
+        logo?.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 128, height: 128)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        let userDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
-        let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+
+        let settings = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)
+        appLock = settings?[isAppLock] as? Bool
+
         
-        if userDictionary?["isLoggedIn"] == nil {
-            UIApplication.shared.shortcutItems = nil
-            loginUser()
+        if dictionary?["isLoggedIn"] == nil {
+            kickUser()
         } else {
-            let authToken = authDictionary?[AUTH_TOKEN] as? String
+            if appLock! {
+                authenticate { (success) in
+                    if success {
+                        self.loginUser()
+                    } else {
+                        self.showLockOptions()
+                    }
+                }
+            } else {
+                UIApplication.shared.shortcutItems = nil
+                loginUser()
+            }
+        }
+    }
+    
+    func authenticate(completion: @escaping CompletionHandler) {
+        let context = LAContext()
+        let reason = "Verify your identity to access Academus"
+        
+        var authError: NSError?
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, error in
+                if success {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
+        } else {
+            completion(false)
+            switch authError! {
+            default: alertMessage(title: "Try again later...", message: authError!.localizedDescription)
+            }
+        }
+    }
+    
+    func showLockOptions() {
+        DispatchQueue.main.async {
+            self.tryAgain.isHidden = false
+            self.logout.isHidden = false
+            
+            self.logout.addTarget(self, action: #selector(self.logoutPressed), for: .touchUpInside)
+            self.tryAgain.addTarget(self, action: #selector(self.tryAgainPressed), for: .touchUpInside)
+            
+            UIView.transition(with: self.view, duration: 0.6, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
+                self.view.addSubviews(views: [self.tryAgain, self.logout])
+            })
+            
+            self.tryAgain.anchors(top: self.logo?.bottomAnchor, topPad: 32, centerX: self.view.centerXAnchor, width: 128, height: 45 )
+            self.logout.anchors(bottom: self.view.bottomAnchor, bottomPad: -32, centerX: self.view.centerXAnchor, width: 128, height: 45 )
+        }
+    }
+    
+    func loginUser() {
+        DispatchQueue.main.async {
+            let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+            let authToken = dictionary?[AUTH_TOKEN] as? String
             if authToken != nil {
                 self.present(MainBarController(), animated: true, completion: {
                     let plannerIcon = UIApplicationShortcutIcon(templateImageName: "planner")
@@ -43,35 +108,71 @@ class MainController: UIViewController {
                     UIApplication.shared.shortcutItems = [plannerShortcut, coursesShortcut]
                 })
             } else {
-                UIApplication.shared.shortcutItems = nil
-                loginUser()
+                self.kickUser()
+            }
+        }
+    }
+
+    
+    func kickUser() {
+        try? Locksmith.deleteDataForUserAccount(userAccount: USER_INFO)
+        
+        let settings = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)
+        var localSettings = settings
+        localSettings?[isAppLock] = false
+        try? Locksmith.updateData(data: localSettings!, forUserAccount: USER_SETTINGS)
+        
+        let welcomeController = WelcomeController()
+        welcomeController.mainController = self
+        let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)
+        appLock = false
+        
+        let settings1 = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)
+        print(settings1 as Any)
+        
+        tryAgain.isHidden = true
+        logout.isHidden = true
+
+        self.present(welcomeNavigationController, animated: true, completion: nil)
+    }
+    
+    @objc func logoutPressed() {
+        let alert = UIAlertController(title: "WARNING", message: "Logging out will remove the lock on your account.", preferredStyle: .alert)
+        let actionYes = UIAlertAction(title: "Yes", style: .destructive) { (action) in
+            self.kickUser()
+        }
+            let actionNo = UIAlertAction(title: "No", style: .cancel, handler: nil)
+            
+            alert.addAction(actionNo)
+            alert.addAction(actionYes)
+            self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func tryAgainPressed() {
+        authenticate { (success) in
+            if success {
+                self.loginUser()
+            } else {
+                return
             }
         }
     }
     
-    func loginUser() {
-        let welcomeController = WelcomeController()
-        welcomeController.mainController = self
-        let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)
-        self.present(welcomeNavigationController, animated: true, completion: nil)
-    }
     
     func notificationTokenManager() {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-        let currentApnsToken = dictionary?[APPLE_TOKEN] as? String
-        let authToken = dictionary?[AUTH_TOKEN] as? String
+        let infoDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+        let apnsDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
+        
+        let currentApnsToken = apnsDictionary?[APPLE_TOKEN] as? String
+        let authToken = infoDictionary?[AUTH_TOKEN] as? String
         
         if (self.apnsToken != currentApnsToken) {
             if (self.apnsToken != nil) {
                 if (authToken != nil) {
                     do {
-                        
-                        try Locksmith.updateData(data: [
-                            APPLE_TOKEN : apnsToken!,
-                            AUTH_TOKEN : authToken!
-                            ], forUserAccount: USER_AUTH)
-                        
+                        try Locksmith.updateData(data: [APPLE_TOKEN : apnsToken!], forUserAccount: USER_APNS)
                         AuthService().registerAPNS(token: authToken!, appleToken: apnsToken!)
+                        
                         return
                     } catch let error {
                         print(error)

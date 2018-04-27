@@ -27,44 +27,27 @@ class NotificationService {
                 "notify_misc" : misc!
             ]
             
-            let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-            let apnsToken = authDictionary?[APPLE_TOKEN] as? String
-            print(authDictionary as Any)
+            let infoDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+            let apnsDictionray = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
+            let apnsToken = apnsDictionray?[APPLE_TOKEN] as? String
+            print(apnsDictionray as Any)
             
             if apnsToken != nil {
                 
-                let authToken = authDictionary?[AUTH_TOKEN]
+                let authToken = infoDictionary?[AUTH_TOKEN]
 
                 Alamofire.request(URL(string: "\(BASE_URL)/api/apns/\(apnsToken!)?token=\(authToken ?? "")")!, method: .patch, parameters: body, encoding: JSONEncoding.default).responseJSON { (response) in
                     guard let data = response.data else {print("RETURNED"); return }
                     
                     if response.result.error == nil {
-                        do {
-                            let json = JSON(data)
-                            if json["success"].boolValue {
-                                let notifMisc = json["result"]["notify_misc"].boolValue
-                                let notifAss = json["result"]["notify_assignments"].boolValue
-                                let notifCourses = json["result"]["notify_courses"].boolValue
-                                print(json)
-                                
-                                try Locksmith.updateData(data: [
-                                    isAssignmentsPosted : notifAss,
-                                    isCoursePosted : notifCourses,
-                                    isMisc : notifMisc,
-                                    isFirstLaunch: true
-                                    ], forUserAccount: USER_NOTIF)
-                                
-                                let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_NOTIF)
-                                print("JSON RESPONSE UPDATE", dictionary as Any)
-                                
-                                completion(true)
-                                return
-                            } else {
-                                completion(false)
-                            }
-                        } catch {
-                            completion(false)
+                        let json = JSON(data)
+                        if json["success"].boolValue {
+                            print(json)
+                            
+                            completion(true)
                             return
+                        } else {
+                            completion(false)
                         }
                     } else {
                         completion(false)

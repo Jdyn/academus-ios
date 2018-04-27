@@ -24,11 +24,11 @@ class AuthService {
     var logInErrorDelegate: logInErrorDelegate?
     var accountCreateDelegate: accountCreateErrorDelegate?
     
-    func registerUser(betaCode: String, firstName: String, lastName: String, email:String, password: String, appleToken: String?, completion: @escaping CompletionHandler) {
+    func registerUser(firstName: String, lastName: String, email:String, password: String, appleToken: String?, completion: @escaping CompletionHandler) {
         let lowerCaseEmail = email.lowercased()
         
         let body: Parameters = [
-            "beta_code": betaCode,
+            "beta_code": "SMHS",
             "user": [
                 "first_name": firstName.trimmingCharacters(in: .whitespacesAndNewlines),
                 "last_name": lastName.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -70,13 +70,16 @@ class AuthService {
                             "firstName" : firstName,
                             "lastName" : lastName,
                             "isLoggedIn" : isLoggedIn,
-                            "userID" : userID
+                            "userID" : userID,
+                            AUTH_TOKEN : token
                             ], forUserAccount: USER_INFO)
                         
-                        try Locksmith.updateData(data: [
-                            APPLE_TOKEN : appleToken as Any,
-                            AUTH_TOKEN : token
-                            ], forUserAccount: USER_AUTH)
+                        try Locksmith.updateData(data: [ APPLE_TOKEN : appleToken as Any ], forUserAccount: USER_APNS)
+                        
+                        let infoDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+                        let apnsDictionray = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
+                        print("INFO: ", infoDictionary)
+                        print("APNS: ", apnsDictionray)
                         
                         completion(true)
                         
@@ -145,13 +148,16 @@ class AuthService {
                             "firstName" : firstName,
                             "lastName" : lastName,
                             "isLoggedIn" : isLoggedIn,
-                            "userID" : userID
+                            "userID" : userID,
+                            AUTH_TOKEN : token
                             ], forUserAccount: USER_INFO)
                         
-                        try Locksmith.updateData(data: [
-                            APPLE_TOKEN : appleToken,
-                            AUTH_TOKEN : token
-                            ], forUserAccount: USER_AUTH)
+                        try Locksmith.updateData(data: [ APPLE_TOKEN : appleToken as Any ], forUserAccount: USER_APNS)
+                        
+                        let infoDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+                        let apnsDictionray = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
+                        print("INFO: ", infoDictionary)
+                        print("APNS: ", apnsDictionray)
                         
                         completion(true)
 

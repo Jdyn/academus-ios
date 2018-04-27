@@ -39,7 +39,7 @@ enum SettingsCellManager {
 
     func getSubtext() -> String{
         switch self {
-        case .appLock: return "- Feature coming soon"
+//        case .appLock: return "- Feature coming soon"
 //        case .notifAssignmentPosted: return "Feature coming soon"
 //        case .notifCourseGradeUpdated: return "Feature coming soon"
 //        case .notifMiscellaneous: return "Feature coming soon"
@@ -50,7 +50,7 @@ enum SettingsCellManager {
 
     func getImage() -> UIImage{
         switch self {
-        case .appLock: return #imageLiteral(resourceName: "fingerprint")
+        case .appLock: return #imageLiteral(resourceName: "lock")
         case .notifSettings: return #imageLiteral(resourceName: "notification")
         case .notifAssignmentPosted: return #imageLiteral(resourceName: "assignmentNotif")
         case .notifCourseGradeUpdated: return #imageLiteral(resourceName: "courseNotif")

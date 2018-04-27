@@ -57,7 +57,6 @@ class CacheService {
             if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
                 self.imageCacheDelegate?.didGetImage(image: image)
                 self.save(image: image, with: url.absoluteString)
-                print(url.absoluteString as NSString)
                 completion(true)
             } else {
                 completion(false)
