@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Locksmith
 
 class MainBarController: UITabBarController {
     
@@ -14,6 +15,23 @@ class MainBarController: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .tableViewDarkGrey
         self.setUpUI()
+        
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+        if dictionary?["isLoggedIn"] != nil {
+            self.becomeFirstResponder()
+        }
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        get {
+            return true
+        }
+    }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            Freshchat.sharedInstance().showConversations(self)
+        }
     }
     
     func setUpUI(){
