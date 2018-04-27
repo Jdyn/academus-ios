@@ -10,7 +10,7 @@ import UIKit
 import Locksmith
 import MaterialShowcase
 
-class CourseDetailsController: UITableViewController, AssignmentServiceDelegate {
+class CourseDetailsController: UITableViewController, UIViewControllerPreviewingDelegate, AssignmentServiceDelegate {
     
     private let assignmentService = AssignmentService()
     var assignments = [Assignment]()
@@ -73,9 +73,13 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = self.tableView.dequeueReusableCell(withIdentifier: assignmentID, for: indexPath) as! CourseAssignmentCell
         cell.assignment = assignments[indexPath.row]
+        
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: cell)
+        }
+        
         return cell
     }
     
@@ -99,6 +103,21 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let cell = previewingContext.sourceView as? CourseAssignmentCell else { return nil }
+        previewingContext.sourceRect = cell.background.frame
+        
+        let assignmentDetailController = AssignmentDetailController()
+        assignmentDetailController.assignment = cell.assignment
+        return assignmentDetailController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        guard let controller = viewControllerToCommit as? AssignmentDetailController else { return }
+        show(controller, sender: self)
+    }
+    
     
     func didGetAssignments(assignments: [Assignment]) {
         let filtered = assignments.filter { $0.course?.id == courseID }

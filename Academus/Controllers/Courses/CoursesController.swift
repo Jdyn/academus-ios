@@ -10,7 +10,7 @@ import UIKit
 import Locksmith
 import MaterialShowcase
 
-class CoursesController: UITableViewController, CourseServiceDelegate, UserIntegrationsDelegate {
+class CoursesController: UITableViewController, UIViewControllerPreviewingDelegate, CourseServiceDelegate, UserIntegrationsDelegate {
     
     private let integrationService = IntegrationService()
     private let courseService = CourseService()
@@ -53,11 +53,15 @@ class CoursesController: UITableViewController, CourseServiceDelegate, UserInteg
     }
     
     func guidedTutorial() {
-//        guard UserDefaults.standard.bool(forKey: "CoursesOpened") != true else { return }
-//        UserDefaults.standard.set(true, forKey: "CoursesOpened")
+        guard UserDefaults.standard.bool(forKey: "CoursesOpened") != true else { return }
+        guard !tableView.visibleCells.isEmpty else { return }
+        guard let first = tableView.visibleCells.first else { return }
+        guard let firstCourse = first as? CourseCell else { return }
+        
+        UserDefaults.standard.set(true, forKey: "CoursesOpened")
         
         let showcase = MaterialShowcase()
-        showcase.setTargetView(tableView: tableView, section: 0, row: 0)
+        showcase.setTargetView(view: firstCourse.background)
         showcase.primaryText = "Tap on a class to view its assignments."
         showcase.secondaryText = ""
         showcase.shouldSetTintColor = false
@@ -154,6 +158,11 @@ class CoursesController: UITableViewController, CourseServiceDelegate, UserInteg
         let cell = self.tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CourseCell
         let course = self.courses[indexPath.row]
         cell.course = course
+        
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: cell)
+        }
+        
         return cell
     }
     
@@ -170,6 +179,20 @@ class CoursesController: UITableViewController, CourseServiceDelegate, UserInteg
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return courses.count }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 90 }
     
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let cell = previewingContext.sourceView as? CourseCell else { return nil }
+        previewingContext.sourceRect = cell.background.frame
+        
+        let courseInfoController = CourseInfoController(style: .grouped)
+        courseInfoController.course = cell.course
+        return courseInfoController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        guard let controller = viewControllerToCommit as? CourseInfoController else { return }
+        show(controller, sender: self)
+    }
+    
     @objc func refreshTable() {
         fetchCourses() { (success) in
             if success {
@@ -179,7 +202,6 @@ class CoursesController: UITableViewController, CourseServiceDelegate, UserInteg
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
                         self.tableView.reloadData()
                         if self.courses.isEmpty { self.checkIntegrations() }
-                        self.guidedTutorial()
                     })
                 })
             } else {

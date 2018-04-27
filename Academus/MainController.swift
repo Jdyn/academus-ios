@@ -30,12 +30,20 @@ class MainController: UIViewController {
         let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
         
         if userDictionary?["isLoggedIn"] == nil {
+            UIApplication.shared.shortcutItems = nil
             loginUser()
         } else {
             let authToken = authDictionary?[AUTH_TOKEN] as? String
             if authToken != nil {
-                self.present(MainBarController(), animated: true, completion: nil)
+                self.present(MainBarController(), animated: true, completion: {
+                    let plannerIcon = UIApplicationShortcutIcon(templateImageName: "planner")
+                    let coursesIcon = UIApplicationShortcutIcon(templateImageName: "grades")
+                    let plannerShortcut = UIApplicationShortcutItem(type: "plannerShortcut", localizedTitle: "Planner", localizedSubtitle: nil, icon: plannerIcon)
+                    let coursesShortcut = UIApplicationShortcutItem(type: "coursesShortcut", localizedTitle: "Courses", localizedSubtitle: nil, icon: coursesIcon)
+                    UIApplication.shared.shortcutItems = [plannerShortcut, coursesShortcut]
+                })
             } else {
+                UIApplication.shared.shortcutItems = nil
                 loginUser()
             }
         }
