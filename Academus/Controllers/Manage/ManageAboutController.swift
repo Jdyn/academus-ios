@@ -17,6 +17,7 @@ class ManageAboutController: UITableViewController {
         navigationItem.title = "About"
         tableView.separatorStyle = .none
         self.extendedLayoutIncludesOpaqueBars = true
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         cells = [.alamofire, .locksmith, .swiftyJson]
         cells.forEach { (type) in
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())

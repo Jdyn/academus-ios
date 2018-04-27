@@ -21,6 +21,7 @@ class ManageController: UITableViewController {
         tableView.separatorStyle = .none
         tableView.tableHeaderView = profileView()
         self.extendedLayoutIncludesOpaqueBars = true
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         
         cells = [.manageIntegrations, .inviteFriends, .settings, .help, .about]
         cells.forEach { (type) in
