@@ -9,12 +9,10 @@
 import UIKit
 import CoreData
 import Locksmith
+import MessageUI
 
-    class PlannerController: UITableViewController, PlannerCardDelegate, UIViewControllerPreviewingDelegate {
+    class PlannerController: UITableViewController, PlannerCardDelegate, UIViewControllerPreviewingDelegate, MFMailComposeViewControllerDelegate {
         
-
-        
-    
     var cards = [PlannerCard]()
     var plannerService = PlannerService()
     var cells: [PlannerCellManager] = [PlannerCellManager]()
@@ -30,7 +28,7 @@ import Locksmith
 
 //        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
 //        setupChatButtonInNavBar()
-        
+                
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
@@ -132,7 +130,7 @@ import Locksmith
         cell.setup(type: manager.getTitle(), createdDate: (model.date)!, color: manager.getColor())
                 
         switch manager {
-        case .courseUpdatedCard: cell.assignments = model.affectingAssignments!; return courseUpdatedCell(cell: cell, model: model, manager: manager)
+        case .courseUpdatedCard: return courseUpdatedCell(cell: cell, model: model, manager: manager) //cell.assignments = model.affectingAssignments!; 
         case .assignmentPostedCard: return assignmentPostedCell(cell: cell, model: model, manager: manager)
         case .assignmentUpdatedCard: return assignmentUpdatedCell(cell: cell, model: model, manager: manager)
         case .upcomingAssignmentCard: return upcomingAssignment(cell: cell, model: model, manager: manager)
@@ -165,6 +163,7 @@ import Locksmith
             tableView.deselectRow(at: indexPath, animated: true)
         case .courseUpdatedCard:
             let courseDetailsController = CourseDetailsController()
+            courseDetailsController.barbutton = false
             courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
             courseDetailsController.course = cards[indexPath.row].course
             courseDetailsController.courseID = cards[indexPath.row].course?.id
@@ -201,6 +200,8 @@ import Locksmith
     }
 
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        viewControllerToCommit.navigationItem.rightBarButtonItem?.isEnabled = false
+        viewControllerToCommit.navigationItem.rightBarButtonItem?.tintColor = .clear
         show(viewControllerToCommit, sender: self)
     }
     
@@ -260,13 +261,13 @@ extension PlannerController {
         courseNameString.setColorForText(textForAttribute: "\((model.course?.name) ?? "unknown")", withColor: UIColor.navigationsGreen)
         cell.titleLabel.attributedText = courseNameString
         
-        print(cell.buttons.count)
+//        print(cell.buttons.count)
         
-        cell.buttons.forEach { (button) in
-            cell.addSubview(button)
-            cell.stack.addArrangedSubview(button)
-
-        }
+//        cell.buttons.forEach { (button) in
+//            cell.addSubview(button)
+//            cell.stack.addArrangedSubview(button)
+//
+//        }
         
         cell.addSubviews(views: [cell.titleLabel, cell.gradeLabel, cell.stack])
         

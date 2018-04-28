@@ -48,6 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UITabBar.appearance().isTranslucent = false
         UITabBar.appearance().barTintColor = .navigationsDarkGrey
         UITabBar.appearance().tintColor = .navigationsGreen
+        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -5)
         
         UITableView.appearance().backgroundColor = .tableViewDarkGrey
         

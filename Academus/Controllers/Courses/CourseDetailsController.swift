@@ -17,18 +17,24 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     var assignmentID = "AssignmentCell"
     var course: Course?
     var courseID : Int?
+    var barbutton: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
         self.extendedLayoutIncludesOpaqueBars = true
-
+        if barbutton {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
+        }
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         fetchAssignments()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
     }
     
     func guidedTutorial() {

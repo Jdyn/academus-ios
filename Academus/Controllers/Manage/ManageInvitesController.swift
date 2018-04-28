@@ -22,6 +22,7 @@ class ManageInvitesController: UITableViewController, userInvitesDelegate, userA
         navigationItem.title = "Invite Friends"
         view.backgroundColor = .tableViewDarkGrey
         self.extendedLayoutIncludesOpaqueBars = true
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         invitesService.inviteDelegate = self
         invitesService.getInvites { (success) in
             if success {
@@ -195,7 +196,7 @@ extension ManageInvitesController {
         redeemer.anchors(top: circle.centerYAnchor, topPad: 0, left: circle.rightAnchor, leftPad: 9)
         
         if invite.redeemed == false {
-            let button = shareButton(type: .system)
+            let button = ShareButton(type: .system)
             button.setImage(#imageLiteral(resourceName: "share"), for: .normal)
             button.tintColor = .tableViewLightGrey
             button.inviteCode = invite.code
@@ -207,7 +208,7 @@ extension ManageInvitesController {
         return cell
     }
     
-    @objc func buttonClicked(_ sender: shareButton) {
+    @objc func buttonClicked(_ sender: ShareButton) {
         guard let code = sender.inviteCode else {return}
         let message = "Hey, Try out Academus on the App Store. Get notified when your grades change and more. Use this code: \(code)"
         let objectsToShare = [message] as [Any]

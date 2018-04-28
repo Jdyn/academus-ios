@@ -32,6 +32,7 @@ class SettingsController: UITableViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .tableViewDarkGrey
         self.extendedLayoutIncludesOpaqueBars = true
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
 
         cells = [.appLock, .notifSettings, .notifAssignmentPosted, .notifCourseGradeUpdated, .notifMiscellaneous]
         for type in cells {
@@ -111,7 +112,7 @@ class SettingsController: UITableViewController {
 
         view.addSubviews(views: [background, title, subtext])
 
-        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
         title.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor)
         subtext.anchors(left: title.rightAnchor, leftPad: 0, centerY: background.centerYAnchor)
         return view
@@ -197,7 +198,7 @@ extension SettingsController {
         
         background.anchors(top: cell.topAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9, height: 55)
         subBackground.anchors(top: background.bottomAnchor, bottom: bottomCornerBackground.topAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
-        bottomCornerBackground.anchors(bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 5, right: cell.rightAnchor, rightPad: -5, height: 9)
+        bottomCornerBackground.anchors(bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 8, right: cell.rightAnchor, rightPad: -8, height: 9)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 24, height: 24)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 32, height: 32)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: background.centerYAnchor)
@@ -221,7 +222,7 @@ extension SettingsController {
         
         backgroundView.anchors(top: selectionView.topAnchor, left: selectionView.leftAnchor, leftPad: 9, right: selectionView.rightAnchor, rightPad: -9, height: 55)
         subBackground2.anchors(top: backgroundView.bottomAnchor, bottom: bottomCornerBackground2.topAnchor, bottomPad: -6, left: backgroundView.leftAnchor, leftPad: 9, right: backgroundView.rightAnchor, rightPad: -9)
-        bottomCornerBackground2.anchors(bottom: selectionView.bottomAnchor, left: selectionView.leftAnchor, leftPad: 8, right: selectionView.rightAnchor, rightPad: -8, height: 9)
+        bottomCornerBackground2.anchors(bottom: selectionView.bottomAnchor, left: selectionView.leftAnchor, leftPad: 9, right: selectionView.rightAnchor, rightPad: -9, height: 9)
         
         cell.selectedBackgroundView = selectionView
         

@@ -163,7 +163,7 @@ extension ManageController: ImageCacheDelegate {
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let name = UILabel().setUpLabel(text: "\(infoDictionary?["firstName"] ?? "Unkown") \(infoDictionary?["lastName"] ?? "Name")", font: UIFont(name: "AvenirNext-medium", size: 20)!, fontColor: .navigationsWhite)
         let email = UILabel().setUpLabel(text: "\(infoDictionary?["email"] ?? "Unknown Email")", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
-    
+        email.adjustsFontSizeToFitWidth = true
         background.layer.cornerRadius = 9
         background.layer.masksToBounds = true
         background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
@@ -186,7 +186,7 @@ extension ManageController: ImageCacheDelegate {
         view.addSubviews(views: [background, stack, button, profileImage])
         
         background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
-        stack.anchors(left: profileImage.rightAnchor, leftPad: 9, centerY: profileImage.centerYAnchor)
+        stack.anchors(left: profileImage.rightAnchor, leftPad: 9, right: button.leftAnchor, rightPad: -3, centerY: profileImage.centerYAnchor)
         profileImage.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 64, height: 64)
         button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 64, height: 64)
         

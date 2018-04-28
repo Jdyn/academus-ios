@@ -10,19 +10,19 @@ import UIKit
 
 class PlannerCell: UITableViewCell {
     
-    var assignments: [PlannerCard.AffectingAssignment]? {
-        didSet {
-            if let assCount = assignments?.count {
-                if assCount > 0 {
-                    buttons.removeAll()
-                    for _ in 0...assCount - 1 {
-                        let button = UIButton()
-                        buttons.append(button)
-                    }
-                }
-            }
-        }
-    }
+//    var assignments: [PlannerCard.AffectingAssignment]? {
+//        didSet {
+//            if let assCount = assignments?.count {
+//                if assCount > 0 {
+//                    buttons.removeAll()
+//                    for _ in 0...assCount - 1 {
+//                        let button = UIButton()
+//                        buttons.append(button)
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     var createdDate: Date? {
         didSet {
@@ -88,31 +88,31 @@ class PlannerCell: UITableViewCell {
         titleLabel.textColor = .navigationsWhite
         titleLabel.font = UIFont.standard
         titleLabel.numberOfLines = 0
-        titleLabel.adjustsFontForContentSizeCategory = true
+//        titleLabel.adjustsFontForContentSizeCategory = true
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.lineBreakMode = .byWordWrapping
         
-        background.layer.cornerRadius = 16
+        background.layer.cornerRadius = 18
         background.layer.masksToBounds = false
         background.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
-        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
+//        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
         
         
-        subBackground.layer.cornerRadius = 16
+        subBackground.layer.cornerRadius = 14
         subBackground.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
-        subBackground.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
+//        subBackground.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
 
         colorView.layer.cornerRadius = 12
-        colorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-        colorView.setUpShadow(color: .black, offset: CGSize(width: -2, height: 0), radius: 2, opacity: 0.25)
+        colorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+//        colorView.setUpShadow(color: .black, offset: CGSize(width: -2, height: 0), radius: 2, opacity: 0.25)
         
         addSubviews(views: [colorView, background, divider, typeLabel, dateLabel, titleLabel, subBackground])
         
-        colorView.anchors(top: background.topAnchor, topPad: 0.5, bottom: background.bottomAnchor, bottomPad: -0.5, left: leftAnchor, leftPad: 9, width: 64)
-        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 21, right: rightAnchor, rightPad: -9)
+        colorView.anchors(top: background.topAnchor, topPad: 1, bottom: background.bottomAnchor, bottomPad: 2, left: leftAnchor, leftPad: 7, right: subBackground.rightAnchor, rightPad: -9)
+        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -8, left: leftAnchor, leftPad: 14, right: rightAnchor, rightPad: -9)
         divider.anchors(top: typeLabel.bottomAnchor, topPad: 3, left: background.leftAnchor, right: background.rightAnchor, height: 1)
         
-        subBackground.anchors(top: divider.bottomAnchor, topPad: 0, bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor)
+        subBackground.anchors(top: divider.bottomAnchor, topPad: 0, bottom: colorView.bottomAnchor, bottomPad: 0, left: background.leftAnchor, right: background.rightAnchor)
         
         typeLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 12, right: dateLabel.leftAnchor, rightPad: -6)
         dateLabel.anchors(right: background.rightAnchor, rightPad: -9, centerY: typeLabel.centerYAnchor)
