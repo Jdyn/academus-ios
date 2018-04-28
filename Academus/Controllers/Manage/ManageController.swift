@@ -172,6 +172,8 @@ extension ManageController: ImageCacheDelegate {
         profileImage.image = UIImage()
         profileImage.layer.masksToBounds = true
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
+        profileImage.layer.borderWidth = 0.5
+        profileImage.layer.borderColor = UIColor.navigationsGreen.cgColor
         
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "exit"), for: .normal)
