@@ -18,7 +18,7 @@ class ManageAboutController: UITableViewController {
         tableView.separatorStyle = .none
         self.extendedLayoutIncludesOpaqueBars = true
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
-        cells = [.alamofire, .locksmith, .swiftyJson]
+        cells = [.alamofire, .locksmith, .swiftyJson, .showcase]
         cells.forEach { (type) in
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
         }
