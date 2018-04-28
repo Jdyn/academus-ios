@@ -56,12 +56,12 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 9
+        return 3
     }
     
     func fetchAssignments() {
         assignmentService.delegate = self
-        assignmentService.getAssignments { (success) in
+        assignmentService.getAssignments(courseID: courseID!) { (success) in
             if success {
                 self.tableView.reloadData()
                 self.guidedTutorial()

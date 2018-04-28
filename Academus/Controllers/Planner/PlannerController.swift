@@ -26,7 +26,8 @@ import Locksmith
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         registerForPreviewing(with: self, sourceView: tableView)
-        
+        tableView.showsVerticalScrollIndicator = false
+
 //        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
 //        setupChatButtonInNavBar()
         
@@ -131,7 +132,7 @@ import Locksmith
         cell.setup(type: manager.getTitle(), createdDate: (model.date)!, color: manager.getColor())
                 
         switch manager {
-        case .courseUpdatedCard: return courseUpdatedCell(cell: cell, model: model, manager: manager)
+        case .courseUpdatedCard: cell.assignments = model.affectingAssignments!; return courseUpdatedCell(cell: cell, model: model, manager: manager)
         case .assignmentPostedCard: return assignmentPostedCell(cell: cell, model: model, manager: manager)
         case .assignmentUpdatedCard: return assignmentUpdatedCell(cell: cell, model: model, manager: manager)
         case .upcomingAssignmentCard: return upcomingAssignment(cell: cell, model: model, manager: manager)
@@ -151,7 +152,7 @@ import Locksmith
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 3  }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 6  }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch cells[indexPath.row] {
@@ -250,7 +251,7 @@ extension PlannerController {
         let gradeString: NSMutableAttributedString = NSMutableAttributedString(string: gradeText)
         gradeString.setColorForText(textForAttribute: "\(previousGrade)%", withColor: previousGradeColor)
         gradeString.setColorForText(textForAttribute: "\(currentGrade)%", withColor: currentGradeColor)
-
+        
         cell.gradeLabel.textColor = .tableViewLightGrey
         cell.gradeLabel.attributedText = gradeString
         
@@ -259,8 +260,17 @@ extension PlannerController {
         courseNameString.setColorForText(textForAttribute: "\((model.course?.name) ?? "unknown")", withColor: UIColor.navigationsGreen)
         cell.titleLabel.attributedText = courseNameString
         
-        cell.addSubviews(views: [cell.titleLabel, cell.gradeLabel])
+        print(cell.buttons.count)
         
+        cell.buttons.forEach { (button) in
+            cell.addSubview(button)
+            cell.stack.addArrangedSubview(button)
+
+        }
+        
+        cell.addSubviews(views: [cell.titleLabel, cell.gradeLabel, cell.stack])
+        
+        cell.stack.anchors(top: cell.gradeLabel.bottomAnchor, bottom: cell.subBackground.bottomAnchor, left: cell.subBackground.leftAnchor, right: cell.subBackground.rightAnchor)
         cell.titleLabel.anchors(top: cell.subBackground.topAnchor, topPad: 6, left: cell.subBackground.leftAnchor, leftPad: 12, right: cell.subBackground.rightAnchor, rightPad: -12)
         cell.gradeLabel.anchors(top: cell.titleLabel.bottomAnchor, topPad: 16, bottom: cell.subBackground.bottomAnchor, bottomPad: -12, left: cell.subBackground.leftAnchor, leftPad: 12)
         

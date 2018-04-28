@@ -128,7 +128,7 @@ extension ManageController: ImageCacheDelegate {
         
         cell.addSubviews(views: [background, icon, title])
         
-        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
+        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 24, height: 24)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
         
@@ -148,7 +148,7 @@ extension ManageController: ImageCacheDelegate {
         
         cell.addSubviews(views: [background, icon, title])
         
-        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
+        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 24, height: 24)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
         
@@ -172,8 +172,6 @@ extension ManageController: ImageCacheDelegate {
         profileImage.image = UIImage()
         profileImage.layer.masksToBounds = true
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
-        profileImage.layer.borderWidth = 0.5
-        profileImage.layer.borderColor = UIColor.navigationsGreen.cgColor
         
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "exit"), for: .normal)
@@ -187,7 +185,7 @@ extension ManageController: ImageCacheDelegate {
         stack.distribution = .equalCentering
         view.addSubviews(views: [background, stack, button, profileImage])
         
-        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
         stack.anchors(left: profileImage.rightAnchor, leftPad: 9, centerY: profileImage.centerYAnchor)
         profileImage.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 64, height: 64)
         button.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 64, height: 64)
@@ -204,7 +202,7 @@ extension ManageController: ImageCacheDelegate {
         let selectedView = UIView()
         selectedView.backgroundColor =  UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 0.1)
         view.addSubview(selectedView)
-        selectedView.anchors(top: view.topAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        selectedView.anchors(top: view.topAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
         return view
     }
     

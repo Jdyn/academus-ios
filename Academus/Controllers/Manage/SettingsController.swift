@@ -195,7 +195,7 @@ extension SettingsController {
         
         cell.addSubviews(views: [background, subBackground, bottomCornerBackground, title, icon, notifSetting, arrow])
         
-        background.anchors(top: cell.topAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6, height: 55)
+        background.anchors(top: cell.topAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9, height: 55)
         subBackground.anchors(top: background.bottomAnchor, bottom: bottomCornerBackground.topAnchor, bottomPad: -6, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
         bottomCornerBackground.anchors(bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 5, right: cell.rightAnchor, rightPad: -5, height: 9)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 24, height: 24)
@@ -219,9 +219,9 @@ extension SettingsController {
         
         selectionView.addSubviews(views: [backgroundView, subBackground2, bottomCornerBackground2])
         
-        backgroundView.anchors(top: selectionView.topAnchor, left: selectionView.leftAnchor, leftPad: 6, right: selectionView.rightAnchor, rightPad: -6, height: 55)
+        backgroundView.anchors(top: selectionView.topAnchor, left: selectionView.leftAnchor, leftPad: 9, right: selectionView.rightAnchor, rightPad: -9, height: 55)
         subBackground2.anchors(top: backgroundView.bottomAnchor, bottom: bottomCornerBackground2.topAnchor, bottomPad: -6, left: backgroundView.leftAnchor, leftPad: 9, right: backgroundView.rightAnchor, rightPad: -9)
-        bottomCornerBackground2.anchors(bottom: selectionView.bottomAnchor, left: selectionView.leftAnchor, leftPad: 5, right: selectionView.rightAnchor, rightPad: -5, height: 9)
+        bottomCornerBackground2.anchors(bottom: selectionView.bottomAnchor, left: selectionView.leftAnchor, leftPad: 8, right: selectionView.rightAnchor, rightPad: -8, height: 9)
         
         cell.selectedBackgroundView = selectionView
         
@@ -266,7 +266,7 @@ extension SettingsController {
         
         cell.addSubviews(views: [background, icon, title, toggle, subtext])
             
-        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
+        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 24, height: 24)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
         toggle.anchors(right: background.rightAnchor, rightPad: -9, centerY: background.centerYAnchor)
@@ -310,7 +310,7 @@ extension SettingsController {
         
         cell.addSubviews(views: [background, icon, title, toggle, subtext])
         
-        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
+        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: cell.centerYAnchor, width: 24, height: 24)
         title.anchors(left: icon.rightAnchor, leftPad: 12, centerY: cell.centerYAnchor)
         toggle.anchors(right: background.rightAnchor, rightPad: -9, centerY: background.centerYAnchor)

@@ -55,7 +55,7 @@ class CourseInfoController: UITableViewController {
         
         view.addSubviews(views: [background, icon, title])
         
-        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        background.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 8, right: view.rightAnchor, rightPad: -8)
         icon.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 24, height: 24)
         title.anchors(left: icon.rightAnchor, leftPad: 9, centerY: background.centerYAnchor)
         return view
@@ -72,7 +72,7 @@ class CourseInfoController: UITableViewController {
         background.roundCorners(corners: .bottom)
         view.addSubviews(views: [background, label])
         
-        background.anchors(top: view.topAnchor, left: view.leftAnchor, leftPad: 5, right: view.rightAnchor, rightPad: -5, height: 9)
+        background.anchors(top: view.topAnchor, left: view.leftAnchor, leftPad: 8, right: view.rightAnchor, rightPad: -8, height: 9)
         label.anchors(top: background.bottomAnchor, topPad: 6, left: background.leftAnchor, leftPad: 13, right: background.rightAnchor, rightPad: -13)
         return view
     }
@@ -106,7 +106,7 @@ extension CourseInfoController {
         subtext.adjustsFontSizeToFitWidth = true
         cell.addSubviews(views: [background, title, subtext])
         
-        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
+        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         title.anchors(top: background.topAnchor, topPad: 9, left: background.leftAnchor, leftPad: 12, centerY: background.centerYAnchor)
         subtext.anchors(top: background.topAnchor, topPad: 9, left: title.rightAnchor, leftPad: 12, right: background.rightAnchor, rightPad: -12, centerY: title.centerYAnchor)
 
