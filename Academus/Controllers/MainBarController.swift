@@ -15,8 +15,8 @@ class MainBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .tableViewDarkGrey
-        self.setUpUI()
-        
+        setUpUI()
+        setUpShortcuts()
         notificationPresent()
         
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
@@ -37,7 +37,7 @@ class MainBarController: UITabBarController {
         }
     }
     
-    func setUpUI(){
+    func setUpUI() {
         let plannerController = PlannerController()
         plannerController.tabBarItem = UITabBarItem(title: "Planner", image: #imageLiteral(resourceName: "planner"), tag: 0)
         
@@ -49,6 +49,14 @@ class MainBarController: UITabBarController {
         
         let controllers = [plannerController, coursesController, settingsController]
         self.viewControllers = controllers.map { MainNavigationController(rootViewController: $0)}
+    }
+    
+    func setUpShortcuts() {
+        let plannerIcon = UIApplicationShortcutIcon(templateImageName: "planner")
+        let coursesIcon = UIApplicationShortcutIcon(templateImageName: "grades")
+        let plannerShortcut = UIApplicationShortcutItem(type: "plannerShortcut", localizedTitle: "Planner", localizedSubtitle: nil, icon: plannerIcon)
+        let coursesShortcut = UIApplicationShortcutItem(type: "coursesShortcut", localizedTitle: "Courses", localizedSubtitle: nil, icon: coursesIcon)
+        UIApplication.shared.shortcutItems = [plannerShortcut, coursesShortcut]
     }
 }
 
