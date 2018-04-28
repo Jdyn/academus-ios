@@ -135,7 +135,7 @@ extension CourseInfoController {
         cell.addSubviews(views: [background, button])
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
-        button.anchors(top: background.topAnchor, topPad: 9, bottom: background.bottomAnchor, bottomPad: 0, left: background.leftAnchor, leftPad: 12, right: background.rightAnchor, rightPad: -12)
+        button.anchors(top: background.topAnchor, topPad: 12, bottom: background.bottomAnchor, bottomPad: 0, left: background.leftAnchor, leftPad: 28, right: background.rightAnchor, rightPad: -28)
         image.anchors(left: button.leftAnchor, leftPad: 9, centerY: button.centerYAnchor, width: 24, height: 24)
         return cell
     }

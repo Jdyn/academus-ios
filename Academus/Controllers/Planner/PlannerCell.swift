@@ -95,16 +95,16 @@ class PlannerCell: UITableViewCell {
         background.layer.cornerRadius = 18
         background.layer.masksToBounds = false
         background.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
-//        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
+        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
         
         
         subBackground.layer.cornerRadius = 14
         subBackground.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
-//        subBackground.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
+        subBackground.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
 
         colorView.layer.cornerRadius = 12
         colorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
-//        colorView.setUpShadow(color: .black, offset: CGSize(width: -2, height: 0), radius: 2, opacity: 0.25)
+        colorView.setUpShadow(color: .black, offset: CGSize(width: -2, height: 0), radius: 2, opacity: 0.25)
         
         addSubviews(views: [colorView, background, divider, typeLabel, dateLabel, titleLabel, subBackground])
         
