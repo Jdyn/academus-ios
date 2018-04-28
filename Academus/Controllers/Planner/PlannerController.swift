@@ -10,7 +10,10 @@ import UIKit
 import CoreData
 import Locksmith
 
-class PlannerController: UITableViewController, PlannerCardDelegate {
+    class PlannerController: UITableViewController, PlannerCardDelegate, UIViewControllerPreviewingDelegate {
+        
+
+        
     
     var cards = [PlannerCard]()
     var plannerService = PlannerService()
@@ -22,6 +25,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate {
         view.backgroundColor = .tableViewDarkGrey
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        registerForPreviewing(with: self, sourceView: tableView)
         
 //        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
 //        setupChatButtonInNavBar()
@@ -30,23 +34,26 @@ class PlannerController: UITableViewController, PlannerCardDelegate {
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
         refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
-
+        
+        cells = [.assignmentPostedCard, .assignmentUpdatedCard, .courseUpdatedCard, .upcomingAssignmentCard]
+        
+        cells.forEach { (cell) in
+            self.tableView.register(PlannerCell.self, forCellReuseIdentifier: cell.getType())
+        }
+        
+        cells = []
         plannerService.delegate = self
         plannerService.getPlannerCards { (success) in
             if success {
                 self.cards.forEach({ (card) in
                     if card.type == "course_updated" {
                         self.cells.append(.courseUpdatedCard)
-                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
                     } else if card.type == "assignment_posted" {
                         self.cells.append(.assignmentPostedCard)
-                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
                     } else if card.type == "assignment_updated" {
                         self.cells.append(.assignmentUpdatedCard)
-                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
                     } else if card.type == "upcoming_assignment" {
                         self.cells.append(.upcomingAssignmentCard)
-                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
                     }
                 })
                 UIView.transition(with: self.tableView,duration: 0.2, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
@@ -75,19 +82,16 @@ class PlannerController: UITableViewController, PlannerCardDelegate {
         plannerService.delegate = self
         plannerService.getPlannerCards { (success) in
             if success {
+//                self.cells.removeAll()
                 self.cards.forEach({ (card) in
                     if card.type == "course_updated" {
                         self.cells.append(.courseUpdatedCard)
-                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
                     } else if card.type == "assignment_posted" {
                         self.cells.append(.assignmentPostedCard)
-                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
                     } else if card.type == "assignment_updated" {
                         self.cells.append(.assignmentUpdatedCard)
-                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
                     } else if card.type == "upcoming_assignment" {
                         self.cells.append(.upcomingAssignmentCard)
-                        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: card.type!)
                     }
                 })
                 completion(true)
@@ -123,7 +127,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate {
         let model = cards[indexPath.row]
         let manager = cells[indexPath.row]
     
-        let cell = tableView.dequeueReusableCell(withIdentifier: model.type!, for: indexPath) as! PlannerCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: manager.getType(), for: indexPath) as! PlannerCell
         cell.setup(type: manager.getTitle(), createdDate: (model.date)!, color: manager.getColor())
                 
         switch manager {
@@ -148,6 +152,56 @@ class PlannerController: UITableViewController, PlannerCardDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 3  }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch cells[indexPath.row] {
+        case .assignmentUpdatedCard, .assignmentPostedCard:
+            let assignmentDetailController = AssignmentDetailController()
+            assignmentDetailController.navigationItem.title = cards[indexPath.row].assignment?.name
+            assignmentDetailController.assignment = cards[indexPath.row].assignment
+            assignmentDetailController.card = cards[indexPath.row]
+            navigationController?.pushViewController(assignmentDetailController, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        case .courseUpdatedCard:
+            let courseDetailsController = CourseDetailsController()
+            courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
+            courseDetailsController.course = cards[indexPath.row].course
+            courseDetailsController.courseID = cards[indexPath.row].course?.id
+            navigationController?.pushViewController(courseDetailsController, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        default: break
+        }
+    }
+        
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard
+            let indexPath = tableView.indexPathForRow(at: location),
+            let cell = tableView.cellForRow(at: indexPath) as? PlannerCell
+            else {
+                return nil
+        }
+        
+        previewingContext.sourceRect = cell.frame
+        
+        switch cells[indexPath.row] {
+        case .assignmentPostedCard, .assignmentUpdatedCard:
+            let assignmentDetailController = AssignmentDetailController()
+            assignmentDetailController.assignment = cards[indexPath.row].assignment
+            assignmentDetailController.card = cards[indexPath.row]
+            return assignmentDetailController
+        case .courseUpdatedCard:
+            let courseDetailsController = CourseDetailsController()
+            courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
+            courseDetailsController.course = cards[indexPath.row].course
+            courseDetailsController.courseID = cards[indexPath.row].course?.id
+            return courseDetailsController
+        default: return UIViewController()
+        }
+    }
+
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
+    }
     
     @objc func refreshTable() {
         fetchCards { (success) in

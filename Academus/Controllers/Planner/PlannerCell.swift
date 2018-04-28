@@ -85,12 +85,12 @@ class PlannerCell: UITableViewCell {
         
         addSubviews(views: [background, divider, typeLabel, dateLabel, titleLabel, colorView, subBackground])
         
-        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: colorView.rightAnchor, leftPad: 0, right: rightAnchor, rightPad: -9)
+        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: colorView.rightAnchor, leftPad: 0, right: rightAnchor, rightPad: -6)
         divider.anchors(top: typeLabel.bottomAnchor, topPad: 3, left: background.leftAnchor, right: background.rightAnchor, height: 1)
         
         subBackground.anchors(top: divider.bottomAnchor, topPad: 0, bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor)
         
-        colorView.anchors(top: background.topAnchor, topPad: 6, bottom: background.bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 9, width: 6)
+        colorView.anchors(top: background.topAnchor, topPad: 6, bottom: background.bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 6, width: 6)
         typeLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 12, right: dateLabel.leftAnchor, rightPad: -6)
         dateLabel.anchors(right: background.rightAnchor, rightPad: -9, centerY: typeLabel.centerYAnchor)
     }

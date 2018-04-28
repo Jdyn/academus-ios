@@ -84,8 +84,7 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let assignmentDetailController = AssignmentDetailController()
-        assignmentDetailController.navigationItem.title = assignments[indexPath.row].name
+        let assignmentDetailController = AssignmentDetailController(style: .grouped)
         assignmentDetailController.assignment = assignments[indexPath.row]
         
         navigationController?.pushViewController(assignmentDetailController, animated: true)

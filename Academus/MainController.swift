@@ -166,7 +166,6 @@ class MainController: UIViewController {
         }
     }
     
-    
     func notificationTokenManager() {
         let infoDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let apnsDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)

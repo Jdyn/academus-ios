@@ -12,14 +12,14 @@ extension UIColor {
     
     static let navigationsLightGrey = UIColor(red: 158/255, green: 158/255, blue: 158/255, alpha: 1)
     static let navigationsMediumGrey = UIColor(red: 37/255, green: 37/255, blue: 37/255, alpha: 1)
-    static let navigationsDarkGrey = UIColor(red: 23/255, green: 23/255, blue: 23/255, alpha: 1)
+    static let navigationsDarkGrey = UIColor(red: 25/255, green: 25/255, blue: 25/255, alpha: 1)
     
     static let navigationsRed = UIColor(red: 239/255, green: 83/255, blue: 80/255, alpha: 1)
     static let navigationsWhite = UIColor(red: 238/255, green: 238/255, blue: 238/255, alpha: 1)
     static let navigationsGreen = UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 1)
     static let navigationsBlue = UIColor(red: 3/255, green: 169/255, blue: 244/255, alpha: 1)
     static let navigationsOrange = UIColor(red: 255/255, green: 160/255, blue: 0/255, alpha: 1)
-    static let navigationsPink = UIColor(red: 255/255, green: 64/255, blue: 129/255, alpha: 1)
+    static let navigationsPink = UIColor(red: 255/255, green: 235/255, blue: 59/255, alpha: 1)
     static let navigationsDarkGreen = UIColor(red: 229/255, green: 57/255, blue: 53/255, alpha: 1)
     
     static let tableViewGrey = UIColor(red: 45/255, green: 45/255, blue: 45/255, alpha: 1)

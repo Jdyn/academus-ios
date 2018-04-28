@@ -78,8 +78,8 @@ class AuthService {
                         
                         let infoDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
                         let apnsDictionray = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
-                        print("INFO: ", infoDictionary)
-                        print("APNS: ", apnsDictionray)
+                        print("INFO: ", infoDictionary as Any)
+                        print("APNS: ", apnsDictionray as Any)
                         
                         completion(true)
                         
@@ -156,8 +156,8 @@ class AuthService {
                         
                         let infoDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
                         let apnsDictionray = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
-                        print("INFO: ", infoDictionary)
-                        print("APNS: ", apnsDictionray)
+                        print("INFO: ", infoDictionary as Any)
+                        print("APNS: ", apnsDictionray as Any)
                         
                         completion(true)
 
