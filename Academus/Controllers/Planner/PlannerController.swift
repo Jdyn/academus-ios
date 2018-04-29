@@ -9,9 +9,9 @@
 import UIKit
 import CoreData
 import Locksmith
-import MessageUI
+import MaterialShowcase
 
-    class PlannerController: UITableViewController, PlannerCardDelegate, UIViewControllerPreviewingDelegate, MFMailComposeViewControllerDelegate {
+    class PlannerController: UITableViewController, PlannerCardDelegate, UIViewControllerPreviewingDelegate {
         
     var cards = [PlannerCard]()
     var plannerService = PlannerService()
@@ -68,6 +68,31 @@ import MessageUI
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+        
+        override func viewDidAppear(_ animated: Bool) {
+            super.viewDidAppear(true)
+            guidedTutorial()
+        }
+        
+    func guidedTutorial() {
+        guard UserDefaults.standard.bool(forKey: "PlannerOpened") != true else { return }
+        guard !tableView.visibleCells.isEmpty else { return }
+        guard let first = tableView.visibleCells.first else { return }
+        guard let firstCourse = first as? PlannerCell else { return }
+        
+        UserDefaults.standard.set(true, forKey: "PlannerOpened")
+        
+        let showcase = MaterialShowcase()
+        showcase.setTargetView(view: firstCourse)
+        showcase.primaryText = "Have an iPhone 6s or better? Try pressing harder on stuff around the app."
+        showcase.secondaryText = ""
+        showcase.shouldSetTintColor = false
+        showcase.targetHolderColor = .clear
+        showcase.targetHolderRadius = 0
+        showcase.backgroundPromptColor = .navigationsDarkGrey
+        showcase.backgroundPromptColorAlpha = 0.9
+        showcase.show(animated: true, completion: nil)
     }
     
     func didGetPlannerCards(cards: [PlannerCard]) {
