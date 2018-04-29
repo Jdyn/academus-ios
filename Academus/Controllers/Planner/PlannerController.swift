@@ -228,6 +228,7 @@ import Locksmith
 extension PlannerController {
     
     func courseUpdatedCell(cell: PlannerCell, model: PlannerCard, manager: PlannerCellManager) -> PlannerCell {
+
         
         let currentGrade = model.newGrade?.gradePercent ?? 0
         let previousGrade = model.previousGrade?.gradePercent ?? 0
@@ -246,10 +247,13 @@ extension PlannerController {
             currentGradeColor = .tableViewLightGrey
         }
         
-        let gradeText = "Grade: \(previousGrade)% → \(currentGrade)%"
-        let gradeString: NSMutableAttributedString = NSMutableAttributedString(string: gradeText)
-        gradeString.setColorForText(textForAttribute: "\(previousGrade)%", withColor: previousGradeColor)
-        gradeString.setColorForText(textForAttribute: "\(currentGrade)%", withColor: currentGradeColor)
+        let currentGradeText = (model.newGrade?.gradePercent != nil) ? "\(currentGrade)%" : "N/A"
+        let previousGradeText = (model.previousGrade?.gradePercent != nil) ? "\(previousGrade)%" : "N/A"
+        
+        let gradeText = "Grade: \(previousGradeText) → \(currentGradeText)"
+        let gradeString = NSMutableAttributedString(string: gradeText)
+        gradeString.setColorForText(textForAttribute: "\(previousGradeText)", withColor: previousGradeColor)
+        gradeString.setColorForText(textForAttribute: "\(currentGradeText)", withColor: currentGradeColor)
 
         cell.gradeLabel.textColor = .tableViewLightGrey
         cell.gradeLabel.attributedText = gradeString
