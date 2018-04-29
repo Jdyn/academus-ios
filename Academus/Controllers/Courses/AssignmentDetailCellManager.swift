@@ -11,6 +11,7 @@ import UIKit
 enum AssignmentDetailCellManager {
     
     case title
+    case category
     case score
     case dueDate
     case description
@@ -18,6 +19,7 @@ enum AssignmentDetailCellManager {
     func getTitle() -> String {
         switch self {
         case .title: return "Name"
+        case .category: return "Category"
         case .score: return "Score"
         case .dueDate: return "Due Date"
         case .description: return "Description"
@@ -27,13 +29,14 @@ enum AssignmentDetailCellManager {
     func getSubtext(assignment: Assignment?, card: PlannerCard?) -> String? {
         switch self {
         case .title: return assignment?.name ?? "Unknown Assignment"
-        case .score: return assignment?.score?.text ?? card?.newScore?.scoreText ?? "No score available"
+        case .category: return assignment?.category?.name ?? "None"
+        case .score: return assignment?.score?.text ?? card?.newScore?.scoreText ?? "No Score Available"
         case .dueDate:
                 let formatter = DateFormatter()
                 formatter.dateFormat = "MMMM d, yyyy"
                 return formatter.string(from: assignment?.assigned_date ?? card?.newScore?.loggedAt ?? Date())
         case .description:
-            guard assignment?.description != "" else { return "No Desription Available" }
+            guard assignment?.description != "" else { return "No Description Available" }
             return assignment?.description
         }
     }
