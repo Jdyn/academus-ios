@@ -32,14 +32,13 @@ class MainController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
 
         let settings = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)
         appLock = settings?[isAppLock] as? Bool
 
-        
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         if dictionary?["isLoggedIn"] == nil {
+            UIApplication.shared.shortcutItems = nil
             kickUser()
         } else {
             if appLock! {
@@ -51,7 +50,6 @@ class MainController: UIViewController {
                     }
                 }
             } else {
-                UIApplication.shared.shortcutItems = nil
                 loginUser()
             }
         }
@@ -106,15 +104,7 @@ class MainController: UIViewController {
                     barController.selectedIndex = UserDefaults.standard.integer(forKey: "preferredTab")
                 }
                 
-                self.present(barController, animated: true, completion: {
-                    guard UIApplication.shared.shortcutItems == nil else { return }
-                    
-                    let plannerIcon = UIApplicationShortcutIcon(templateImageName: "planner")
-                    let coursesIcon = UIApplicationShortcutIcon(templateImageName: "grades")
-                    let plannerShortcut = UIApplicationShortcutItem(type: "plannerShortcut", localizedTitle: "Planner", localizedSubtitle: nil, icon: plannerIcon)
-                    let coursesShortcut = UIApplicationShortcutItem(type: "coursesShortcut", localizedTitle: "Courses", localizedSubtitle: nil, icon: coursesIcon)
-                    UIApplication.shared.shortcutItems = [plannerShortcut, coursesShortcut]
-                })
+                self.present(barController, animated: true, completion: nil)
             } else {
                 self.kickUser()
             }
