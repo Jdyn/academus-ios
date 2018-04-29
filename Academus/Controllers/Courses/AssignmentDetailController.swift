@@ -70,7 +70,7 @@ extension AssignmentDetailController {
         
         cell.addSubviews(views: [background, title, courseTitle])
         
-        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
+        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
 
         courseTitle.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor)
         title.anchors(top: courseTitle.bottomAnchor, topPad: 6, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
@@ -91,7 +91,7 @@ extension AssignmentDetailController {
         
         cell.addSubviews(views: [background, title, subtext])
         
-        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
+        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         title.anchors(top: background.topAnchor, topPad: 9, left: background.leftAnchor, leftPad: 12)
         subtext.anchors(top: background.topAnchor, topPad: 9, left: title.rightAnchor, leftPad: 6, right: background.rightAnchor, rightPad: -12)
         
@@ -111,7 +111,7 @@ extension AssignmentDetailController {
         
         cell.addSubviews(views: [background, title, subtext])
         
-        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 6, right: cell.rightAnchor, rightPad: -6)
+        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         title.anchors(top: background.topAnchor, topPad: 0, centerX: background.centerXAnchor)
         subtext.anchors(top: title.bottomAnchor, topPad: 9, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 12, right: background.rightAnchor, rightPad: -9)
         
