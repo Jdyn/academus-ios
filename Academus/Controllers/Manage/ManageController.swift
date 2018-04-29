@@ -165,9 +165,9 @@ extension ManageController: ImageCacheDelegate {
         let email = UILabel().setUpLabel(text: "\(infoDictionary?["email"] ?? "Unknown Email")", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         email.adjustsFontSizeToFitWidth = true
         background.layer.cornerRadius = 9
-        background.layer.masksToBounds = true
         background.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        
+        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 1, opacity: 0.2)
+
         cacheService.imageCacheDelegate = self
         profileImage.image = UIImage()
         profileImage.layer.masksToBounds = true
