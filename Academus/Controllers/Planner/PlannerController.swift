@@ -11,7 +11,7 @@ import CoreData
 import Locksmith
 import MaterialShowcase
 
-    class PlannerController: UITableViewController, PlannerCardDelegate, UIViewControllerPreviewingDelegate {
+class PlannerController: UITableViewController, PlannerCardDelegate, UIViewControllerPreviewingDelegate {
         
     var cards = [PlannerCard]()
     var plannerService = PlannerService()
@@ -23,7 +23,6 @@ import MaterialShowcase
         view.backgroundColor = .tableViewDarkGrey
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
-        registerForPreviewing(with: self, sourceView: tableView)
         tableView.showsVerticalScrollIndicator = false
 
 //        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
@@ -65,26 +64,22 @@ import MaterialShowcase
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 200.0
     }
-    
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
         
-        override func viewDidAppear(_ animated: Bool) {
-            super.viewDidAppear(true)
-            guidedTutorial()
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: { self.guidedTutorial() })
+    }
         
     func guidedTutorial() {
         guard UserDefaults.standard.bool(forKey: "PlannerOpened") != true else { return }
         guard !tableView.visibleCells.isEmpty else { return }
         guard let first = tableView.visibleCells.first else { return }
-        guard let firstCourse = first as? PlannerCell else { return }
+        guard let firstCard = first as? PlannerCell else { return }
         
         UserDefaults.standard.set(true, forKey: "PlannerOpened")
         
         let showcase = MaterialShowcase()
-        showcase.setTargetView(view: firstCourse)
+        showcase.setTargetView(view: firstCard.background)
         showcase.primaryText = "Have an iPhone 6s or better? Try pressing harder on stuff around the app."
         showcase.secondaryText = ""
         showcase.shouldSetTintColor = false
@@ -146,6 +141,10 @@ import MaterialShowcase
         return UITableViewAutomaticDimension
     }
     
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> PlannerCell {
         
         let model = cards[indexPath.row]
@@ -153,6 +152,8 @@ import MaterialShowcase
     
         let cell = tableView.dequeueReusableCell(withIdentifier: manager.getType(), for: indexPath) as! PlannerCell
         cell.setup(type: manager.getTitle(), createdDate: (model.date)!, color: manager.getColor())
+        
+        registerForPreviewing(with: self, sourceView: cell)
                 
         switch manager {
         case .courseUpdatedCard: return courseUpdatedCell(cell: cell, model: model, manager: manager) //cell.assignments = model.affectingAssignments!; 
@@ -199,14 +200,12 @@ import MaterialShowcase
     }
         
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard
-            let indexPath = tableView.indexPathForRow(at: location),
-            let cell = tableView.cellForRow(at: indexPath) as? PlannerCell
-            else {
-                return nil
-        }
+        guard let cell = previewingContext.sourceView as? PlannerCell,
+              let indexPath = tableView.indexPath(for: cell)
+              else { return nil }
         
-        previewingContext.sourceRect = cell.frame
+        let frame = cell.colorView.frame.union(cell.background.frame)
+        previewingContext.sourceRect = frame
         
         switch cells[indexPath.row] {
         case .assignmentPostedCard, .assignmentUpdatedCard:
@@ -255,7 +254,6 @@ import MaterialShowcase
 extension PlannerController {
     
     func courseUpdatedCell(cell: PlannerCell, model: PlannerCard, manager: PlannerCellManager) -> PlannerCell {
-
         
         let currentGrade = model.newGrade?.gradePercent ?? 0
         let previousGrade = model.previousGrade?.gradePercent ?? 0
@@ -298,7 +296,7 @@ extension PlannerController {
 //
 //        }
         
-        cell.addSubviews(views: [cell.titleLabel, cell.gradeLabel, cell.stack])
+        cell.background.addSubviews(views: [cell.titleLabel, cell.gradeLabel, cell.stack])
         
         cell.stack.anchors(top: cell.gradeLabel.bottomAnchor, bottom: cell.subBackground.bottomAnchor, left: cell.subBackground.leftAnchor, right: cell.subBackground.rightAnchor)
         cell.titleLabel.anchors(top: cell.subBackground.topAnchor, topPad: 6, left: cell.subBackground.leftAnchor, leftPad: 12, right: cell.subBackground.rightAnchor, rightPad: -12)
@@ -321,7 +319,7 @@ extension PlannerController {
         cell.gradeLabel.textColor = .tableViewLightGrey
         cell.gradeLabel.attributedText = gradeString
         
-        cell.addSubviews(views: [cell.titleLabel, cell.gradeLabel])
+        cell.background.addSubviews(views: [cell.titleLabel, cell.gradeLabel])
         
         cell.titleLabel.anchors(top: cell.subBackground.topAnchor, topPad: 6, left: cell.subBackground.leftAnchor, leftPad: 12, right: cell.subBackground.rightAnchor, rightPad: -12)
         cell.gradeLabel.anchors(top: cell.titleLabel.bottomAnchor, topPad: 12, bottom: cell.background.bottomAnchor, bottomPad: -12, left: cell.background.leftAnchor, leftPad: 12, right: cell.background.rightAnchor, rightPad: -12)
@@ -344,7 +342,7 @@ extension PlannerController {
         cell.gradeTwoLabel.textColor = .tableViewLightGrey
         cell.gradeTwoLabel.text = grade2Text
         
-        cell.addSubviews(views: [cell.titleLabel, cell.gradeLabel, cell.gradeTwoLabel, cell.downArrow, ])
+        cell.background.addSubviews(views: [cell.titleLabel, cell.gradeLabel, cell.gradeTwoLabel, cell.downArrow])
         
         cell.titleLabel.anchors(top: cell.subBackground.topAnchor, topPad: 6, left: cell.subBackground.leftAnchor, leftPad: 12, right: cell.subBackground.rightAnchor, rightPad: -12)
         cell.gradeLabel.anchors(top: cell.titleLabel.bottomAnchor, topPad: 9, centerX: cell.background.centerXAnchor)
@@ -362,7 +360,7 @@ extension PlannerController {
         titleString.setColorForText(textForAttribute: "\(model.assignment?.course?.name ?? "a course")", withColor: UIColor.navigationsGreen)
         cell.titleLabel.attributedText = titleString
         
-        cell.addSubviews(views: [cell.titleLabel])
+        cell.background.addSubviews(views: [cell.titleLabel])
         
         cell.titleLabel.anchors(top: cell.subBackground.topAnchor, topPad: 16, bottom: cell.subBackground.bottomAnchor, bottomPad: -16, left: cell.subBackground.leftAnchor, leftPad: 12, right: cell.subBackground.rightAnchor, rightPad: -12)
         

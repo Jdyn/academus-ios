@@ -106,7 +106,8 @@ class PlannerCell: UITableViewCell {
         colorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
         colorView.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
         
-        addSubviews(views: [colorView, background, divider, typeLabel, dateLabel, titleLabel, subBackground])
+        background.addSubviews(views: [divider, typeLabel, dateLabel, titleLabel, subBackground])
+        addSubviews(views: [colorView, background])
         
         colorView.anchors(top: background.topAnchor, topPad: 6, bottom: background.bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 9, right: subBackground.rightAnchor, rightPad: -9)
         background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -8, left: leftAnchor, leftPad: 14, right: rightAnchor, rightPad: -9)
