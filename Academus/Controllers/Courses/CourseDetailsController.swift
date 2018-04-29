@@ -25,16 +25,23 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
         tableView.separatorStyle = .none
         self.extendedLayoutIncludesOpaqueBars = true
         if barbutton {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
+            let infoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
+            let summaryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "email"), style: .plain, target: self, action: #selector(handleCourseSummary))
+            
+            navigationItem.rightBarButtonItems = [infoButton, summaryButton]
         }
+        
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         fetchAssignments()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    @objc func handleCourseSummary() {
+        print("tapped")
+        let courseBreakdownController = CourseBreakdownController(style: .grouped)
+        courseBreakdownController.course = course
+        navigationController?.pushViewController(courseBreakdownController, animated: true)
     }
     
     func guidedTutorial() {

@@ -105,7 +105,7 @@ class CourseCell: UITableViewCell {
         selectedView.layer.masksToBounds = true
         
         view.addSubview(selectedView)
-        selectedView.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        selectedView.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
         return view
     }
     

@@ -69,7 +69,7 @@ class CourseAssignmentCell: UITableViewCell {
         backgroundColor = .tableViewDarkGrey
         background.roundCorners(corners: .all)
         
-        selectionStyle = .none
+        selectedBackgroundView = selectedBackgroundView()
         separatorInset = UIEdgeInsets.zero
         
         background.addSubviews(views: [titleLabel, dateLabel, gradeLabel, arrow])
@@ -81,6 +81,20 @@ class CourseAssignmentCell: UITableViewCell {
         gradeLabel.anchors(top: titleLabel.bottomAnchor, left: background.leftAnchor, leftPad: 12, width: 0, height: 0)
         dateLabel.anchors(top: gradeLabel.bottomAnchor, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 12)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 32, height: 32)
+    }
+    
+    func selectedBackgroundView() -> UIView {
+        let view = UIView()
+        view.backgroundColor = .tableViewDarkGrey
+        let selectedView = UIView()
+        selectedView.backgroundColor =  UIColor(red: 165/255, green: 214/255, blue: 167/255, alpha: 0.1)
+        
+        selectedView.layer.cornerRadius = 9
+        selectedView.layer.masksToBounds = true
+        
+        view.addSubview(selectedView)
+        selectedView.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
+        return view
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -26,8 +26,8 @@ class PlannerCell: UITableViewCell {
     
     var createdDate: Date? {
         didSet {
-            dateLabel.adjustsFontForContentSizeCategory = true
-            dateLabel.adjustsFontSizeToFitWidth = true
+//            dateLabel.adjustsFontForContentSizeCategory = true
+//            dateLabel.adjustsFontSizeToFitWidth = true
             dateLabel.font = UIFont.subheader
 
             if createdDate! < Date() {
@@ -102,14 +102,14 @@ class PlannerCell: UITableViewCell {
         subBackground.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         subBackground.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
 
-        colorView.layer.cornerRadius = 3
+        colorView.layer.cornerRadius = 14
         colorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
         colorView.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
         
         background.addSubviews(views: [divider, typeLabel, dateLabel, titleLabel, subBackground])
         addSubviews(views: [colorView, background])
         
-        colorView.anchors(top: background.topAnchor, topPad: 6, bottom: background.bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 9, right: subBackground.rightAnchor, rightPad: -9)
+        colorView.anchors(top: background.topAnchor, topPad: 3, bottom: background.bottomAnchor, bottomPad: -3, left: leftAnchor, leftPad: 9, width: 24)
         background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -8, left: leftAnchor, leftPad: 14, right: rightAnchor, rightPad: -9)
         divider.anchors(top: typeLabel.bottomAnchor, topPad: 3, left: background.leftAnchor, right: background.rightAnchor, height: 1)
         

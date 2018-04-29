@@ -160,6 +160,9 @@ class MainController: UIViewController {
         let infoDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let apnsDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
         
+        print(self.apnsToken as? String)
+        print(apnsDictionary?[APPLE_TOKEN] as? String)
+        
         let currentApnsToken = apnsDictionary?[APPLE_TOKEN] as? String
         let authToken = infoDictionary?[AUTH_TOKEN] as? String
         
@@ -170,6 +173,9 @@ class MainController: UIViewController {
                         try Locksmith.updateData(data: [APPLE_TOKEN : apnsToken!], forUserAccount: USER_APNS)
                         AuthService().registerAPNS(token: authToken!, appleToken: apnsToken!)
                         
+                        let apnsDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
+                        print(apnsDictionary as Any)
+
                         return
                     } catch let error {
                         print(error)

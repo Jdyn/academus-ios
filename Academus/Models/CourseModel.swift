@@ -32,4 +32,14 @@ struct Course : Decodable {
     let average_grade : Float?
     let highest_grade : Float?
     let lowest_grade : Float?
+    let categories: [Category]?
+    struct Category: Decodable {
+        let id: Int?
+        let name: String?
+        let weight: String?
+        let points: String?
+        let pointsPossible: String?
+        let weightedPercent: String?
+        let weightedGradeLetter: String?
+    }
 }

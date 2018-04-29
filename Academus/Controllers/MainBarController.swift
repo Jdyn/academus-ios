@@ -25,11 +25,6 @@ class MainBarController: UITabBarController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        print("APPEARED")
-    }
-    
 //    override var canBecomeFirstResponder: Bool {
 //        get {
 //            return true
