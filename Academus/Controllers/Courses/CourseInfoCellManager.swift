@@ -19,6 +19,7 @@ enum CourseInfoCellManager {
     // Teacher Rows
     case teacherName
     case email
+    case sendEmail
     
     // Stats Rows
     case total
@@ -42,6 +43,7 @@ enum CourseInfoCellManager {
         case .classroomNumber: return "Classroom Number"
         case .teacherName: return "Teacher Name"
         case .email: return "Teacher Email"
+        case .sendEmail: return ""
         case .total: return "Total Students"
         case .average: return "Average Grade"
         case .highest: return "Highest Grade"
@@ -76,6 +78,7 @@ enum CourseInfoCellManager {
         case .classroomNumber: return course?.classroom_number
         case .teacherName: return course?.teacher?.name
         case .email: return course?.teacher?.email
+        case .sendEmail: return course?.teacher?.email
         case .total:
             if let total = course?.total_students {
                 return String(format: "%d", total)
@@ -101,6 +104,7 @@ enum CourseInfoCellManager {
         case .courseInfo: return #imageLiteral(resourceName: "grades")
         case .teacherInfo: return #imageLiteral(resourceName: "profile")
         case .statsInfo: return #imageLiteral(resourceName: "chart")
+        case .sendEmail: return #imageLiteral(resourceName: "email")
         default: return UIImage()
         }
     }
@@ -108,7 +112,7 @@ enum CourseInfoCellManager {
     func getSection() -> Int {
         switch self {
         case .courseName, .customName, .period, .classroomNumber: return 0
-        case .teacherName, .email: return 1
+        case .teacherName, .email, .sendEmail: return 1
         case .total, .average, .highest, .lowest: return 2
         default: return 0
         }
@@ -116,6 +120,7 @@ enum CourseInfoCellManager {
     
     func getCellType() -> String {
         switch self {
+        case .sendEmail: return "sendEmailCell"
         default: return "InfoCell"
         }
     }

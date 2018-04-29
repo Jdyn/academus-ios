@@ -27,9 +27,7 @@ class CourseCell: UITableViewCell {
     let background: UIView = {
         let view = UIView()
         view.backgroundColor = .tableViewMediumGrey
-        view.layer.cornerRadius = 9
-        view.layer.masksToBounds = true
-        let size = CGSize(width: 0, height: 0)
+        view.layer.cornerRadius = 12
         return view
     }()
     
@@ -86,8 +84,9 @@ class CourseCell: UITableViewCell {
         background.addSubviews(views: [arrow, gradeStackView, titleStackView, periodLabel])
         
         addSubview(background)
-
-        background.anchors(top: topAnchor, topPad: 9, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
+        
+        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
+        background.anchors(top: topAnchor, topPad: 9, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 9, right: rightAnchor, rightPad: -9)
         
         titleStackView.anchors(left: periodLabel.rightAnchor, leftPad: 9, right: gradeStackView.leftAnchor, rightPad: -6, centerY: background.centerYAnchor)
         gradeStackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 48, height: 0)

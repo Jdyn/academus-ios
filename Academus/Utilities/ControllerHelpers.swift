@@ -205,7 +205,7 @@ extension UITableViewController {
         
         view.addSubview(background)
         
-        background.anchors(top: view.topAnchor, topPad: topPad, bottom: view.bottomAnchor, bottomPad: botPad, left: view.leftAnchor, leftPad: 5, right: view.rightAnchor, rightPad: -5)
+        background.anchors(top: view.topAnchor, topPad: topPad, bottom: view.bottomAnchor, bottomPad: botPad, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
         return view
     }
 }

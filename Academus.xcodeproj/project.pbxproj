@@ -233,10 +233,10 @@
 			children = (
 				D7255941203A41D100DBA62B /* CoursesController.swift */,
 				D73F655D203FE8F800144C89 /* CourseDetailsController.swift */,
+				C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */,
 				C4C856B2208AE14000CC17C7 /* CourseInfoController.swift */,
 				C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */,
 				C6C916E82090F7CA000CB2D2 /* AssignmentDetailCellManager.swift */,
-				C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */,
 				D73F6553203E763700144C89 /* CourseCell.swift */,
 				D73F655F203FE92500144C89 /* CourseAssignmentCell.swift */,
 			);
@@ -668,7 +668,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -688,7 +688,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

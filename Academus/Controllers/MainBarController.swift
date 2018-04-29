@@ -25,17 +25,23 @@ class MainBarController: UITabBarController {
         }
     }
     
-    override var canBecomeFirstResponder: Bool {
-        get {
-            return true
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        print("APPEARED")
     }
     
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            Freshchat.sharedInstance().showConversations(self)
-        }
-    }
+//    override var canBecomeFirstResponder: Bool {
+//        get {
+//            return true
+//        }
+//    }
+//
+//    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+//        if motion == .motionShake {
+//            Freshchat.sharedInstance().showConversations(self)
+//        }
+//        
+//    }
     
     func setUpUI() {
         let plannerController = PlannerController()
