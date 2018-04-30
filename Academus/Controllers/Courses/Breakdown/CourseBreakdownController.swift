@@ -154,8 +154,13 @@ extension CourseBreakdownController {
         let gradeSubtext = UILabel().setUpLabel(text: "Grade", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         
         let curPercent = UILabel().setUpLabel(text: model.weightedPercent!, font: UIFont.header!, fontColor: .navigationsWhite)
+        curPercent.adjustsFontSizeToFitWidth = true
+        curPercent.textAlignment = .center
+
         let totPercent = UILabel().setUpLabel(text: model.weight!, font: UIFont.header!, fontColor: .navigationsGreen)
-        
+        totPercent.adjustsFontSizeToFitWidth = true
+        totPercent.textAlignment = .center
+
         let pointsSubtext = UILabel().setUpLabel(text: "Points", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         let percentSubtext = UILabel().setUpLabel(text: "Percent", font: UIFont.standard!, fontColor: .tableViewLightGrey)
 
@@ -170,23 +175,17 @@ extension CourseBreakdownController {
         
         pointsPossible1.anchors(top: gradeSubtext.bottomAnchor, topPad: 9, left: background.leftAnchor, leftPad: 9)
         pointsPossible1Subtext.anchors(top: pointsPossible1.bottomAnchor, topPad: -8, left: background.leftAnchor, leftPad: 9)
-        
-//        category.anchors(top: cell.topAnchor, centerX: cell.centerXAnchor)
-        
-//        curPercent.anchors(top: subBackground.topAnchor, topPad: 6, centerX: points.centerXAnchor)
-        
-        pointsSubtext.anchors(bottom: points.topAnchor, centerX: divider.centerXAnchor)
-        points.anchors(top: grade.topAnchor, topPad: 0, centerX: divider.centerXAnchor)
-        divider.anchors(top: points.bottomAnchor, topPad: 3, right: background.rightAnchor, rightPad: -18, width: 64, height: 2)
-        pointsPossible.anchors(top: divider.bottomAnchor, topPad: 3, centerX: divider.centerXAnchor)
-        
-        percentSubtext.anchors(right: background.rightAnchor, rightPad: -9, centerY: divider1.centerYAnchor)
-        curPercent.anchors(top: pointsPossible.bottomAnchor, topPad: 16, centerX: divider1.centerXAnchor)
-        divider1.anchors(top: curPercent.bottomAnchor, topPad: 3, left: divider.leftAnchor, right: divider.rightAnchor, height: 2)
-        totPercent.anchors(top: divider1.bottomAnchor, topPad: 3, centerX: divider1.centerXAnchor)
 
+        pointsSubtext.anchors(top: background.topAnchor, right: background.rightAnchor, rightPad: -24)
+        points.anchors(top: pointsSubtext.bottomAnchor, topPad: 0, centerX: pointsSubtext.centerXAnchor)
+        divider.anchors(top: points.bottomAnchor, topPad: 0, centerX: pointsSubtext.centerXAnchor, width: 64, height: 2)
+        pointsPossible.anchors(top: divider.bottomAnchor, topPad: 0, centerX: pointsSubtext.centerXAnchor)
+        
+        percentSubtext.anchors(top: pointsPossible.bottomAnchor, topPad: 12, centerX: pointsSubtext.centerXAnchor)
+        curPercent.anchors(top: percentSubtext.bottomAnchor, topPad: 0, left: divider1.leftAnchor, right: divider1.rightAnchor)
+        divider1.anchors(top: curPercent.bottomAnchor, topPad: 0, centerX: pointsSubtext.centerXAnchor, width: 64, height: 2)
+        totPercent.anchors(top: divider1.bottomAnchor, topPad: 0, left: divider1.leftAnchor, right: divider1.rightAnchor)
 
-//        totPercent.anchors(bottom: subBackground.bottomAnchor, bottomPad: -6, left: subBackground.leftAnchor, leftPad: 3, right: subBackground.rightAnchor, rightPad: -3, centerX: pointsPossible.centerXAnchor)
 
         return cell
     }
@@ -211,7 +210,7 @@ extension CourseBreakdownController {
         
         cell.category.preferredMaxLayoutWidth = 95
         cell.background.roundCorners(corners: .all)
-        cell.background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 4, opacity: 0.3)
+        cell.background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 4, opacity: 0.2)
         
         cell.points.adjustsFontSizeToFitWidth = true
         cell.pointsPossible.adjustsFontSizeToFitWidth = true
