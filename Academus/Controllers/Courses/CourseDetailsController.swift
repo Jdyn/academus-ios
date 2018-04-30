@@ -30,6 +30,9 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
             
             navigationItem.rightBarButtonItems = [infoButton, summaryButton]
         }
+        if (course?.categories?.count)! <= 0 {
+            
+        }
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         
