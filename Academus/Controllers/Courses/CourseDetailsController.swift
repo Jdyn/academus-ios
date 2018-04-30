@@ -26,7 +26,7 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
         self.extendedLayoutIncludesOpaqueBars = true
         if barbutton {
             let infoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
-            let summaryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "email"), style: .plain, target: self, action: #selector(handleCourseSummary))
+            let summaryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "barChart"), style: .plain, target: self, action: #selector(handleCourseSummary))
             
             navigationItem.rightBarButtonItems = [infoButton, summaryButton]
         }

@@ -149,7 +149,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
         
         let model = cards[indexPath.row]
         let manager = cells[indexPath.row]
-    
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: manager.getType(), for: indexPath) as! PlannerCell
         cell.setup(type: manager.getTitle(), createdDate: (model.date)!, color: manager.getColor())
         

@@ -31,6 +31,7 @@ enum CourseBreakdownCellManager {
     
     func getSection() -> Int {
         switch self {
+        case .points: return 1
         default: return 0
         }
     }

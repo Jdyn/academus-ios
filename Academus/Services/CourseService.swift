@@ -29,7 +29,9 @@ class CourseService {
                 do {
                     let json = JSON(data)
                     let jsonResult = try json["result"].rawData()
-                    let course = try JSONDecoder().decode([Course].self, from: jsonResult)
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let course = try decoder.decode([Course].self, from: jsonResult)
                     if json["success"] == true {
                         self.delegate?.didGetCourses(courses: course)
                     }

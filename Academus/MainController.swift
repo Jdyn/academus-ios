@@ -160,8 +160,8 @@ class MainController: UIViewController {
         let infoDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let apnsDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
         
-        print(self.apnsToken as? String)
-        print(apnsDictionary?[APPLE_TOKEN] as? String)
+//        print(self.apnsToken as? String)
+//        print(apnsDictionary?[APPLE_TOKEN] as? String)
         
         let currentApnsToken = apnsDictionary?[APPLE_TOKEN] as? String
         let authToken = infoDictionary?[AUTH_TOKEN] as? String
