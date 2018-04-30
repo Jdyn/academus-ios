@@ -11,4 +11,5 @@ target 'Academus' do
   pod 'Locksmith'
   pod 'FreshchatSDK'
   pod 'MaterialShowcase'
+  pod 'Charts'
 end

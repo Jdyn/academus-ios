@@ -103,7 +103,7 @@ extension CourseInfoController {
             subtext.textColor = .navigationsLightGrey
         } else {
             subtext.text = manager.getAltSubtext()
-            subtext.font = UIFont.italic!
+            subtext.font = UIFont.subitalic!
             subtext.textColor = .tableViewLightGrey
         }
         subtext.adjustsFontSizeToFitWidth = true
