@@ -49,7 +49,8 @@
 		D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA993204A799300EA082A /* IntegrationLogInController.swift */; };
 		D7B0B42220967B4F00EA73D8 /* CourseBreakdownController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B42120967B4F00EA73D8 /* CourseBreakdownController.swift */; };
 		D7B0B42420967EA500EA73D8 /* CourseBreakdownCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B42320967EA500EA73D8 /* CourseBreakdownCellManager.swift */; };
-		D7B0B4262096830000EA73D8 /* CoursePointsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B4252096830000EA73D8 /* CoursePointsCell.swift */; };
+		D7B0B4262096830000EA73D8 /* CourseCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B4252096830000EA73D8 /* CourseCollectionCell.swift */; };
+		D7B0B42B2096C91500EA73D8 /* CollectionPointsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B42A2096C91500EA73D8 /* CollectionPointsCell.swift */; };
 		D7BA9876208FCE6800F7E735 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7BA9875208FCE6800F7E735 /* Launch Screen.storyboard */; };
 		D7C06F8A208D9E5C00E74581 /* PlannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C06F89208D9E5C00E74581 /* PlannerService.swift */; };
 		D7C06F8C208DA2EC00E74581 /* PlannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C06F8B208DA2EC00E74581 /* PlannerModel.swift */; };
@@ -121,7 +122,8 @@
 		D79DA993204A799300EA082A /* IntegrationLogInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationLogInController.swift; sourceTree = "<group>"; };
 		D7B0B42120967B4F00EA73D8 /* CourseBreakdownController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseBreakdownController.swift; sourceTree = "<group>"; };
 		D7B0B42320967EA500EA73D8 /* CourseBreakdownCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseBreakdownCellManager.swift; sourceTree = "<group>"; };
-		D7B0B4252096830000EA73D8 /* CoursePointsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursePointsCell.swift; sourceTree = "<group>"; };
+		D7B0B4252096830000EA73D8 /* CourseCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionCell.swift; sourceTree = "<group>"; };
+		D7B0B42A2096C91500EA73D8 /* CollectionPointsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPointsCell.swift; sourceTree = "<group>"; };
 		D7BA9875208FCE6800F7E735 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D7C06F89208D9E5C00E74581 /* PlannerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerService.swift; sourceTree = "<group>"; };
 		D7C06F8B208DA2EC00E74581 /* PlannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerModel.swift; sourceTree = "<group>"; };
@@ -285,9 +287,10 @@
 		D7B0B427209683EC00EA73D8 /* Breakdown */ = {
 			isa = PBXGroup;
 			children = (
-				D7B0B42120967B4F00EA73D8 /* CourseBreakdownController.swift */,
 				D7B0B42320967EA500EA73D8 /* CourseBreakdownCellManager.swift */,
-				D7B0B4252096830000EA73D8 /* CoursePointsCell.swift */,
+				D7B0B42120967B4F00EA73D8 /* CourseBreakdownController.swift */,
+				D7B0B42A2096C91500EA73D8 /* CollectionPointsCell.swift */,
+				D7B0B4252096830000EA73D8 /* CourseCollectionCell.swift */,
 			);
 			path = Breakdown;
 			sourceTree = "<group>";
@@ -513,6 +516,7 @@
 				D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */,
 				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,
 				D7C06F8E208DB15700E74581 /* PlannerCellManager.swift in Sources */,
+				D7B0B42B2096C91500EA73D8 /* CollectionPointsCell.swift in Sources */,
 				D78579E8208C3EF800CF481C /* NotificationService.swift in Sources */,
 				D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */,
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
@@ -522,7 +526,7 @@
 				D7F66246204769AB0060FA8D /* WelcomeController.swift in Sources */,
 				D790B062205BB4DD00D8697F /* ManageIntegrationsController.swift in Sources */,
 				58F72B88208FAC450079D6F5 /* MainController.swift in Sources */,
-				D7B0B4262096830000EA73D8 /* CoursePointsCell.swift in Sources */,
+				D7B0B4262096830000EA73D8 /* CourseCollectionCell.swift in Sources */,
 				D7255944203A41E300DBA62B /* ManageController.swift in Sources */,
 				D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */,
 				D73C2E1E20619DD700AD0C0C /* LocalNotificationService.swift in Sources */,
