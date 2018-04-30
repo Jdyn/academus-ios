@@ -16,7 +16,7 @@ class CourseBreakdownController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Summary"
+        navigationItem.title = "Course Summary"
         self.extendedLayoutIncludesOpaqueBars = true
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
@@ -121,13 +121,14 @@ extension CourseBreakdownController {
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         let name = UILabel().setUpLabel(text: model.teacher?.name ?? "Unknown Teacher", font: UIFont.standard!, fontColor: .navigationsGreen)
+        name.adjustsFontSizeToFitWidth = true
         let title = UILabel().setUpLabel(text: model.name ?? "Unknown Course", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
-        title.numberOfLines = 0
+        title.adjustsFontSizeToFitWidth = true
         
         cell.addSubviews(views: [background, name, title])
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
-        name.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor)
+        name.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
         title.anchors(top: name.bottomAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
         
         return cell
@@ -144,57 +145,57 @@ extension CourseBreakdownController {
         divider.heightAnchor.constraint(equalToConstant: 2)
         let divider1 = UIView().setupBackground(bgColor: .tableViewLightGrey)
         
-        let points = UILabel().setUpLabel(text: model.points!, font: UIFont.demiStandard!, fontColor: .navigationsWhite)
-        let pointsPossible = UILabel().setUpLabel(text: model.pointsPossible!, font: UIFont.demiStandard!, fontColor: .navigationsGreen)
+        let pointsLabel = UILabel().setUpLabel(text: model.points!, font: UIFont.standard!, fontColor: .navigationsWhite)
+        let pointsPossibleLabel = UILabel().setUpLabel(text: model.pointsPossible!, font: UIFont.standard!, fontColor: .navigationsGreen)
         
+        pointsLabel.adjustsFontSizeToFitWidth = true
+        pointsLabel.textAlignment = .center
+        pointsPossibleLabel.adjustsFontSizeToFitWidth = true
+        pointsPossibleLabel.textAlignment = .center
+        
+        let largePointsPossible = UILabel().setUpLabel(text: model.pointsPossible!, font: UIFont.largeHeader!, fontColor: .navigationsGreen)
+        let pointsPossibleTitle = UILabel().setUpLabel(text: "Total Points", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        
+        let gradeLabel = UILabel().setUpLabel(text: "\(model.weightedGradeLetter!)", font: UIFont.subtext!, fontColor: .navigationsGreen)
+        let gradeTitleLabel = UILabel().setUpLabel(text: "Grade", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        gradeLabel.font = UIFont(name: "AvenirNext-demibold", size: 48)
+        gradeLabel.sizeToFit()
+        
+        
+        let pointsTitleLabel = UILabel().setUpLabel(text: "Points:", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        pointsTitleLabel.textAlignment = .center
 
-        let pointsPossible1 = UILabel().setUpLabel(text: model.pointsPossible!, font: UIFont.largeHeader!, fontColor: .navigationsGreen)
-        let pointsPossible1Subtext = UILabel().setUpLabel(text: "Total Points", font: UIFont.header!, fontColor: .tableViewLightGrey)
+        let currentPercentLabel = UILabel().setUpLabel(text: model.weightedPercent!, font: UIFont.demiStandard!, fontColor: .navigationsWhite)
+        let totalPercentLabel = UILabel().setUpLabel(text: model.weight!, font: UIFont.demiStandard!, fontColor: .navigationsGreen)
+        currentPercentLabel.adjustsFontSizeToFitWidth = true
+        currentPercentLabel.textAlignment = .center
         
-        let grade = UILabel().setUpLabel(text: "\(model.weightedGradeLetter!)", font: UIFont.subtext!, fontColor: .navigationsGreen)
-        grade.font = UIFont(name: "AvenirNext-demibold", size: 48)
-        let gradeSubtext = UILabel().setUpLabel(text: "Grade", font: UIFont.standard!, fontColor: .tableViewLightGrey)
-        
-        let pointsSubtext = UILabel().setUpLabel(text: "Points", font: UIFont.standard!, fontColor: .tableViewLightGrey)
-        
-        let curPercent = UILabel().setUpLabel(text: model.weightedPercent!, font: UIFont.demiStandard!, fontColor: .navigationsWhite)
-        curPercent.adjustsFontSizeToFitWidth = true
-        curPercent.textAlignment = .center
+        totalPercentLabel.adjustsFontSizeToFitWidth = true
+        totalPercentLabel.textAlignment = .center
 
-        let percentSubtext = UILabel().setUpLabel(text: "Percent", font: UIFont.standard!, fontColor: .tableViewLightGrey)
-        let totPercent = UILabel().setUpLabel(text: model.weight!, font: UIFont.demiStandard!, fontColor: .navigationsGreen)
-        totPercent.adjustsFontSizeToFitWidth = true
-        totPercent.textAlignment = .center
         
+        let percentSubtext = UILabel().setUpLabel(text: "Percent:", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        percentSubtext.textAlignment = .center
         
-        let pointsStack = UIStackView(arrangedSubviews: [pointsSubtext, points, divider, pointsPossible])
+        let pointsStack = UIStackView(arrangedSubviews: [pointsTitleLabel, pointsLabel, divider, pointsPossibleLabel])
         pointsStack.axis = .vertical
-//        pointsStack.alignment = .center
-        let percentStack = UIStackView(arrangedSubviews: [percentSubtext, curPercent, divider1, totPercent])
+        let percentStack = UIStackView(arrangedSubviews: [percentSubtext, currentPercentLabel, divider1, totalPercentLabel])
         percentStack.axis = .vertical
-//        percentStack.alignment = .center
 
-        
-        cell.addSubviews(views: [background, category, grade, gradeSubtext, pointsPossible1, pointsPossible1Subtext, topDivider, pointsStack, percentStack])
+        cell.addSubviews(views: [background, category, gradeLabel, gradeTitleLabel, largePointsPossible, pointsPossibleTitle, topDivider, pointsStack, percentStack])
 
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
-        grade.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9)
-        gradeSubtext.anchors(top: grade.bottomAnchor, topPad: -16, left: background.leftAnchor, leftPad: 9)
-        pointsPossible1.anchors(top: gradeSubtext.bottomAnchor, topPad: 9, left: background.leftAnchor, leftPad: 9)
-        pointsPossible1Subtext.anchors(top: pointsPossible1.bottomAnchor, topPad: -8, left: background.leftAnchor, leftPad: 9)
+        gradeLabel.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9)
+        gradeTitleLabel.anchors(top: gradeLabel.bottomAnchor, topPad: -16, left: background.leftAnchor, leftPad: 9)
+        largePointsPossible.anchors(top: gradeTitleLabel.bottomAnchor, topPad: 9, left: background.leftAnchor, leftPad: 9)
+        pointsPossibleTitle.anchors(top: largePointsPossible.bottomAnchor, topPad: -8, left: background.leftAnchor, leftPad: 9)
         divider.anchors(height: 2)
         divider1.anchors(height: 2)
         
-        topDivider.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 2 )
+//        topDivider.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 2 )
         
-        pointsStack.anchors(top: background.centerYAnchor, right: background.rightAnchor, rightPad: -18, width: 72)
-        percentStack.anchors(bottom: background.centerYAnchor, right: background.rightAnchor, rightPad: -18, width: 72)
-
-//        percentSubtext.anchors(top: pointsPossible.bottomAnchor, topPad: 12, centerX: pointsSubtext.centerXAnchor)
-//        curPercent.anchors(top: percentSubtext.bottomAnchor, topPad: 0, left: divider1.leftAnchor, right: divider1.rightAnchor)
-//        divider1.anchors(top: curPercent.bottomAnchor, topPad: 0, centerX: pointsSubtext.centerXAnchor, width: 64, height: 2)
-//        totPercent.anchors(top: divider1.bottomAnchor, topPad: 0, left: divider1.leftAnchor, right: divider1.rightAnchor)
-
+        pointsStack.anchors(top: background.centerYAnchor, topPad: 12, right: background.rightAnchor, rightPad: -26, width: 72)
+        percentStack.anchors(bottom: background.centerYAnchor, bottomPad: -12, right: background.rightAnchor, rightPad: -26, width: 72)
 
         return cell
     }

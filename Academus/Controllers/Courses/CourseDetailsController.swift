@@ -19,19 +19,22 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     var courseID : Int?
     var barbutton: Bool = true
     
+    var infoButton: UIBarButtonItem?
+    var summaryButton: UIBarButtonItem?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
         self.extendedLayoutIncludesOpaqueBars = true
         if barbutton {
-            let infoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
-            let summaryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "barChart"), style: .plain, target: self, action: #selector(handleCourseSummary))
+            infoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
+            summaryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "barChart"), style: .plain, target: self, action: #selector(handleCourseSummary))
             
-            navigationItem.rightBarButtonItems = [infoButton, summaryButton]
+            navigationItem.rightBarButtonItems = [infoButton!, summaryButton!]
         }
         if (course?.categories?.count)! <= 0 {
-            
+            summaryButton?.isEnabled = false
         }
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)

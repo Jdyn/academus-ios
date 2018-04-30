@@ -183,13 +183,23 @@ class CoursesController: UITableViewController, UIViewControllerPreviewingDelega
         guard let cell = previewingContext.sourceView as? CourseCell else { return nil }
         previewingContext.sourceRect = cell.background.frame
         
-        let courseInfoController = CourseInfoController(style: .grouped)
-        courseInfoController.course = cell.course
-        return courseInfoController
+        guard let indexPath = tableView.indexPath(for: cell) else { return nil }
+        
+
+        
+        if (courses[indexPath.row].categories?.count)! > 0 {
+            let courseBreakdownController = CourseBreakdownController(style: .grouped)
+            courseBreakdownController.course = cell.course
+            return courseBreakdownController
+        } else {
+            let courseInfoController = CourseInfoController(style: .grouped)
+            courseInfoController.course = cell.course
+            return courseInfoController
+        }
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-        guard let controller = viewControllerToCommit as? CourseInfoController else { return }
+        let controller = viewControllerToCommit
         show(controller, sender: self)
     }
     
