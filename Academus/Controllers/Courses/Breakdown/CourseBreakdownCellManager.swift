@@ -16,6 +16,7 @@ enum CourseBreakdownCellManager {
     case title
     case total
     case points
+    case chart
     
     func getTitle() -> String {
         switch self {
@@ -32,6 +33,7 @@ enum CourseBreakdownCellManager {
     func getSection() -> Int {
         switch self {
         case .points: return 1
+        case .chart: return 2
         default: return 0
         }
     }
@@ -41,6 +43,7 @@ enum CourseBreakdownCellManager {
         case .title: return "titleCell"
         case .points: return "pointsCell"
         case .total: return "totalCell"
+        case .chart: return "chartCell"
         }
     }
 }
