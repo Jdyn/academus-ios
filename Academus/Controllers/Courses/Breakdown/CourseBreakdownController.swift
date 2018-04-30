@@ -42,7 +42,7 @@ class CourseBreakdownController: UITableViewController {
 
         switch cellsFiltered[indexPath.row] {
         case .points: return 235
-        case .total: return 185
+        case .total: return 150
         case .chart: return 300
         default: return 65
         }
@@ -169,7 +169,9 @@ extension CourseBreakdownController {
         gradeLabel.sizeToFit()
         
         
-        let pointsTitleLabel = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        let pointsTitleLabel = UILabel().setUpLabel(text: "points earned", font: UIFont.subheader!, fontColor: .tableViewLightGrey)
+        pointsTitleLabel.numberOfLines = 2
+        pointsTitleLabel.adjustsFontSizeToFitWidth = true
         pointsTitleLabel.textAlignment = .center
 
         let currentPercentLabel = UILabel().setUpLabel(text: model.weightedPercent!, font: UIFont.header!, fontColor: .navigationsWhite)
@@ -178,14 +180,16 @@ extension CourseBreakdownController {
         
         totalPercentLabel.textAlignment = .center
         
-        let percentSubtext = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        let percentSubtext = UILabel().setUpLabel(text: "grade percentage", font: UIFont.subheader!, fontColor: .tableViewLightGrey)
+        percentSubtext.numberOfLines = 2
+        percentSubtext.adjustsFontSizeToFitWidth = true
         percentSubtext.textAlignment = .center
         
-        let pointsStack = UIStackView(arrangedSubviews: [pointsLabel, divider, pointsPossibleLabel])
+        let pointsStack = UIStackView(arrangedSubviews: [pointsLabel, divider, pointsPossibleLabel, pointsTitleLabel])
         pointsStack.axis = .vertical
         pointsStack.distribution = .equalSpacing
         pointsStack.spacing = 2
-        let percentStack = UIStackView(arrangedSubviews: [currentPercentLabel, divider1, totalPercentLabel])
+        let percentStack = UIStackView(arrangedSubviews: [currentPercentLabel, divider1, totalPercentLabel, percentSubtext])
         percentStack.axis = .vertical
         percentStack.distribution = .equalSpacing
         percentStack.spacing = 2
@@ -195,7 +199,7 @@ extension CourseBreakdownController {
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         gradeLabel.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9)
         gradeTitleLabel.anchors(top: gradeLabel.bottomAnchor, topPad: -16, left: background.leftAnchor, leftPad: 9)
-        largePointsPossible.anchors(top: gradeTitleLabel.bottomAnchor, topPad: 9, left: background.leftAnchor, leftPad: 9)
+        largePointsPossible.anchors(top: gradeTitleLabel.bottomAnchor, topPad: 9, left: background.leftAnchor, leftPad: 9, right: pointsStack.leftAnchor, rightPad: -9)
         pointsPossibleTitle.anchors(top: largePointsPossible.bottomAnchor, topPad: -8, left: background.leftAnchor, leftPad: 9)
         totalsLabel.anchors(bottom: percentStack.topAnchor, bottomPad: -3, centerX: pointsStack.rightAnchor, CenterXPad: 4.5)
         divider.anchors(height: 2)
@@ -207,7 +211,7 @@ extension CourseBreakdownController {
 //        topDivider.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 2 )
         
         pointsStack.anchors(right: percentStack.leftAnchor, rightPad: -12, centerY: percentStack.centerYAnchor, width: 96)
-        percentStack.anchors(right: background.rightAnchor, rightPad: -26, centerY: largePointsPossible.topAnchor, width: 96)
+        percentStack.anchors(right: background.rightAnchor, rightPad: -9, centerY: largePointsPossible.topAnchor, CenterYPad: -4.5, width: 96)
 
         return cell
     }
