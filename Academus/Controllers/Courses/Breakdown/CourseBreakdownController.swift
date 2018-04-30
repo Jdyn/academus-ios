@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Charts
 
 class CourseBreakdownController: UITableViewController {
     
@@ -16,7 +16,7 @@ class CourseBreakdownController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Course Breakdown"
+        navigationItem.title = "Grade Breakdown"
         self.extendedLayoutIncludesOpaqueBars = true
         
         cells = [.title, .total, .points]
@@ -27,6 +27,8 @@ class CourseBreakdownController: UITableViewController {
                 tableView.register(UITableViewCell.self, forCellReuseIdentifier: cell.getCellType())
             }
         }
+        
+        setupChart()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,6 +58,44 @@ class CourseBreakdownController: UITableViewController {
 //        tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
 //        tableViewCell.collectionViewOffset = storedOffsets[indexPath.row] ?? 0
 //    }
+    
+    func setupChart() {
+        guard let categoryCount = course?.categories?.count, categoryCount > 1 else { return }
+        
+        let actualCats = course?.categories?.filter { $0.name != "TOTAL" }
+        let dataSet = PieChartDataSet(values: actualCats?.map { PieChartDataEntry(value: $0.weightAsDouble(), label: $0.truncatedName()) }, label: "")
+        dataSet.colors = ChartColorTemplates.pastel() + ChartColorTemplates.colorful().reversed()
+        dataSet.valueTextColor = .white
+        dataSet.valueFont = UIFont.subheader!
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        formatter.maximumFractionDigits = 0
+        formatter.multiplier = 1
+        formatter.percentSymbol = "%"
+        
+        let chartData = PieChartData(dataSet: dataSet)
+        chartData.setValueFormatter(DefaultValueFormatter(formatter: formatter))
+        
+        let pieChart = PieChartView()
+        pieChart.data = chartData
+        pieChart.drawEntryLabelsEnabled = false
+        pieChart.chartDescription?.enabled = false
+        pieChart.legend.enabled = true
+        pieChart.legend.font = UIFont.small!
+        pieChart.legend.orientation = .vertical
+        pieChart.legend.verticalAlignment = .center
+        pieChart.legend.horizontalAlignment = .right
+        pieChart.legend.direction = .rightToLeft
+        pieChart.legend.textColor = .white
+        pieChart.legend.yEntrySpace = 7
+        print(pieChart.legend.calculatedLabelSizes)
+        pieChart.holeColor = .clear
+        
+        view.addSubview(pieChart)
+        pieChart.anchors(top: tableView.bottomAnchor, topPad: 180, left: view.leftAnchor, right: view.rightAnchor, centerX: view.centerXAnchor, height: 300)
+        pieChart.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
+    }
 }
 
 extension CourseBreakdownController: UICollectionViewDelegate, UICollectionViewDataSource {
