@@ -149,13 +149,16 @@ extension CourseBreakdownController {
         divider.heightAnchor.constraint(equalToConstant: 2)
         let divider1 = UIView().setupBackground(bgColor: .tableViewLightGrey)
         
-        let pointsLabel = UILabel().setUpLabel(text: model.points!, font: UIFont.standard!, fontColor: .navigationsWhite)
-        let pointsPossibleLabel = UILabel().setUpLabel(text: model.pointsPossible!, font: UIFont.standard!, fontColor: .navigationsGreen)
+        let pointsLabel = UILabel().setUpLabel(text: model.points!, font: UIFont.header!, fontColor: .navigationsWhite)
+        let pointsPossibleLabel = UILabel().setUpLabel(text: model.pointsPossible!, font: UIFont.header!, fontColor: .navigationsGreen)
         
         pointsLabel.adjustsFontSizeToFitWidth = true
         pointsLabel.textAlignment = .center
         pointsPossibleLabel.adjustsFontSizeToFitWidth = true
         pointsPossibleLabel.textAlignment = .center
+        
+        let totalsLabel = UILabel().setUpLabel(text: "Totals:", font: UIFont.demiStandard!, fontColor: .navigationsWhite)
+
         
         let largePointsPossible = UILabel().setUpLabel(text: model.pointsPossible!, font: UIFont.largeHeader!, fontColor: .navigationsGreen)
         let pointsPossibleTitle = UILabel().setUpLabel(text: "Total Points", font: UIFont.standard!, fontColor: .tableViewLightGrey)
@@ -166,40 +169,45 @@ extension CourseBreakdownController {
         gradeLabel.sizeToFit()
         
         
-        let pointsTitleLabel = UILabel().setUpLabel(text: "Points:", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        let pointsTitleLabel = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         pointsTitleLabel.textAlignment = .center
 
-        let currentPercentLabel = UILabel().setUpLabel(text: model.weightedPercent!, font: UIFont.demiStandard!, fontColor: .navigationsWhite)
-        let totalPercentLabel = UILabel().setUpLabel(text: model.weight!, font: UIFont.demiStandard!, fontColor: .navigationsGreen)
-        currentPercentLabel.adjustsFontSizeToFitWidth = true
+        let currentPercentLabel = UILabel().setUpLabel(text: model.weightedPercent!, font: UIFont.header!, fontColor: .navigationsWhite)
+        let totalPercentLabel = UILabel().setUpLabel(text: model.weight!, font: UIFont.header!, fontColor: .navigationsGreen)
         currentPercentLabel.textAlignment = .center
         
-        totalPercentLabel.adjustsFontSizeToFitWidth = true
         totalPercentLabel.textAlignment = .center
-
         
-        let percentSubtext = UILabel().setUpLabel(text: "Percent:", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        let percentSubtext = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         percentSubtext.textAlignment = .center
         
-        let pointsStack = UIStackView(arrangedSubviews: [pointsTitleLabel, pointsLabel, divider, pointsPossibleLabel])
+        let pointsStack = UIStackView(arrangedSubviews: [pointsLabel, divider, pointsPossibleLabel])
         pointsStack.axis = .vertical
-        let percentStack = UIStackView(arrangedSubviews: [percentSubtext, currentPercentLabel, divider1, totalPercentLabel])
+        pointsStack.distribution = .equalSpacing
+        pointsStack.spacing = 2
+        let percentStack = UIStackView(arrangedSubviews: [currentPercentLabel, divider1, totalPercentLabel])
         percentStack.axis = .vertical
+        percentStack.distribution = .equalSpacing
+        percentStack.spacing = 2
 
-        cell.addSubviews(views: [background, category, gradeLabel, gradeTitleLabel, largePointsPossible, pointsPossibleTitle, topDivider, pointsStack, percentStack])
+        cell.addSubviews(views: [background, category, totalsLabel, gradeLabel, gradeTitleLabel, largePointsPossible, pointsPossibleTitle, topDivider, pointsStack, percentStack])
 
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         gradeLabel.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9)
         gradeTitleLabel.anchors(top: gradeLabel.bottomAnchor, topPad: -16, left: background.leftAnchor, leftPad: 9)
         largePointsPossible.anchors(top: gradeTitleLabel.bottomAnchor, topPad: 9, left: background.leftAnchor, leftPad: 9)
         pointsPossibleTitle.anchors(top: largePointsPossible.bottomAnchor, topPad: -8, left: background.leftAnchor, leftPad: 9)
+        totalsLabel.anchors(bottom: percentStack.topAnchor, bottomPad: -3, centerX: pointsStack.rightAnchor, CenterXPad: 4.5)
         divider.anchors(height: 2)
         divider1.anchors(height: 2)
+        totalPercentLabel.anchors(height: 25)
+        pointsPossibleLabel.anchors(height: 25)
+
         
 //        topDivider.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 2 )
         
-        pointsStack.anchors(top: background.centerYAnchor, topPad: 12, right: background.rightAnchor, rightPad: -26, width: 72)
-        percentStack.anchors(bottom: background.centerYAnchor, bottomPad: -12, right: background.rightAnchor, rightPad: -26, width: 72)
+        pointsStack.anchors(right: percentStack.leftAnchor, rightPad: -12, centerY: percentStack.centerYAnchor, width: 96)
+        percentStack.anchors(right: background.rightAnchor, rightPad: -26, centerY: largePointsPossible.topAnchor, width: 96)
 
         return cell
     }
@@ -289,7 +297,7 @@ extension CourseBreakdownController {
         pieChart.holeColor = .clear
         
         cell.addSubview(pieChart)
-        pieChart.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, centerX: background.centerXAnchor, centerY: background.centerYAnchor, height: 280)
+        pieChart.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
         pieChart.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
         
         return cell

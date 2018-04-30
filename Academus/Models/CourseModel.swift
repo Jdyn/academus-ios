@@ -9,9 +9,9 @@
 struct Course : Decodable {
     let id : Int?
     let name : String?
-    let custom_name : String?
+    let customName : String?
     let period : Int?
-    let classroom_number : String?
+    let classroomNumber : String?
     let integration : Integration?
     let grade : Grade?
     let teacher : Teacher?
@@ -28,10 +28,10 @@ struct Course : Decodable {
         let name : String?
         let email : String?
     }
-    let total_students : Int?
-    let average_grade : Float?
-    let highest_grade : Float?
-    let lowest_grade : Float?
+    let totalStudents : Int?
+    let averageGrade : Float?
+    let highestGrade : Float?
+    let lowestGrade : Float?
     let categories: [Category]?
     struct Category: Decodable {
         let id: Int?

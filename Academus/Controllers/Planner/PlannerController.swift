@@ -215,6 +215,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
             return assignmentDetailController
         case .courseUpdatedCard:
             let courseDetailsController = CourseDetailsController()
+            courseDetailsController.barbutton = false
             courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
             courseDetailsController.course = cards[indexPath.row].course
             courseDetailsController.courseID = cards[indexPath.row].course?.id

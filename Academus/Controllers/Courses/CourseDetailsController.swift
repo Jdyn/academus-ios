@@ -30,11 +30,10 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
         if barbutton {
             infoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
             summaryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "barChart"), style: .plain, target: self, action: #selector(handleCourseSummary))
-            
+            if (course?.categories?.count)! <= 0 {
+                summaryButton?.isEnabled = false
+            }
             navigationItem.rightBarButtonItems = [infoButton!, summaryButton!]
-        }
-        if (course?.categories?.count)! <= 0 {
-            summaryButton?.isEnabled = false
         }
         
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)

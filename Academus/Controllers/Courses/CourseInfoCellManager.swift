@@ -70,29 +70,29 @@ enum CourseInfoCellManager {
     func getSubtext(course: Course?) -> String? {
         switch self {
         case .courseName: return course?.name
-        case .customName: return course?.custom_name
+        case .customName: return course?.customName
         case .period:
             if let period = course?.period {
                 return String(format: "%d", period)
             } else { return nil }
-        case .classroomNumber: return course?.classroom_number
+        case .classroomNumber: return course?.classroomNumber
         case .teacherName: return course?.teacher?.name
         case .email: return course?.teacher?.email
         case .sendEmail: return course?.teacher?.email
         case .total:
-            if let total = course?.total_students {
+            if let total = course?.totalStudents {
                 return String(format: "%d", total)
             } else { return nil }
         case .average:
-            if let average = course?.average_grade {
+            if let average = course?.averageGrade {
                 return String(format: "%.2f%%", Double(exactly: average)!)
             } else { return nil }
         case .highest:
-            if let highest = course?.highest_grade {
+            if let highest = course?.highestGrade {
                 return String(format: "%.2f%%", Double(exactly: highest)!)
             } else { return nil }
         case .lowest:
-            if let lowest = course?.lowest_grade {
+            if let lowest = course?.lowestGrade {
                 return String(format: "%.2f%%", Double(exactly: lowest)!)
             } else { return nil }
         default: return nil
