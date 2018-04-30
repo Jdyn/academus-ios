@@ -41,5 +41,22 @@ struct Course : Decodable {
         let pointsPossible: String?
         let weightedPercent: String?
         let weightedGradeLetter: String?
+        
+        func weightAsDouble() -> Double {
+            if let weight = self.weight, let index = self.weight?.range(of: "%", options: .backwards)?.lowerBound {
+                return Double(weight[..<index]) ?? Double(0)
+            } else { return Double(0) }
+        }
+        
+        func truncatedName() -> String? {
+            if let name = self.name {
+                let truncName = name.prefix(20)
+                if truncName.elementsEqual(name) {
+                    return name
+                } else {
+                    return String(truncName) + "..."
+                }
+            } else { return nil }
+        }
     }
 }

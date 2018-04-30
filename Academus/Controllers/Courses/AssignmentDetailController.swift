@@ -23,7 +23,7 @@ class AssignmentDetailController: UITableViewController {
         
         self.extendedLayoutIncludesOpaqueBars = true
         
-        cells = [.title, .score, .dueDate, .description]
+        cells = [.title, .category, .score, .dueDate, .description]
         for cell in cells {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: cell.getCellType())
         }
@@ -52,7 +52,7 @@ class AssignmentDetailController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 18 }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return UITableViewAutomaticDimension }
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 9 }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return section == 0 ? 3 : 1 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return section == 0 ? 4 : 1 }
     
 //    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat { return UITableViewAutomaticDimension }
 }
@@ -88,6 +88,13 @@ extension AssignmentDetailController {
         subtext.textAlignment = .right
         subtext.adjustsFontSizeToFitWidth = true
         subtext.numberOfLines = 0
+        
+        switch subtext.text {
+        case "Unknown Assignment", "None", "No Score Available":
+            subtext.font = UIFont.italic!
+            subtext.textColor = .tableViewLightGrey
+        default: break
+        }
         
         cell.addSubviews(views: [background, title, subtext])
         
