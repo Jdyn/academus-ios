@@ -195,17 +195,20 @@ extension UITableViewController {
         switch type {
         case .header:
             background.roundCorners(corners: .top)
+            background.setUpShadow(color: .black, offset: CGSize(width: 0, height: -1), radius: 1, opacity: 0.2)
             botPad = 0
             topPad = 9
         case .footer:
+            background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 1), radius: 1, opacity: 0.2)
             background.roundCorners(corners: .bottom)
             botPad = 0
             topPad = 0
         }
         
+
         view.addSubview(background)
         
-        background.anchors(top: view.topAnchor, topPad: topPad, bottom: view.bottomAnchor, bottomPad: botPad, left: view.leftAnchor, leftPad: 5, right: view.rightAnchor, rightPad: -5)
+        background.anchors(top: view.topAnchor, topPad: topPad, bottom: view.bottomAnchor, bottomPad: botPad, left: view.leftAnchor, leftPad: 8, right: view.rightAnchor, rightPad: -8)
         return view
     }
 }

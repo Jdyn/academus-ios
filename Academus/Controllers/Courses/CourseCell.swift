@@ -27,9 +27,7 @@ class CourseCell: UITableViewCell {
     let background: UIView = {
         let view = UIView()
         view.backgroundColor = .tableViewMediumGrey
-        view.layer.cornerRadius = 9
-        view.layer.masksToBounds = true
-        let size = CGSize(width: 0, height: 0)
+        view.layer.cornerRadius = 12
         return view
     }()
     
@@ -83,9 +81,12 @@ class CourseCell: UITableViewCell {
         titleStackView.axis = .vertical
         titleStackView.alignment = .leading
         
-        addSubviews(views: [background, arrow, gradeStackView, titleStackView, periodLabel])
-
-        background.anchors(top: topAnchor, topPad: 9, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 6, right: rightAnchor, rightPad: -6)
+        background.addSubviews(views: [arrow, gradeStackView, titleStackView, periodLabel])
+        
+        addSubview(background)
+        
+        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
+        background.anchors(top: topAnchor, topPad: 9, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 9, right: rightAnchor, rightPad: -9)
         
         titleStackView.anchors(left: periodLabel.rightAnchor, leftPad: 9, right: gradeStackView.leftAnchor, rightPad: -6, centerY: background.centerYAnchor)
         gradeStackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 48, height: 0)
@@ -104,7 +105,7 @@ class CourseCell: UITableViewCell {
         selectedView.layer.masksToBounds = true
         
         view.addSubview(selectedView)
-        selectedView.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 6, right: view.rightAnchor, rightPad: -6)
+        selectedView.anchors(top: view.topAnchor, topPad: 9, bottom: view.bottomAnchor, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
         return view
     }
     

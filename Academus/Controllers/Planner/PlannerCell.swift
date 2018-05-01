@@ -10,8 +10,26 @@ import UIKit
 
 class PlannerCell: UITableViewCell {
     
+//    var assignments: [PlannerCard.AffectingAssignment]? {
+//        didSet {
+//            if let assCount = assignments?.count {
+//                if assCount > 0 {
+//                    buttons.removeAll()
+//                    for _ in 0...assCount - 1 {
+//                        let button = UIButton()
+//                        buttons.append(button)
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
     var createdDate: Date? {
         didSet {
+//            dateLabel.adjustsFontForContentSizeCategory = true
+//            dateLabel.adjustsFontSizeToFitWidth = true
+            dateLabel.font = UIFont.subheader
+
             if createdDate! < Date() {
                 let formattedDate = timeAgoStringFromDate(date: createdDate!)
                 dateLabel.text = "\(formattedDate ?? "unknown")"
@@ -43,7 +61,7 @@ class PlannerCell: UITableViewCell {
         self.color = color
     }
     
-    let divider = UIView().setupBackground(bgColor: .navigationsMediumGrey)
+    let divider = UIView().setupBackground(bgColor: .tableViewGrey)
     
     let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
     let subBackground = UIView().setupBackground(bgColor: .tableViewGrey)
@@ -57,40 +75,46 @@ class PlannerCell: UITableViewCell {
     let titleLabel = UILabel()
     let gradeLabel = UILabel()
     let gradeTwoLabel = UILabel()
+    let stack = UIStackView()
+    var buttons = [UIButton]()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewDarkGrey
         selectionStyle = .none
         
-        dateLabel.font = UIFont.demiStandard
-        gradeLabel.font = UIFont.standard
-        gradeTwoLabel.font = UIFont.standard
-
         titleLabel.textColor = .navigationsWhite
         titleLabel.font = UIFont.standard
         titleLabel.numberOfLines = 0
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.lineBreakMode = .byWordWrapping
         
-        background.roundCorners(corners: .all)
+        gradeLabel.font = UIFont.standard
+        gradeTwoLabel.font = UIFont.standard
+        
+        background.layer.cornerRadius = 9
+        background.layer.masksToBounds = false
+        background.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
         
-        colorView.setUpShadow(color: .black, offset: CGSize(width: -2, height: 0), radius: 2, opacity: 0.25)
-        subBackground.roundCorners(corners: .bottom)
         
-        colorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-        colorView.layer.cornerRadius = 3
-        colorView.layer.masksToBounds = false
+        subBackground.layer.cornerRadius = 9
+        subBackground.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        subBackground.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
+
+        colorView.layer.cornerRadius = 14
+        colorView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+        colorView.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 2, opacity: 0.25)
         
-        addSubviews(views: [background, divider, typeLabel, dateLabel, titleLabel, colorView, subBackground])
+        background.addSubviews(views: [divider, typeLabel, dateLabel, titleLabel, subBackground])
+        addSubviews(views: [colorView, background])
         
-        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -6, left: colorView.rightAnchor, leftPad: 0, right: rightAnchor, rightPad: -9)
+        colorView.anchors(top: background.topAnchor, topPad: 3, bottom: background.bottomAnchor, bottomPad: -3, left: leftAnchor, leftPad: 9, width: 24)
+        background.anchors(top: topAnchor, topPad: 6, bottom: bottomAnchor, bottomPad: -8, left: leftAnchor, leftPad: 14, right: rightAnchor, rightPad: -9)
         divider.anchors(top: typeLabel.bottomAnchor, topPad: 3, left: background.leftAnchor, right: background.rightAnchor, height: 1)
         
-        subBackground.anchors(top: divider.bottomAnchor, topPad: 0, bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor)
+        subBackground.anchors(top: divider.bottomAnchor, topPad: 0, bottom: background.bottomAnchor, bottomPad: 0, left: background.leftAnchor, right: background.rightAnchor)
         
-        colorView.anchors(top: background.topAnchor, topPad: 6, bottom: background.bottomAnchor, bottomPad: -6, left: leftAnchor, leftPad: 9, width: 6)
         typeLabel.anchors(top: background.topAnchor, topPad: 6, left: background.leftAnchor, leftPad: 12, right: dateLabel.leftAnchor, rightPad: -6)
         dateLabel.anchors(right: background.rightAnchor, rightPad: -9, centerY: typeLabel.centerYAnchor)
     }

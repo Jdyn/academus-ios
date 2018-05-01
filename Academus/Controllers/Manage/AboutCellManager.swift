@@ -13,6 +13,8 @@ enum AboutCellManager {
     case alamofire
     case swiftyJson
     case locksmith
+    case showcase
+    case charts
     case libraries
     
     func getTitle() -> String{
@@ -21,6 +23,8 @@ enum AboutCellManager {
         case .swiftyJson: return "SwiftyJSON"
         case .locksmith: return "Locksmith"
         case .libraries: return "Libraries"
+        case .showcase: return "MaterialShowcase"
+        case .charts: return "Charts"
         }
     }
     
@@ -29,6 +33,8 @@ enum AboutCellManager {
         case .alamofire: return "Alamofire is an HTTP networking library written in Swift."
         case .swiftyJson: return "SwiftyJSON makes it easy to deal with JSON data in Swift."
         case .locksmith: return "A powerful, protocol-oriented library for working with the keychain in Swift."
+        case .showcase: return "✨ An elegant way to guide your beloved users in iOS apps."
+        case .charts: return "Charts is a powerful & easy to use chart library for iOS."
         default: return ""
         }
     }
@@ -38,6 +44,8 @@ enum AboutCellManager {
         case .alamofire: return "https://github.com/Alamofire/Alamofire"
         case .swiftyJson: return "https://github.com/SwiftyJSON/SwiftyJSON"
         case .locksmith: return "https://github.com/matthewpalmer/Locksmith"
+        case .showcase: return "https://github.com/aromajoin/material-showcase-ios"
+        case .charts: return "https://github.com/danielgindi/Charts"
         default: return ""
         }
     }

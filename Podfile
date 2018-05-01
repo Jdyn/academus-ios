@@ -10,4 +10,6 @@ target 'Academus' do
   pod 'SwiftyJSON'
   pod 'Locksmith'
   pod 'FreshchatSDK'
+  pod 'MaterialShowcase'
+  pod 'Charts'
 end

@@ -75,7 +75,7 @@ class IntegrationLogInController: UIViewController {
         
         guard let fieldCount = integration?.fields.count else {return}
         for i in 0...fieldCount - 1 {
-            let field = UITextField().setupTextField(bgColor: .tableViewDarkGrey, bottomBorder: true, ghostText: integration?.fields[i].id, isLeftImage: false, isSecure: false)
+            let field = UITextField().setupTextField(bgColor: .tableViewDarkGrey, bottomBorder: true, ghostText: integration?.fields[i].label, isLeftImage: false, isSecure: false)
             field.font = UIFont.standard!
             if integration?.fields[i].id == "password" {
                 field.isSecureTextEntry = true

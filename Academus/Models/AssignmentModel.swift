@@ -20,8 +20,9 @@ struct Assignment: Decodable {
     }
     let assigned_date: Date?
     let due_date: Date?
-    let is_late: String?
+    let is_late: Bool?
     let late_reason: String?
+    let category: Course.Category?
     let score: Score?
     struct Score: Decodable {
         let text: String?

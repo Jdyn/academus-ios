@@ -18,7 +18,7 @@ class ManageAboutController: UITableViewController {
         tableView.separatorStyle = .none
         self.extendedLayoutIncludesOpaqueBars = true
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
-        cells = [.alamofire, .locksmith, .swiftyJson]
+        cells = [.alamofire, .locksmith, .swiftyJson, .showcase, .charts]
         cells.forEach { (type) in
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: type.getCellType())
         }
@@ -92,7 +92,7 @@ extension ManageAboutController {
         let background = UIView()
         background.backgroundColor = .tableViewMediumGrey
         let nameLabel = UILabel().setUpLabel(text: "Academus", font: UIFont.standard!, fontColor: .navigationsWhite)
-        let versionLabel = UILabel().setUpLabel(text: "Version: 0.1.0 (1)", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
+        let versionLabel = UILabel().setUpLabel(text: "Version: 0.2.0", font: UIFont.subtext!, fontColor: .navigationsLightGrey)
         let image = UIImageView()
         image.image = #imageLiteral(resourceName: "logo_colored")
         

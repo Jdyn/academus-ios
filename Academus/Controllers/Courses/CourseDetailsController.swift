@@ -8,26 +8,65 @@
 
 import UIKit
 import Locksmith
+import MaterialShowcase
 
-class CourseDetailsController: UITableViewController, AssignmentServiceDelegate {
+class CourseDetailsController: UITableViewController, UIViewControllerPreviewingDelegate, AssignmentServiceDelegate {
     
     private let assignmentService = AssignmentService()
     var assignments = [Assignment]()
     var assignmentID = "AssignmentCell"
     var course: Course?
     var courseID : Int?
+    var barbutton: Bool = true
+    
+    var infoButton: UIBarButtonItem?
+    var summaryButton: UIBarButtonItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
         tableView.separatorColor = .tableViewSeperator
         tableView.separatorStyle = .none
         self.extendedLayoutIncludesOpaqueBars = true
-
+        if barbutton {
+            infoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
+            summaryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "barChart"), style: .plain, target: self, action: #selector(handleCourseSummary))
+            if (course?.categories?.count)! <= 0 {
+                summaryButton?.isEnabled = false
+            }
+            navigationItem.rightBarButtonItems = [infoButton!, summaryButton!]
+        }
+        
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
         fetchAssignments()
+    }
+    
+    @objc func handleCourseSummary() {
+        print("tapped")
+        let courseBreakdownController = CourseBreakdownController(style: .grouped)
+        courseBreakdownController.course = course
+        navigationController?.pushViewController(courseBreakdownController, animated: true)
+    }
+    
+    func guidedTutorial() {
+        guard UserDefaults.standard.bool(forKey: "CourseDetailsOpened") != true else { return }
+        guard !tableView.visibleCells.isEmpty else { return }
+        guard let first = tableView.visibleCells.first else { return }
+        guard let firstAssignment = first as? CourseAssignmentCell else { return }
+        
+        UserDefaults.standard.set(true, forKey: "CourseDetailsOpened")
+        
+        let showcase = MaterialShowcase()
+        showcase.setTargetView(view: firstAssignment.background)
+        showcase.primaryText = "Tap on an assignment to see details about it."
+        showcase.secondaryText = ""
+        showcase.shouldSetTintColor = false
+        showcase.targetHolderColor = .clear
+        showcase.targetHolderRadius = 0
+        showcase.backgroundPromptColor = .navigationsDarkGrey
+        showcase.backgroundPromptColorAlpha = 0.9
+        showcase.show(completion: nil)
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -35,14 +74,15 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 9
+        return 3
     }
     
     func fetchAssignments() {
         assignmentService.delegate = self
-        assignmentService.getAssignments { (success) in
+        assignmentService.getAssignments(courseID: courseID!) { (success) in
             if success {
                 self.tableView.reloadData()
+                self.guidedTutorial()
                 print("We finished that.")
             } else {
                 print("failed to get courses")
@@ -51,10 +91,22 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = self.tableView.dequeueReusableCell(withIdentifier: assignmentID, for: indexPath) as! CourseAssignmentCell
         cell.assignment = assignments[indexPath.row]
+        
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: cell)
+        }
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let assignmentDetailController = AssignmentDetailController(style: .grouped)
+        assignmentDetailController.assignment = assignments[indexPath.row]
+        
+        navigationController?.pushViewController(assignmentDetailController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -68,6 +120,21 @@ class CourseDetailsController: UITableViewController, AssignmentServiceDelegate 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let cell = previewingContext.sourceView as? CourseAssignmentCell else { return nil }
+        previewingContext.sourceRect = cell.background.frame
+        
+        let assignmentDetailController = AssignmentDetailController()
+        assignmentDetailController.assignment = cell.assignment
+        return assignmentDetailController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        guard let controller = viewControllerToCommit as? AssignmentDetailController else { return }
+        show(controller, sender: self)
+    }
+    
     
     func didGetAssignments(assignments: [Assignment]) {
         let filtered = assignments.filter { $0.course?.id == courseID }

@@ -15,16 +15,16 @@ let BASE_URL = "https://app.academus.io"
 let URL_REGISTER = URL(string: "\(BASE_URL)/api/register")
 let URL_LOGIN = URL(string: "\(BASE_URL)/api/login")
 
-let USER_MIGRATION = "userMigration"
-
 let USER_AUTH = "userAuth"
+let USER_APNS = "userAPNS"
 let USER_INFO = "userInfo"
-let USER_NOTIF = "userNotif"
+let USER_SETTINGS = "userNotif"
+
 
 let APPLE_TOKEN = "appleToken"
 let AUTH_TOKEN = "authToken"
-
-let isFirstLaunch = "isFirstLaunch"
+let isAppLock = "isAppLock"
+let isFirstLaunch = "isFirstLaunch1"
 let isAssignmentsPosted = "isAssignmentsPosted"
 let isCoursePosted = "isCoursePosted"
 let isMisc = "isMisc"

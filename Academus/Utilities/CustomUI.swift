@@ -8,12 +8,13 @@
 
 import UIKit
 
-class shareButton: UIButton {
+class ShareButton: UIButton {
     var inviteCode: String?
     var urlString: String?
+    var email: String?
 }
 
-class notifSwitch: UISwitch {
+class settingSwitch: UISwitch {
     var cellType: SettingsCellManager?
 }
 

@@ -67,7 +67,9 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
         authService.logInUser(email: emailField.text!, password: passwordField.text!, appleToken: self.mainController?.apnsToken)
         { (success) in
             if success {
-                self.dismiss(animated: true, completion: { self.dismiss(animated: true, completion: nil) })
+                self.dismiss(animated: true, completion: {
+                    self.dismiss(animated: true, completion: nil)
+                })
             } else {
                 self.dismiss(animated: true, completion: { self.alertMessage(title: "Ooops.", message: self.logInError) })
             }
