@@ -86,8 +86,8 @@ extension AssignmentDetailController {
         let title = UILabel().setUpLabel(text: manager.getTitle(), font: UIFont.standard!, fontColor: .navigationsWhite)
         let subtext = UILabel().setUpLabel(text: manager.getSubtext(assignment: assignment, card: card)!, font: UIFont.standard!, fontColor: .navigationsLightGrey)
         subtext.textAlignment = .right
+        subtext.numberOfLines = 2
         subtext.adjustsFontSizeToFitWidth = true
-        subtext.numberOfLines = 0
         
         switch subtext.text {
         case "Unknown Assignment", "None", "No Score Available":
@@ -96,11 +96,11 @@ extension AssignmentDetailController {
         default: break
         }
         
-        cell.addSubviews(views: [background, title, subtext])
+        cell.addSubviews(views: [background, subtext, title])
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         title.anchors(top: background.topAnchor, topPad: 9, left: background.leftAnchor, leftPad: 12)
-        subtext.anchors(top: background.topAnchor, topPad: 9, left: title.rightAnchor, leftPad: 6, right: background.rightAnchor, rightPad: -12)
+        subtext.anchors(left: cell.centerXAnchor, right: background.rightAnchor, rightPad: -12, centerY: title.centerYAnchor)
         
         return cell
     }

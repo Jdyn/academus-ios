@@ -159,10 +159,9 @@ extension CourseBreakdownController {
         
         let totalsLabel = UILabel().setUpLabel(text: "Totals:", font: UIFont.demiStandard!, fontColor: .navigationsWhite)
 
-        
         let largePointsPossible = UILabel().setUpLabel(text: model.pointsPossible!, font: UIFont.largeHeader!, fontColor: .navigationsGreen)
         let pointsPossibleTitle = UILabel().setUpLabel(text: "Total Points", font: UIFont.standard!, fontColor: .tableViewLightGrey)
-        
+        pointsPossibleTitle.adjustsFontSizeToFitWidth = true
         let gradeLabel = UILabel().setUpLabel(text: "\(model.weightedGradeLetter!)", font: UIFont.subtext!, fontColor: .navigationsGreen)
         let gradeTitleLabel = UILabel().setUpLabel(text: "Grade", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         gradeLabel.font = UIFont(name: "AvenirNext-demibold", size: 48)
@@ -200,7 +199,7 @@ extension CourseBreakdownController {
         gradeLabel.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9)
         gradeTitleLabel.anchors(top: gradeLabel.bottomAnchor, topPad: -16, left: background.leftAnchor, leftPad: 9)
         largePointsPossible.anchors(top: gradeTitleLabel.bottomAnchor, topPad: 9, left: background.leftAnchor, leftPad: 9, right: pointsStack.leftAnchor, rightPad: -9)
-        pointsPossibleTitle.anchors(top: largePointsPossible.bottomAnchor, topPad: -8, left: background.leftAnchor, leftPad: 9)
+        pointsPossibleTitle.anchors(top: largePointsPossible.bottomAnchor, topPad: -8, left: background.leftAnchor, leftPad: 9, right: pointsStack.leftAnchor, rightPad: -9)
         totalsLabel.anchors(bottom: percentStack.topAnchor, bottomPad: -3, centerX: pointsStack.rightAnchor, CenterXPad: 4.5)
         divider.anchors(height: 2)
         divider1.anchors(height: 2)
