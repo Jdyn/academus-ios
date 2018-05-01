@@ -10,11 +10,17 @@
 		580CC7FE205064F400EF59C1 /* IntegrationSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */; };
 		58F72B86208FAB9B0079D6F5 /* MainBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F72B85208FAB9B0079D6F5 /* MainBarController.swift */; };
 		58F72B88208FAC450079D6F5 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F72B87208FAC450079D6F5 /* MainController.swift */; };
-		7737EEF80D4E4882DE8EAE8C /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13640B4FD642AD6950DA5EF0 /* Pods_Academus.framework */; };
+		68F0C90EC9A8DFDF931B22FB /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0F0E86F31BDD2EA472FCD9 /* Pods_Academus.framework */; };
+		8795F3D1B695896C612DF348 /* Pods_AcademusWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 104F16E5AAA00EDBBE203FB9 /* Pods_AcademusWidget.framework */; };
 		C4C856B1208ADAE900CC17C7 /* SettingsBundleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B0208ADAE900CC17C7 /* SettingsBundleHelper.swift */; };
 		C4C856B3208AE14000CC17C7 /* CourseInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B2208AE14000CC17C7 /* CourseInfoController.swift */; };
 		C4C856B5208AE84400CC17C7 /* CourseInfoCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */; };
 		C4D78241208C2DA100F92BAF /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D78240208C2DA100F92BAF /* CacheService.swift */; };
+		C4E0AA092098459C0086FFFA /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E0AA082098459C0086FFFA /* CourseModel.swift */; };
+		C4F8168B20982F53007E6D97 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4F8168A20982F53007E6D97 /* NotificationCenter.framework */; };
+		C4F8168E20982F53007E6D97 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8168D20982F53007E6D97 /* TodayViewController.swift */; };
+		C4F8169120982F53007E6D97 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4F8168F20982F53007E6D97 /* MainInterface.storyboard */; };
+		C4F8169520982F53007E6D97 /* AcademusWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C4F8168920982F53007E6D97 /* AcademusWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C6C916E72090F7B2000CB2D2 /* AssignmentDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */; };
 		C6C916E92090F7CA000CB2D2 /* AssignmentDetailCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C916E82090F7CA000CB2D2 /* AssignmentDetailCellManager.swift */; };
 		D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153A30204D660300CF4DC4 /* PlannerController.swift */; };
@@ -73,17 +79,51 @@
 		D7FA4880203B1894007ADFE0 /* AcademusModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D7FA487E203B1894007ADFE0 /* AcademusModels.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C4F8169320982F53007E6D97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D7255922203A38DB00DBA62B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4F8168820982F53007E6D97;
+			remoteInfo = AcademusWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C4F8169920982F53007E6D97 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C4F8169520982F53007E6D97 /* AcademusWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		13640B4FD642AD6950DA5EF0 /* Pods_Academus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Academus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		104F16E5AAA00EDBBE203FB9 /* Pods_AcademusWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AcademusWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2239C907200A0AFD2D83EE89 /* Pods-Academus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.debug.xcconfig"; sourceTree = "<group>"; };
+		540609A3875178DEA8395D9B /* Pods-AcademusWidget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcademusWidget.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AcademusWidget/Pods-AcademusWidget.debug.xcconfig"; sourceTree = "<group>"; };
 		580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrationSelectController.swift; sourceTree = "<group>"; };
 		58F72B85208FAB9B0079D6F5 /* MainBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainBarController.swift; sourceTree = "<group>"; };
 		58F72B87208FAC450079D6F5 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
-		6CEFE00B8A2B3BE738650395 /* Pods-Academus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.debug.xcconfig"; sourceTree = "<group>"; };
-		890075C57931A0A5D85BA6D9 /* Pods-Academus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.release.xcconfig"; sourceTree = "<group>"; };
+		5A286247920ADAAF09F92C7B /* Pods-Academus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.release.xcconfig"; sourceTree = "<group>"; };
+		87AF3A57A98B158BF917FBC8 /* Pods-AcademusWidget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcademusWidget.release.xcconfig"; path = "Pods/Target Support Files/Pods-AcademusWidget/Pods-AcademusWidget.release.xcconfig"; sourceTree = "<group>"; };
+		BA0F0E86F31BDD2EA472FCD9 /* Pods_Academus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Academus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4C856B0208ADAE900CC17C7 /* SettingsBundleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundleHelper.swift; sourceTree = "<group>"; };
 		C4C856B2208AE14000CC17C7 /* CourseInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseInfoController.swift; sourceTree = "<group>"; };
 		C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseInfoCellManager.swift; sourceTree = "<group>"; };
 		C4D78240208C2DA100F92BAF /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
+		C4E0AA082098459C0086FFFA /* CourseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseModel.swift; sourceTree = "<group>"; };
+		C4F8168920982F53007E6D97 /* AcademusWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AcademusWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4F8168A20982F53007E6D97 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		C4F8168D20982F53007E6D97 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		C4F8169020982F53007E6D97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		C4F8169220982F53007E6D97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4F8169A209830DB007E6D97 /* AcademusWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AcademusWidget.entitlements; sourceTree = "<group>"; };
 		C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentDetailController.swift; sourceTree = "<group>"; };
 		C6C916E82090F7CA000CB2D2 /* AssignmentDetailCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentDetailCellManager.swift; sourceTree = "<group>"; };
 		D7153A30204D660300CF4DC4 /* PlannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerController.swift; sourceTree = "<group>"; };
@@ -147,11 +187,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C4F8168620982F53007E6D97 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4F8168B20982F53007E6D97 /* NotificationCenter.framework in Frameworks */,
+				8795F3D1B695896C612DF348 /* Pods_AcademusWidget.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7255927203A38DB00DBA62B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7737EEF80D4E4882DE8EAE8C /* Pods_Academus.framework in Frameworks */,
+				68F0C90EC9A8DFDF931B22FB /* Pods_Academus.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,7 +210,9 @@
 		0801296D7860CA158CBBBB5C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				13640B4FD642AD6950DA5EF0 /* Pods_Academus.framework */,
+				C4F8168A20982F53007E6D97 /* NotificationCenter.framework */,
+				BA0F0E86F31BDD2EA472FCD9 /* Pods_Academus.framework */,
+				104F16E5AAA00EDBBE203FB9 /* Pods_AcademusWidget.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -175,13 +226,27 @@
 			path = PlannerCardCreation;
 			sourceTree = "<group>";
 		};
-		A145413D4A5DE0A064FA7720 /* Pods */ = {
+		89BD74B58158AFC788E8495B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6CEFE00B8A2B3BE738650395 /* Pods-Academus.debug.xcconfig */,
-				890075C57931A0A5D85BA6D9 /* Pods-Academus.release.xcconfig */,
+				2239C907200A0AFD2D83EE89 /* Pods-Academus.debug.xcconfig */,
+				5A286247920ADAAF09F92C7B /* Pods-Academus.release.xcconfig */,
+				540609A3875178DEA8395D9B /* Pods-AcademusWidget.debug.xcconfig */,
+				87AF3A57A98B158BF917FBC8 /* Pods-AcademusWidget.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C4F8168C20982F53007E6D97 /* AcademusWidget */ = {
+			isa = PBXGroup;
+			children = (
+				C4F8169A209830DB007E6D97 /* AcademusWidget.entitlements */,
+				C4F8168D20982F53007E6D97 /* TodayViewController.swift */,
+				C4F8168F20982F53007E6D97 /* MainInterface.storyboard */,
+				C4F8169220982F53007E6D97 /* Info.plist */,
+				C4E0AA082098459C0086FFFA /* CourseModel.swift */,
+			);
+			path = AcademusWidget;
 			sourceTree = "<group>";
 		};
 		D7153A2F204D658700CF4DC4 /* Planner */ = {
@@ -199,9 +264,10 @@
 			isa = PBXGroup;
 			children = (
 				D725592C203A38DB00DBA62B /* Academus */,
+				C4F8168C20982F53007E6D97 /* AcademusWidget */,
 				D725592B203A38DB00DBA62B /* Products */,
-				A145413D4A5DE0A064FA7720 /* Pods */,
 				0801296D7860CA158CBBBB5C /* Frameworks */,
+				89BD74B58158AFC788E8495B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -209,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				D725592A203A38DB00DBA62B /* Academus.app */,
+				C4F8168920982F53007E6D97 /* AcademusWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -349,20 +416,41 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D7255929203A38DB00DBA62B /* Academus */ = {
+		C4F8168820982F53007E6D97 /* AcademusWidget */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D725593C203A38DB00DBA62B /* Build configuration list for PBXNativeTarget "Academus" */;
+			buildConfigurationList = C4F8169820982F53007E6D97 /* Build configuration list for PBXNativeTarget "AcademusWidget" */;
 			buildPhases = (
-				9212CCD500F1A5B43776718F /* [CP] Check Pods Manifest.lock */,
-				D7255926203A38DB00DBA62B /* Sources */,
-				D7255927203A38DB00DBA62B /* Frameworks */,
-				D7255928203A38DB00DBA62B /* Resources */,
-				35D3B526C3535B68A4D0886A /* [CP] Embed Pods Frameworks */,
-				49A15E21799DB6AA6DC53AF4 /* [CP] Copy Pods Resources */,
+				2CDC647699677D0E413CCC8E /* [CP] Check Pods Manifest.lock */,
+				C4F8168520982F53007E6D97 /* Sources */,
+				C4F8168620982F53007E6D97 /* Frameworks */,
+				C4F8168720982F53007E6D97 /* Resources */,
+				0E4B74AB241924A58B0F679C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+			);
+			name = AcademusWidget;
+			productName = AcademusWidget;
+			productReference = C4F8168920982F53007E6D97 /* AcademusWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		D7255929203A38DB00DBA62B /* Academus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D725593C203A38DB00DBA62B /* Build configuration list for PBXNativeTarget "Academus" */;
+			buildPhases = (
+				317D6F47F763F86572E733EF /* [CP] Check Pods Manifest.lock */,
+				D7255926203A38DB00DBA62B /* Sources */,
+				D7255927203A38DB00DBA62B /* Frameworks */,
+				D7255928203A38DB00DBA62B /* Resources */,
+				C4F8169920982F53007E6D97 /* Embed App Extensions */,
+				AD7D502CF9B95C114315AFED /* [CP] Embed Pods Frameworks */,
+				D3EC5258C0B3BC59952FA19F /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C4F8169420982F53007E6D97 /* PBXTargetDependency */,
 			);
 			name = Academus;
 			productName = SwiftData;
@@ -375,14 +463,26 @@
 		D7255922203A38DB00DBA62B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Caffeinated Insomniacs";
 				TargetAttributes = {
+					C4F8168820982F53007E6D97 = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					D7255929203A38DB00DBA62B = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
@@ -407,11 +507,20 @@
 			projectRoot = "";
 			targets = (
 				D7255929203A38DB00DBA62B /* Academus */,
+				C4F8168820982F53007E6D97 /* AcademusWidget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C4F8168720982F53007E6D97 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4F8169120982F53007E6D97 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7255928203A38DB00DBA62B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -427,7 +536,65 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		35D3B526C3535B68A4D0886A /* [CP] Embed Pods Frameworks */ = {
+		0E4B74AB241924A58B0F679C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AcademusWidget/Pods-AcademusWidget-resources.sh",
+				"${PODS_ROOT}/FreshchatSDK/FreshchatSDK/FCResources.bundle",
+				"${PODS_ROOT}/FreshchatSDK/FreshchatSDK/FreshchatModels.bundle",
+				"${PODS_ROOT}/FreshchatSDK/FreshchatSDK/FCLocalization.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FCResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FreshchatModels.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FCLocalization.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AcademusWidget/Pods-AcademusWidget-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2CDC647699677D0E413CCC8E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AcademusWidget-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		317D6F47F763F86572E733EF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Academus-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD7D502CF9B95C114315AFED /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -453,7 +620,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		49A15E21799DB6AA6DC53AF4 /* [CP] Copy Pods Resources */ = {
+		D3EC5258C0B3BC59952FA19F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -475,27 +642,18 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Academus/Pods-Academus-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9212CCD500F1A5B43776718F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Academus-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C4F8168520982F53007E6D97 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4E0AA092098459C0086FFFA /* CourseModel.swift in Sources */,
+				C4F8168E20982F53007E6D97 /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7255926203A38DB00DBA62B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -563,7 +721,68 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		C4F8169420982F53007E6D97 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4F8168820982F53007E6D97 /* AcademusWidget */;
+			targetProxy = C4F8169320982F53007E6D97 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C4F8168F20982F53007E6D97 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4F8169020982F53007E6D97 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		C4F8169620982F53007E6D97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 540609A3875178DEA8395D9B /* Pods-AcademusWidget.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = AcademusWidget/AcademusWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GA88828M8M;
+				INFOPLIST_FILE = AcademusWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.academus.ios.AcademusWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C4F8169720982F53007E6D97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87AF3A57A98B158BF917FBC8 /* Pods-AcademusWidget.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = AcademusWidget/AcademusWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GA88828M8M;
+				INFOPLIST_FILE = AcademusWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.academus.ios.AcademusWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		D725593A203A38DB00DBA62B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -679,8 +898,9 @@
 		};
 		D725593D203A38DB00DBA62B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6CEFE00B8A2B3BE738650395 /* Pods-Academus.debug.xcconfig */;
+			baseConfigurationReference = 2239C907200A0AFD2D83EE89 /* Pods-Academus.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Academus/Academus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -701,8 +921,9 @@
 		};
 		D725593E203A38DB00DBA62B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 890075C57931A0A5D85BA6D9 /* Pods-Academus.release.xcconfig */;
+			baseConfigurationReference = 5A286247920ADAAF09F92C7B /* Pods-Academus.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Academus/Academus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -723,6 +944,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C4F8169820982F53007E6D97 /* Build configuration list for PBXNativeTarget "AcademusWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4F8169620982F53007E6D97 /* Debug */,
+				C4F8169720982F53007E6D97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D7255925203A38DB00DBA62B /* Build configuration list for PBXProject "Academus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

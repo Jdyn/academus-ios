@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.6.0)
+  - Alamofire (4.7.2)
   - Charts (3.1.1):
     - Charts/Core (= 3.1.1)
   - Charts/Core (3.1.1)
@@ -26,13 +26,13 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   Charts: 90a4d61da0f6e06684c591e3bcab11940fe61736
   FreshchatSDK: b7e8affac53b186e689cf1f83d48a3afd7f18bb4
   Locksmith: e9bebbaaa4cee3c511bc358a44f843c3fe00e21f
   MaterialShowcase: 5f5146adcdc742d3e7369d9b3611a28f1bb5dd5a
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 5c50c55e908c021ebc2e8ec12a39c97c69c21fa1
+PODFILE CHECKSUM: c4d0e2ffed8c3221cc607e72b6d36f6cca7a1bd5
 
 COCOAPODS: 1.5.0

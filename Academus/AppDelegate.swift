@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NotificationCenter
 import UserNotifications
 import SwiftyJSON
 import Locksmith
@@ -54,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UITextField.appearance().keyboardAppearance = .dark
         
-        
+        NCWidgetController().setHasContent(false, forWidgetWithBundleIdentifier: "Grades")
 
         let freshchatConfig: FreshchatConfig = FreshchatConfig.init(appID: "76490582-1f11-45d5-b5b7-7ec88564c7d6", andAppKey: "5d16672f-543b-4dc9-9c21-9fd5f62a7ad3")
         freshchatConfig.themeName = "CustomFCTheme.plist"
