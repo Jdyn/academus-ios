@@ -19,7 +19,6 @@
 		C4E0AA092098459C0086FFFA /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E0AA082098459C0086FFFA /* CourseModel.swift */; };
 		C4F8168B20982F53007E6D97 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4F8168A20982F53007E6D97 /* NotificationCenter.framework */; };
 		C4F8168E20982F53007E6D97 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8168D20982F53007E6D97 /* TodayViewController.swift */; };
-		C4F8169120982F53007E6D97 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4F8168F20982F53007E6D97 /* MainInterface.storyboard */; };
 		C4F8169520982F53007E6D97 /* AcademusWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C4F8168920982F53007E6D97 /* AcademusWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C6C916E72090F7B2000CB2D2 /* AssignmentDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */; };
 		C6C916E92090F7CA000CB2D2 /* AssignmentDetailCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C916E82090F7CA000CB2D2 /* AssignmentDetailCellManager.swift */; };
@@ -121,7 +120,6 @@
 		C4F8168920982F53007E6D97 /* AcademusWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AcademusWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4F8168A20982F53007E6D97 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		C4F8168D20982F53007E6D97 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		C4F8169020982F53007E6D97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		C4F8169220982F53007E6D97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4F8169A209830DB007E6D97 /* AcademusWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AcademusWidget.entitlements; sourceTree = "<group>"; };
 		C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentDetailController.swift; sourceTree = "<group>"; };
@@ -242,7 +240,6 @@
 			children = (
 				C4F8169A209830DB007E6D97 /* AcademusWidget.entitlements */,
 				C4F8168D20982F53007E6D97 /* TodayViewController.swift */,
-				C4F8168F20982F53007E6D97 /* MainInterface.storyboard */,
 				C4F8169220982F53007E6D97 /* Info.plist */,
 				C4E0AA082098459C0086FFFA /* CourseModel.swift */,
 			);
@@ -517,7 +514,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4F8169120982F53007E6D97 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,17 +724,6 @@
 			targetProxy = C4F8169320982F53007E6D97 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		C4F8168F20982F53007E6D97 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C4F8169020982F53007E6D97 /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C4F8169620982F53007E6D97 /* Debug */ = {
