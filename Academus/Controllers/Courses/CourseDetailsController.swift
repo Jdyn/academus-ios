@@ -125,7 +125,7 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
         guard let cell = previewingContext.sourceView as? CourseAssignmentCell else { return nil }
         previewingContext.sourceRect = cell.background.frame
         
-        let assignmentDetailController = AssignmentDetailController()
+        let assignmentDetailController = AssignmentDetailController(style: .grouped)
         assignmentDetailController.assignment = cell.assignment
         return assignmentDetailController
     }

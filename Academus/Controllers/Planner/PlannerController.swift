@@ -181,14 +181,14 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch cells[indexPath.row] {
         case .assignmentUpdatedCard, .assignmentPostedCard:
-            let assignmentDetailController = AssignmentDetailController()
+            let assignmentDetailController = AssignmentDetailController(style: .grouped)
             assignmentDetailController.navigationItem.title = cards[indexPath.row].assignment?.name
             assignmentDetailController.assignment = cards[indexPath.row].assignment
             assignmentDetailController.card = cards[indexPath.row]
             navigationController?.pushViewController(assignmentDetailController, animated: true)
             tableView.deselectRow(at: indexPath, animated: true)
         case .courseUpdatedCard:
-            let courseDetailsController = CourseDetailsController()
+            let courseDetailsController = CourseDetailsController(style: .grouped)
             courseDetailsController.barbutton = false
             courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
             courseDetailsController.course = cards[indexPath.row].course
@@ -209,12 +209,12 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
         
         switch cells[indexPath.row] {
         case .assignmentPostedCard, .assignmentUpdatedCard:
-            let assignmentDetailController = AssignmentDetailController()
+            let assignmentDetailController = AssignmentDetailController(style: .grouped)
             assignmentDetailController.assignment = cards[indexPath.row].assignment
             assignmentDetailController.card = cards[indexPath.row]
             return assignmentDetailController
         case .courseUpdatedCard:
-            let courseDetailsController = CourseDetailsController()
+            let courseDetailsController = CourseDetailsController(style: .grouped)
             courseDetailsController.barbutton = false
             courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
             courseDetailsController.course = cards[indexPath.row].course
