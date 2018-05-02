@@ -21,6 +21,9 @@ class CourseBreakdownController: UITableViewController {
         self.extendedLayoutIncludesOpaqueBars = true
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 200.0
+        
         cells = [.title, .total, .points, .chart]
         cells.forEach { (cell) in
             if cell == .points {
@@ -35,28 +38,19 @@ class CourseBreakdownController: UITableViewController {
                 recognizer.addTarget(self, action: #selector(didScroll))
             }
         }
-        
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 200.0
     }
     
     @objc func didScroll(gestureRecognizer: UIPanGestureRecognizer) {
         if gestureRecognizer.state == .began {
-            let location = gestureRecognizer.location(ofTouch: 0, in: tableView)
-            if let indexPath = tableView.indexPathForRow(at: location) {
-                let cell = tableView(tableView, cellForRowAt: indexPath)
-                if cell.reuseIdentifier == "chartCell" {
-                    //TODO: Constrain to pie chart, not cell
-                    gestureRecognizer.isEnabled = false
-                } else {
-                    gestureRecognizer.isEnabled = true
-                }
-            } else {
-                gestureRecognizer.isEnabled = true
+            let location = gestureRecognizer.location(in: tableView)
+            if let chart = pieChart,
+                chart.circleBox.contains(chart.convert(location, from: tableView)) {
+                gestureRecognizer.isEnabled = false
+                return
             }
-        } else {
-            gestureRecognizer.isEnabled = true
         }
+        
+        gestureRecognizer.isEnabled = true
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -350,19 +344,5 @@ extension CourseBreakdownController {
         collection.anchors(top: background.topAnchor, topPad: 0, bottom: background.bottomAnchor, bottomPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
 
         return collection
-    }
-}
-
-extension CourseBreakdownController: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        let location = touch.location(in: tableView)
-        if let indexPath = tableView.indexPathForRow(at: location) {
-            let cell = tableView(tableView, cellForRowAt: indexPath)
-            if cell.reuseIdentifier == "chartCell" {
-                return false
-            }
-        }
-        
-        return true
     }
 }
