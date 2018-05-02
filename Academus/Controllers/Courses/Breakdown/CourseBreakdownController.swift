@@ -12,6 +12,7 @@ import Charts
 class CourseBreakdownController: UITableViewController {
     
     var course: Course?
+    var pieChart: PieChartView?
     var cells = [CourseBreakdownCellManager]()
     
     override func viewDidLoad() {
@@ -29,8 +30,33 @@ class CourseBreakdownController: UITableViewController {
             }
         }
         
+        tableView.gestureRecognizers?.forEach {
+            if let recognizer = $0 as? UIPanGestureRecognizer {
+                recognizer.addTarget(self, action: #selector(didScroll))
+            }
+        }
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 200.0
+    }
+    
+    @objc func didScroll(gestureRecognizer: UIPanGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let location = gestureRecognizer.location(ofTouch: 0, in: tableView)
+            if let indexPath = tableView.indexPathForRow(at: location) {
+                let cell = tableView(tableView, cellForRowAt: indexPath)
+                if cell.reuseIdentifier == "chartCell" {
+                    //TODO: Constrain to pie chart, not cell
+                    gestureRecognizer.isEnabled = false
+                } else {
+                    gestureRecognizer.isEnabled = true
+                }
+            } else {
+                gestureRecognizer.isEnabled = true
+            }
+        } else {
+            gestureRecognizer.isEnabled = true
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -284,24 +310,23 @@ extension CourseBreakdownController {
         let chartData = PieChartData(dataSet: dataSet)
         chartData.setValueFormatter(DefaultValueFormatter(formatter: formatter))
         
-        let pieChart = PieChartView()
-        pieChart.data = chartData
-        pieChart.drawEntryLabelsEnabled = false
-        pieChart.chartDescription?.enabled = false
-        pieChart.legend.enabled = true
-        pieChart.legend.font = UIFont.small!
-        pieChart.legend.orientation = .vertical
-        pieChart.legend.verticalAlignment = .center
-        pieChart.legend.horizontalAlignment = .right
-        pieChart.legend.direction = .rightToLeft
-        pieChart.legend.textColor = .white
-        pieChart.legend.yEntrySpace = 7
-        print(pieChart.legend.calculatedLabelSizes)
-        pieChart.holeColor = .clear
+        pieChart = PieChartView()
+        pieChart?.data = chartData
+        pieChart?.drawEntryLabelsEnabled = false
+        pieChart?.chartDescription?.enabled = false
+        pieChart?.legend.enabled = true
+        pieChart?.legend.font = UIFont.small!
+        pieChart?.legend.orientation = .vertical
+        pieChart?.legend.verticalAlignment = .center
+        pieChart?.legend.horizontalAlignment = .right
+        pieChart?.legend.direction = .rightToLeft
+        pieChart?.legend.textColor = .white
+        pieChart?.legend.yEntrySpace = 7
+        pieChart?.holeColor = .clear
         
-        cell.addSubview(pieChart)
-        pieChart.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
-        pieChart.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
+        cell.addSubview(pieChart!)
+        pieChart?.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
+        pieChart?.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
         
         return cell
     }
@@ -325,5 +350,19 @@ extension CourseBreakdownController {
         collection.anchors(top: background.topAnchor, topPad: 0, bottom: background.bottomAnchor, bottomPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
 
         return collection
+    }
+}
+
+extension CourseBreakdownController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        let location = touch.location(in: tableView)
+        if let indexPath = tableView.indexPathForRow(at: location) {
+            let cell = tableView(tableView, cellForRowAt: indexPath)
+            if cell.reuseIdentifier == "chartCell" {
+                return false
+            }
+        }
+        
+        return true
     }
 }
