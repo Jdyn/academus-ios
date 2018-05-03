@@ -24,6 +24,7 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         
         tableView.backgroundView = nil
+        tableView.rowHeight = 110
         tableView.showsVerticalScrollIndicator = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "gradeCell")
     }
@@ -36,6 +37,12 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         if activeDisplayMode == .compact {
             preferredContentSize = maxSize
         } else {
+            updateUI { (success) in
+                if success {
+                    self.tableView.reloadData()
+                }
+            }
+            
             self.preferredContentSize = CGSize(width: 0, height: 110 * self.courses.count)
         }
     }
@@ -43,10 +50,11 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         updateUI { (success) in
             if success {
-                self.tableView.reloadData()
                 if self.extensionContext?.widgetActiveDisplayMode == .expanded {
                     self.preferredContentSize = CGSize(width: 0, height: 110 * self.courses.count)
                 }
+                
+                self.tableView.reloadData()
                 completionHandler(NCUpdateResult.newData)
             } else {
                 completionHandler(NCUpdateResult.failed)
@@ -55,10 +63,10 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return courses.count }
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 110 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return (extensionContext?.widgetActiveDisplayMode == .expanded) ? courses.count : 1 }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard !courses.isEmpty else { return UITableViewCell() }
         let cell = tableView.dequeueReusableCell(withIdentifier: "gradeCell", for: indexPath)
         setUpUI(for: cell, with: courses[indexPath.row])
         return cell
@@ -69,14 +77,8 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
     }
     
     func updateUI(completion: @escaping CompletionHandler) {
-        tableView.isHidden = true
-        loadingUI()
-        
         getCourses { (success) in
-            if success {
-                self.tableView.isHidden = false
-            } else {
-                self.tableView.isHidden = true
+            if !success {
                 self.blankUI()
             }
             
@@ -88,6 +90,9 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         guard let name = course.name,
             let teacher = course.teacher?.name,
             let grade = course.grade,
+            let total = course.totalStudents,
+            let highest = course.highestGrade,
+            let lowest = course.lowestGrade,
             let letter = grade.letter else { return }
         
         tableView.backgroundView = nil
@@ -99,6 +104,16 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         title.adjustsFontSizeToFitWidth = true
         title.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
+        let totalImage = UIImageView(image: #imageLiteral(resourceName: "profile"))
+        totalImage.tintColor = .navigationsMegaGreen
+        let totalLabel = UILabel().setUpLabel(text: "\(total)", font: UIFont.subtext!, fontColor: .navigationsMediumGrey)
+        let highestImage = UIImageView(image: #imageLiteral(resourceName: "upArrowLine"))
+        highestImage.tintColor = .navigationsMegaGreen
+        let highestLabel = UILabel().setUpLabel(text: String(format: "%.0f%%", highest), font: UIFont.subtext!, fontColor: .navigationsMediumGrey)
+        let lowestImage = UIImageView(image: #imageLiteral(resourceName: "downArrowLine"))
+        lowestImage.tintColor = .navigationsMegaGreen
+        let lowestLabel = UILabel().setUpLabel(text: String(format: "%.0f%%", lowest), font: UIFont.subtext!, fontColor: .navigationsMediumGrey)
+        
         let gradeLabel = UILabel().setUpLabel(text: letter, font: UIFont.subtext!, fontColor: .navigationsMegaGreen)
         gradeLabel.font = UIFont(name: "AvenirNext-demibold", size: 48)
         gradeLabel.sizeToFit()
@@ -107,26 +122,36 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         
         let titleView = UIView()
         let gradeView = UIView()
-        titleView.addSubviews([teacherLabel, title])
+        titleView.addSubviews([teacherLabel, title, totalImage, totalLabel, highestImage, highestLabel, lowestImage, lowestLabel])
         gradeView.addSubviews([gradeLabel, percent])
         cell.addSubviews([titleView, gradeView])
         
         teacherLabel.anchors(top: titleView.topAnchor, bottom: title.topAnchor, left: titleView.leftAnchor, right: titleView.rightAnchor)
-        title.anchors(top: teacherLabel.bottomAnchor, bottom: titleView.bottomAnchor, left: titleView.leftAnchor, right: gradeLabel.leftAnchor, rightPad: -21)
-        gradeLabel.anchors(top: gradeView.topAnchor, bottom: percent.topAnchor, centerX: percent.centerXAnchor)
-        percent.anchors(top: gradeLabel.bottomAnchor, bottom: gradeView.bottomAnchor, left: gradeView.leftAnchor, right: gradeView.rightAnchor)
+        title.anchors(top: teacherLabel.bottomAnchor, left: titleView.leftAnchor, right: gradeLabel.leftAnchor, rightPad: -21)
+        
+        totalImage.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: titleView.leftAnchor, width: 15, height: 15)
+        totalLabel.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: totalImage.rightAnchor, leftPad: 6)
+        highestImage.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: totalLabel.rightAnchor, leftPad: 9, width: 15, height: 15)
+        highestLabel.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: highestImage.rightAnchor, leftPad: 6)
+        lowestImage.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: highestLabel.rightAnchor, leftPad: 9, width: 15, height: 15)
+        lowestLabel.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: lowestImage.rightAnchor, leftPad: 6)
+        
+        gradeLabel.anchors(top: gradeView.topAnchor, centerX: percent.centerXAnchor)
+        percent.anchors(bottom: gradeView.bottomAnchor, left: gradeView.leftAnchor, right: gradeView.rightAnchor)
         
         titleView.anchors(left: cell.leftAnchor, leftPad: 21, centerY: cell.centerYAnchor)
-        gradeView.anchors(right: cell.rightAnchor, rightPad: -21, centerY: cell.centerYAnchor)
+        gradeView.anchors(right: cell.rightAnchor, rightPad: -21, centerY: cell.centerYAnchor, height: 80)
     }
     
     func loadingUI() {
         let blankLabel = UILabel().setUpLabel(text: "Loading Courses...", font: UIFont.standard!, fontColor: .navigationsMediumGrey)
+        blankLabel.textAlignment = .center
         tableView.backgroundView = blankLabel
     }
     
     func blankUI() {
         let blankLabel = UILabel().setUpLabel(text: "Courses Unavailable", font: UIFont.standard!, fontColor: .navigationsMediumGrey)
+        blankLabel.textAlignment = .center
         tableView.backgroundView = blankLabel
     }
     

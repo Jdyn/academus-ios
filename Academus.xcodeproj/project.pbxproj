@@ -15,6 +15,7 @@
 		C4C856B1208ADAE900CC17C7 /* SettingsBundleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B0208ADAE900CC17C7 /* SettingsBundleHelper.swift */; };
 		C4C856B3208AE14000CC17C7 /* CourseInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B2208AE14000CC17C7 /* CourseInfoController.swift */; };
 		C4C856B5208AE84400CC17C7 /* CourseInfoCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */; };
+		C4C9C78E209A8A72000F04CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7255934203A38DB00DBA62B /* Assets.xcassets */; };
 		C4D78241208C2DA100F92BAF /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D78240208C2DA100F92BAF /* CacheService.swift */; };
 		C4E0AA092098459C0086FFFA /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E0AA082098459C0086FFFA /* CourseModel.swift */; };
 		C4F8168B20982F53007E6D97 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4F8168A20982F53007E6D97 /* NotificationCenter.framework */; };
@@ -514,6 +515,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4C9C78E209A8A72000F04CB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

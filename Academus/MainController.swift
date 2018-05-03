@@ -107,7 +107,7 @@ class MainController: UIViewController {
                 UserDefaults(suiteName: "group.academus")?.set(authToken, forKey: AUTH_TOKEN)
                 UserDefaults(suiteName: "group.academus")?.set(BASE_URL, forKey: "BASE_URL")
                 
-                NCWidgetController().setHasContent(true, forWidgetWithBundleIdentifier: "Grades")
+                NCWidgetController().setHasContent(true, forWidgetWithBundleIdentifier: "io.academus.ios.AcademusWidget")
                 
                 self.present(barController, animated: true, completion: nil)
             } else {
@@ -139,7 +139,7 @@ class MainController: UIViewController {
         UserDefaults(suiteName: "group.academus")?.set(nil, forKey: "authToken")
         UserDefaults(suiteName: "group.academus")?.set(nil, forKey: "BASE_URL")
         
-        NCWidgetController().setHasContent(false, forWidgetWithBundleIdentifier: "Grades")
+        NCWidgetController().setHasContent(false, forWidgetWithBundleIdentifier: "io.academus.ios.AcademusWidget")
 
         self.present(welcomeNavigationController, animated: true, completion: nil)
     }
