@@ -115,23 +115,27 @@ class MainController: UIViewController {
     func kickUser() {
         try? Locksmith.deleteDataForUserAccount(userAccount: USER_INFO)
         
-        let settings = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)
-        var localSettings = settings
-        localSettings?[isAppLock] = false
-        try? Locksmith.updateData(data: localSettings!, forUserAccount: USER_SETTINGS)
-        
         let welcomeController = WelcomeController()
         welcomeController.mainController = self
         let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)
         appLock = false
         
-        let settings1 = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)
-        print(settings1 as Any)
-        
         tryAgain.isHidden = true
         logout.isHidden = true
 
         self.present(welcomeNavigationController, animated: true, completion: nil)
+        
+        let settings = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)
+        if var localSettings = settings {
+            do {
+                localSettings[isAppLock] = false
+                try Locksmith.updateData(data: localSettings, forUserAccount: USER_SETTINGS)
+                
+            } catch let error {
+                print(error)
+                return
+            }
+        }
     }
     
     @objc func logoutPressed() {
@@ -160,9 +164,6 @@ class MainController: UIViewController {
         let infoDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let apnsDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
         
-//        print(self.apnsToken as? String)
-//        print(apnsDictionary?[APPLE_TOKEN] as? String)
-        
         let currentApnsToken = apnsDictionary?[APPLE_TOKEN] as? String
         let authToken = infoDictionary?[AUTH_TOKEN] as? String
         
@@ -172,9 +173,6 @@ class MainController: UIViewController {
                     do {
                         try Locksmith.updateData(data: [APPLE_TOKEN : apnsToken!], forUserAccount: USER_APNS)
                         AuthService().registerAPNS(token: authToken!, appleToken: apnsToken!)
-                        
-                        let apnsDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_APNS)
-                        print(apnsDictionary as Any)
 
                         return
                     } catch let error {

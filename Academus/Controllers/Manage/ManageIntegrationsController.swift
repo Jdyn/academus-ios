@@ -65,7 +65,7 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
                 self.integrationService.userIntegrations(completion: { (success) in
                     if success {
                         self.dismiss(animated: true, completion: {
-                            self.date.text = "Synced"
+                            self.date.text = "Queued for Sync"
                         })
                     }
                 })
