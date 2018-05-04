@@ -55,6 +55,14 @@ class IntegrationLogInController: UIViewController {
         super.viewDidLoad()
         hideKeyboard()
         setUpUI()
+        
+        let banner = UIView().setupBackground(bgColor: .navigationsRed)
+        let button = UIView().setupImageView(color: .navigationsWhite, image: #imageLiteral(resourceName: "cancel"))
+
+        view.addSubviews(views: [banner, button])
+
+        banner.anchors(top: view.topAnchor, left: view.leftAnchor, right: view.leftAnchor, height: 250)
+        button.anchors(top: banner.topAnchor, topPad: 9, right: banner.rightAnchor, rightPad: -9)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,14 +72,18 @@ class IntegrationLogInController: UIViewController {
 
     private func setUpUI() {
         self.view.backgroundColor = .tableViewDarkGrey
-        self.extendedLayoutIncludesOpaqueBars = true
+        let statusBar = statusBarHeaderView(message: "PLEASE WORK")
         
         let screen = UIScreen.main.bounds
-        let view = UIScrollView(frame: CGRect(x: 0, y: 0, width: screen.width, height: screen.height))
-        view.contentSize = CGSize(width: screen.width, height: screen.height + 100)
-        view.isScrollEnabled = true
-        view.addSubviews(views: [subtitle, titleLabel, button])
-        self.view.addSubview(view)
+        let scrollView = UIScrollView()
+        scrollView.contentSize = CGSize(width: screen.width, height: screen.height)
+        scrollView.isScrollEnabled = true
+        scrollView.addSubviews(views: [subtitle, titleLabel, button])
+        
+        view.addSubviews(views: [statusBar, scrollView])
+        
+        statusBar.anchors(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 64)
+        scrollView.anchors(top: statusBar.bottomAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor)
         
         guard let fieldCount = integration?.fields.count else {return}
         for i in 0...fieldCount - 1 {
@@ -80,14 +92,14 @@ class IntegrationLogInController: UIViewController {
             if integration?.fields[i].id == "password" {
                 field.isSecureTextEntry = true
             }
-            view.addSubview(field)
-            field.anchors(top: fields.last?.topAnchor ?? titleLabel.topAnchor, topPad: (fields.last != nil) ? 54 : 72, leftPad: 32, rightPad: -32, centerX: view.centerXAnchor, width: screen.width - 64, height: fieldHeight)
+            scrollView.addSubview(field)
+            field.anchors(top: fields.last?.topAnchor ?? titleLabel.topAnchor, topPad: (fields.last != nil) ? 54 : 72, leftPad: 32, rightPad: -32, centerX: scrollView.centerXAnchor, width: screen.width - 64, height: fieldHeight)
             fields.append(field)
         }
         
-        subtitle.anchors(top: view.topAnchor, topPad: 120, centerX: view.centerXAnchor)
-        titleLabel.anchors(top: subtitle.bottomAnchor, centerX: view.centerXAnchor, width: 0, height: 0)
-        button.anchors(top: fields.last?.bottomAnchor, topPad: 32, centerX: view.centerXAnchor, width: 84)
+        subtitle.anchors(top: scrollView.topAnchor, topPad: 120, centerX: scrollView.centerXAnchor)
+        titleLabel.anchors(top: subtitle.bottomAnchor, centerX: scrollView.centerXAnchor, width: 0, height: 0)
+        button.anchors(top: fields.last?.bottomAnchor, topPad: 32, centerX: scrollView.centerXAnchor, width: 84)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
     }
 }

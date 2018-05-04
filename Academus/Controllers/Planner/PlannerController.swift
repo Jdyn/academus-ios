@@ -11,11 +11,14 @@ import CoreData
 import Locksmith
 import MaterialShowcase
 
-class PlannerController: UITableViewController, PlannerCardDelegate, UIViewControllerPreviewingDelegate {
-        
+class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDelegate, UIViewControllerPreviewingDelegate {
+
+    let plannerService = PlannerService()
+    let statusService = StatusService()
+    
     var cards = [PlannerCard]()
-    var plannerService = PlannerService()
-    var cells: [PlannerCellManager] = [PlannerCellManager]()
+    var cells = [PlannerCellManager]()
+    var components = [ComponentModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +27,8 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         tableView.showsVerticalScrollIndicator = false
+        
+        tableView.tableHeaderView = statusBarHeaderView(message: "Hello")
 
 //        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
 //        setupChatButtonInNavBar()
@@ -61,15 +66,27 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
                 self.errorLabel(show: true)
             }
         }
+        
+        statusService.statusDelegate = self
+        statusService.getStatus { (succcess) in
+            print(self.components)
+        }
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 200.0
     }
-        
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: { self.guidedTutorial() })
     }
-        
+    
+    func didGetStatus(components: [ComponentModel]) {
+        components.forEach { (component) in
+            self.components.append(component)
+        }
+    }
+    
     func guidedTutorial() {
         guard UserDefaults.standard.bool(forKey: "PlannerOpened") != true else { return }
         guard !tableView.visibleCells.isEmpty else { return }
@@ -367,5 +384,4 @@ extension PlannerController {
         
         return cell
     }
-
 }

@@ -14,6 +14,7 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
     let date = UILabel().setUpLabel(text: "", font: UIFont.subheader!, fontColor: .tableViewLightGrey)
     let integrationService = IntegrationService()
     var integrations = [UserIntegrations]()
+
     let cellID = "userIntegrationsCell"
     
     override func viewDidLoad() {
@@ -31,6 +32,12 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
                 self.tableView.reloadData()
             }
         }
+//        statusService.statusDelegate = self
+//        statusService.getStatus { (success) in
+//            if success {
+//                print(self.components)
+//            }
+//        }
     }
 
     func didGetUserIntegrations(integrations: [UserIntegrations]) {
@@ -40,6 +47,12 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
             self.integrations.append(integration)
         }
     }
+    
+//    func didGetStatus(components: [ComponentModel]) {
+//        components.forEach { (component) in
+//            self.components.append(component)
+//        }
+//    }
     
     @objc func handleAdd() {
         let controller = IntegrationSelectController()

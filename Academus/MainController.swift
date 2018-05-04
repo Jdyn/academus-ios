@@ -111,7 +111,6 @@ class MainController: UIViewController {
         }
     }
 
-    
     func kickUser() {
         try? Locksmith.deleteDataForUserAccount(userAccount: USER_INFO)
         
