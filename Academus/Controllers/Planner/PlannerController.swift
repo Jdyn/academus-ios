@@ -15,10 +15,10 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
 
     let plannerService = PlannerService()
     let statusService = StatusService()
+    var severityColor: UIColor?
     
     var cards = [PlannerCard]()
     var cells = [PlannerCellManager]()
-    var components = [ComponentModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +27,6 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         tableView.showsVerticalScrollIndicator = false
-        
-        tableView.tableHeaderView = statusBarHeaderView(message: "Hello")
 
 //        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
 //        setupChatButtonInNavBar()
@@ -68,9 +66,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
         }
         
         statusService.statusDelegate = self
-        statusService.getStatus { (succcess) in
-            print(self.components)
-        }
+        statusService.getStatus { _ in }
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 200.0
@@ -82,9 +78,68 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
     }
     
     func didGetStatus(components: [ComponentModel]) {
-        components.forEach { (component) in
-            self.components.append(component)
+        if components.isEmpty {
+            tableView.tableHeaderView = nil
+        } else {
+            if let mostSevere = components.max(by: { ($0.status ?? 0) < ($1.status ?? 0) }),
+                let status = mostSevere.status, status > 1,
+                let name = mostSevere.name,
+                let statusName = mostSevere.statusName {
+                tableView.tableHeaderView = statusBarHeaderView(message: "\(name): \(statusName)", severity: status)
+            } else {
+                tableView.tableHeaderView = nil
+            }
         }
+    }
+    
+    func statusBarHeaderView(message: String, severity: Int) -> UIView {
+        navigationItem.rightBarButtonItem = nil
+        
+        let view = UIView(frame: CGRect(x: 20, y: 0, width: 0, height: 57))
+        
+        switch severity {
+        case 2: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+        case 3: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+        case 4: severityColor = .navigationsRed
+        default: severityColor = .navigationsRed
+        }
+        
+        let background = UIButton().setUpButton(bgColor: severityColor, title: message, font: UIFont.header!, fontColor: .navigationsWhite, state: .normal)
+        background.contentVerticalAlignment = .top
+        background.addTarget(self, action: #selector(statusPage), for: .touchUpInside)
+        background.roundCorners(corners: .bottom)
+        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 4, opacity: 0.2)
+        
+        let closeButton = UIButton()
+        closeButton.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
+        closeButton.tintColor = .navigationsWhite
+        closeButton.addTarget(self, action: #selector(dismissStatusAlert), for: .touchUpInside)
+        let statusSubtext = UILabel().setUpLabel(text: "Tap for more details.", font: UIFont.subtext!, fontColor: .navigationsWhite)
+        statusSubtext.textAlignment = .center
+        
+        background.addSubviews(views: [closeButton, statusSubtext])
+        view.addSubview(background)
+        
+        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
+        statusSubtext.anchors(bottom: background.bottomAnchor, bottomPad: -5, centerX: background.centerXAnchor)
+        closeButton.anchors(right: background.rightAnchor, rightPad: -9, centerY: background.centerYAnchor, width: 28, height: 28)
+        
+        return view
+    }
+    
+    @objc func statusPage() {
+        
+    }
+    
+    @objc func dismissStatusAlert() {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            let statusButton = UIBarButtonItem()
+            statusButton.action = #selector(self.statusPage)
+            statusButton.image = #imageLiteral(resourceName: "cancel")
+            statusButton.tintColor = self.severityColor
+            self.navigationItem.setRightBarButton(statusButton, animated: true)
+            self.tableView.tableHeaderView = nil
+        })
     }
     
     func guidedTutorial() {
@@ -255,6 +310,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
                     self.refreshControl?.endRefreshing()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
                         self.tableView.reloadData()
+                        self.statusService.getStatus { _ in }
                     })
                 })
             } else {

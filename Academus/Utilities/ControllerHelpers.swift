@@ -10,27 +10,6 @@ import UIKit
 
 extension UIViewController {
     
-    func statusBarHeaderView(message: String) -> UIView {
-        let view = UIView(frame: CGRect(x: 20, y: 0, width: 0, height: 64))
-        
-        let background = UIButton().setUpButton(bgColor: .navigationsRed, title: message, font: UIFont.header!, fontColor: .navigationsWhite, state: .normal)
-        background.roundCorners(corners: .bottom)
-        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 4, opacity: 0.2)
-        
-        let closeButton = UIView().setupImageView(color: .navigationsWhite, image: #imageLiteral(resourceName: "cancel"))
-        let statusSubtext = UILabel().setUpLabel(text: "Tap for more details", font: UIFont.subtext!, fontColor: .navigationsWhite)
-        statusSubtext.textAlignment = .center
-        
-        background.addSubviews(views: [closeButton, statusSubtext])
-        view.addSubview(background)
-        
-        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
-        statusSubtext.anchors(bottom: background.bottomAnchor, bottomPad: -6, centerX: background.centerXAnchor)
-        closeButton.anchors(right: background.rightAnchor, rightPad: -9, centerY: background.centerYAnchor, width: 28, height: 28)
-        
-        return view
-    }
-    
     func hideKeyboard() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(
             target: self,
