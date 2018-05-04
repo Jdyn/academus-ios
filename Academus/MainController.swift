@@ -112,7 +112,11 @@ class MainController: UIViewController {
     }
 
     func kickUser() {
-        try? Locksmith.deleteDataForUserAccount(userAccount: USER_INFO)
+        do {
+            try Locksmith.deleteDataForUserAccount(userAccount: USER_INFO)
+        } catch let error {
+            print(error)
+        }
         
         let welcomeController = WelcomeController()
         welcomeController.mainController = self
@@ -130,8 +134,7 @@ class MainController: UIViewController {
                 localSettings[isAppLock] = false
                 try Locksmith.updateData(data: localSettings, forUserAccount: USER_SETTINGS)
                 
-            } catch let error {
-                print(error)
+            } catch {
                 return
             }
         }

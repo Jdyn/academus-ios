@@ -73,8 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     isFirstLaunch : true
                     ], forUserAccount: USER_SETTINGS)
 
-            } catch let error {
-                print(error)
+            } catch {
+                return true
             }
 
             guard
@@ -89,8 +89,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             do {
                 try Locksmith.updateData(data: settings!, forUserAccount: USER_INFO)
                 try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
-            } catch let error {
-                print(error)
+            } catch {
+                return true
             }
             
         }

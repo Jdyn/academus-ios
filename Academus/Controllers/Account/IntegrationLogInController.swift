@@ -145,7 +145,7 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
         let closeButton = UIButton()
         closeButton.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
         closeButton.tintColor = .navigationsWhite
-        closeButton.addTarget(self, action: #selector(dismissStatusAlert), for: .touchUpInside)
+        closeButton.addTarget(self, action: #selector(handleStatusAlert), for: .touchUpInside)
         let statusSubtext = UILabel().setUpLabel(text: "Tap for more details.", font: UIFont.subtext!, fontColor: .navigationsWhite)
         statusSubtext.textAlignment = .center
         
@@ -163,7 +163,7 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
         
     }
     
-    @objc func dismissStatusAlert() {
+    @objc func handleStatusAlert() {
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
             self.statusAlert?.removeFromSuperview()
         })

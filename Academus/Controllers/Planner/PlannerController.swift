@@ -15,22 +15,24 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
 
     let plannerService = PlannerService()
     let statusService = StatusService()
+    var statusButton: UIBarButtonItem?
     var severityColor: UIColor?
+    var statusView: UIView?
     
     var cards = [PlannerCard]()
     var cells = [PlannerCellManager]()
+    var components = [ComponentModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Planner"
         view.backgroundColor = .tableViewDarkGrey
         tableView.separatorStyle = .none
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 200.0
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         tableView.showsVerticalScrollIndicator = false
 
-//        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
-//        setupChatButtonInNavBar()
-                
         self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
@@ -66,10 +68,20 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
         }
         
         statusService.statusDelegate = self
-        statusService.getStatus { _ in }
-        
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 200.0
+        statusService.getStatus { (success) in
+            if success {
+                let filtered = self.components.filter({ $0.status == 3 || $0.status == 4 })
+                print(filtered)
+                if filtered.count > 0 {
+                    self.statusButton = UIBarButtonItem(image: #imageLiteral(resourceName: "status"), style: .plain, target: self, action: #selector(self.handleStatusAlert))
+                    self.statusButton?.tintColor = self.severityColor
+                    self.navigationItem.rightBarButtonItem = self.statusButton
+                    print("ok")
+                }
+                self.checkForStatus()
+                
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,24 +90,78 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
     }
     
     func didGetStatus(components: [ComponentModel]) {
+        components.forEach { (component) in
+            self.components.append(component)
+        }
+//        let tester = ComponentModel(id: 1, name: "test", description: "", link: "", status: 3, order: 1, groupId: 1, createdAt: nil, updatedAt: nil, deletedAt: nil, enabled: nil, statusName: "testStatus")
+//        let tester1 = ComponentModel(id: 1, name: "test", description: "", link: "", status: 4, order: 1, groupId: 1, createdAt: nil, updatedAt: nil, deletedAt: nil, enabled: nil, statusName: "testStatus")
+//
+//        self.components.append(tester)
+//        self.components.append(tester1)
+        
+        let max = self.components.max { ($0.status ?? 0) < ($1.status ?? 0)}
+        let severity = max?.status
+        if (severity ?? 0) > 1 {
+            switch severity {
+            case 2: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+            case 3: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+            case 4: severityColor = .navigationsRed
+            default: severityColor = .navigationsRed
+            }
+        }
+    }
+    
+    func checkForStatus() {
         if components.isEmpty {
             tableView.tableHeaderView = nil
         } else {
-            if let mostSevere = components.max(by: { ($0.status ?? 0) < ($1.status ?? 0) }),
-                let status = mostSevere.status, status > 1,
-                let name = mostSevere.name,
-                let statusName = mostSevere.statusName {
-                tableView.tableHeaderView = statusBarHeaderView(message: "\(name): \(statusName)", severity: status)
+            
+            let filtered = self.components.filter({ $0.status == 3 || $0.status == 4 })
+            print(filtered.count)
+            
+            if filtered.count == 1 {
+                let statusDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_STATUS)
+                print(statusDictionary?[isShowing] as! Bool)
+                
+                if statusDictionary?[isShowing] == nil || statusDictionary?[isShowing] as? Bool == true {
+                    let max = filtered.max { ($0.status ?? 0) < ($1.status ?? 0)}
+                    
+                    guard
+                        let name = max?.name,
+                        let statusName = max?.statusName,
+                        let status = max?.status
+                        else { print("GUARD RETURNED");tableView.tableHeaderView = nil; return }
+                    
+                    tableView.tableHeaderView = statusBarHeaderView(message: "\(name): \(statusName)", severity: status)
+                } else {
+                    tableView.tableHeaderView = nil
+                }
+                
+            } else if filtered.count > 1 {
+                let statusDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_STATUS)
+                
+                if statusDictionary?[isShowing] == nil || statusDictionary?[isShowing] as? Bool == true {
+                    let max = filtered.max { ($0.status ?? 0) < ($1.status ?? 0)}
+                    
+                    if (max?.status ?? 0) > 0 {
+                        
+                        self.tableView.tableHeaderView = self.statusBarHeaderView(message: "\(filtered.count) System Outages", severity: max?.status ?? 0)
+                        
+                    } else {
+                        tableView.tableHeaderView = nil
+                    }
+                }
             } else {
                 tableView.tableHeaderView = nil
             }
         }
+        tableView.reloadData()
     }
     
     func statusBarHeaderView(message: String, severity: Int) -> UIView {
         navigationItem.rightBarButtonItem = nil
         
-        let view = UIView(frame: CGRect(x: 20, y: 0, width: 0, height: 57))
+        statusView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 57))
         
         switch severity {
         case 2: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
@@ -113,33 +179,43 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
         let closeButton = UIButton()
         closeButton.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
         closeButton.tintColor = .navigationsWhite
-        closeButton.addTarget(self, action: #selector(dismissStatusAlert), for: .touchUpInside)
+        closeButton.addTarget(self, action: #selector(handleStatusAlert), for: .touchUpInside)
         let statusSubtext = UILabel().setUpLabel(text: "Tap for more details.", font: UIFont.subtext!, fontColor: .navigationsWhite)
         statusSubtext.textAlignment = .center
         
         background.addSubviews(views: [closeButton, statusSubtext])
-        view.addSubview(background)
         
-        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
+        statusView?.addSubview(background)
+        
+        background.anchors(top: statusView?.topAnchor, bottom: statusView?.bottomAnchor, bottomPad: 0, left: statusView?.leftAnchor, leftPad: 9, right: statusView?.rightAnchor, rightPad: -9)
         statusSubtext.anchors(bottom: background.bottomAnchor, bottomPad: -5, centerX: background.centerXAnchor)
-        closeButton.anchors(right: background.rightAnchor, rightPad: -9, centerY: background.centerYAnchor, width: 28, height: 28)
+        closeButton.anchors(top: background.topAnchor, bottom: background.bottomAnchor, right: background.rightAnchor, rightPad: -9, centerY: background.centerYAnchor, width: 28, height: 28)
         
-        return view
+        return statusView!
     }
     
     @objc func statusPage() {
-        
+        if let url = URL(string: "https://status.academus.io/"){
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
-    @objc func dismissStatusAlert() {
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-            let statusButton = UIBarButtonItem()
-            statusButton.action = #selector(self.statusPage)
-            statusButton.image = #imageLiteral(resourceName: "cancel")
-            statusButton.tintColor = self.severityColor
-            self.navigationItem.setRightBarButton(statusButton, animated: true)
-            self.tableView.tableHeaderView = nil
-        })
+    @objc func handleStatusAlert() {
+        let statusDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_STATUS)
+        do {
+            if statusDictionary?[isShowing] as? Bool == true {
+                try Locksmith.updateData(data: [isShowing : false], forUserAccount: USER_STATUS)
+                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                    self.navigationItem.rightBarButtonItem = self.statusButton
+                    self.tableView.tableHeaderView = nil
+                })
+            } else {
+                try Locksmith.updateData(data: [isShowing : true], forUserAccount: USER_STATUS)
+                self.checkForStatus()
+            }
+        } catch {
+            return
+        }
     }
     
     func guidedTutorial() {
@@ -310,7 +386,23 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
                     self.refreshControl?.endRefreshing()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
                         self.tableView.reloadData()
-                        self.statusService.getStatus { _ in }
+//                        self.statusService.statusDelegate = self
+//                        self.statusService.getStatus { (success) in
+//                            if success {
+//                                let filtered = self.components.filter({ $0.status == 3 || $0.status == 4 })
+//                                print(filtered)
+//                                if filtered.count > 0 {
+//                                    self.statusButton = UIBarButtonItem(image: #imageLiteral(resourceName: "status"), style: .plain, target: self, action: #selector(self.handleStatusAlert))
+//                                    self.statusButton?.tintColor = self.severityColor
+//                                    self.navigationItem.rightBarButtonItem = self.statusButton
+//                                    print("ok")
+//                                }
+//                                self.tableView.tableHeaderView = nil
+//                                self.checkForStatus()
+//
+//                            }
+//                        }
+                        
                     })
                 })
             } else {
