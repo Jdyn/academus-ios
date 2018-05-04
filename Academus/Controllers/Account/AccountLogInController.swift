@@ -57,7 +57,7 @@ class AccountLogInController: UIViewController, logInErrorDelegate, UITextFieldD
         impact.impactOccurred()
 
         if (emailField.text?.isEmpty)! || (passwordField.text?.isEmpty)! {
-            alertMessage(title: "Alert", message: "There is a missing field.")
+            alertMessage(title: "Hey!", message: "Please fill out all fields to continue.")
             return
         }
         
