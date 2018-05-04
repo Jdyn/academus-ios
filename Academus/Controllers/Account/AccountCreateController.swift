@@ -70,7 +70,7 @@ class AccountCreateController: UIViewController, accountCreateErrorDelegate {
         for field in fields {
             field.resignFirstResponder()
             if (field.text?.isEmpty)! {
-                self.alertMessage(title: "Wrong.", message: "There are missing fields.")
+                self.alertMessage(title: "Hey!", message: "Please fill out all fields to continue.")
                 return
             }
         }
