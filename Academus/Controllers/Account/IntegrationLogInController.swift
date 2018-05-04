@@ -25,7 +25,7 @@ class IntegrationLogInController: UIViewController {
         for i in 0...fieldsCounts - 1 {
             fields[i].resignFirstResponder()
             if (fields[i].text?.isEmpty)! {
-                alertMessage(title: "Alert", message: "There is a missing field.")
+                alertMessage(title: "Hey!", message: "Please fill out all fields to continue.")
                 return
             }
         }
