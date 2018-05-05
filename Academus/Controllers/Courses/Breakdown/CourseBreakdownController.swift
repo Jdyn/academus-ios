@@ -12,6 +12,7 @@ import Charts
 class CourseBreakdownController: UITableViewController {
     
     var course: Course?
+    var pieChart: PieChartView?
     var cells = [CourseBreakdownCellManager]()
     
     override func viewDidLoad() {
@@ -20,6 +21,9 @@ class CourseBreakdownController: UITableViewController {
         self.extendedLayoutIncludesOpaqueBars = true
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 200.0
+        
         cells = [.title, .total, .points, .chart]
         cells.forEach { (cell) in
             if cell == .points {
@@ -29,8 +33,24 @@ class CourseBreakdownController: UITableViewController {
             }
         }
         
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 200.0
+        tableView.gestureRecognizers?.forEach {
+            if let recognizer = $0 as? UIPanGestureRecognizer {
+                recognizer.addTarget(self, action: #selector(didScroll))
+            }
+        }
+    }
+    
+    @objc func didScroll(gestureRecognizer: UIPanGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let location = gestureRecognizer.location(in: tableView)
+            if let chart = pieChart,
+                chart.circleBox.contains(chart.convert(location, from: tableView)) {
+                gestureRecognizer.isEnabled = false
+                return
+            }
+        }
+        
+        gestureRecognizer.isEnabled = true
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -284,24 +304,23 @@ extension CourseBreakdownController {
         let chartData = PieChartData(dataSet: dataSet)
         chartData.setValueFormatter(DefaultValueFormatter(formatter: formatter))
         
-        let pieChart = PieChartView()
-        pieChart.data = chartData
-        pieChart.drawEntryLabelsEnabled = false
-        pieChart.chartDescription?.enabled = false
-        pieChart.legend.enabled = true
-        pieChart.legend.font = UIFont.small!
-        pieChart.legend.orientation = .vertical
-        pieChart.legend.verticalAlignment = .center
-        pieChart.legend.horizontalAlignment = .right
-        pieChart.legend.direction = .rightToLeft
-        pieChart.legend.textColor = .white
-        pieChart.legend.yEntrySpace = 7
-        print(pieChart.legend.calculatedLabelSizes)
-        pieChart.holeColor = .clear
+        pieChart = PieChartView()
+        pieChart?.data = chartData
+        pieChart?.drawEntryLabelsEnabled = false
+        pieChart?.chartDescription?.enabled = false
+        pieChart?.legend.enabled = true
+        pieChart?.legend.font = UIFont.small!
+        pieChart?.legend.orientation = .vertical
+        pieChart?.legend.verticalAlignment = .center
+        pieChart?.legend.horizontalAlignment = .right
+        pieChart?.legend.direction = .rightToLeft
+        pieChart?.legend.textColor = .white
+        pieChart?.legend.yEntrySpace = 7
+        pieChart?.holeColor = .clear
         
-        cell.addSubview(pieChart)
-        pieChart.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
-        pieChart.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
+        cell.addSubview(pieChart!)
+        pieChart?.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
+        pieChart?.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
         
         return cell
     }
