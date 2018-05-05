@@ -27,7 +27,6 @@ class MainController: UIViewController {
         logo?.image = #imageLiteral(resourceName: "logo_colored")
         view.addSubview(logo!)
         logo?.anchors(centerX: view.centerXAnchor, centerY: view.centerYAnchor, width: 128, height: 128)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,9 +69,7 @@ class MainController: UIViewController {
             }
         } else {
             completion(false)
-            switch authError! {
-            default: alertMessage(title: "Try again later...", message: authError!.localizedDescription)
-            }
+            alertMessage(title: "Try again later...", message: authError!.localizedDescription)
         }
     }
     
@@ -133,7 +130,6 @@ class MainController: UIViewController {
             do {
                 localSettings[isAppLock] = false
                 try Locksmith.updateData(data: localSettings, forUserAccount: USER_SETTINGS)
-                
             } catch {
                 return
             }
@@ -145,11 +141,12 @@ class MainController: UIViewController {
         let actionYes = UIAlertAction(title: "Yes", style: .destructive) { (action) in
             self.kickUser()
         }
-            let actionNo = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        
+        let actionNo = UIAlertAction(title: "No", style: .cancel, handler: nil)
             
-            alert.addAction(actionNo)
-            alert.addAction(actionYes)
-            self.present(alert, animated: true, completion: nil)
+        alert.addAction(actionNo)
+        alert.addAction(actionYes)
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func tryAgainPressed() {

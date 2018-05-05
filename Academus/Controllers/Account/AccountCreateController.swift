@@ -82,7 +82,7 @@ class AccountCreateController: UIViewController, accountCreateErrorDelegate {
             return
         }
 
-        loadingAlert(title: "Attempting to Create Account", message: "Please wait...")
+        loadingAlert(title: "Creating an Account", message: "Please wait...")
         authService.accountCreateDelegate = self
         
         authService.registerUser(firstName: (fields[0].text)!, lastName: (fields[1].text)!, email: (fields[2].text)!, password: (fields[3].text)!, appleToken: self.mainController?.apnsToken) { (success) in

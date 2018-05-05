@@ -8,7 +8,6 @@
 
 import UIKit
 import Locksmith
-import MaterialShowcase
 
 class CourseDetailsController: UITableViewController, UIViewControllerPreviewingDelegate, AssignmentServiceDelegate {
     
@@ -43,30 +42,9 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     }
     
     @objc func handleCourseSummary() {
-        print("tapped")
         let courseBreakdownController = CourseBreakdownController(style: .grouped)
         courseBreakdownController.course = course
         navigationController?.pushViewController(courseBreakdownController, animated: true)
-    }
-    
-    func guidedTutorial() {
-        guard UserDefaults.standard.bool(forKey: "CourseDetailsOpened") != true else { return }
-        guard !tableView.visibleCells.isEmpty else { return }
-        guard let first = tableView.visibleCells.first else { return }
-        guard let firstAssignment = first as? CourseAssignmentCell else { return }
-        
-        UserDefaults.standard.set(true, forKey: "CourseDetailsOpened")
-        
-        let showcase = MaterialShowcase()
-        showcase.setTargetView(view: firstAssignment.background)
-        showcase.primaryText = "Tap on an assignment to see details about it."
-        showcase.secondaryText = ""
-        showcase.shouldSetTintColor = false
-        showcase.targetHolderColor = .clear
-        showcase.targetHolderRadius = 0
-        showcase.backgroundPromptColor = .navigationsDarkGrey
-        showcase.backgroundPromptColorAlpha = 0.9
-        showcase.show(completion: nil)
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -82,7 +60,6 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
         assignmentService.getAssignments(courseID: courseID!) { (success) in
             if success {
                 self.tableView.reloadData()
-                self.guidedTutorial()
                 print("We finished that.")
             } else {
                 print("failed to get courses")
