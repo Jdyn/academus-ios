@@ -23,6 +23,7 @@ let USER_AUTH = "userAuth"
 let USER_APNS = "userAPNS"
 let USER_INFO = "userInfo"
 let USER_SETTINGS = "userNotif"
+let USER_STATUS = "userStatus"
 
 let STATUS_OPERATIONAL = 1
 let STATUS_PERFORMANCE = 2
@@ -36,6 +37,7 @@ let isFirstLaunch = "isFirstLaunch1"
 let isAssignmentsPosted = "isAssignmentsPosted"
 let isCoursePosted = "isCoursePosted"
 let isMisc = "isMisc"
+let isShowing = "isShowing"
 
 let fieldHeight = CGFloat(45)
 

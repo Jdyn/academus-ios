@@ -23,9 +23,9 @@
 			<key>fontName</key>
 			<string>SYS_DEFAULT_FONT_NAME</string>
 			<key>textSize</key>
-			<string>13.0f</string>
+			<string>14.0f</string>
 			<key>textColor</key>
-			<string>#000000</string>
+			<string>#A5D6A7</string>
 		</dict>
 		<key>TeamMemberMessageTextStyle</key>
 		<dict>
@@ -58,7 +58,7 @@
 			<key>textSize</key>
 			<string>15.0f</string>
 			<key>textColor</key>
-			<string>#000000</string>
+			<string>#EEEEEE</string>
 			<key>textAlignment</key>
 			<string></string>
 		</dict>
@@ -91,26 +91,29 @@
 			<key>fontName</key>
 			<string>SYS_DEFAULT_FONT_NAME</string>
 			<key>textSize</key>
-			<string>14.0f</string>
+			<string>15.0f</string>
 			<key>textColor</key>
 			<string>#000000</string>
 			<key>textColorHint</key>
-			<string>#D3D3D3</string>
+			<string>#A5D6A7</string>
 			<key>textCursorColor</key>
-			<string>#808285</string>
+			<string>#A5D6A7</string>
 			<key>borderColor</key>
-			<string>#FFFFFF</string>
+			<string>#232323</string>
 			<key>background</key>
-			<string>#FFFFFF</string>
+			<string>#282828</string>
 			<key>buttonColor</key>
-			<string>#000000</string>
+			<string>#A5D6A7
+#A5D6A7
+##A5D6A7
+#A5D6A7</string>
 		</dict>
 		<key>MessageReplyViewStyle</key>
 		<dict>
 			<key>background</key>
-			<string>#FFFFFF</string>
+			<string>#232323</string>
 			<key>dividerColor</key>
-			<string>#B3B3B3</string>
+			<string>#2D2D2D</string>
 		</dict>
 		<key>CustomerSurveyDialogStyle</key>
 		<dict>
@@ -237,7 +240,7 @@
 		<key>MessageListStyle</key>
 		<dict>
 			<key>background</key>
-			<string>FCResources.bundle/Images/freshchat_conv_bg</string>
+			<string>#282828</string>
 		</dict>
 		<key>ChatBubbleInsets</key>
 		<dict>
@@ -266,18 +269,18 @@
 			<key>fontName</key>
 			<string>SYS_DEFAULT_FONT_NAME</string>
 			<key>textSize</key>
-			<string>15.0f</string>
+			<string>16.0f</string>
 			<key>textColor</key>
-			<string>#222222</string>
+			<string>#EEEEEE</string>
 		</dict>
 		<key>ChannelDescriptionTextStyle</key>
 		<dict>
 			<key>fontName</key>
 			<string>SYS_DEFAULT_FONT_NAME</string>
 			<key>textSize</key>
-			<string>14.0f</string>
+			<string>15.0f</string>
 			<key>textColor</key>
-			<string>#ABABAB</string>
+			<string>#808080</string>
 			<key>maxLines</key>
 			<string>1</string>
 		</dict>
@@ -313,25 +316,25 @@
 		<key>ChannelListStyle</key>
 		<dict>
 			<key>background</key>
-			<string>#F8FAFA</string>
+			<string>#232323</string>
 			<key>dividerColor</key>
-			<string>#DE4147</string>
+			<string>#2D2D2D</string>
 		</dict>
 		<key>ChannelListItemStyle</key>
 		<dict>
 			<key>backgroundSelected</key>
 			<string>#DCDCDC</string>
 			<key>background</key>
-			<string>#FFFFFF</string>
+			<string>#282828</string>
 		</dict>
 		<key>ChannelListEmptyTextStyle</key>
 		<dict>
 			<key>fontName</key>
 			<string>SYS_DEFAULT_FONT_NAME</string>
 			<key>textSize</key>
-			<string>15.0f</string>
+			<string>16.0f</string>
 			<key>textColor</key>
-			<string>#525454</string>
+			<string>#EEEEEE</string>
 		</dict>
 	</dict>
 	<key>NavigationBar</key>
