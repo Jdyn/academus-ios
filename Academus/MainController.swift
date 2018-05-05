@@ -111,8 +111,11 @@ class MainController: UIViewController {
     func kickUser() {
         do {
             try Locksmith.deleteDataForUserAccount(userAccount: USER_INFO)
-        } catch let error {
-            print(error)
+        } catch {
+            let welcomeController = WelcomeController()
+            welcomeController.mainController = self
+            let welcomeNavigationController = MainNavigationController(rootViewController: welcomeController)
+            self.present(welcomeNavigationController, animated: true, completion: nil)
         }
         
         let welcomeController = WelcomeController()
