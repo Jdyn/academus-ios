@@ -56,6 +56,7 @@ class PlannerCell: UITableViewCell {
     }
     
     func setup(type: String, createdDate: Date) {
+        self.createdDate = createdDate
         switch type {
         case "course_updated":
             self.type = "Course Updated"
