@@ -28,67 +28,62 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
         fetchCards { _ in UIView.transition(with: self.tableView,duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { self.tableView.reloadData(); DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: { if self.traitCollection.forceTouchCapability == .available { self.guidedTutorial() }})})}
         
         statusService.statusDelegate = self
-        statusService.getStatus { (success) in
-            if success {
-                let filtered = self.components.filter({ $0.status == 3 || $0.status == 4 })
-                
-                if filtered.count > 0 {
-                    self.statusButton = UIBarButtonItem(image: #imageLiteral(resourceName: "status"), style: .plain, target: self, action: #selector(self.handleStatusAlert))
-                    self.statusButton?.tintColor = self.severityColor
-                    self.navigationItem.rightBarButtonItem = self.statusButton
-                }
-                self.checkForStatus()
-            }
-        }
+        statusAlert()
     }
 
     func didGetStatus(components: [ComponentModel]) {
-        components.forEach { (component) in self.components.append(component) }
+        self.components = components
+        
+        let testStatus1 = ComponentModel(id: 0, name: "StudentVUE", description: nil, link: nil, status: 3, order: nil, groupId: nil, createdAt: nil, updatedAt: nil, deletedAt: nil, enabled: true, statusName: "Power Outage")
+        self.components.append(testStatus1)
         
         let max = self.components.max { ($0.status ?? 0) < ($1.status ?? 0)}
         let severity = max?.status
-        if (severity ?? 0) > 1 {
-            switch severity {
-            case 2: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
-            case 3: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
-            case 4: severityColor = .navigationsRed
-            default: severityColor = .navigationsRed
+        switch severity {
+        case 2: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+        case 3: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+        case 4: severityColor = .navigationsRed
+        default: severityColor = .navigationsRed
+        }
+    }
+    
+    func statusAlert() {
+        statusService.getStatus { (success) in
+            if success {
+                self.checkForStatus()
             }
         }
     }
     
     func checkForStatus() {
-        if components.isEmpty {
+        let filtered = self.components.filter({ $0.status == 3 || $0.status == 4 })
+        
+        if filtered.isEmpty {
+            navigationItem.rightBarButtonItem = nil
             tableView.tableHeaderView = nil
         } else {
-            let filtered = self.components.filter({ $0.status == 3 || $0.status == 4 })
-            
-            if filtered.count == 1 {
-                let statusDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_STATUS)
-                if statusDictionary?[isShowing] == nil || statusDictionary?[isShowing] as? Bool == true {
-                    let max = filtered.max { ($0.status ?? 0) < ($1.status ?? 0)}
-                    
-                    guard
-                        let name = max?.name,
-                        let statusName = max?.statusName,
-                        let status = max?.status
+            let statusDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_STATUS)
+            if !(statusDictionary?[isShowing] as? Bool == true) {
+                let max = filtered.max { ($0.status ?? 0) < ($1.status ?? 0)}
+                
+                guard
+                    let name = max?.name,
+                    let statusName = max?.statusName,
+                    let status = max?.status
                     else { tableView.tableHeaderView = nil; return }
-                    
-                    tableView.tableHeaderView = statusBarHeaderView(message: "\(name): \(statusName)", severity: status, selector: #selector(handleStatusAlert))
-                } else {
-                    tableView.tableHeaderView = nil
-                }
-            } else if filtered.count > 1 {
-                let statusDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_STATUS)
-                if statusDictionary?[isShowing] == nil || statusDictionary?[isShowing] as? Bool == true {
-                    let max = filtered.max { ($0.status ?? 0) < ($1.status ?? 0)}
-                    
-                    if (max?.status ?? 0) > 0 {
-                        self.tableView.tableHeaderView = self.statusBarHeaderView(message: "\(filtered.count) System Outages", severity: max?.status ?? 0, selector: #selector(handleStatusAlert))
-                    } else { tableView.tableHeaderView = nil }
-                }
-            } else { tableView.tableHeaderView = nil }
+                
+                let message = (filtered.count > 1) ? "\(filtered.count) System Outages" : "\(name): \(statusName)"
+                
+                tableView.tableHeaderView = statusBarHeaderView(message: message, severity: status, selector: #selector(handleStatusAlert), cancel: #selector(cancelStatusAlert))
+            } else {
+                tableView.tableHeaderView = nil
+                
+                statusButton = UIBarButtonItem(image: #imageLiteral(resourceName: "status"), style: .plain, target: self, action: #selector(self.handleStatusAlert))
+                statusButton?.tintColor = severityColor
+                navigationItem.rightBarButtonItem = statusButton
+            }
         }
+        
         tableView.reloadData()
     }
     
@@ -98,13 +93,30 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
             if statusDictionary?[isShowing] as? Bool == true {
                 try Locksmith.updateData(data: [isShowing : false], forUserAccount: USER_STATUS)
                 UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                    self.navigationItem.rightBarButtonItem = self.statusButton
-                    self.tableView.tableHeaderView = nil
+                    self.navigationItem.rightBarButtonItem = nil
+                    self.checkForStatus()
                 })
             } else {
                 try Locksmith.updateData(data: [isShowing : true], forUserAccount: USER_STATUS)
-                self.checkForStatus()
+                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                    self.navigationItem.rightBarButtonItem = self.statusButton
+                    self.tableView.tableHeaderView = nil
+                })
+                
+                statusPage()
             }
+        } catch {
+            return
+        }
+    }
+    
+    @objc func cancelStatusAlert() {
+        do {
+            try Locksmith.updateData(data: [isShowing : true], forUserAccount: USER_STATUS)
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                self.navigationItem.rightBarButtonItem = self.statusButton
+                self.tableView.tableHeaderView = nil
+            })
         } catch {
             return
         }
@@ -208,6 +220,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
                     self.refreshControl?.endRefreshing()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
                         self.tableView.reloadData()
+                        self.statusAlert()
                     })
                 })
             } else {
