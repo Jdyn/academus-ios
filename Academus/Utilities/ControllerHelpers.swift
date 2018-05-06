@@ -7,8 +7,52 @@
 //
 
 import UIKit
+import Locksmith
 
 extension UIViewController {
+    
+    func statusBarHeaderView(message: String, severity: Int, selector: Selector) -> UIView {
+        navigationItem.rightBarButtonItem = nil
+        
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 57))
+        let severityColor: UIColor
+        
+        switch severity {
+        case 2: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+        case 3: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+        case 4: severityColor = UIColor.navigationsRed
+        default: severityColor = UIColor.navigationsRed
+        }
+        
+        let background = UIButton().setUpButton(bgColor: severityColor, title: message, font: UIFont.header!, fontColor: .navigationsWhite, state: .normal)
+        background.contentVerticalAlignment = .top
+        background.addTarget(self, action: #selector(statusPage), for: .touchUpInside)
+        background.roundCorners(corners: .bottom)
+        background.setUpShadow(color: .black, offset: CGSize(width: 0, height: 0), radius: 4, opacity: 0.2)
+        
+        let closeButton = UIButton()
+        closeButton.setImage(#imageLiteral(resourceName: "cancel"), for: .normal)
+        closeButton.tintColor = .navigationsWhite
+        closeButton.addTarget(self, action: selector, for: .touchUpInside)
+        let statusSubtext = UILabel().setUpLabel(text: "Tap for more details.", font: UIFont.subtext!, fontColor: .navigationsWhite)
+        statusSubtext.textAlignment = .center
+        
+        background.addSubviews(views: [closeButton, statusSubtext])
+        
+        view.addSubview(background)
+        
+        background.anchors(top: view.topAnchor, bottom: view.bottomAnchor, bottomPad: 0, left: view.leftAnchor, leftPad: 9, right: view.rightAnchor, rightPad: -9)
+        statusSubtext.anchors(bottom: background.bottomAnchor, bottomPad: -5, centerX: background.centerXAnchor)
+        closeButton.anchors(right: background.rightAnchor, rightPad: -9, centerY: background.centerYAnchor, width: 32, height: 32)
+        
+        return view
+    }
+    
+    @objc func statusPage() {
+        if let url = URL(string: "https://status.academus.io/"){
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
     
     func hideKeyboard() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(
