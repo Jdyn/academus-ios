@@ -17,16 +17,19 @@ typealias CompletionHandler = (_ Success: Bool) -> ()
 class TodayViewController: UITableViewController, NCWidgetProviding {
     var shared = UserDefaults(suiteName: "group.academus")
     var displayMode: NCWidgetDisplayMode?
+    var collection: UICollectionView?
+    var backgrounds = [UIView]()
     var courses = [Course]()
+    var courseIndex = 0
         
     override func viewDidLoad() {
         super.viewDidLoad()
         extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         
         tableView.backgroundView = nil
-        tableView.rowHeight = 110
         tableView.showsVerticalScrollIndicator = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "gradeCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "selectionCell")
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,14 +39,15 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         if activeDisplayMode == .compact {
             preferredContentSize = maxSize
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
         } else {
             updateUI { (success) in
                 if success {
-                    self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
                 }
             }
             
-            self.preferredContentSize = CGSize(width: 0, height: 110 * self.courses.count)
+            self.preferredContentSize = CGSize(width: 0, height: 170)
         }
     }
     
@@ -51,29 +55,15 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         updateUI { (success) in
             if success {
                 if self.extensionContext?.widgetActiveDisplayMode == .expanded {
-                    self.preferredContentSize = CGSize(width: 0, height: 110 * self.courses.count)
+                    self.preferredContentSize = CGSize(width: 0, height: 170)
                 }
                 
-                self.tableView.reloadData()
+                self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
                 completionHandler(NCUpdateResult.newData)
             } else {
                 completionHandler(NCUpdateResult.failed)
             }
         }
-    }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return (extensionContext?.widgetActiveDisplayMode == .expanded) ? courses.count : 1 }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard !courses.isEmpty else { return UITableViewCell() }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "gradeCell", for: indexPath)
-        setUpUI(for: cell, with: courses[indexPath.row])
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func updateUI(completion: @escaping CompletionHandler) {
@@ -86,63 +76,6 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         }
     }
     
-    func setUpUI(for cell: UITableViewCell, with course: Course) {
-        guard let name = course.name,
-            let teacher = course.teacher?.name,
-            let grade = course.grade,
-            let total = course.totalStudents,
-            let highest = course.highestGrade,
-            let lowest = course.lowestGrade,
-            let letter = grade.letter else { return }
-        
-        tableView.backgroundView = nil
-        
-        let teacherLabel = UILabel().setUpLabel(text: teacher, font: UIFont.standard!, fontColor: .navigationsMegaGreen)
-        teacherLabel.adjustsFontSizeToFitWidth = true
-        
-        let title = UILabel().setUpLabel(text: name, font: UIFont.largeHeader!, fontColor: .navigationsDarkGrey)
-        title.adjustsFontSizeToFitWidth = true
-        title.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        
-        let totalImage = UIImageView(image: #imageLiteral(resourceName: "profile"))
-        totalImage.tintColor = .navigationsMegaGreen
-        let totalLabel = UILabel().setUpLabel(text: "\(total)", font: UIFont.subtext!, fontColor: .navigationsMediumGrey)
-        let highestImage = UIImageView(image: #imageLiteral(resourceName: "upArrowLine"))
-        highestImage.tintColor = .navigationsMegaGreen
-        let highestLabel = UILabel().setUpLabel(text: String(format: "%.0f%%", highest), font: UIFont.subtext!, fontColor: .navigationsMediumGrey)
-        let lowestImage = UIImageView(image: #imageLiteral(resourceName: "downArrowLine"))
-        lowestImage.tintColor = .navigationsMegaGreen
-        let lowestLabel = UILabel().setUpLabel(text: String(format: "%.0f%%", lowest), font: UIFont.subtext!, fontColor: .navigationsMediumGrey)
-        
-        let gradeLabel = UILabel().setUpLabel(text: letter, font: UIFont.subtext!, fontColor: .navigationsMegaGreen)
-        gradeLabel.font = UIFont(name: "AvenirNext-demibold", size: 48)
-        gradeLabel.sizeToFit()
-        
-        let percent = UILabel().setUpLabel(text: String(format: "(%.2f%%)", grade.percent!), font: UIFont.subtext!, fontColor: .navigationsDarkGrey)
-        
-        let titleView = UIView()
-        let gradeView = UIView()
-        titleView.addSubviews([teacherLabel, title, totalImage, totalLabel, highestImage, highestLabel, lowestImage, lowestLabel])
-        gradeView.addSubviews([gradeLabel, percent])
-        cell.addSubviews([titleView, gradeView])
-        
-        teacherLabel.anchors(top: titleView.topAnchor, bottom: title.topAnchor, left: titleView.leftAnchor, right: titleView.rightAnchor)
-        title.anchors(top: teacherLabel.bottomAnchor, left: titleView.leftAnchor, right: gradeLabel.leftAnchor, rightPad: -21)
-        
-        totalImage.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: titleView.leftAnchor, width: 15, height: 15)
-        totalLabel.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: totalImage.rightAnchor, leftPad: 6)
-        highestImage.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: totalLabel.rightAnchor, leftPad: 9, width: 15, height: 15)
-        highestLabel.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: highestImage.rightAnchor, leftPad: 6)
-        lowestImage.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: highestLabel.rightAnchor, leftPad: 9, width: 15, height: 15)
-        lowestLabel.anchors(top: title.bottomAnchor, bottom: titleView.bottomAnchor, left: lowestImage.rightAnchor, leftPad: 6)
-        
-        gradeLabel.anchors(top: gradeView.topAnchor, centerX: percent.centerXAnchor)
-        percent.anchors(bottom: gradeView.bottomAnchor, left: gradeView.leftAnchor, right: gradeView.rightAnchor)
-        
-        titleView.anchors(left: cell.leftAnchor, leftPad: 21, centerY: cell.centerYAnchor)
-        gradeView.anchors(right: cell.rightAnchor, rightPad: -21, centerY: cell.centerYAnchor, height: 80)
-    }
-    
     func loadingUI() {
         let blankLabel = UILabel().setUpLabel(text: "Loading Courses...", font: UIFont.standard!, fontColor: .navigationsMediumGrey)
         blankLabel.textAlignment = .center
@@ -153,6 +86,128 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
         let blankLabel = UILabel().setUpLabel(text: "Courses Unavailable", font: UIFont.standard!, fontColor: .navigationsMediumGrey)
         blankLabel.textAlignment = .center
         tableView.backgroundView = blankLabel
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return (extensionContext?.widgetActiveDisplayMode == .expanded) ? 2 : 1
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 && extensionContext?.widgetActiveDisplayMode == .expanded {
+            return 60
+        } else if extensionContext?.widgetActiveDisplayMode == .compact {
+            return 110
+        } else {
+            return 110
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard !courses.isEmpty else { return UITableViewCell() }
+        
+        if indexPath.row == 0 && extensionContext?.widgetActiveDisplayMode == .expanded {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "selectionCell", for: indexPath)
+            setUpUI(for: cell)
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "gradeCell", for: indexPath)
+            setUpUI(for: cell, with: courses[courseIndex])
+            return cell
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard cell.reuseIdentifier == "selectionCell", let coll = collection else { return }
+        
+        coll.delegate = self
+        coll.dataSource = self
+        coll.tag = indexPath.row
+        coll.setContentOffset(coll.contentOffset, animated: false)
+        coll.reloadData()
+    }
+    
+    func setUpUI(for cell: UITableViewCell) {
+        cell.subviews.forEach { $0.removeFromSuperview() }
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
+        layout.scrollDirection = .horizontal
+        
+        collection = UICollectionView(frame: cell.bounds, collectionViewLayout: layout)
+        collection!.showsHorizontalScrollIndicator = false
+        collection!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "classCell")
+        collection!.backgroundView = nil
+        collection!.backgroundColor = .clear
+        
+        cell.addSubview(collection!)
+        collection!.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, right: cell.rightAnchor)
+    }
+    
+    func setUpUI(for cell: UICollectionViewCell, with row: Int) {
+        cell.subviews.forEach { $0.removeFromSuperview() }
+        
+        let labelText = courses[row].grade?.letter ?? "\(row)"
+        let label = UILabel().setUpLabel(text: labelText, font: UIFont.subheader!, fontColor: .white)
+        
+        let background = UIView()
+        background.layer.cornerRadius = 5
+        background.clipsToBounds = true
+        background.backgroundColor = .navigationsMediumGrey
+        
+        if courseIndex == row {
+            background.backgroundColor = .navigationsMegaGreen
+            cell.isSelected = true
+        }
+        
+        background.addSubview(label)
+        cell.addSubview(background)
+        background.anchors(top: cell.topAnchor, topPad: 3, bottom: cell.bottomAnchor, bottomPad: -3, left: cell.leftAnchor, leftPad: 3, right: cell.rightAnchor, rightPad: -3)
+        label.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
+        
+        backgrounds.insert(background, at: row)
+    }
+    
+    func setUpUI(for cell: UITableViewCell, with course: Course) {
+        guard let name = course.name,
+            let teacher = course.teacher?.name,
+            let grade = course.grade,
+            let letter = grade.letter else { return }
+        
+        tableView.backgroundView = nil
+        cell.subviews.forEach { $0.removeFromSuperview() }
+        
+        let teacherLabel = UILabel().setUpLabel(text: teacher, font: UIFont.subheader!, fontColor: .navigationsMegaGreen)
+        teacherLabel.adjustsFontSizeToFitWidth = true
+        
+        let title = UILabel().setUpLabel(text: name, font: UIFont.mediumHeader!, fontColor: .navigationsDarkGrey)
+        title.adjustsFontSizeToFitWidth = true
+        title.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
+        let gradeLabel = UILabel().setUpLabel(text: letter, font: UIFont.subtext!, fontColor: .navigationsMegaGreen)
+        gradeLabel.font = UIFont(name: "AvenirNext-demibold", size: 32)
+        gradeLabel.sizeToFit()
+        
+        let percent = UILabel().setUpLabel(text: String(format: "(%.2f%%)", grade.percent!), font: UIFont.subtext!, fontColor: .navigationsDarkGrey)
+        
+        let titleView = UIView()
+        let gradeView = UIView()
+        titleView.addSubviews([teacherLabel, title])
+        gradeView.addSubviews([gradeLabel, percent])
+        cell.addSubviews([titleView, gradeView])
+        
+        teacherLabel.anchors(top: titleView.topAnchor, bottom: title.topAnchor, left: titleView.leftAnchor, right: titleView.rightAnchor)
+        title.anchors(top: teacherLabel.bottomAnchor, bottom: titleView.bottomAnchor, left: titleView.leftAnchor, right: gradeLabel.leftAnchor, rightPad: -21)
+        
+        gradeLabel.anchors(top: gradeView.topAnchor, centerX: percent.centerXAnchor)
+        percent.anchors(bottom: gradeView.bottomAnchor, left: gradeView.leftAnchor, right: gradeView.rightAnchor)
+        
+        titleView.anchors(left: cell.leftAnchor, leftPad: 21, centerY: cell.centerYAnchor)
+        gradeView.anchors(right: cell.rightAnchor, rightPad: -21, centerY: cell.centerYAnchor, height: 63)
     }
     
     func getCourses(completion: @escaping CompletionHandler) {
@@ -188,6 +243,38 @@ class TodayViewController: UITableViewController, NCWidgetProviding {
     }
 }
 
+extension TodayViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { return courses.count }
+    func numberOfSections(in collectionView: UICollectionView) -> Int { return 1 }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.row > 0 {
+            if let cellWidth = collectionView.cellForItem(at: IndexPath(row: 0, section: 0))?.frame.width {
+                let totalWidth = cellWidth * CGFloat(courses.count)
+                let inset = (collectionView.frame.width - CGFloat(totalWidth)) / 2
+                collection?.contentInset = UIEdgeInsetsMake(0, inset, 0, inset)
+            }
+        }
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "classCell", for: indexPath)
+        setUpUI(for: cell, with: indexPath.row)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        courseIndex = indexPath.row
+        backgrounds.forEach { $0.backgroundColor = .navigationsMediumGrey }
+        backgrounds[indexPath.row].backgroundColor = .navigationsMegaGreen
+        tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        let totalWidth = 50 * CGFloat(courses.count)
+        let inset = (collectionView.frame.width - CGFloat(totalWidth)) / 2
+        return UIEdgeInsetsMake(0, inset, 0, inset)
+    }
+}
+
 extension UILabel {
     
     func setUpLabel(text: String, font: UIFont, fontColor: UIColor) -> UILabel {
@@ -208,6 +295,7 @@ extension UIFont {
     static let italic = UIFont(name: "AvenirNext-MediumItalic", size: 18)
     static let subitalic = UIFont(name: "AvenirNext-MediumItalic", size: 16)
     static let header = UIFont(name: "AvenirNext-demibold", size: 20)
+    static let mediumHeader = UIFont(name: "AvenirNext-demibold", size: 24)
     static let largeHeader = UIFont(name: "AvenirNext-demibold", size: 26)
     static let subtext = UIFont(name: "AvenirNext-medium", size: 14)
     static let small = UIFont(name: "AvenirNext-medium", size: 12)
