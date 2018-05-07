@@ -17,7 +17,7 @@ class CourseBreakdownController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Course Summary"
+        navigationItem.title = "Course Breakdown"
         self.extendedLayoutIncludesOpaqueBars = true
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
@@ -182,6 +182,7 @@ extension CourseBreakdownController {
         let largePointsPossible = UILabel().setUpLabel(text: model.pointsPossible!, font: UIFont.largeHeader!, fontColor: .navigationsGreen)
         let pointsPossibleTitle = UILabel().setUpLabel(text: "Total Points", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         pointsPossibleTitle.adjustsFontSizeToFitWidth = true
+        
         let gradeLabel = UILabel().setUpLabel(text: "\(model.weightedGradeLetter!)", font: UIFont.subtext!, fontColor: .navigationsGreen)
         let gradeTitleLabel = UILabel().setUpLabel(text: "Grade", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         gradeLabel.font = UIFont(name: "AvenirNext-demibold", size: 48)
@@ -344,5 +345,29 @@ extension CourseBreakdownController {
         collection.anchors(top: background.topAnchor, topPad: 0, bottom: background.bottomAnchor, bottomPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
 
         return collection
+    }
+}
+
+enum CourseBreakdownCellManager {
+    case title
+    case total
+    case points
+    case chart
+    
+    func getSection() -> Int {
+        switch self {
+        case .points: return 1
+        case .chart: return 2
+        default: return 0
+        }
+    }
+    
+    func getCellType() -> String {
+        switch self {
+        case .title: return "titleCell"
+        case .points: return "pointsCell"
+        case .total: return "totalCell"
+        case .chart: return "chartCell"
+        }
     }
 }
