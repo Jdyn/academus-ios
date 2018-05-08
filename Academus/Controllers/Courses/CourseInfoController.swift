@@ -74,8 +74,8 @@ class CourseInfoController: UITableViewController {
 extension CourseInfoController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        leftDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 1/3, width: 1, height: 52)
-        rightDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 2/3, width: 1, height: 52)
+        leftDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 1/3, width: 1.5, height: 52)
+        rightDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 2/3, width: 1.5, height: 52)
     }
 
     private func titleCell(manager: CourseInfoCellManager, cell: UITableViewCell) -> UITableViewCell {
@@ -88,7 +88,7 @@ extension CourseInfoController {
         button.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
         button.backgroundColor = .tableViewMediumGrey
         button.setImage(#imageLiteral(resourceName: "email"), for: .normal)
-        button.tintColor = .navigationsGreen
+        button.tintColor = .navigationsWhite
         button.layer.masksToBounds = true
         button.layer.cornerRadius = button.frame.size.width / 2
         button.titleEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 9.0)
@@ -103,7 +103,6 @@ extension CourseInfoController {
         leftDivider.layer.cornerRadius  = 1
         rightDivider.layer.cornerRadius  = 1
 
-        
         let courseTeacher = UILabel().setUpLabel(text: model?.teacher?.name ?? "", font: UIFont.standard!, fontColor: .navigationsGreen)
         let courseName = UILabel().setUpLabel(text: model?.name ?? "Unknown Course", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
         
@@ -113,17 +112,17 @@ extension CourseInfoController {
         gradeLabel.sizeToFit()
         gradeLabel.textAlignment = .center
         
-        let period = UILabel().setUpLabel(text: "\(model?.period ?? 0)", font: UIFont.largeHeader!, fontColor: .navigationsGreen)
+        let period = UILabel().setUpLabel(text: "\(model?.period ?? 0)", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
         period.textAlignment = .center
         let periodTitle = UILabel().setUpLabel(text: "Period", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         periodTitle.textAlignment = .center
 
-        let roomNumber = UILabel().setUpLabel(text: model?.classroomNumber ?? "?", font: UIFont.largeHeader!, fontColor: .navigationsGreen)
+        let roomNumber = UILabel().setUpLabel(text: model?.classroomNumber ?? "?", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
         roomNumber.textAlignment = .center
         let roomTitle = UILabel().setUpLabel(text: "Room", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         roomTitle.textAlignment = .center
         
-        let totalStudents = UILabel().setUpLabel(text: "\(model?.totalStudents ?? 0)", font: UIFont.largeHeader!, fontColor: .navigationsGreen)
+        let totalStudents = UILabel().setUpLabel(text: "\(model?.totalStudents ?? 0)", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
         totalStudents.textAlignment = .center
         let totalStudentsTitle = UILabel().setUpLabel(text: "Students", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         totalStudentsTitle.numberOfLines = 2
@@ -134,7 +133,7 @@ extension CourseInfoController {
         courseTeacher.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
         courseName.anchors(top: courseTeacher.bottomAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
         
-        topDivider.anchors(top: gradeTitleLabel.bottomAnchor, topPad: 16, left: background.leftAnchor, leftPad: 12, right: background.rightAnchor, rightPad: -12, height: 1)
+        topDivider.anchors(top: gradeTitleLabel.bottomAnchor, topPad: 16, left: background.leftAnchor, leftPad: 12, right: background.rightAnchor, rightPad: -12, height: 1.5)
         gradeLabel.anchors(bottom: background.centerYAnchor, bottomPad: 12, left: background.leftAnchor, leftPad: 12)
         gradeTitleLabel.anchors(top: background.centerYAnchor, left: background.leftAnchor, leftPad: 12)
         
