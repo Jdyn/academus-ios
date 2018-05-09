@@ -276,8 +276,8 @@
 			isa = PBXGroup;
 			children = (
 				D7B0B42120967B4F00EA73D8 /* CourseBreakdownController.swift */,
-				D7B0B42A2096C91500EA73D8 /* CollectionPointsCell.swift */,
 				D7B0B4252096830000EA73D8 /* CourseCollectionCell.swift */,
+				D7B0B42A2096C91500EA73D8 /* CollectionPointsCell.swift */,
 			);
 			path = Breakdown;
 			sourceTree = "<group>";

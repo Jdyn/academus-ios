@@ -11,12 +11,13 @@ import UIKit
 class CourseCollectionCell: UITableViewCell { //, UICollectionViewDelegate, UICollectionViewDataSource
     
     var collection: UICollectionView!
-    var course: Course?
+    var background: UIView!
     
-    var collectionViewOffset: CGFloat {
-        set { collection.contentOffset.x = newValue }
-        get { return collection.contentOffset.x }
-    }
+//    var collectionViewOffset: CGFloat {
+//        set { collection.contentOffset.x = newValue }
+//        get { return collection.contentOffset.x }
+//    }
+    
     
     func setCollectionViewDataSourceDelegate<D: UICollectionViewDataSource & UICollectionViewDelegate>(_ dataSourceDelegate: D, forRow row: Int) {
         collection.delegate = dataSourceDelegate
@@ -24,6 +25,8 @@ class CourseCollectionCell: UITableViewCell { //, UICollectionViewDelegate, UICo
         collection.tag = row
         collection.setContentOffset(collection.contentOffset, animated:false) // Stops collection view if it was scrolling.
         collection.reloadData()
+        layoutIfNeeded()
+        print("FROM CELL DELEGATE", collection.contentSize as Any)
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

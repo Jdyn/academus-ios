@@ -384,6 +384,16 @@ extension NSMutableAttributedString {
     
 }
 
+//extension UICollectionView {
+//    override open func sizeThatFits(_ size: CGSize) -> CGSize {
+//        if (self.superview != nil) {
+//            self.superview?.layoutIfNeeded()
+//        }
+//        
+//        return self.contentSize
+//    }
+//}
+
 
 
 
