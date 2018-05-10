@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import Charts
 
 class CourseInfoController: UITableViewController {
 
     var model: Course?
     var cells: [CourseInfoCellManager] = [.title, .graph]
+    var graph: BarChartView!
     
     let topDivider = UIView().setupBackground(bgColor: .navigationsGreen)
     let leftDivider = UIView().setupBackground(bgColor: .navigationsGreen)
@@ -40,7 +42,7 @@ class CourseInfoController: UITableViewController {
         
         switch manager {
         case .title: return titleCell(manager: manager, cell: cell)
-        case .graph: return UITableViewCell()
+        case .graph: return graphCell(manager: manager, cell: cell)
         }
     }
     
@@ -153,6 +155,72 @@ extension CourseInfoController {
 
         return cell
     }
+    
+    private func graphCell(manager: CourseInfoCellManager, cell: UITableViewCell) -> UITableViewCell {
+        
+        graph = BarChartView()
+        graph.chartDescription?.enabled = false
+        graph.xAxis.labelPosition = .bottom
+        graph.rightAxis.enabled = false
+        graph.legend.enabled = false
+
+        let data = [model!.highestGrade!, model!.grade!.percent!, model!.averageGrade!, model!.lowestGrade!]
+        let yAxisData = [20, 40, 60, 80, 100]
+        let labels = ["Highest", "You", "Average", "Lowest"]
+        
+        var dataEntries = [BarChartDataEntry]()
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+
+        for i in 0..<data.count {
+            let entry = BarChartDataEntry(x: Double(i), y: Double(data[i]))
+            dataEntries.append(entry)
+            print(i)
+        }
+        
+        let dataSet = BarChartDataSet(values: dataEntries, label: "test")
+        let barGraph = BarChartData(dataSet: dataSet)
+        graph?.data = barGraph
+        
+        
+        cell.addSubviews(views: [graph!, background])
+        background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
+        graph?.anchors(top: background.topAnchor, bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
+
+        
+        return cell
+    }
+    
+//    let dataSet = PieChartDataSet(values: actualCats?.map { PieChartDataEntry(value: $0.weightAsDouble(), label: $0.truncatedName()) }, label: "")
+//    dataSet.colors = ChartColorTemplates.pastel() + ChartColorTemplates.colorful().reversed()
+//    dataSet.valueTextColor = .white
+//    dataSet.valueFont = UIFont.subheader!
+//
+//    let formatter = NumberFormatter()
+//    formatter.numberStyle = .percent
+//    formatter.maximumFractionDigits = 0
+//    formatter.multiplier = 1
+//    formatter.percentSymbol = "%"
+//
+//    let chartData = PieChartData(dataSet: dataSet)
+//    chartData.setValueFormatter(DefaultValueFormatter(formatter: formatter))
+//
+//    pieChart = PieChartView()
+//    pieChart?.data = chartData
+//    pieChart?.drawEntryLabelsEnabled = false
+//    pieChart?.chartDescription?.enabled = false
+//    pieChart?.legend.enabled = true
+//    pieChart?.legend.font = UIFont.small!
+//    pieChart?.legend.orientation = .vertical
+//    pieChart?.legend.verticalAlignment = .center
+//    pieChart?.legend.horizontalAlignment = .right
+//    pieChart?.legend.direction = .rightToLeft
+//    pieChart?.legend.textColor = .white
+//    pieChart?.legend.yEntrySpace = 7
+//    pieChart?.holeColor = .clear
+//
+//    cell.addSubview(pieChart!)
+//    pieChart?.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
+//    pieChart?.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
     
     @objc func emailPressed(_ sender: ShareButton) {
         if sender.email != nil {
