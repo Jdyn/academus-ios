@@ -24,7 +24,7 @@ class CourseBreakdownController: UITableViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 200.0
         
-        cells = [.title, .total, .points] //,   .chart
+        cells = [.title, .total, .points, .chart] //
         cells.forEach { (cell) in
             if cell == .points {
                 tableView.register(CourseCollectionCell.self, forCellReuseIdentifier: cell.getCellType())
@@ -75,7 +75,7 @@ class CourseBreakdownController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? { return setupSection(type: .footer) }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2//3
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -319,11 +319,11 @@ extension CourseBreakdownController {
         pieChart?.legend.textColor = .white
         pieChart?.legend.yEntrySpace = 7
         pieChart?.holeColor = .clear
-        
         cell.addSubview(pieChart!)
-        pieChart?.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
-        pieChart?.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
         
+        pieChart?.anchors(top: background.topAnchor, bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor)
+        pieChart?.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
+
         return cell
     }
     
