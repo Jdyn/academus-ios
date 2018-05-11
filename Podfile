@@ -4,7 +4,6 @@ project 'Academus.xcodeproj'
 platform :ios, '11.0'
 
 target 'Academus' do
-
   use_frameworks!
   pod 'Alamofire'
   pod 'SwiftyJSON'
@@ -12,4 +11,13 @@ target 'Academus' do
   pod 'FreshchatSDK'
   pod 'MaterialShowcase'
   pod 'Charts'
+end
+
+target 'AcademusWidget' do
+    use_frameworks!
+    pod 'Alamofire'
+    pod 'SwiftyJSON'
+    pod 'Locksmith'
+    pod 'FreshchatSDK'
+    pod 'Charts'
 end

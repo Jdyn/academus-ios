@@ -9,7 +9,7 @@
 import UIKit
 import Locksmith
 import LocalAuthentication
-
+import NotificationCenter
 
 class MainController: UIViewController {
     
@@ -101,6 +101,11 @@ class MainController: UIViewController {
                     barController.selectedIndex = UserDefaults.standard.integer(forKey: "preferredTab")
                 }
                 
+                UserDefaults(suiteName: "group.academus")?.set(authToken, forKey: AUTH_TOKEN)
+                UserDefaults(suiteName: "group.academus")?.set(BASE_URL, forKey: "BASE_URL")
+                
+                NCWidgetController().setHasContent(true, forWidgetWithBundleIdentifier: "io.academus.ios.AcademusWidget")
+                
                 self.present(barController, animated: true, completion: nil)
             } else {
                 self.kickUser()
@@ -125,6 +130,11 @@ class MainController: UIViewController {
         
         tryAgain.isHidden = true
         logout.isHidden = true
+
+        UserDefaults(suiteName: "group.academus")?.set(nil, forKey: "authToken")
+        UserDefaults(suiteName: "group.academus")?.set(nil, forKey: "BASE_URL")
+        
+        NCWidgetController().setHasContent(false, forWidgetWithBundleIdentifier: "io.academus.ios.AcademusWidget")
 
         self.present(welcomeNavigationController, animated: true, completion: nil)
         
