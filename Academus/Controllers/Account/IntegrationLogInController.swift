@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Locksmith
 
 class IntegrationLogInController: UIViewController, getStatusDelegate {
 
@@ -97,8 +96,7 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
             statusAlert?.removeFromSuperview()
             statusAlert = nil
         } else {
-            let statusDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_STATUS)
-            guard !(statusDictionary?[isShowing] as? Bool == true) else {
+            guard !UserDefaults.standard.bool(forKey: USER_STATUS) else {
                 UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
                     self.makeBarButton()
                     self.statusAlert?.removeFromSuperview()
@@ -166,39 +164,30 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
     }
     
     @objc func handleStatusAlert() {
-        let statusDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_STATUS)
-        do {
-            if statusDictionary?[isShowing] as? Bool == true {
-                try Locksmith.updateData(data: [isShowing : false], forUserAccount: USER_STATUS)
-                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                    self.navigationItem.rightBarButtonItem = nil
-                    self.statusService.getStatus { _ in }
-                })
-            } else {
-                try Locksmith.updateData(data: [isShowing : true], forUserAccount: USER_STATUS)
-                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                    self.makeBarButton()
-                    self.statusAlert?.removeFromSuperview()
-                    self.statusAlert = nil
-                })
-                
-                statusPage()
-            }
-        } catch {
-            return
-        }
-    }
-    
-    @objc func cancelStatusAlert() {
-        do {
-            try Locksmith.updateData(data: [isShowing : true], forUserAccount: USER_STATUS)
+        if UserDefaults.standard.bool(forKey: USER_STATUS) {
+            UserDefaults.standard.set(false, forKey: USER_STATUS)
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                self.navigationItem.rightBarButtonItem = nil
+                self.statusService.getStatus { _ in }
+            })
+        } else {
+            UserDefaults.standard.set(true, forKey: USER_STATUS)
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
                 self.makeBarButton()
                 self.statusAlert?.removeFromSuperview()
                 self.statusAlert = nil
             })
-        } catch {
-            return
+            
+            statusPage()
         }
+    }
+    
+    @objc func cancelStatusAlert() {
+        UserDefaults.standard.set(true, forKey: USER_STATUS)
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            self.makeBarButton()
+            self.statusAlert?.removeFromSuperview()
+            self.statusAlert = nil
+        })
     }
 }

@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import Locksmith
 import MaterialShowcase
 
 class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDelegate, UIViewControllerPreviewingDelegate {
@@ -62,8 +61,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
             navigationItem.rightBarButtonItem = nil
             tableView.tableHeaderView = nil
         } else {
-            let statusDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_STATUS)
-            if !(statusDictionary?[isShowing] as? Bool == true) {
+            if !UserDefaults.standard.bool(forKey: USER_STATUS) {
                 let max = filtered.max { ($0.status ?? 0) < ($1.status ?? 0)}
                 
                 guard
@@ -88,38 +86,31 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
     }
     
     @objc func handleStatusAlert() {
-        let statusDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_STATUS)
-        do {
-            if statusDictionary?[isShowing] as? Bool == true {
-                try Locksmith.updateData(data: [isShowing : false], forUserAccount: USER_STATUS)
-                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                    self.navigationItem.rightBarButtonItem = nil
-                    self.checkForStatus()
-                })
-            } else {
-                try Locksmith.updateData(data: [isShowing : true], forUserAccount: USER_STATUS)
-                UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                    self.navigationItem.rightBarButtonItem = self.statusButton
-                    self.tableView.tableHeaderView = nil
-                })
-                
-                statusPage()
-            }
-        } catch {
-            return
+        if UserDefaults.standard.bool(forKey: USER_STATUS) {
+            UserDefaults.standard.set(false, forKey: USER_STATUS)
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                self.navigationItem.rightBarButtonItem = nil
+                self.checkForStatus()
+            })
+        } else {
+            UserDefaults.standard.set(true, forKey: USER_STATUS)
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                self.navigationItem.rightBarButtonItem = self.statusButton
+                self.tableView.tableHeaderView = nil
+                self.checkForStatus()
+            })
+            
+            statusPage()
         }
     }
     
     @objc func cancelStatusAlert() {
-        do {
-            try Locksmith.updateData(data: [isShowing : true], forUserAccount: USER_STATUS)
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                self.navigationItem.rightBarButtonItem = self.statusButton
-                self.tableView.tableHeaderView = nil
-            })
-        } catch {
-            return
-        }
+        UserDefaults.standard.set(true, forKey: USER_STATUS)
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            self.navigationItem.rightBarButtonItem = self.statusButton
+            self.tableView.tableHeaderView = nil
+            self.checkForStatus()
+        })
     }
     
     func guidedTutorial() {
