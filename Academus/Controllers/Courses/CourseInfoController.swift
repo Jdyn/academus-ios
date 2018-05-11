@@ -12,6 +12,7 @@ class CourseInfoController: UITableViewController {
 
     var model: Course?
     var cells: [CourseInfoCellManager] = [.title, .graph]
+    let impact = UIImpactFeedbackGenerator()
     
     let topDivider = UIView().setupBackground(bgColor: .navigationsGreen)
     let leftDivider = UIView().setupBackground(bgColor: .navigationsGreen)
@@ -74,8 +75,8 @@ class CourseInfoController: UITableViewController {
 extension CourseInfoController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        leftDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 1/3, width: 1.5, height: 52)
-        rightDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 2/3, width: 1.5, height: 52)
+        leftDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 1/3, width: 3, height: 48)
+        rightDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 2/3, width: 3, height: 48)
     }
 
     private func titleCell(manager: CourseInfoCellManager, cell: UITableViewCell) -> UITableViewCell {
@@ -92,8 +93,7 @@ extension CourseInfoController {
         button.layer.masksToBounds = true
         button.layer.cornerRadius = button.frame.size.width / 2
         button.titleEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 9.0)
-        button.layer.borderWidth = 1.5
-        button.setTitleColor(.navigationsGreen, for: .normal)
+        button.layer.borderWidth = 3
         button.titleLabel?.font = UIFont.standard
         button.layer.borderColor = UIColor.navigationsGreen.cgColor
         button.email = model?.teacher?.email
@@ -106,37 +106,36 @@ extension CourseInfoController {
         let courseTeacher = UILabel().setUpLabel(text: model?.teacher?.name ?? "", font: UIFont.standard!, fontColor: .navigationsGreen)
         let courseName = UILabel().setUpLabel(text: model?.name ?? "Unknown Course", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
         
-        let gradeLabel = UILabel().setUpLabel(text: "\(model?.grade?.letter ?? "")", font: UIFont.subtext!, fontColor: .navigationsGreen)
-        let gradeTitleLabel = UILabel().setUpLabel(text: "Grade", font: UIFont.standard!, fontColor: .tableViewLightGrey)
-        gradeLabel.font = UIFont(name: "AvenirNext-demibold", size: 48)
-        gradeLabel.sizeToFit()
-        gradeLabel.textAlignment = .center
+        let grade = UILabel().setUpLabel(text: "\(model?.grade?.letter ?? "")", font: UIFont.subtext!, fontColor: .navigationsGreen)
+        let gradeTitle = UILabel().setUpLabel(text: "Grade", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        grade.font = UIFont(name: "AvenirNext-demibold", size: 48)
+        grade.sizeToFit()
+        grade.textAlignment = .center
         
         let period = UILabel().setUpLabel(text: "\(model?.period ?? 0)", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
         period.textAlignment = .center
-        let periodTitle = UILabel().setUpLabel(text: "Period", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        let periodTitle = UILabel().setUpLabel(text: "Period", font: UIFont.subtext!, fontColor: .tableViewLightGrey)
         periodTitle.textAlignment = .center
 
         let roomNumber = UILabel().setUpLabel(text: model?.classroomNumber ?? "?", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
         roomNumber.textAlignment = .center
-        let roomTitle = UILabel().setUpLabel(text: "Room", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        let roomTitle = UILabel().setUpLabel(text: "Room", font: UIFont.subtext!, fontColor: .tableViewLightGrey)
         roomTitle.textAlignment = .center
         
         let totalStudents = UILabel().setUpLabel(text: "\(model?.totalStudents ?? 0)", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
         totalStudents.textAlignment = .center
-        let totalStudentsTitle = UILabel().setUpLabel(text: "Students", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        let totalStudentsTitle = UILabel().setUpLabel(text: "Students", font: UIFont.subtext!, fontColor: .tableViewLightGrey)
         totalStudentsTitle.numberOfLines = 2
         totalStudentsTitle.textAlignment = .center
 
-        cell.addSubviews(views: [background, gradeLabel, gradeTitleLabel, courseName, courseTeacher, period, roomNumber, totalStudents, topDivider, leftDivider, rightDivider, periodTitle, roomTitle, button, totalStudentsTitle])
+        cell.addSubviews(views: [background, grade, gradeTitle, courseName, courseTeacher, period, roomNumber, totalStudents, topDivider, leftDivider, rightDivider, periodTitle, roomTitle, button, totalStudentsTitle])
         
         courseTeacher.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
         courseName.anchors(top: courseTeacher.bottomAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
         
-        topDivider.anchors(top: gradeTitleLabel.bottomAnchor, topPad: 16, left: background.leftAnchor, leftPad: 12, right: background.rightAnchor, rightPad: -12, height: 1.5)
-        gradeLabel.anchors(bottom: background.centerYAnchor, bottomPad: 12, left: background.leftAnchor, leftPad: 12)
-        gradeTitleLabel.anchors(top: background.centerYAnchor, left: background.leftAnchor, leftPad: 12)
-        
+        topDivider.anchors(top: gradeTitle.bottomAnchor, topPad: 18, left: background.leftAnchor, leftPad: 14, right: background.rightAnchor, rightPad: -14, height: 3)
+        grade.anchors(bottom: gradeTitle.topAnchor, bottomPad: 12, left: background.leftAnchor, leftPad: 12)
+        gradeTitle.anchors(top: background.centerYAnchor, left: background.leftAnchor, leftPad: 12)
         
         roomNumber.anchors(top: topDivider.bottomAnchor, topPad: 3, left: topDivider.leftAnchor, right: leftDivider.leftAnchor)
         roomTitle.anchors(top: roomNumber.bottomAnchor, topPad: -6, left: topDivider.leftAnchor, right: leftDivider.leftAnchor)
@@ -149,12 +148,13 @@ extension CourseInfoController {
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9, height: 0)
 
-        button.anchors(bottom: gradeTitleLabel.bottomAnchor, bottomPad: -9, right: topDivider.rightAnchor, width: 45, height: 45)
+        button.anchors(bottom: gradeTitle.bottomAnchor, bottomPad: -9, right: topDivider.rightAnchor, width: 45, height: 45)
 
         return cell
     }
     
     @objc func emailPressed(_ sender: ShareButton) {
+        impact.impactOccurred()
         if sender.email != nil {
             let alert = UIAlertController(title: "Email Teacher", message: "Are you sure you want to open up mail?", preferredStyle: .alert)
             let actionYes = UIAlertAction(title: "Yes", style: .default) { (action) in
