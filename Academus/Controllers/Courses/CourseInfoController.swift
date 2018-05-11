@@ -14,10 +14,12 @@ class CourseInfoController: UITableViewController {
     var model: Course?
     var cells: [CourseInfoCellManager] = [.title, .graph]
     var graph: BarChartView!
+    let impact = UIImpactFeedbackGenerator()
     
     let topDivider = UIView().setupBackground(bgColor: .navigationsGreen)
     let leftDivider = UIView().setupBackground(bgColor: .navigationsGreen)
     let rightDivider = UIView().setupBackground(bgColor: .navigationsGreen)
+    let bottomDivider = UIView().setupBackground(bgColor: .navigationsGreen)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,22 +64,23 @@ class CourseInfoController: UITableViewController {
         view.addSubviews(views: [background, label])
         
         background.anchors(top: view.topAnchor, left: view.leftAnchor, leftPad: 8, right: view.rightAnchor, rightPad: -8, height: 9)
-        label.anchors(top: background.bottomAnchor, topPad: 6, left: background.leftAnchor, leftPad: 13, right: background.rightAnchor, rightPad: -13)
+        label.anchors(top: background.bottomAnchor, topPad: 6, left: background.leftAnchor, leftPad: 12, right: background.rightAnchor, rightPad: -12)
         return view
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 18 }
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat { return UITableViewAutomaticDimension }
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return (section == 2) ? 150 : 9 }
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return (section == 1) ? 100 : 9 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 1 }
 }
 
 extension CourseInfoController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        leftDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 1/3, width: 1.5, height: 52)
-        rightDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 2/3, width: 1.5, height: 52)
+        leftDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 1/3, width: 2, height: 50)
+        rightDivider.anchors(top: topDivider.bottomAnchor, left: topDivider.leftAnchor, leftPad: topDivider.frame.width * 2/3, width: 2, height: 50)
+        bottomDivider.anchors(top: rightDivider.bottomAnchor, left: topDivider.leftAnchor, right: topDivider.rightAnchor, height: 2)
     }
 
     private func titleCell(manager: CourseInfoCellManager, cell: UITableViewCell) -> UITableViewCell {
@@ -94,7 +97,7 @@ extension CourseInfoController {
         button.layer.masksToBounds = true
         button.layer.cornerRadius = button.frame.size.width / 2
         button.titleEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 9.0)
-        button.layer.borderWidth = 1.5
+        button.layer.borderWidth = 2
         button.setTitleColor(.navigationsGreen, for: .normal)
         button.titleLabel?.font = UIFont.standard
         button.layer.borderColor = UIColor.navigationsGreen.cgColor
@@ -106,39 +109,44 @@ extension CourseInfoController {
         rightDivider.layer.cornerRadius  = 1
 
         let courseTeacher = UILabel().setUpLabel(text: model?.teacher?.name ?? "", font: UIFont.standard!, fontColor: .navigationsGreen)
-        let courseName = UILabel().setUpLabel(text: model?.name ?? "Unknown Course", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
+        let courseName = UILabel().setUpLabel(text: model?.name ?? "Course", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
         
         let gradeLabel = UILabel().setUpLabel(text: "\(model?.grade?.letter ?? "")", font: UIFont.subtext!, fontColor: .navigationsGreen)
-        let gradeTitleLabel = UILabel().setUpLabel(text: "Grade", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        let gradeTitle = UILabel().setUpLabel(text: "Grade", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         gradeLabel.font = UIFont(name: "AvenirNext-demibold", size: 48)
         gradeLabel.sizeToFit()
-        gradeLabel.textAlignment = .center
+        gradeLabel.textAlignment = .right
         
-        let period = UILabel().setUpLabel(text: "\(model?.period ?? 0)", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
+//        let percent = UILabel().setUpLabel(text: "\(model?.grade?.percent ?? 0.0)", font: UIFont.largeHeader!, fontColor: .navigationsGreen)
+//        percent.font = UIFont(name: "AvenirNext-demibold", size: 48)
+//        percent.sizeToFit()
+//        let percentTitle = UILabel().setUpLabel(text: "Percent", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+
+        let period = UILabel().setUpLabel(text: "\(model?.period ?? 0)", font: UIFont.header!, fontColor: .navigationsWhite)
         period.textAlignment = .center
         let periodTitle = UILabel().setUpLabel(text: "Period", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         periodTitle.textAlignment = .center
 
-        let roomNumber = UILabel().setUpLabel(text: model?.classroomNumber ?? "?", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
+        let roomNumber = UILabel().setUpLabel(text: model?.classroomNumber ?? "?", font: UIFont.header!, fontColor: .navigationsWhite)
         roomNumber.textAlignment = .center
         let roomTitle = UILabel().setUpLabel(text: "Room", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         roomTitle.textAlignment = .center
         
-        let totalStudents = UILabel().setUpLabel(text: "\(model?.totalStudents ?? 0)", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
+        let totalStudents = UILabel().setUpLabel(text: "\(model?.totalStudents ?? 0)", font: UIFont.header!, fontColor: .navigationsWhite)
         totalStudents.textAlignment = .center
-        let totalStudentsTitle = UILabel().setUpLabel(text: "Students", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        let totalStudentsTitle = UILabel().setUpLabel(text: "Users", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         totalStudentsTitle.numberOfLines = 2
         totalStudentsTitle.textAlignment = .center
 
-        cell.addSubviews(views: [background, gradeLabel, gradeTitleLabel, courseName, courseTeacher, period, roomNumber, totalStudents, topDivider, leftDivider, rightDivider, periodTitle, roomTitle, button, totalStudentsTitle])
+        cell.addSubviews(views: [background, gradeLabel, gradeTitle, courseName, courseTeacher, period, roomNumber, totalStudents, topDivider, bottomDivider, leftDivider, rightDivider, periodTitle, roomTitle, button, totalStudentsTitle])
         
         courseTeacher.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
         courseName.anchors(top: courseTeacher.bottomAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
+        topDivider.anchors(top: gradeTitle.bottomAnchor, topPad: 16, left: background.leftAnchor, leftPad: 12, right: background.rightAnchor, rightPad: -12, height: 2)
+        gradeLabel.anchors(top: courseName.bottomAnchor, topPad: 0, left: background.leftAnchor, leftPad: 14)
+        gradeTitle.anchors(top: gradeLabel.bottomAnchor, topPad: -9, left: background.leftAnchor, leftPad: 12)
         
-        topDivider.anchors(top: gradeTitleLabel.bottomAnchor, topPad: 16, left: background.leftAnchor, leftPad: 12, right: background.rightAnchor, rightPad: -12, height: 1.5)
-        gradeLabel.anchors(bottom: background.centerYAnchor, bottomPad: 12, left: background.leftAnchor, leftPad: 12)
-        gradeTitleLabel.anchors(top: background.centerYAnchor, left: background.leftAnchor, leftPad: 12)
-        
+//        percent.anchors(top: courseName.bottomAnchor, topPad: 0, left: gradeLabel.rightAnchor, leftPad: 18)
         
         roomNumber.anchors(top: topDivider.bottomAnchor, topPad: 3, left: topDivider.leftAnchor, right: leftDivider.leftAnchor)
         roomTitle.anchors(top: roomNumber.bottomAnchor, topPad: -6, left: topDivider.leftAnchor, right: leftDivider.leftAnchor)
@@ -147,82 +155,100 @@ extension CourseInfoController {
         periodTitle.anchors(top: period.bottomAnchor, topPad: -6, left: leftDivider.rightAnchor, right: rightDivider.leftAnchor)
         
         totalStudents.anchors(top: topDivider.bottomAnchor, topPad: 3, left: rightDivider.rightAnchor, right: topDivider.rightAnchor)
-        totalStudentsTitle.anchors(top: period.bottomAnchor, topPad: -6, bottom: background.bottomAnchor, bottomPad: -9, left: rightDivider.rightAnchor, right: topDivider.rightAnchor)
+        totalStudentsTitle.anchors(top: period.bottomAnchor, topPad: -6, bottom: background.bottomAnchor, bottomPad: -16, left: rightDivider.rightAnchor, right: topDivider.rightAnchor)
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9, height: 0)
 
-        button.anchors(bottom: gradeTitleLabel.bottomAnchor, bottomPad: -9, right: topDivider.rightAnchor, width: 45, height: 45)
+        button.anchors(right: background.rightAnchor, rightPad: -24, centerY: background.centerYAnchor, CenterYPad: -9, width: 48, height: 48)
 
         return cell
     }
-    
+
     private func graphCell(manager: CourseInfoCellManager, cell: UITableViewCell) -> UITableViewCell {
+        cell.selectionStyle = .none
+        cell.backgroundColor = .tableViewDarkGrey
+        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        let graphTitle = UILabel().setUpLabel(text: "Course Grade Statistics", font: UIFont.standard!, fontColor: .navigationsGreen)
+        let chartIcon = UIImageView().setupImageView(color: .navigationsGreen, image: #imageLiteral(resourceName: "chart"))
         
         graph = BarChartView()
-        graph.chartDescription?.enabled = false
-        graph.xAxis.labelPosition = .bottom
-        graph.rightAxis.enabled = false
         graph.legend.enabled = false
-
-        let data = [model!.highestGrade!, model!.grade!.percent!, model!.averageGrade!, model!.lowestGrade!]
-        let yAxisData = [20, 40, 60, 80, 100]
-        let labels = ["Highest", "You", "Average", "Lowest"]
+        graph.rightAxis.drawLabelsEnabled = false
+        graph.rightAxis.drawGridLinesEnabled = false
+        graph.rightAxis.drawZeroLineEnabled = false
         
+        graph.gridBackgroundColor = .clear
+        graph.isUserInteractionEnabled = false
+        
+        graph.xAxis.drawGridLinesEnabled = false
+        
+        guard
+            let highest = model?.highestGrade,
+            let you = model?.grade?.percent,
+            let average = model?.averageGrade,
+            let lowest = model?.lowestGrade
+        else {
+            graph.noDataText = "No Data Available"
+            cell.addSubviews(views: [background, graph])
+            background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
+            graph?.anchors(top: background.topAnchor, bottom: background.bottomAnchor, bottomPad: -12, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9, height: 300)
+            return cell
+        }
+        
+        let data = [highest, you, average, lowest]
         var dataEntries = [BarChartDataEntry]()
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-
+        
         for i in 0..<data.count {
             let entry = BarChartDataEntry(x: Double(i), y: Double(data[i]))
             dataEntries.append(entry)
-            print(i)
         }
         
+        let xLabels = ["Highest", "You", "Average", "Lowest"]
+        graph.xAxis.valueFormatter = IndexAxisValueFormatter(values: xLabels)
+        graph.xAxis.labelPosition = .bottom
+        graph.xAxis.granularityEnabled = true
+        graph.chartDescription = nil
+        graph.xAxis.labelCount = 4
+        graph.xAxis.labelFont = UIFont.subtext!
+        graph.xAxis.labelTextColor = .navigationsGreen
+        
+        graph.leftAxis.axisMinimum = 0
+        graph.leftAxis.axisMaximum = 100
+        graph.leftAxis.labelCount = 5
+        graph.leftAxis.drawZeroLineEnabled = false
+        graph.leftAxis.labelFont = UIFont.small!
+        graph.leftAxis.labelTextColor = .navigationsWhite
+
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        formatter.maximumFractionDigits = 0
+        formatter.multiplier = 1
+        formatter.percentSymbol = "%"
+        
         let dataSet = BarChartDataSet(values: dataEntries, label: "test")
+        dataSet.colors = ChartColorTemplates.pastel()
+        dataSet.valueTextColor = .navigationsWhite
+        dataSet.valueFont = UIFont.subtext!
+        
         let barGraph = BarChartData(dataSet: dataSet)
+        barGraph.setValueFormatter(DefaultValueFormatter(formatter: formatter))
         graph?.data = barGraph
+
+        cell.addSubviews(views: [background, graph, graphTitle, chartIcon])
         
-        
-        cell.addSubviews(views: [graph!, background])
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
-        graph?.anchors(top: background.topAnchor, bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
+        chartIcon.anchors(top: background.topAnchor, left: background.leftAnchor, leftPad: 9, width: 24, height: 24)
+        graphTitle.anchors(left: chartIcon.rightAnchor, leftPad: 6, centerY: chartIcon.centerYAnchor)
+
+        graph.anchors(top: graphTitle.bottomAnchor, topPad: 9, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9, height: 229)
+        graph.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
 
         
         return cell
     }
     
-//    let dataSet = PieChartDataSet(values: actualCats?.map { PieChartDataEntry(value: $0.weightAsDouble(), label: $0.truncatedName()) }, label: "")
-//    dataSet.colors = ChartColorTemplates.pastel() + ChartColorTemplates.colorful().reversed()
-//    dataSet.valueTextColor = .white
-//    dataSet.valueFont = UIFont.subheader!
-//
-//    let formatter = NumberFormatter()
-//    formatter.numberStyle = .percent
-//    formatter.maximumFractionDigits = 0
-//    formatter.multiplier = 1
-//    formatter.percentSymbol = "%"
-//
-//    let chartData = PieChartData(dataSet: dataSet)
-//    chartData.setValueFormatter(DefaultValueFormatter(formatter: formatter))
-//
-//    pieChart = PieChartView()
-//    pieChart?.data = chartData
-//    pieChart?.drawEntryLabelsEnabled = false
-//    pieChart?.chartDescription?.enabled = false
-//    pieChart?.legend.enabled = true
-//    pieChart?.legend.font = UIFont.small!
-//    pieChart?.legend.orientation = .vertical
-//    pieChart?.legend.verticalAlignment = .center
-//    pieChart?.legend.horizontalAlignment = .right
-//    pieChart?.legend.direction = .rightToLeft
-//    pieChart?.legend.textColor = .white
-//    pieChart?.legend.yEntrySpace = 7
-//    pieChart?.holeColor = .clear
-//
-//    cell.addSubview(pieChart!)
-//    pieChart?.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
-//    pieChart?.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
-    
     @objc func emailPressed(_ sender: ShareButton) {
+        impact.impactOccurred()
         if sender.email != nil {
             let alert = UIAlertController(title: "Email Teacher", message: "Are you sure you want to open up mail?", preferredStyle: .alert)
             let actionYes = UIAlertAction(title: "Yes", style: .default) { (action) in
