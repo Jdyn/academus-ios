@@ -71,11 +71,6 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
     }
     
     func didGetStatus(components: [ComponentModel]) {
-        var components = components
-        
-        let testStatus1 = ComponentModel(id: 0, name: "StudentVUE", description: nil, link: nil, status: 3, order: nil, groupId: nil, createdAt: nil, updatedAt: nil, deletedAt: nil, enabled: true, statusName: "Power Outage")
-        components.append(testStatus1)
-        
         var severity = 2
         if let index = components.index(where: { $0.name == titleLabel.text }),
             let status = components[index].status {

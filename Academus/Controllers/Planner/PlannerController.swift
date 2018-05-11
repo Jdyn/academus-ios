@@ -33,9 +33,6 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
     func didGetStatus(components: [ComponentModel]) {
         self.components = components
         
-        let testStatus1 = ComponentModel(id: 0, name: "StudentVUE", description: nil, link: nil, status: 3, order: nil, groupId: nil, createdAt: nil, updatedAt: nil, deletedAt: nil, enabled: true, statusName: "Power Outage")
-        self.components.append(testStatus1)
-        
         let max = self.components.max { ($0.status ?? 0) < ($1.status ?? 0)}
         let severity = max?.status
         switch severity {
