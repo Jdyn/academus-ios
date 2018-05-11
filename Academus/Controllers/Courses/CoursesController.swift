@@ -63,7 +63,7 @@ class CoursesController: UITableViewController, UIViewControllerPreviewingDelega
             didAddIntegration()
         }
     }
-
+    
     func fetchCourses(completion: @escaping CompletionHandler) {
         print("Fetching Courses...")
         courseService.delegate = self
@@ -167,7 +167,7 @@ class CoursesController: UITableViewController, UIViewControllerPreviewingDelega
             return courseBreakdownController
         } else {
             let courseInfoController = CourseInfoController(style: .grouped)
-            courseInfoController.course = cell.course
+            courseInfoController.model = cell.course
             return courseInfoController
         }
     }

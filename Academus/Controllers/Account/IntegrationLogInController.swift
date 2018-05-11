@@ -137,6 +137,12 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
         scrollView.isScrollEnabled = true
         scrollView.addSubviews(views: [subtitle, titleLabel, button])
         
+        titleLabel.adjustsFontSizeToFitWidth = true
+        subtitle.adjustsFontSizeToFitWidth = true
+        
+        titleLabel.textAlignment = .center
+        subtitle.textAlignment = .center
+        
         view.addSubview(scrollView)
         scrollView.anchors(top: view.topAnchor, bottom: view.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor)
         
@@ -152,8 +158,8 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
             fields.append(field)
         }
         
-        subtitle.anchors(top: scrollView.topAnchor, topPad: 120, centerX: scrollView.centerXAnchor)
-        titleLabel.anchors(top: subtitle.bottomAnchor, centerX: scrollView.centerXAnchor, width: 0, height: 0)
+        subtitle.anchors(top: scrollView.topAnchor, topPad: 120, centerX: scrollView.centerXAnchor, width: screen.width - 42)
+        titleLabel.anchors(top: subtitle.bottomAnchor, centerX: scrollView.centerXAnchor, width: screen.width - 42)
         button.anchors(top: fields.last?.bottomAnchor, topPad: 32, centerX: scrollView.centerXAnchor, width: 84)
         button.addTarget(self, action: #selector(logInPressed), for: .touchUpInside)
     }

@@ -126,7 +126,7 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     
     @objc func handleCourseInfo() {
         let courseInfoController = CourseInfoController(style: .grouped)
-        courseInfoController.course = course
+        courseInfoController.model = course
         navigationController?.pushViewController(courseInfoController, animated: true)
     }
 }
