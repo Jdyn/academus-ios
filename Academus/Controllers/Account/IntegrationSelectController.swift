@@ -64,24 +64,22 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 80 }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard integrations[indexPath.row].name?.contains("StudentVUE") == true else {
+        if integrations[indexPath.row].route == "studentvue" {
+            let integrationSearchController = IntegrationSearchController()
+            let integrationService = IntegrationService()
+            integrationSearchController.integration = integrations[indexPath.row]
+            integrationSearchController.integrationService = integrationService
+            integrationSearchController.coursesController = coursesController
+            navigationController?.pushViewController(integrationSearchController, animated: true)
+        } else {
             let integrationController = IntegrationLogInController()
             let integrationService = IntegrationService()
-            integrationService.integration = self.integrations[indexPath.row]
-            integrationController.integration = self.integrations[indexPath.row]
+            integrationService.integration = integrations[indexPath.row]
+            integrationController.integration = integrations[indexPath.row]
             integrationController.integrationService = integrationService
-            integrationController.coursesController = self.coursesController
-            integrationController.titleLabel.text! = self.integrations[indexPath.row].name!
-            
+            integrationController.coursesController = coursesController
+            integrationController.titleLabel.text! = integrations[indexPath.row].name!
             navigationController?.pushViewController(integrationController, animated: true)
-            return
         }
-        
-        let integrationSearchController = IntegrationSearchController()
-        let integrationService = IntegrationService()
-        integrationSearchController.integration = integrations[indexPath.row]
-        integrationSearchController.integrationService = integrationService
-        integrationSearchController.coursesController = coursesController
-        navigationController?.pushViewController(integrationSearchController, animated: true)
     }
 }

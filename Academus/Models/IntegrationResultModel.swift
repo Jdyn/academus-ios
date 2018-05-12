@@ -12,5 +12,5 @@ struct IntegrationResult: Decodable {
     let id: String?
     let name: String?
     let address: String?
-    let api_base: URL?
+    let api_base: String?
 }

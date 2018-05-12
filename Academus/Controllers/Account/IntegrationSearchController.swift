@@ -24,11 +24,9 @@ class IntegrationSearchController: UITableViewController, UISearchBarDelegate, U
         extendedLayoutIncludesOpaqueBars = true
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 55, 0)
         titleDisplayMode = navigationItem.largeTitleDisplayMode
-        navigationItem.title = "District Selection"
+        navigationItem.title = "Find Your District"
         navigationItem.hidesBackButton = false
         tableView.separatorStyle = .none
-        
-        print(integration?.route)
         
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -46,24 +44,26 @@ class IntegrationSearchController: UITableViewController, UISearchBarDelegate, U
         self.results = results
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        navigationItem.searchController?.dimsBackgroundDuringPresentation = false
-    }
-    
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        navigationItem.searchController?.dimsBackgroundDuringPresentation = true
-        return true
+        navigationItem.searchController?.resignFirstResponder()
     }
     
     func updateSearchResults(for searchController: UISearchController) {
-        if let text = searchController.searchBar.text, text.count > 2 {
+        if let text = searchController.searchBar.text, text.count > 4 {
+            if results.isEmpty {
+                let ai = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+                ai.color = .navigationsGreen
+                ai.startAnimating()
+                self.tableView.backgroundView = ai
+            }
+            
             integrationService?.searchIntegrations(for: text, completion: { (success, error) in
                 if success {
                     self.tableView.backgroundView = nil
                     self.navigationItem.hidesSearchBarWhenScrolling = true
-                } else if let e = error {
-                    let label = UILabel().setUpLabel(text: e, font: UIFont.standard!, fontColor: .white)
+                } else {
+                    let label = UILabel().setUpLabel(text: error ?? "Please check your Internet connection.", font: UIFont.standard!, fontColor: .white)
                     label.numberOfLines = 0
                     label.textAlignment = .center
                     self.tableView.backgroundView = label
@@ -98,8 +98,9 @@ class IntegrationSearchController: UITableViewController, UISearchBarDelegate, U
         integrationService.integration = integration
         integrationController.integration = integration
         integrationController.integrationService = integrationService
-        integrationController.coursesController = self.coursesController
-        integrationController.titleLabel.text! = self.results[indexPath.row].name!
+        integrationController.apiBase = results[indexPath.row].api_base
+        integrationController.coursesController = coursesController
+        integrationController.titleLabel.text = integration?.name
 
         navigationController?.pushViewController(integrationController, animated: true)
     }
