@@ -15,14 +15,19 @@ protocol IntegrationChoiceDelegate {
     func didGetIntegration(integrations: [IntegrationChoice])
 }
 
+protocol IntegrationSearchDelegate {
+    func didGetResults(results: [IntegrationResult])
+}
+
 protocol UserIntegrationsDelegate {
     func didGetUserIntegrations(integrations: [UserIntegrations])
 }
 
 class IntegrationService {
 
-    var integrationChoiceDelegate : IntegrationChoiceDelegate?
-    var userIntegrationsDelegate : UserIntegrationsDelegate?
+    var integrationChoiceDelegate: IntegrationChoiceDelegate?
+    var integrationSearchDelegate: IntegrationSearchDelegate?
+    var userIntegrationsDelegate: UserIntegrationsDelegate?
     
     var integration: IntegrationChoice?
 
@@ -53,6 +58,33 @@ class IntegrationService {
         }
     }
     
+    func searchIntegrations(for zip: String, completion: @escaping (_ Success: Bool, _ Err: String?) -> ()) {
+        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
+        let authToken = dictionary?[AUTH_TOKEN] as! String
+        Alamofire.request(URL(string: "\(BASE_URL)/api/integrations/studentvue/search?token=\(authToken)&zip=\(zip)")!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON {
+            (response) in
+            
+            guard let data = response.data else {return}
+            if response.result.error == nil {
+                do {
+                    let json = JSON(data)
+                    let jsonResult = try json["result"].rawData()
+                    let result = try JSONDecoder().decode([IntegrationResult].self, from: jsonResult)
+                    
+                    if json["success"] == true {
+                        self.integrationSearchDelegate?.didGetResults(results: result)
+                        completion(true, nil)
+                    }
+                } catch let error {
+                    debugPrint(error)
+                    let error = JSON(data)["error"].string
+                    completion(false, error)
+                }
+            } else {
+                completion(false, nil)
+            }
+        }
+    }
     
     func addIntegration(fields: [UITextField], completion: @escaping (_ Success: Bool, _ Error: String?) -> ()) {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)

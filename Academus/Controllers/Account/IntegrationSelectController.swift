@@ -64,14 +64,24 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 80 }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let integrationController = IntegrationLogInController()
-        let integrationService = IntegrationService()
-        integrationService.integration = self.integrations[indexPath.row]
-        integrationController.integration = self.integrations[indexPath.row]
-        integrationController.integrationService = integrationService
-        integrationController.coursesController = self.coursesController
-        integrationController.titleLabel.text! = self.integrations[indexPath.row].name!
+        guard integrations[indexPath.row].name?.contains("StudentVUE") == true else {
+            let integrationController = IntegrationLogInController()
+            let integrationService = IntegrationService()
+            integrationService.integration = self.integrations[indexPath.row]
+            integrationController.integration = self.integrations[indexPath.row]
+            integrationController.integrationService = integrationService
+            integrationController.coursesController = self.coursesController
+            integrationController.titleLabel.text! = self.integrations[indexPath.row].name!
+            
+            navigationController?.pushViewController(integrationController, animated: true)
+            return
+        }
         
-        navigationController?.pushViewController(integrationController, animated: true)
+        let integrationSearchController = IntegrationSearchController()
+        let integrationService = IntegrationService()
+        integrationSearchController.integration = integrations[indexPath.row]
+        integrationSearchController.integrationService = integrationService
+        integrationSearchController.coursesController = coursesController
+        navigationController?.pushViewController(integrationSearchController, animated: true)
     }
 }

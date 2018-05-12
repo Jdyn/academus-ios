@@ -37,7 +37,6 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
         integrationService?.addIntegration(fields: fields) { (success, error) in
             if success {
                 self.dismiss(animated: true, completion: {
-                    self.dismiss(animated: true, completion: nil)
                     self.navigationController?.popToRootViewController(animated: true)
                     self.coursesController?.didAddIntegration()
                 })
@@ -57,16 +56,13 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.hidesBackButton = false
+        navigationItem.largeTitleDisplayMode = .never
         statusService.statusDelegate = self
         statusService.getStatus { _ in }
         
         hideKeyboard()
         setUpUI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.largeTitleDisplayMode = .never
     }
     
     func didGetStatus(components: [ComponentModel]) {
