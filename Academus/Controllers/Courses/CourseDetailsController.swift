@@ -34,10 +34,9 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
             }
             navigationItem.rightBarButtonItems = [infoButton!, summaryButton!]
         }
-        
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
-        
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
+        
         fetchAssignments()
     }
     
@@ -56,6 +55,10 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     }
     
     func fetchAssignments() {
+        guard courseID != nil else {
+            alertMessage(title: "Oops", message: "An error has occured. \nIf you encounter this, please contact the chat in the Manage tab.")
+            return
+        }
         assignmentService.delegate = self
         assignmentService.getAssignments(courseID: courseID!) { (success) in
             if success {
@@ -114,10 +117,7 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     
     
     func didGetAssignments(assignments: [Assignment]) {
-        let filtered = assignments.filter { $0.course?.id == courseID }
-        for assignment in filtered {
-            self.assignments.append(assignment)
-        }
+        self.assignments = assignments
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
