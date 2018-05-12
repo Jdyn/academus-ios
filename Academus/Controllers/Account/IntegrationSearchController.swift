@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IntegrationSearchController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating,  IntegrationSearchDelegate {
+class IntegrationSearchController: UITableViewController, IntegrationSearchDelegate {
     
     var integration: IntegrationChoice?
     var integrationService: IntegrationService?
@@ -20,15 +20,17 @@ class IntegrationSearchController: UITableViewController, UISearchBarDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = false
         extendedLayoutIncludesOpaqueBars = true
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 55, 0)
+        navigationController?.navigationBar.isHidden = false
         titleDisplayMode = navigationItem.largeTitleDisplayMode
         navigationItem.title = "Find Your District"
         navigationItem.hidesBackButton = false
         tableView.separatorStyle = .none
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 55, 0)
         
         let searchController = UISearchController(searchResultsController: nil)
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
         searchController.searchBar.barStyle = .black
         searchController.searchBar.tintColor = .white
@@ -40,8 +42,49 @@ class IntegrationSearchController: UITableViewController, UISearchBarDelegate, U
         tableView.register(IntegrationSearchCell.self, forCellReuseIdentifier: integrationCellID)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationItem.searchController?.searchBar.resignFirstResponder()
+        navigationItem.searchController?.resignFirstResponder()
+    }
+    
     func didGetResults(results: [IntegrationResult]) {
         self.results = results
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return results.count }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: integrationCellID, for: indexPath) as? IntegrationSearchCell {
+            cell.title.text = results[indexPath.row].name
+            cell.location.text = results[indexPath.row].address
+            return cell
+        }
+        
+        return UITableViewCell()
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 80 }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let integrationController = IntegrationLogInController()
+        let integrationService = IntegrationService()
+        integrationService.integration = integration
+        integrationController.integration = integration
+        integrationController.integrationService = integrationService
+        integrationController.apiBase = results[indexPath.row].api_base
+        integrationController.coursesController = coursesController
+        integrationController.titleLabel.text = integration?.name
+
+        navigationController?.pushViewController(integrationController, animated: true)
+    }
+}
+
+extension IntegrationSearchController: UISearchBarDelegate, UISearchResultsUpdating {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        navigationItem.searchController?.resignFirstResponder()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -75,34 +118,4 @@ class IntegrationSearchController: UITableViewController, UISearchBarDelegate, U
             })
         }
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return results.count }
-    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if let cell = tableView.dequeueReusableCell(withIdentifier: integrationCellID, for: indexPath) as? IntegrationSearchCell {
-            cell.title.text = results[indexPath.row].name
-            cell.location.text = results[indexPath.row].address
-            return cell
-        }
-        
-        return UITableViewCell()
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 80 }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let integrationController = IntegrationLogInController()
-        let integrationService = IntegrationService()
-        integrationService.integration = integration
-        integrationController.integration = integration
-        integrationController.integrationService = integrationService
-        integrationController.apiBase = results[indexPath.row].api_base
-        integrationController.coursesController = coursesController
-        integrationController.titleLabel.text = integration?.name
-
-        navigationController?.pushViewController(integrationController, animated: true)
-    }
-
 }
