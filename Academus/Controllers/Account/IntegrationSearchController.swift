@@ -54,6 +54,7 @@ class IntegrationSearchController: UITableViewController, IntegrationSearchDeleg
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        if !(CLLocationManager.authorizationStatus() == .authorizedWhenInUse) { zipPrompt() }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -85,7 +86,11 @@ class IntegrationSearchController: UITableViewController, IntegrationSearchDeleg
         
         ac.view.subviews.first?.subviews.first?.subviews.first?.backgroundColor = .navigationsMediumGrey
         ac.view.tintColor = .white
-        ac.addTextField { $0.placeholder = "ZIP Code"; $0.tintColor = .black }
+        ac.addTextField {
+            $0.placeholder = "ZIP Code"
+            $0.tintColor = .black
+            $0.keyboardType = .numberPad
+        }
         ac.addAction(cancelAction)
         ac.addAction(searchAction)
         
