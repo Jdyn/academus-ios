@@ -30,6 +30,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow Freshchat to take pictures you choose.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We&apos;ll use your general location to find school districts near you.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

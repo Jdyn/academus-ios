@@ -61,7 +61,8 @@ class IntegrationService {
     func searchIntegrations(for zip: String, completion: @escaping (_ Success: Bool, _ Err: String?) -> ()) {
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
         let authToken = dictionary?[AUTH_TOKEN] as! String
-        Alamofire.request(URL(string: "\(BASE_URL)/api/integrations/studentvue/search?token=\(authToken)&zip=\(zip)")!, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON {
+        guard let url = URL(string: "\(BASE_URL)/api/integrations/studentvue/search?token=\(authToken)&zip=\(zip)") else { completion(false, "Please enter a valid ZIP Code."); return }
+        Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON {
             (response) in
             
             guard let data = response.data else {return}
