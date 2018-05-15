@@ -20,6 +20,7 @@ class IntegrationSearchController: UITableViewController, IntegrationSearchDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        definesPresentationContext = true
         extendedLayoutIncludesOpaqueBars = true
         navigationController?.navigationBar.isHidden = false
         titleDisplayMode = navigationItem.largeTitleDisplayMode
