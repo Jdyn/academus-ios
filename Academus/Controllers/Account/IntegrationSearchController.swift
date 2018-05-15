@@ -42,7 +42,7 @@ class IntegrationSearchController: UITableViewController, IntegrationSearchDeleg
         searchController.searchBar.delegate = self
         searchController.searchBar.barStyle = .black
         searchController.searchBar.tintColor = .white
-        searchController.searchBar.placeholder = "Filter Districts"
+        searchController.searchBar.placeholder = "District Name"
         searchController.searchBar.enablesReturnKeyAutomatically = false
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
