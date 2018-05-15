@@ -58,7 +58,6 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
         let controller = IntegrationSelectController()
         controller.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
         controller.navigationItem.title = "Add an Integration"
-        controller.tableView.tableHeaderView = integrationSelectHeaderView()
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -156,20 +155,6 @@ extension ManageIntegrationsController {
         
         background.anchors(top: header.topAnchor, bottom: header.bottomAnchor, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6)
         counter.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
-        return header
-    }
-    
-    private func integrationSelectHeaderView() -> UIView {
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 45))
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let label = UILabel().setUpLabel(text: "Adding the same integration will cause errors", font: UIFont.subheader!, fontColor: .navigationsRed)
-        
-        background.roundCorners(corners: .bottom)
-        
-        header.addSubviews(views: [background, label])
-
-        background.anchors(top: header.topAnchor, bottom: header.bottomAnchor, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6)
-        label.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
         return header
     }
 }

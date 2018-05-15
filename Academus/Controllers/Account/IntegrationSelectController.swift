@@ -24,6 +24,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
         navigationItem.title = "Select an Integration"
         navigationItem.hidesBackButton = true
         tableView.separatorStyle = .none
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
 
         integrationService.integrationChoiceDelegate = self
         tableView.register(IntegrationSelectCell.self, forCellReuseIdentifier: integrationCellID)
