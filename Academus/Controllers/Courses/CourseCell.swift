@@ -89,7 +89,7 @@ class CourseCell: UITableViewCell {
         background.anchors(top: topAnchor, topPad: 9, bottom: bottomAnchor, bottomPad: 0, left: leftAnchor, leftPad: 9, right: rightAnchor, rightPad: -9)
         
         titleStackView.anchors(left: periodLabel.rightAnchor, leftPad: 9, right: gradeStackView.leftAnchor, rightPad: -6, centerY: background.centerYAnchor)
-        gradeStackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 48, height: 0)
+        gradeStackView.anchors(right: arrow.leftAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 55, height: 0)
         
         periodLabel.anchors(left: background.leftAnchor, leftPad: 9, centerY: background.centerYAnchor, width: 0, height: 0)
         arrow.anchors(right: background.rightAnchor, rightPad: -6, centerY: background.centerYAnchor, width: 32, height: 32)

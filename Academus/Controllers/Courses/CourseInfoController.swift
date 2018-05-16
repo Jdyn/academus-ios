@@ -118,17 +118,17 @@ extension CourseInfoController {
 
         let period = UILabel().setUpLabel(text: "\(model?.period ?? 0)", font: UIFont.header!, fontColor: .navigationsWhite)
         period.textAlignment = .center
-        let periodTitle = UILabel().setUpLabel(text: "Period", font: UIFont.subtext!, fontColor: .tableViewLightGrey)
+        let periodTitle = UILabel().setUpLabel(text: "Period", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         periodTitle.textAlignment = .center
 
         let roomNumber = UILabel().setUpLabel(text: model?.classroomNumber ?? "?", font: UIFont.header!, fontColor: .navigationsWhite)
         roomNumber.textAlignment = .center
-        let roomTitle = UILabel().setUpLabel(text: "Room", font: UIFont.subtext!, fontColor: .tableViewLightGrey)
+        let roomTitle = UILabel().setUpLabel(text: "Room", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         roomTitle.textAlignment = .center
         
         let totalStudents = UILabel().setUpLabel(text: "\(model?.totalStudents ?? 0)", font: UIFont.header!, fontColor: .navigationsWhite)
         totalStudents.textAlignment = .center
-        let totalStudentsTitle = UILabel().setUpLabel(text: "Users", font: UIFont.standard!, fontColor: .tableViewLightGrey)
+        let totalStudentsTitle = UILabel().setUpLabel(text: "Students", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         totalStudentsTitle.numberOfLines = 2
         totalStudentsTitle.textAlignment = .center
 
@@ -217,8 +217,15 @@ extension CourseInfoController {
         formatter.multiplier = 1
         formatter.percentSymbol = "%"
         
+        let array: [NSUIColor] = [
+            NSUIColor(cgColor: UIColor.navigationsLightGrey.cgColor),
+            NSUIColor(cgColor: UIColor.navigationsGreen.cgColor),
+            NSUIColor(cgColor: UIColor.navigationsLightGrey.cgColor),
+            NSUIColor(cgColor: UIColor.navigationsLightGrey.cgColor)
+        ]
+        
         let dataSet = BarChartDataSet(values: dataEntries, label: "test")
-        dataSet.colors = ChartColorTemplates.pastel()
+        dataSet.colors = array
         dataSet.valueTextColor = .navigationsWhite
         dataSet.valueFont = UIFont.subtext!
         
@@ -232,7 +239,7 @@ extension CourseInfoController {
         chartIcon.anchors(top: background.topAnchor, left: background.leftAnchor, leftPad: 9, width: 24, height: 24)
         graphTitle.anchors(left: chartIcon.rightAnchor, leftPad: 6, centerY: chartIcon.centerYAnchor)
 
-        graph.anchors(top: graphTitle.bottomAnchor, topPad: 9, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9, height: 229)
+        graph.anchors(top: graphTitle.bottomAnchor, topPad: 9, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9, height: 200)
         graph.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
         
         return cell
@@ -255,7 +262,7 @@ extension CourseInfoController {
             present(alert, animated: true, completion: nil)
             
         } else {
-            self.alertMessage(title: "Who?", message: "No email available...")
+            self.alertMessage(title: "Who?", message: "There is no email available for your teacher.")
         }
     }
 }
