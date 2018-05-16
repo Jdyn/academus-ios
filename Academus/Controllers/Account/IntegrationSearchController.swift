@@ -19,6 +19,7 @@ class IntegrationSearchController: UITableViewController, IntegrationSearchDeleg
     var filtered = [IntegrationResult]()
     var results = [IntegrationResult]()
     var locationManager = CLLocationManager()
+    var zipPrompted = false
     let integrationCellID = "SearchIntegrationCell"
     
     override func viewDidLoad() {
@@ -54,7 +55,6 @@ class IntegrationSearchController: UITableViewController, IntegrationSearchDeleg
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-        if !(CLLocationManager.authorizationStatus() == .authorizedWhenInUse) { zipPrompt() }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,6 +69,8 @@ class IntegrationSearchController: UITableViewController, IntegrationSearchDeleg
     }
     
     @objc func zipPrompt() {
+        zipPrompted = true
+        
         let ac = UIAlertController(title: "", message: "", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let searchAction = UIAlertAction(title: "Search", style: .default) { _ in
@@ -175,6 +177,8 @@ extension IntegrationSearchController: CLLocationManagerDelegate {
             }
         })
     }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) { if status == .denied && !zipPrompted { zipPrompt() } }
 }
 
 extension IntegrationSearchController: UISearchBarDelegate, UISearchResultsUpdating {
