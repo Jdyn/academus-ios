@@ -24,6 +24,7 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
         navigationItem.title = "Select an Integration"
         navigationItem.hidesBackButton = true
         tableView.separatorStyle = .none
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
 
         integrationService.integrationChoiceDelegate = self
         tableView.register(IntegrationSelectCell.self, forCellReuseIdentifier: integrationCellID)
@@ -64,14 +65,22 @@ class IntegrationSelectController: UITableViewController, IntegrationChoiceDeleg
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 80 }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let integrationController = IntegrationLogInController()
-        let integrationService = IntegrationService()
-        integrationService.integration = self.integrations[indexPath.row]
-        integrationController.integration = self.integrations[indexPath.row]
-        integrationController.integrationService = integrationService
-        integrationController.coursesController = self.coursesController
-        integrationController.titleLabel.text! = self.integrations[indexPath.row].name!
-        
-        navigationController?.pushViewController(integrationController, animated: true)
+        if integrations[indexPath.row].route == "studentvue" {
+            let integrationSearchController = IntegrationSearchController()
+            let integrationService = IntegrationService()
+            integrationSearchController.integration = integrations[indexPath.row]
+            integrationSearchController.integrationService = integrationService
+            integrationSearchController.coursesController = coursesController
+            navigationController?.pushViewController(integrationSearchController, animated: true)
+        } else {
+            let integrationController = IntegrationLogInController()
+            let integrationService = IntegrationService()
+            integrationService.integration = integrations[indexPath.row]
+            integrationController.integration = integrations[indexPath.row]
+            integrationController.integrationService = integrationService
+            integrationController.coursesController = coursesController
+            integrationController.titleLabel.text! = integrations[indexPath.row].name!
+            navigationController?.pushViewController(integrationController, animated: true)
+        }
     }
 }

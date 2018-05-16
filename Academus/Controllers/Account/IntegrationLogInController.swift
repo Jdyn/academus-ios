@@ -13,6 +13,7 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
     let statusService = StatusService()
     var integrationService: IntegrationService?
     var integration: IntegrationChoice?
+    var apiBase: String?
     var integrationName: String?
     var coursesController: CoursesController?
     var fields: [UITextField] = []
@@ -24,7 +25,7 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
     let button = UIButton(type: .system).setUpButton(title: "SIGN IN", font: UIFont.standard!, fontColor: .navigationsGreen)
     
     @objc func logInPressed() {
-        guard let fieldsCounts = integration?.fields.count else {return}
+        guard let fieldsCounts = integration?.fields.count else { return }
         for i in 0...fieldsCounts - 1 {
             fields[i].resignFirstResponder()
             if (fields[i].text?.isEmpty)! {
@@ -34,10 +35,9 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
         }
         
         loadingAlert(title: "Please wait", message: "Attempting to add new integration")
-        integrationService?.addIntegration(fields: fields) { (success, error) in
+        integrationService?.addIntegration(fields: fields, apiBase: apiBase) { (success, error) in
             if success {
                 self.dismiss(animated: true, completion: {
-                    self.dismiss(animated: true, completion: nil)
                     self.navigationController?.popToRootViewController(animated: true)
                     self.coursesController?.didAddIntegration()
                 })
@@ -57,16 +57,13 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.hidesBackButton = false
+        navigationItem.largeTitleDisplayMode = .never
         statusService.statusDelegate = self
         statusService.getStatus { _ in }
         
         hideKeyboard()
         setUpUI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.largeTitleDisplayMode = .never
     }
     
     func didGetStatus(components: [ComponentModel]) {
