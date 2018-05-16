@@ -74,13 +74,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             guard let authToken = authDictionary?[AUTH_TOKEN] else { return true }
             
             let userDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
-            var settings = userDictionary
-            do {
-                settings?[AUTH_TOKEN] = authToken
-                try Locksmith.updateData(data: settings!, forUserAccount: USER_INFO)
-                try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
-            } catch {
-                return true
+            if var settings = userDictionary {
+                do {
+                    settings[AUTH_TOKEN] = authToken
+                    try Locksmith.updateData(data: settings, forUserAccount: USER_INFO)
+                    try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
+                } catch {
+                    return true
+                }
             }
         }
         
