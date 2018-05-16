@@ -21,8 +21,6 @@ class CourseBreakdownController: UITableViewController {
         self.extendedLayoutIncludesOpaqueBars = true
         tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 200.0
         
         cells = [.title, .total, .points, .chart]
         cells.forEach { (cell) in
@@ -32,7 +30,10 @@ class CourseBreakdownController: UITableViewController {
                 tableView.register(UITableViewCell.self, forCellReuseIdentifier: cell.getCellType())
             }
         }
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         tableView.gestureRecognizers?.forEach {
             if let recognizer = $0 as? UIPanGestureRecognizer {
                 recognizer.addTarget(self, action: #selector(didScroll))
@@ -50,6 +51,12 @@ class CourseBreakdownController: UITableViewController {
             }
         }
         
+        pieChart?.gestureRecognizers?.forEach {
+            if let recognizer = $0 as? UIRotationGestureRecognizer {
+                recognizer.require(toFail: gestureRecognizer)
+            }
+        }
+        
         gestureRecognizer.isEnabled = true
     }
     
@@ -59,7 +66,6 @@ class CourseBreakdownController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellsFiltered = cells.filter { $0.getSection() == indexPath.section }
-
         switch cellsFiltered[indexPath.row] {
         case .points: return 235
         case .total: return 150
@@ -86,9 +92,7 @@ class CourseBreakdownController: UITableViewController {
         case .points:
             let model = self.course!
             let cell = tableView.dequeueReusableCell(withIdentifier: manager.getCellType(), for: indexPath) as! CourseCollectionCell
-            cell.collection = collectionView(cell: cell, model: model)
-            cell.collection.register(CollectionPointsCell.self, forCellWithReuseIdentifier: "collectCell")
-            return cell
+            return collectionViewCell(cell: cell, model: model)
         case .total:
             let categories = course?.categories?.filter { $0.name == "TOTAL" }
             let model = categories![0]
@@ -105,10 +109,42 @@ class CourseBreakdownController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let pointsCell = cell as? CourseCollectionCell else { return }
+        guard let cell = cell as? CourseCollectionCell else { return }
         
-        pointsCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
-        pointsCell.collectionViewOffset = 0
+        cell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
+    }
+    
+    func makeChart() {
+        guard let categoryCount = course?.categories?.count, categoryCount > 1 else { return }
+        
+        let actualCats = course?.categories?.filter { $0.name != "TOTAL" }
+        let dataSet = PieChartDataSet(values: actualCats?.map { PieChartDataEntry(value: $0.weightAsDouble(), label: $0.name) }, label: "")
+        dataSet.colors = ChartColorTemplates.pastel() + ChartColorTemplates.colorful().reversed()
+        dataSet.valueTextColor = .white
+        dataSet.valueFont = UIFont.subheader!
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .percent
+        formatter.maximumFractionDigits = 0
+        formatter.multiplier = 1
+        formatter.percentSymbol = "%"
+        
+        let chartData = PieChartData(dataSet: dataSet)
+        chartData.setValueFormatter(DefaultValueFormatter(formatter: formatter))
+        
+        pieChart = PieChartView()
+        pieChart?.data = chartData
+        pieChart?.drawEntryLabelsEnabled = false
+        pieChart?.chartDescription?.enabled = false
+        pieChart?.legend.enabled = true
+        pieChart?.legend.font = UIFont.small!
+        pieChart?.legend.orientation = .horizontal
+        pieChart?.legend.verticalAlignment = .top
+        pieChart?.legend.horizontalAlignment = .center
+        pieChart?.legend.direction = .leftToRight
+        pieChart?.legend.textColor = .white
+        pieChart?.legend.yEntrySpace = 7
+        pieChart?.holeColor = .clear
     }
 }
 
@@ -126,6 +162,8 @@ extension CourseBreakdownController: UICollectionViewDelegate, UICollectionViewD
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectCell", for: indexPath) as! CollectionPointsCell
         return pointsCell(model: model, cell: cell)
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return (course?.categories?.count)! - 1
@@ -153,7 +191,7 @@ extension CourseBreakdownController {
         
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         name.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
-        title.anchors(top: name.bottomAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
+        title.anchors(top: name.bottomAnchor, topPad: 0, bottom: background.bottomAnchor, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
         
         return cell
     }
@@ -220,7 +258,7 @@ extension CourseBreakdownController {
         gradeLabel.anchors(top: background.topAnchor, topPad: 0, left: background.leftAnchor, leftPad: 9)
         gradeTitleLabel.anchors(top: gradeLabel.bottomAnchor, topPad: -16, left: background.leftAnchor, leftPad: 9)
         largePointsPossible.anchors(top: gradeTitleLabel.bottomAnchor, topPad: 9, left: background.leftAnchor, leftPad: 9, right: pointsStack.leftAnchor, rightPad: -9)
-        pointsPossibleTitle.anchors(top: largePointsPossible.bottomAnchor, topPad: -8, left: background.leftAnchor, leftPad: 9, right: pointsStack.leftAnchor, rightPad: -9)
+        pointsPossibleTitle.anchors(top: largePointsPossible.bottomAnchor, topPad: -8, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 9, right: pointsStack.leftAnchor, rightPad: -9)
         totalsLabel.anchors(bottom: percentStack.topAnchor, bottomPad: -3, centerX: pointsStack.rightAnchor, CenterXPad: 4.5)
         divider.anchors(height: 2)
         divider1.anchors(height: 2)
@@ -265,8 +303,8 @@ extension CourseBreakdownController {
 
         cell.addSubviews(views: [cell.background, cell.category, cell.divider, cell.points, cell.pointsPossible, cell.curPercent, cell.totPercent, cell.grade])
         
-        cell.category.anchors(top: cell.topAnchor, centerX: cell.centerXAnchor)
-        cell.background.anchors(top: cell.category.bottomAnchor, topPad: 3, bottom: cell.bottomAnchor, bottomPad: -9, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9, width: 90, height: 148)
+        cell.category.anchors(bottom: cell.background.topAnchor, bottomPad: -3, centerX: cell.centerXAnchor)
+        cell.background.anchors(top: cell.topAnchor, topPad: 3, bottom: cell.bottomAnchor, bottomPad: 30, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9, width: 90, height: 148)
 
         cell.curPercent.anchors(top: cell.background.topAnchor, topPad: 6, centerX: cell.points.centerXAnchor)
         
@@ -283,68 +321,41 @@ extension CourseBreakdownController {
     func chartCell(cell: UITableViewCell) -> UITableViewCell {
         cell.backgroundColor = .tableViewDarkGrey
         cell.selectionStyle = .none
+        cell.autoresizingMask = .flexibleHeight
         
         let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         cell.addSubview(background)
         background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
         
-        guard let categoryCount = course?.categories?.count, categoryCount > 1 else { return cell }
+        makeChart()
+        guard let chart = pieChart else { return cell }
+        cell.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        cell.addSubview(chart)
         
-        let actualCats = course?.categories?.filter { $0.name != "TOTAL" }
-        let dataSet = PieChartDataSet(values: actualCats?.map { PieChartDataEntry(value: $0.weightAsDouble(), label: $0.truncatedName()) }, label: "")
-        dataSet.colors = ChartColorTemplates.pastel() + ChartColorTemplates.colorful().reversed()
-        dataSet.valueTextColor = .white
-        dataSet.valueFont = UIFont.subheader!
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .percent
-        formatter.maximumFractionDigits = 0
-        formatter.multiplier = 1
-        formatter.percentSymbol = "%"
-        
-        let chartData = PieChartData(dataSet: dataSet)
-        chartData.setValueFormatter(DefaultValueFormatter(formatter: formatter))
-        
-        pieChart = PieChartView()
-        pieChart?.data = chartData
-        pieChart?.drawEntryLabelsEnabled = false
-        pieChart?.chartDescription?.enabled = false
-        pieChart?.legend.enabled = true
-        pieChart?.legend.font = UIFont.small!
-        pieChart?.legend.orientation = .vertical
-        pieChart?.legend.verticalAlignment = .center
-        pieChart?.legend.horizontalAlignment = .right
-        pieChart?.legend.direction = .rightToLeft
-        pieChart?.legend.textColor = .white
-        pieChart?.legend.yEntrySpace = 7
-        pieChart?.holeColor = .clear
-        
-        cell.addSubview(pieChart!)
-        pieChart?.anchors(top: background.topAnchor, left: background.leftAnchor, right: background.rightAnchor, height: 280)
-        pieChart?.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
+        chart.anchors(top: background.topAnchor, bottom: background.bottomAnchor, left: background.leftAnchor, right: background.rightAnchor)
+        chart.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
         
         return cell
     }
     
-    func collectionView(cell: CourseCollectionCell, model: Course) -> UICollectionView {
-        var collection: UICollectionView
-
+    func collectionViewCell(cell: CourseCollectionCell, model: Course) -> CourseCollectionCell {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
         layout.scrollDirection = .horizontal
         
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+        cell.collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        cell.collection.register(CollectionPointsCell.self, forCellWithReuseIdentifier: "collectCell")
+        cell.collection.showsHorizontalScrollIndicator = false
+        cell.collection.backgroundColor = .clear
         
-        collection = UICollectionView(frame: cell.bounds, collectionViewLayout: layout)
-        collection.showsHorizontalScrollIndicator = false
-        collection.backgroundColor = .tableViewMediumGrey
+        cell.background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
         
-        cell.addSubviews(views: [background, collection])
+        cell.addSubviews(views: [cell.background, cell.collection])
         
-        background.anchors(top: cell.topAnchor, topPad: 0, bottom: cell.bottomAnchor, bottomPad: 0, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
-        collection.anchors(top: background.topAnchor, topPad: 0, bottom: background.bottomAnchor, bottomPad: 0, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9)
-
-        return collection
+        cell.background.anchors(top: cell.topAnchor, bottom: cell.bottomAnchor, left: cell.leftAnchor, leftPad: 9, right: cell.rightAnchor, rightPad: -9)
+        cell.collection.anchors(top: cell.background.topAnchor, topPad: 0, bottom: cell.background.bottomAnchor, left: cell.background.leftAnchor, leftPad: 9, right: cell.background.rightAnchor, rightPad: -9, height: 200)
+        
+        return cell
     }
 }
 
