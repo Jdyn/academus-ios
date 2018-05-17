@@ -205,8 +205,8 @@ extension CourseInfoController {
         graph.xAxis.labelTextColor = .navigationsWhite
         
         graph.leftAxis.axisMinimum = 0
-        graph.leftAxis.axisMaximum = 100
-        graph.leftAxis.labelCount = 5
+        graph.leftAxis.axisMaximum = 120
+        graph.leftAxis.labelCount = 7
         graph.leftAxis.drawZeroLineEnabled = false
         graph.leftAxis.labelFont = UIFont.small!
         graph.leftAxis.labelTextColor = .navigationsWhite
@@ -240,7 +240,7 @@ extension CourseInfoController {
         chartIcon.anchors(top: background.topAnchor, left: background.leftAnchor, leftPad: 9, width: 24, height: 24)
         graphTitle.anchors(left: chartIcon.rightAnchor, leftPad: 6, centerY: chartIcon.centerYAnchor)
 
-        graph.anchors(top: graphTitle.bottomAnchor, topPad: 9, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9, height: 217)
+        graph.anchors(top: graphTitle.bottomAnchor, topPad: 9, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9, height: 200)
         
         return cell
     }
