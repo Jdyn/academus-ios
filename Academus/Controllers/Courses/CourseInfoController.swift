@@ -225,13 +225,14 @@ extension CourseInfoController {
         ]
         
         let dataSet = BarChartDataSet(values: dataEntries, label: "test")
-        dataSet.colors = array
+        dataSet.colors = ChartColorTemplates.pastel()//array
         dataSet.valueTextColor = .navigationsWhite
         dataSet.valueFont = UIFont.subtext!
         
         let barGraph = BarChartData(dataSet: dataSet)
         barGraph.setValueFormatter(DefaultValueFormatter(formatter: formatter))
         graph?.data = barGraph
+        graph.animate(yAxisDuration: 1.6, easingOption: .easeOutBounce)
 
         cell.addSubviews(views: [background, graph, graphTitle, chartIcon])
         
@@ -239,8 +240,7 @@ extension CourseInfoController {
         chartIcon.anchors(top: background.topAnchor, left: background.leftAnchor, leftPad: 9, width: 24, height: 24)
         graphTitle.anchors(left: chartIcon.rightAnchor, leftPad: 6, centerY: chartIcon.centerYAnchor)
 
-        graph.anchors(top: graphTitle.bottomAnchor, topPad: 9, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9, height: 200)
-        graph.animate(xAxisDuration: 1.4, easingOption: .easeOutBack)
+        graph.anchors(top: graphTitle.bottomAnchor, topPad: 9, bottom: background.bottomAnchor, bottomPad: -9, left: background.leftAnchor, leftPad: 9, right: background.rightAnchor, rightPad: -9, height: 217)
         
         return cell
     }
