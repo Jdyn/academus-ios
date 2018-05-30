@@ -124,10 +124,11 @@ extension ManageIntegrationsController {
             }
         }
         
-        let lastSynced = integration.last_synced
-        let formattedDate = timeAgoStringFromDate(date: lastSynced!)
-        date.text = "last synced: \(formattedDate ?? "Error")"
-        
+        if let lastSynced = integration.last_synced {
+            let formattedDate = timeAgoStringFromDate(date: lastSynced)
+            date.text = "last synced: \(formattedDate ?? "Error")"
+        }
+
         let syncIcon = UIImageView().setupImageView(color: .navigationsGreen, image: #imageLiteral(resourceName: "sync"))
         
         cell.backgroundColor = .tableViewDarkGrey

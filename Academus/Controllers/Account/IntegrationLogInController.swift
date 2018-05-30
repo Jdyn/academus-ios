@@ -39,7 +39,9 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
         integrationService?.addIntegration(fields: fields, apiBase: apiBase) { (success, error) in
             if success {
                 self.dismiss(animated: true, completion: {
-                    self.navigationController?.popToRootViewController(animated: true)
+                    self.dismiss(animated: true, completion: {
+                        self.dismiss(animated: true, completion: nil)
+                    })
                     self.coursesController?.didAddIntegration()
                 })
             } else {
