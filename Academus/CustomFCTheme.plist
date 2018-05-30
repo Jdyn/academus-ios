@@ -58,7 +58,7 @@
 			<key>textSize</key>
 			<string>15.0f</string>
 			<key>textColor</key>
-			<string>#EEEEEE</string>
+			<string>#212121</string>
 			<key>textAlignment</key>
 			<string></string>
 		</dict>
@@ -93,7 +93,7 @@
 			<key>textSize</key>
 			<string>15.0f</string>
 			<key>textColor</key>
-			<string>#000000</string>
+			<string>#EEEEEE</string>
 			<key>textColorHint</key>
 			<string>#A5D6A7</string>
 			<key>textCursorColor</key>
