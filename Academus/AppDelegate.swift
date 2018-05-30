@@ -8,7 +8,6 @@
 
 import UIKit
 import UserNotifications
-import SwiftyJSON
 import Locksmith
 
 class MainNavigationController : UINavigationController {
@@ -22,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
     var mainController = MainController()
-    var isLaunch: Bool = true
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -54,8 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         UITextField.appearance().keyboardAppearance = .dark
         
-        
-
         let freshchatConfig: FreshchatConfig = FreshchatConfig.init(appID: "76490582-1f11-45d5-b5b7-7ec88564c7d6", andAppKey: "5d16672f-543b-4dc9-9c21-9fd5f62a7ad3")
         freshchatConfig.themeName = "CustomFCTheme.plist"
         Freshchat.sharedInstance().initWith(freshchatConfig)
@@ -63,7 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)        
         if dictionary?[isFirstLaunch] == nil  {
             let authDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_AUTH)
-            print("THIS WAS CALLED NJISDNGIONSDGNONG")
             do {
                 try Locksmith.updateData(data: [
                     isAppLock : false,
@@ -72,27 +67,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     isMisc : true,
                     isFirstLaunch : true
                     ], forUserAccount: USER_SETTINGS)
-
-            } catch let error {
-                print(error)
+            } catch {
+                return true
             }
 
-            guard
-                let authToken = authDictionary?[AUTH_TOKEN]
-                else {
-                    return true
-            }
+            guard let authToken = authDictionary?[AUTH_TOKEN] else { return true }
             
             let userDictionary = Locksmith.loadDataForUserAccount(userAccount: USER_INFO)
-            var settings = userDictionary
-            settings?[AUTH_TOKEN] = authToken
-            do {
-                try Locksmith.updateData(data: settings!, forUserAccount: USER_INFO)
-                try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
-            } catch let error {
-                print(error)
+            if var settings = userDictionary {
+                do {
+                    settings[AUTH_TOKEN] = authToken
+                    try Locksmith.updateData(data: settings, forUserAccount: USER_INFO)
+                    try Locksmith.deleteDataForUserAccount(userAccount: USER_AUTH)
+                } catch {
+                    return true
+                }
             }
-            
         }
         
         return true
@@ -105,15 +95,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print(userInfo)
-        completionHandler(.newData)
-    }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) { completionHandler(.newData) }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         print("APP DELEGATE TOKEN: ", token)
-        print("please")
         mainController.apnsToken = token
         mainController.notificationTokenManager()
         Freshchat.sharedInstance().setPushRegistrationToken(deviceToken)
@@ -152,28 +138,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         completionHandler(true)
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        
-    }
-    
-    func shouldDisplay(payload: JSON) -> Bool {
-        let dictionary = Locksmith.loadDataForUserAccount(userAccount: USER_SETTINGS)
-        let titleKey = payload["aps"]["alert"]["title-loc-key"]
-        
-        switch titleKey {
-        case "notif_grade_posted_title", "notif_assignment_posted_title":
-            return dictionary?[isAssignmentsPosted] as! Bool
-        case "notif_course_grade_changed_title":
-            return dictionary?[isCoursePosted] as! Bool
-        default:
-            return dictionary?[isMisc] as! Bool
-        }
     }
 }

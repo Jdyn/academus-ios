@@ -55,10 +55,25 @@ class PlannerCell: UITableViewCell {
         }
     }
     
-    func setup(type: String, createdDate: Date, color: UIColor) {
+    func setup(type: String, createdDate: Date) {
         self.createdDate = createdDate
-        self.type = type
-        self.color = color
+        switch type {
+        case "course_updated":
+            self.type = "Course Updated"
+            self.color = .navigationsBlue
+        case "assignment_posted":
+            self.type = "Assignment Posted"
+            self.color = .navigationsPink
+        case "assignment_updated":
+            self.type = "Assignment Updated"
+            self.color = .navigationsOrange
+        case "upcoming_assignment":
+            self.type = "Upcoming Assignment"
+            self.color = .navigationsDarkGreen
+        default:
+            self.type = "Error"
+            self.color = .navigationsRed
+        }
     }
     
     let divider = UIView().setupBackground(bgColor: .tableViewGrey)

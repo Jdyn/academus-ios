@@ -8,68 +8,108 @@
 
 import UIKit
 import CoreData
-import Locksmith
 import MaterialShowcase
 
-class PlannerController: UITableViewController, PlannerCardDelegate, UIViewControllerPreviewingDelegate {
-        
+class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDelegate, UIViewControllerPreviewingDelegate {
+
+    let plannerService = PlannerService()
+    let statusService = StatusService()
+    var statusButton: UIBarButtonItem?
+    var severityColor: UIColor?
+    
     var cards = [PlannerCard]()
-    var plannerService = PlannerService()
-    var cells: [PlannerCellManager] = [PlannerCellManager]()
+    var components = [ComponentModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Planner"
-        view.backgroundColor = .tableViewDarkGrey
-        tableView.separatorStyle = .none
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
-        tableView.showsVerticalScrollIndicator = false
+        setupUI()
+        
+        fetchCards { _ in UIView.transition(with: self.tableView,duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { self.tableView.reloadData(); DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: { if self.traitCollection.forceTouchCapability == .available { self.guidedTutorial() }})})}
+        
+        statusService.statusDelegate = self
+        statusAlert()
+    }
 
-//        setupAddButtonInNavBar(selector: #selector(addPlannerCard))
-//        setupChatButtonInNavBar()
-                
-        self.extendedLayoutIncludesOpaqueBars = true
-        refreshControl = UIRefreshControl()
-        refreshControl?.tintColor = .navigationsGreen
-        refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+    func didGetStatus(components: [ComponentModel]) {
+        self.components = components
         
-        cells = [.assignmentPostedCard, .assignmentUpdatedCard, .courseUpdatedCard, .upcomingAssignmentCard]
-        
-        cells.forEach { (cell) in
-            self.tableView.register(PlannerCell.self, forCellReuseIdentifier: cell.getType())
+        let max = self.components.max { ($0.status ?? 0) < ($1.status ?? 0)}
+        let severity = max?.status
+        switch severity {
+        case 2: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+        case 3: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+        case 4: severityColor = .navigationsRed
+        default: severityColor = .navigationsRed
         }
-        
-        cells = []
-        plannerService.delegate = self
-        plannerService.getPlannerCards { (success) in
+    }
+    
+    func statusAlert() {
+        statusService.getStatus { (success) in
             if success {
-                self.cards.forEach({ (card) in
-                    if card.type == "course_updated" {
-                        self.cells.append(.courseUpdatedCard)
-                    } else if card.type == "assignment_posted" {
-                        self.cells.append(.assignmentPostedCard)
-                    } else if card.type == "assignment_updated" {
-                        self.cells.append(.assignmentUpdatedCard)
-                    } else if card.type == "upcoming_assignment" {
-                        self.cells.append(.upcomingAssignmentCard)
-                    }
-                })
-                UIView.transition(with: self.tableView,duration: 0.2, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
-                    self.tableView.reloadData()
-                })
-            } else {
-                self.errorLabel(show: true)
+                self.checkForStatus()
             }
         }
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 200.0
     }
+    
+    func checkForStatus() {
+        let filtered = self.components.filter({ $0.status == 3 || $0.status == 4 })
         
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: { self.guidedTutorial() })
+        if filtered.isEmpty {
+            navigationItem.rightBarButtonItem = nil
+            tableView.tableHeaderView = nil
+        } else {
+            if !UserDefaults.standard.bool(forKey: USER_STATUS) {
+                let max = filtered.max { ($0.status ?? 0) < ($1.status ?? 0)}
+                
+                guard
+                    let name = max?.name,
+                    let statusName = max?.statusName,
+                    let status = max?.status
+                    else { tableView.tableHeaderView = nil; return }
+                
+                let message = (filtered.count > 1) ? "\(filtered.count) System Outages" : "\(name): \(statusName)"
+                
+                tableView.tableHeaderView = statusBarHeaderView(message: message, severity: status, selector: #selector(handleStatusAlert), cancel: #selector(cancelStatusAlert))
+            } else {
+                tableView.tableHeaderView = nil
+                
+                statusButton = UIBarButtonItem(image: #imageLiteral(resourceName: "status"), style: .plain, target: self, action: #selector(self.handleStatusAlert))
+                statusButton?.tintColor = severityColor
+                navigationItem.rightBarButtonItem = statusButton
+            }
+        }
+        
+        tableView.reloadData()
     }
-        
+    
+    @objc func handleStatusAlert() {
+        if UserDefaults.standard.bool(forKey: USER_STATUS) {
+            UserDefaults.standard.set(false, forKey: USER_STATUS)
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                self.navigationItem.rightBarButtonItem = nil
+                self.checkForStatus()
+            })
+        } else {
+            UserDefaults.standard.set(true, forKey: USER_STATUS)
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                self.navigationItem.rightBarButtonItem = self.statusButton
+                self.tableView.tableHeaderView = nil
+                self.checkForStatus()
+            })
+            
+            statusPage()
+        }
+    }
+    
+    @objc func cancelStatusAlert() {
+        UserDefaults.standard.set(true, forKey: USER_STATUS)
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            self.navigationItem.rightBarButtonItem = self.statusButton
+            self.tableView.tableHeaderView = nil
+            self.checkForStatus()
+        })
+    }
+    
     func guidedTutorial() {
         guard UserDefaults.standard.bool(forKey: "PlannerOpened") != true else { return }
         guard !tableView.visibleCells.isEmpty else { return }
@@ -80,7 +120,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
         
         let showcase = MaterialShowcase()
         showcase.setTargetView(view: firstCard.background)
-        showcase.primaryText = "Have an iPhone 6s or better? Try pressing harder on stuff around the app."
+        showcase.primaryText = "Hey, try pressing harder on stuff around the app."
         showcase.secondaryText = ""
         showcase.shouldSetTintColor = false
         showcase.targetHolderColor = .clear
@@ -101,31 +141,12 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
         plannerService.delegate = self
         plannerService.getPlannerCards { (success) in
             if success {
-//                self.cells.removeAll()
-                self.cards.forEach({ (card) in
-                    if card.type == "course_updated" {
-                        self.cells.append(.courseUpdatedCard)
-                    } else if card.type == "assignment_posted" {
-                        self.cells.append(.assignmentPostedCard)
-                    } else if card.type == "assignment_updated" {
-                        self.cells.append(.assignmentUpdatedCard)
-                    } else if card.type == "upcoming_assignment" {
-                        self.cells.append(.upcomingAssignmentCard)
-                    }
-                })
                 completion(true)
             } else {
                 completion(false)
                 self.errorLabel(show: true)
             }
         }
-    }
-    
-    @objc func addPlannerCard() {
-        let createController = MainNavigationController(rootViewController: CardCreationController())
-        navigationController?.present(createController, animated: true, completion: {
-            // COMPLETION CODE HERE
-        })
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -135,32 +156,6 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
             self.tableViewEmptyLabel(show: false)
         }
         return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> PlannerCell {
-        
-        let model = cards[indexPath.row]
-        let manager = cells[indexPath.row]
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: manager.getType(), for: indexPath) as! PlannerCell
-        cell.setup(type: manager.getTitle(), createdDate: (model.date)!, color: manager.getColor())
-        
-        registerForPreviewing(with: self, sourceView: cell)
-                
-        switch manager {
-        case .courseUpdatedCard: return courseUpdatedCell(cell: cell, model: model, manager: manager) //cell.assignments = model.affectingAssignments!; 
-        case .assignmentPostedCard: return assignmentPostedCell(cell: cell, model: model, manager: manager)
-        case .assignmentUpdatedCard: return assignmentUpdatedCell(cell: cell, model: model, manager: manager)
-        case .upcomingAssignmentCard: return upcomingAssignment(cell: cell, model: model, manager: manager)
-        }
     }
     
     func errorLabel(show: Bool) {
@@ -174,31 +169,6 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
         }
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 6  }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch cells[indexPath.row] {
-        case .assignmentUpdatedCard, .assignmentPostedCard:
-            let assignmentDetailController = AssignmentDetailController()
-            assignmentDetailController.navigationItem.title = cards[indexPath.row].assignment?.name
-            assignmentDetailController.assignment = cards[indexPath.row].assignment
-            assignmentDetailController.card = cards[indexPath.row]
-            navigationController?.pushViewController(assignmentDetailController, animated: true)
-            tableView.deselectRow(at: indexPath, animated: true)
-        case .courseUpdatedCard:
-            let courseDetailsController = CourseDetailsController()
-            courseDetailsController.barbutton = false
-            courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
-            courseDetailsController.course = cards[indexPath.row].course
-            courseDetailsController.courseID = cards[indexPath.row].course?.id
-            navigationController?.pushViewController(courseDetailsController, animated: true)
-            tableView.deselectRow(at: indexPath, animated: true)
-        default: break
-        }
-    }
-        
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         guard let cell = previewingContext.sourceView as? PlannerCell,
               let indexPath = tableView.indexPath(for: cell)
@@ -207,14 +177,14 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
         let frame = cell.colorView.frame.union(cell.background.frame)
         previewingContext.sourceRect = frame
         
-        switch cells[indexPath.row] {
-        case .assignmentPostedCard, .assignmentUpdatedCard:
-            let assignmentDetailController = AssignmentDetailController()
+        switch cards[indexPath.row].type {
+        case "assignment_posted", "assignment_updated":
+            let assignmentDetailController = AssignmentDetailController(style: .grouped)
             assignmentDetailController.assignment = cards[indexPath.row].assignment
             assignmentDetailController.card = cards[indexPath.row]
             return assignmentDetailController
-        case .courseUpdatedCard:
-            let courseDetailsController = CourseDetailsController()
+        case "course_updated":
+            let courseDetailsController = CourseDetailsController(style: .grouped)
             courseDetailsController.barbutton = false
             courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
             courseDetailsController.course = cards[indexPath.row].course
@@ -238,6 +208,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
                     self.refreshControl?.endRefreshing()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
                         self.tableView.reloadData()
+                        self.statusAlert()
                     })
                 })
             } else {
@@ -251,10 +222,76 @@ class PlannerController: UITableViewController, PlannerCardDelegate, UIViewContr
         }
     }
 }
+    
+extension PlannerController { // TABLEVIEW FUNCTIONS
+    
+    func setupUI() {
+        navigationItem.title = "Planner"
+        tableView.separatorStyle = .none
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 200.0
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        tableView.showsVerticalScrollIndicator = false
+        
+        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: "course_updated")
+        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: "assignment_posted")
+        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: "assignment_updated")
+        self.tableView.register(PlannerCell.self, forCellReuseIdentifier: "upcoming_assignment")
+        
+        self.extendedLayoutIncludesOpaqueBars = true
+        refreshControl = UIRefreshControl()
+        refreshControl?.tintColor = .navigationsGreen
+        refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 6  }
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat { return UITableViewAutomaticDimension }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch cards[indexPath.row].type {
+        case "assignment_updated", "assignment_posted", "upcoming_assignment":
+            let assignmentDetailController = AssignmentDetailController(style: .grouped)
+            assignmentDetailController.navigationItem.title = cards[indexPath.row].assignment?.name
+            assignmentDetailController.assignment = cards[indexPath.row].assignment
+            assignmentDetailController.card = cards[indexPath.row]
+            navigationController?.pushViewController(assignmentDetailController, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        case "course_updated":
+            let courseDetailsController = CourseDetailsController(style: .grouped)
+            courseDetailsController.barbutton = false
+            courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
+            courseDetailsController.course = cards[indexPath.row].course
+            courseDetailsController.courseID = cards[indexPath.row].course?.id
+            navigationController?.pushViewController(courseDetailsController, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        default: break
+        }
+    }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> PlannerCell {
+        
+        let model = cards[indexPath.row]
+        let type = cards[indexPath.row].type
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: type!, for: indexPath) as! PlannerCell
+        cell.setup(type: model.type!, createdDate: model.date!)
+        
+        registerForPreviewing(with: self, sourceView: cell)
+        
+        switch type {
+        case "course_updated": return courseUpdatedCell(cell: cell, model: model)
+        case "assignment_posted": return assignmentPostedCell(cell: cell, model: model)
+        case "assignment_updated": return assignmentUpdatedCell(cell: cell, model: model)
+        case "upcoming_assignment": return upcomingAssignment(cell: cell, model: model)
+        default: return PlannerCell()
+        }
+    }
+}
 
 extension PlannerController {
     
-    func courseUpdatedCell(cell: PlannerCell, model: PlannerCard, manager: PlannerCellManager) -> PlannerCell {
+    func courseUpdatedCell(cell: PlannerCell, model: PlannerCard) -> PlannerCell {
         
         let currentGrade = model.newGrade?.gradePercent ?? 0
         let previousGrade = model.previousGrade?.gradePercent ?? 0
@@ -289,14 +326,6 @@ extension PlannerController {
         courseNameString.setColorForText(textForAttribute: "\((model.course?.name) ?? "unknown")", withColor: UIColor.navigationsGreen)
         cell.titleLabel.attributedText = courseNameString
         
-//        print(cell.buttons.count)
-        
-//        cell.buttons.forEach { (button) in
-//            cell.addSubview(button)
-//            cell.stack.addArrangedSubview(button)
-//
-//        }
-        
         cell.background.addSubviews(views: [cell.titleLabel, cell.gradeLabel, cell.stack])
         
         cell.stack.anchors(top: cell.gradeLabel.bottomAnchor, bottom: cell.subBackground.bottomAnchor, left: cell.subBackground.leftAnchor, right: cell.subBackground.rightAnchor)
@@ -306,8 +335,7 @@ extension PlannerController {
         return cell
     }
     
-    func assignmentPostedCell(cell: PlannerCell, model: PlannerCard, manager: PlannerCellManager) -> PlannerCell {
-        
+    func assignmentPostedCell(cell: PlannerCell, model: PlannerCard) -> PlannerCell {
         let titleText = "\"\((model.assignment?.name) ?? "Assignment")\" has been posted in \(model.assignment?.course?.name ?? "a course")"
         let titleString: NSMutableAttributedString = NSMutableAttributedString(string: titleText)
         titleString.setColorForText(textForAttribute: "\"\(model.assignment?.name ?? "An assignment")\"", withColor: UIColor.navigationsGreen)
@@ -327,7 +355,7 @@ extension PlannerController {
         return cell
     }
     
-    func assignmentUpdatedCell(cell: PlannerCell, model: PlannerCard, manager: PlannerCellManager) -> PlannerCell {
+    func assignmentUpdatedCell(cell: PlannerCell, model: PlannerCard) -> PlannerCell {
 
         let titleText = "Your grade on \"\(model.assignment?.name ?? "an Assignment")\" in \(model.assignment?.course?.name ?? "a course") has been updated"
         let titleString: NSMutableAttributedString = NSMutableAttributedString(string: titleText)
@@ -353,7 +381,7 @@ extension PlannerController {
         return cell
     }
     
-    func upcomingAssignment(cell: PlannerCell, model: PlannerCard, manager: PlannerCellManager) -> PlannerCell {
+    func upcomingAssignment(cell: PlannerCell, model: PlannerCard) -> PlannerCell {
         
         let titleText = "\(model.assignment?.name ?? "an Assignment") is coming up soon"
         let titleString: NSMutableAttributedString = NSMutableAttributedString(string: titleText)
@@ -367,5 +395,4 @@ extension PlannerController {
         
         return cell
     }
-
 }

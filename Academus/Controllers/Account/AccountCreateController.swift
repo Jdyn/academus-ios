@@ -70,7 +70,7 @@ class AccountCreateController: UIViewController, accountCreateErrorDelegate {
         for field in fields {
             field.resignFirstResponder()
             if (field.text?.isEmpty)! {
-                self.alertMessage(title: "Wrong.", message: "There are missing fields.")
+                self.alertMessage(title: "Hey!", message: "Please fill out all fields to continue.")
                 return
             }
         }
@@ -82,7 +82,7 @@ class AccountCreateController: UIViewController, accountCreateErrorDelegate {
             return
         }
 
-        loadingAlert(title: "Attempting to Create Account", message: "Please wait...")
+        loadingAlert(title: "Creating an Account", message: "Please wait...")
         authService.accountCreateDelegate = self
         
         authService.registerUser(firstName: (fields[0].text)!, lastName: (fields[1].text)!, email: (fields[2].text)!, password: (fields[3].text)!, appleToken: self.mainController?.apnsToken) { (success) in

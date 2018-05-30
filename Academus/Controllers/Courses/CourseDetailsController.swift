@@ -8,7 +8,6 @@
 
 import UIKit
 import Locksmith
-import MaterialShowcase
 
 class CourseDetailsController: UITableViewController, UIViewControllerPreviewingDelegate, AssignmentServiceDelegate {
     
@@ -35,38 +34,16 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
             }
             navigationItem.rightBarButtonItems = [infoButton!, summaryButton!]
         }
-        
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
-        
         tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
+        
         fetchAssignments()
     }
     
     @objc func handleCourseSummary() {
-        print("tapped")
         let courseBreakdownController = CourseBreakdownController(style: .grouped)
         courseBreakdownController.course = course
         navigationController?.pushViewController(courseBreakdownController, animated: true)
-    }
-    
-    func guidedTutorial() {
-        guard UserDefaults.standard.bool(forKey: "CourseDetailsOpened") != true else { return }
-        guard !tableView.visibleCells.isEmpty else { return }
-        guard let first = tableView.visibleCells.first else { return }
-        guard let firstAssignment = first as? CourseAssignmentCell else { return }
-        
-        UserDefaults.standard.set(true, forKey: "CourseDetailsOpened")
-        
-        let showcase = MaterialShowcase()
-        showcase.setTargetView(view: firstAssignment.background)
-        showcase.primaryText = "Tap on an assignment to see details about it."
-        showcase.secondaryText = ""
-        showcase.shouldSetTintColor = false
-        showcase.targetHolderColor = .clear
-        showcase.targetHolderRadius = 0
-        showcase.backgroundPromptColor = .navigationsDarkGrey
-        showcase.backgroundPromptColorAlpha = 0.9
-        showcase.show(completion: nil)
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -78,11 +55,14 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     }
     
     func fetchAssignments() {
+        guard courseID != nil else {
+            alertMessage(title: "Oops", message: "An error has occured. \nIf you encounter this, please contact the chat in the Manage tab.")
+            return
+        }
         assignmentService.delegate = self
         assignmentService.getAssignments(courseID: courseID!) { (success) in
             if success {
                 self.tableView.reloadData()
-                self.guidedTutorial()
                 print("We finished that.")
             } else {
                 print("failed to get courses")
@@ -125,7 +105,7 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
         guard let cell = previewingContext.sourceView as? CourseAssignmentCell else { return nil }
         previewingContext.sourceRect = cell.background.frame
         
-        let assignmentDetailController = AssignmentDetailController()
+        let assignmentDetailController = AssignmentDetailController(style: .grouped)
         assignmentDetailController.assignment = cell.assignment
         return assignmentDetailController
     }
@@ -137,10 +117,7 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     
     
     func didGetAssignments(assignments: [Assignment]) {
-        let filtered = assignments.filter { $0.course?.id == courseID }
-        for assignment in filtered {
-            self.assignments.append(assignment)
-        }
+        self.assignments = assignments
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -149,7 +126,7 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     
     @objc func handleCourseInfo() {
         let courseInfoController = CourseInfoController(style: .grouped)
-        courseInfoController.course = course
+        courseInfoController.model = course
         navigationController?.pushViewController(courseInfoController, animated: true)
     }
 }

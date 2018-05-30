@@ -11,9 +11,11 @@
 		58F72B86208FAB9B0079D6F5 /* MainBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F72B85208FAB9B0079D6F5 /* MainBarController.swift */; };
 		58F72B88208FAC450079D6F5 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F72B87208FAC450079D6F5 /* MainController.swift */; };
 		7737EEF80D4E4882DE8EAE8C /* Pods_Academus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13640B4FD642AD6950DA5EF0 /* Pods_Academus.framework */; };
+		C4067AAC20A6A448002B06CE /* IntegrationSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4067AAB20A6A448002B06CE /* IntegrationSearchController.swift */; };
+		C4067AAE20A6A461002B06CE /* IntegrationSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4067AAD20A6A461002B06CE /* IntegrationSearchCell.swift */; };
+		C4067AB020A6A7E9002B06CE /* IntegrationResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4067AAF20A6A7E9002B06CE /* IntegrationResultModel.swift */; };
 		C4C856B1208ADAE900CC17C7 /* SettingsBundleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B0208ADAE900CC17C7 /* SettingsBundleHelper.swift */; };
 		C4C856B3208AE14000CC17C7 /* CourseInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B2208AE14000CC17C7 /* CourseInfoController.swift */; };
-		C4C856B5208AE84400CC17C7 /* CourseInfoCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */; };
 		C4D78241208C2DA100F92BAF /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D78240208C2DA100F92BAF /* CacheService.swift */; };
 		C6C916E72090F7B2000CB2D2 /* AssignmentDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */; };
 		C6C916E92090F7CA000CB2D2 /* AssignmentDetailCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C916E82090F7CA000CB2D2 /* AssignmentDetailCellManager.swift */; };
@@ -23,7 +25,6 @@
 		D7255935203A38DB00DBA62B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7255934203A38DB00DBA62B /* Assets.xcassets */; };
 		D7255942203A41D100DBA62B /* CoursesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7255941203A41D100DBA62B /* CoursesController.swift */; };
 		D7255944203A41E300DBA62B /* ManageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7255943203A41E300DBA62B /* ManageController.swift */; };
-		D73C2E1E20619DD700AD0C0C /* LocalNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73C2E1D20619DD700AD0C0C /* LocalNotificationService.swift */; };
 		D73F6551203E5A6100144C89 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F6550203E5A6100144C89 /* Constants.swift */; };
 		D73F6554203E763700144C89 /* CourseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F6553203E763700144C89 /* CourseCell.swift */; };
 		D73F655A203FA06400144C89 /* AssignmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73F6559203FA06400144C89 /* AssignmentService.swift */; };
@@ -48,13 +49,13 @@
 		D79DA992204A631D00EA082A /* IntegrationSelectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA991204A631D00EA082A /* IntegrationSelectCell.swift */; };
 		D79DA994204A799300EA082A /* IntegrationLogInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79DA993204A799300EA082A /* IntegrationLogInController.swift */; };
 		D7B0B42220967B4F00EA73D8 /* CourseBreakdownController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B42120967B4F00EA73D8 /* CourseBreakdownController.swift */; };
-		D7B0B42420967EA500EA73D8 /* CourseBreakdownCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B42320967EA500EA73D8 /* CourseBreakdownCellManager.swift */; };
 		D7B0B4262096830000EA73D8 /* CourseCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B4252096830000EA73D8 /* CourseCollectionCell.swift */; };
 		D7B0B42B2096C91500EA73D8 /* CollectionPointsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B42A2096C91500EA73D8 /* CollectionPointsCell.swift */; };
+		D7B0B42D209BDAC800EA73D8 /* StatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B42C209BDAC800EA73D8 /* StatusService.swift */; };
+		D7B0B42F209BDD3100EA73D8 /* ComponentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0B42E209BDD3100EA73D8 /* ComponentModel.swift */; };
 		D7BA9876208FCE6800F7E735 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7BA9875208FCE6800F7E735 /* Launch Screen.storyboard */; };
 		D7C06F8A208D9E5C00E74581 /* PlannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C06F89208D9E5C00E74581 /* PlannerService.swift */; };
 		D7C06F8C208DA2EC00E74581 /* PlannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C06F8B208DA2EC00E74581 /* PlannerModel.swift */; };
-		D7C06F8E208DB15700E74581 /* PlannerCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C06F8D208DB15700E74581 /* PlannerCellManager.swift */; };
 		D7CCBC7F206C259A009654CB /* ManageHelpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC7E206C259A009654CB /* ManageHelpController.swift */; };
 		D7CCBC85206C2B00009654CB /* ManageAboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC84206C2B00009654CB /* ManageAboutController.swift */; };
 		D7CCBC88206C5DC3009654CB /* AboutCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */; };
@@ -63,14 +64,12 @@
 		D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E4272062FFF7002099B9 /* UIFont.swift */; };
 		D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E42D20630009002099B9 /* SettingsCellManager.swift */; };
 		D7D1E43820635F56002099B9 /* ManageCellManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1E43720635F56002099B9 /* ManageCellManager.swift */; };
-		D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */; };
 		D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */; };
 		D7F66243204757A70060FA8D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F66242204757A70060FA8D /* AuthService.swift */; };
 		D7F66246204769AB0060FA8D /* WelcomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F66245204769AB0060FA8D /* WelcomeController.swift */; };
 		D7F662492047985D0060FA8D /* AccountLogInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F662482047985D0060FA8D /* AccountLogInController.swift */; };
 		D7F6624B204798F10060FA8D /* AccountCreateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F6624A204798F10060FA8D /* AccountCreateController.swift */; };
 		D7FA4877203A560D007ADFE0 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FA4876203A560D007ADFE0 /* UIColor.swift */; };
-		D7FA4880203B1894007ADFE0 /* AcademusModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D7FA487E203B1894007ADFE0 /* AcademusModels.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,9 +79,11 @@
 		58F72B87208FAC450079D6F5 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		6CEFE00B8A2B3BE738650395 /* Pods-Academus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.debug.xcconfig"; sourceTree = "<group>"; };
 		890075C57931A0A5D85BA6D9 /* Pods-Academus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Academus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Academus/Pods-Academus.release.xcconfig"; sourceTree = "<group>"; };
+		C4067AAB20A6A448002B06CE /* IntegrationSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationSearchController.swift; sourceTree = "<group>"; };
+		C4067AAD20A6A461002B06CE /* IntegrationSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationSearchCell.swift; sourceTree = "<group>"; };
+		C4067AAF20A6A7E9002B06CE /* IntegrationResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationResultModel.swift; sourceTree = "<group>"; };
 		C4C856B0208ADAE900CC17C7 /* SettingsBundleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundleHelper.swift; sourceTree = "<group>"; };
 		C4C856B2208AE14000CC17C7 /* CourseInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseInfoController.swift; sourceTree = "<group>"; };
-		C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseInfoCellManager.swift; sourceTree = "<group>"; };
 		C4D78240208C2DA100F92BAF /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
 		C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentDetailController.swift; sourceTree = "<group>"; };
 		C6C916E82090F7CA000CB2D2 /* AssignmentDetailCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentDetailCellManager.swift; sourceTree = "<group>"; };
@@ -95,7 +96,6 @@
 		D7255939203A38DB00DBA62B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D7255941203A41D100DBA62B /* CoursesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesController.swift; sourceTree = "<group>"; };
 		D7255943203A41E300DBA62B /* ManageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageController.swift; sourceTree = "<group>"; };
-		D73C2E1D20619DD700AD0C0C /* LocalNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationService.swift; sourceTree = "<group>"; };
 		D73F6550203E5A6100144C89 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D73F6553203E763700144C89 /* CourseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCell.swift; sourceTree = "<group>"; };
 		D73F6559203FA06400144C89 /* AssignmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssignmentService.swift; sourceTree = "<group>"; };
@@ -121,13 +121,13 @@
 		D79DA991204A631D00EA082A /* IntegrationSelectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationSelectCell.swift; sourceTree = "<group>"; };
 		D79DA993204A799300EA082A /* IntegrationLogInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationLogInController.swift; sourceTree = "<group>"; };
 		D7B0B42120967B4F00EA73D8 /* CourseBreakdownController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseBreakdownController.swift; sourceTree = "<group>"; };
-		D7B0B42320967EA500EA73D8 /* CourseBreakdownCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseBreakdownCellManager.swift; sourceTree = "<group>"; };
 		D7B0B4252096830000EA73D8 /* CourseCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCollectionCell.swift; sourceTree = "<group>"; };
 		D7B0B42A2096C91500EA73D8 /* CollectionPointsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPointsCell.swift; sourceTree = "<group>"; };
+		D7B0B42C209BDAC800EA73D8 /* StatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusService.swift; sourceTree = "<group>"; };
+		D7B0B42E209BDD3100EA73D8 /* ComponentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentModel.swift; sourceTree = "<group>"; };
 		D7BA9875208FCE6800F7E735 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D7C06F89208D9E5C00E74581 /* PlannerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerService.swift; sourceTree = "<group>"; };
 		D7C06F8B208DA2EC00E74581 /* PlannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerModel.swift; sourceTree = "<group>"; };
-		D7C06F8D208DB15700E74581 /* PlannerCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerCellManager.swift; sourceTree = "<group>"; };
 		D7CCBC7E206C259A009654CB /* ManageHelpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageHelpController.swift; sourceTree = "<group>"; };
 		D7CCBC84206C2B00009654CB /* ManageAboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageAboutController.swift; sourceTree = "<group>"; };
 		D7CCBC87206C5DC3009654CB /* AboutCellManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCellManager.swift; sourceTree = "<group>"; };
@@ -136,14 +136,12 @@
 		D7D1E4272062FFF7002099B9 /* UIFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		D7D1E42D20630009002099B9 /* SettingsCellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCellManager.swift; sourceTree = "<group>"; };
 		D7D1E43720635F56002099B9 /* ManageCellManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageCellManager.swift; sourceTree = "<group>"; };
-		D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D7F118B7203B254A000FFB4B /* ControllerHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerHelpers.swift; sourceTree = "<group>"; };
 		D7F66242204757A70060FA8D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		D7F66245204769AB0060FA8D /* WelcomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeController.swift; sourceTree = "<group>"; };
 		D7F662482047985D0060FA8D /* AccountLogInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountLogInController.swift; sourceTree = "<group>"; };
 		D7F6624A204798F10060FA8D /* AccountCreateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCreateController.swift; sourceTree = "<group>"; };
 		D7FA4876203A560D007ADFE0 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
-		D7FA487F203B1894007ADFE0 /* AcademusModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AcademusModels.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,7 +186,6 @@
 			isa = PBXGroup;
 			children = (
 				D7153A30204D660300CF4DC4 /* PlannerController.swift */,
-				D7C06F8D208DB15700E74581 /* PlannerCellManager.swift */,
 				D7CCBC8B207D9226009654CB /* PlannerCell.swift */,
 				582142C9207E832300F92E1B /* PlannerCardCreation */,
 			);
@@ -218,7 +215,6 @@
 			children = (
 				D75CB49F2087E10D00AAC7E0 /* Academus-Bridging-Header.h */,
 				D725592D203A38DB00DBA62B /* AppDelegate.swift */,
-				D7F118B5203B1F1D000FFB4B /* CoreDataManager.swift */,
 				58F72B87208FAC450079D6F5 /* MainController.swift */,
 				D7FA4874203A4794007ADFE0 /* Controllers */,
 				D7FA4875203A4D30007ADFE0 /* Utilities */,
@@ -229,7 +225,6 @@
 				D75CB4E92087FA4400AAC7E0 /* Settings.bundle */,
 				D75CB4A02087F64C00AAC7E0 /* CustomFCTheme.plist */,
 				D75CB4EB20881FCB00AAC7E0 /* Localizable.strings */,
-				D7FA487E203B1894007ADFE0 /* AcademusModels.xcdatamodeld */,
 				D71857FD20686AF3007B03AA /* Academus.entitlements */,
 				D7BA9875208FCE6800F7E735 /* Launch Screen.storyboard */,
 			);
@@ -242,7 +237,6 @@
 				D7B0B427209683EC00EA73D8 /* Breakdown */,
 				D7255941203A41D100DBA62B /* CoursesController.swift */,
 				D73F655D203FE8F800144C89 /* CourseDetailsController.swift */,
-				C4C856B4208AE84400CC17C7 /* CourseInfoCellManager.swift */,
 				C4C856B2208AE14000CC17C7 /* CourseInfoController.swift */,
 				C6C916E62090F7B2000CB2D2 /* AssignmentDetailController.swift */,
 				C6C916E82090F7CA000CB2D2 /* AssignmentDetailCellManager.swift */,
@@ -255,6 +249,7 @@
 		D77BC0BD203E588500AAA505 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D7B0B42C209BDAC800EA73D8 /* StatusService.swift */,
 				D7F66242204757A70060FA8D /* AuthService.swift */,
 				D7C06F89208D9E5C00E74581 /* PlannerService.swift */,
 				D77BC0BE203E589E00AAA505 /* CourseService.swift */,
@@ -262,7 +257,6 @@
 				D79DA989204A58CE00EA082A /* IntegrationService.swift */,
 				D762FCEF206899240021B6F2 /* InvitesService.swift */,
 				D78579E7208C3EF800CF481C /* NotificationService.swift */,
-				D73C2E1D20619DD700AD0C0C /* LocalNotificationService.swift */,
 				C4D78240208C2DA100F92BAF /* CacheService.swift */,
 			);
 			path = Services;
@@ -287,7 +281,6 @@
 		D7B0B427209683EC00EA73D8 /* Breakdown */ = {
 			isa = PBXGroup;
 			children = (
-				D7B0B42320967EA500EA73D8 /* CourseBreakdownCellManager.swift */,
 				D7B0B42120967B4F00EA73D8 /* CourseBreakdownController.swift */,
 				D7B0B42A2096C91500EA73D8 /* CollectionPointsCell.swift */,
 				D7B0B4252096830000EA73D8 /* CourseCollectionCell.swift */,
@@ -302,6 +295,8 @@
 				D7F662482047985D0060FA8D /* AccountLogInController.swift */,
 				D7F6624A204798F10060FA8D /* AccountCreateController.swift */,
 				580CC7FD205064F400EF59C1 /* IntegrationSelectController.swift */,
+				C4067AAB20A6A448002B06CE /* IntegrationSearchController.swift */,
+				C4067AAD20A6A461002B06CE /* IntegrationSearchCell.swift */,
 				D79DA991204A631D00EA082A /* IntegrationSelectCell.swift */,
 				D79DA993204A799300EA082A /* IntegrationLogInController.swift */,
 			);
@@ -340,8 +335,10 @@
 				D77BC0BB203E555F00AAA505 /* CourseModel.swift */,
 				D73F655B203FA09E00144C89 /* AssignmentModel.swift */,
 				D79DA98B204A5EB700EA082A /* IntegrationChoiceModel.swift */,
+				C4067AAF20A6A7E9002B06CE /* IntegrationResultModel.swift */,
 				D790B064205F893900D8697F /* UserIntegrationsModel.swift */,
 				D762FCF1206899C60021B6F2 /* userInvitesModel.swift */,
+				D7B0B42E209BDD3100EA73D8 /* ComponentModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -502,11 +499,13 @@
 			files = (
 				D73F6554203E763700144C89 /* CourseCell.swift in Sources */,
 				580CC7FE205064F400EF59C1 /* IntegrationSelectController.swift in Sources */,
+				C4067AAC20A6A448002B06CE /* IntegrationSearchController.swift in Sources */,
 				D762FCF2206899C60021B6F2 /* userInvitesModel.swift in Sources */,
 				D77BC0BC203E555F00AAA505 /* CourseModel.swift in Sources */,
 				D7CCBC8C207D9226009654CB /* PlannerCell.swift in Sources */,
 				D73F655A203FA06400144C89 /* AssignmentService.swift in Sources */,
 				D762FCF82069A4470021B6F2 /* CustomUI.swift in Sources */,
+				C4067AAE20A6A461002B06CE /* IntegrationSearchCell.swift in Sources */,
 				C6C916E92090F7CA000CB2D2 /* AssignmentDetailCellManager.swift in Sources */,
 				58F72B86208FAB9B0079D6F5 /* MainBarController.swift in Sources */,
 				D73F655E203FE8F800144C89 /* CourseDetailsController.swift in Sources */,
@@ -517,13 +516,15 @@
 				D7C06F8C208DA2EC00E74581 /* PlannerModel.swift in Sources */,
 				D7D1E4282062FFF7002099B9 /* UIFont.swift in Sources */,
 				D79DA98C204A5EB700EA082A /* IntegrationChoiceModel.swift in Sources */,
-				D7C06F8E208DB15700E74581 /* PlannerCellManager.swift in Sources */,
 				D7B0B42B2096C91500EA73D8 /* CollectionPointsCell.swift in Sources */,
+				D7B0B42D209BDAC800EA73D8 /* StatusService.swift in Sources */,
 				D78579E8208C3EF800CF481C /* NotificationService.swift in Sources */,
 				D7D1E4332063000A002099B9 /* SettingsCellManager.swift in Sources */,
 				D73F655C203FA09E00144C89 /* AssignmentModel.swift in Sources */,
 				D79DA98A204A58CE00EA082A /* IntegrationService.swift in Sources */,
 				D73F6551203E5A6100144C89 /* Constants.swift in Sources */,
+				D7B0B42F209BDD3100EA73D8 /* ComponentModel.swift in Sources */,
+				C4067AB020A6A7E9002B06CE /* IntegrationResultModel.swift in Sources */,
 				D762FCF0206899240021B6F2 /* InvitesService.swift in Sources */,
 				D7F66246204769AB0060FA8D /* WelcomeController.swift in Sources */,
 				D790B062205BB4DD00D8697F /* ManageIntegrationsController.swift in Sources */,
@@ -531,10 +532,7 @@
 				D7B0B4262096830000EA73D8 /* CourseCollectionCell.swift in Sources */,
 				D7255944203A41E300DBA62B /* ManageController.swift in Sources */,
 				D7F118B8203B254A000FFB4B /* ControllerHelpers.swift in Sources */,
-				D73C2E1E20619DD700AD0C0C /* LocalNotificationService.swift in Sources */,
 				D7CCBC7F206C259A009654CB /* ManageHelpController.swift in Sources */,
-				C4C856B5208AE84400CC17C7 /* CourseInfoCellManager.swift in Sources */,
-				D7FA4880203B1894007ADFE0 /* AcademusModels.xcdatamodeld in Sources */,
 				D762FCF420689AC50021B6F2 /* ManageInvitesController.swift in Sources */,
 				D7255942203A41D100DBA62B /* CoursesController.swift in Sources */,
 				D7CCBC8A207D88AC009654CB /* CardCreationManager.swift in Sources */,
@@ -544,13 +542,11 @@
 				C4D78241208C2DA100F92BAF /* CacheService.swift in Sources */,
 				C4C856B1208ADAE900CC17C7 /* SettingsBundleHelper.swift in Sources */,
 				D7CCBC85206C2B00009654CB /* ManageAboutController.swift in Sources */,
-				D7F118B6203B1F1D000FFB4B /* CoreDataManager.swift in Sources */,
 				D7F662492047985D0060FA8D /* AccountLogInController.swift in Sources */,
 				D79DA992204A631D00EA082A /* IntegrationSelectCell.swift in Sources */,
 				D7CCBC88206C5DC3009654CB /* AboutCellManager.swift in Sources */,
 				D7F6624B204798F10060FA8D /* AccountCreateController.swift in Sources */,
 				D77BC0BF203E589E00AAA505 /* CourseService.swift in Sources */,
-				D7B0B42420967EA500EA73D8 /* CourseBreakdownCellManager.swift in Sources */,
 				D7153A31204D660300CF4DC4 /* PlannerController.swift in Sources */,
 				D7F66243204757A70060FA8D /* AuthService.swift in Sources */,
 				D790B065205F893900D8697F /* UserIntegrationsModel.swift in Sources */,
@@ -742,19 +738,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		D7FA487E203B1894007ADFE0 /* AcademusModels.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				D7FA487F203B1894007ADFE0 /* AcademusModels.xcdatamodel */,
-			);
-			currentVersion = D7FA487F203B1894007ADFE0 /* AcademusModels.xcdatamodel */;
-			path = AcademusModels.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = D7255922203A38DB00DBA62B /* Project object */;
 }

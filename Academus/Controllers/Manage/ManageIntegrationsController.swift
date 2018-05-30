@@ -14,6 +14,7 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
     let date = UILabel().setUpLabel(text: "", font: UIFont.subheader!, fontColor: .tableViewLightGrey)
     let integrationService = IntegrationService()
     var integrations = [UserIntegrations]()
+
     let cellID = "userIntegrationsCell"
     
     override func viewDidLoad() {
@@ -31,6 +32,12 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
                 self.tableView.reloadData()
             }
         }
+//        statusService.statusDelegate = self
+//        statusService.getStatus { (success) in
+//            if success {
+//                print(self.components)
+//            }
+//        }
     }
 
     func didGetUserIntegrations(integrations: [UserIntegrations]) {
@@ -41,11 +48,16 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
         }
     }
     
+//    func didGetStatus(components: [ComponentModel]) {
+//        components.forEach { (component) in
+//            self.components.append(component)
+//        }
+//    }
+    
     @objc func handleAdd() {
         let controller = IntegrationSelectController()
         controller.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
         controller.navigationItem.title = "Add an Integration"
-        controller.tableView.tableHeaderView = integrationSelectHeaderView()
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -65,7 +77,7 @@ class ManageIntegrationsController: UITableViewController, UserIntegrationsDeleg
                 self.integrationService.userIntegrations(completion: { (success) in
                     if success {
                         self.dismiss(animated: true, completion: {
-                            self.date.text = "Synced"
+                            self.date.text = "Queued for Sync"
                         })
                     }
                 })
@@ -143,20 +155,6 @@ extension ManageIntegrationsController {
         
         background.anchors(top: header.topAnchor, bottom: header.bottomAnchor, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6)
         counter.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
-        return header
-    }
-    
-    private func integrationSelectHeaderView() -> UIView {
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 45))
-        let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
-        let label = UILabel().setUpLabel(text: "Adding the same integration will cause errors", font: UIFont.subheader!, fontColor: .navigationsRed)
-        
-        background.roundCorners(corners: .bottom)
-        
-        header.addSubviews(views: [background, label])
-
-        background.anchors(top: header.topAnchor, bottom: header.bottomAnchor, left: header.leftAnchor, leftPad: 6, right: header.rightAnchor, rightPad: -6)
-        label.anchors(centerX: background.centerXAnchor, centerY: background.centerYAnchor)
         return header
     }
 }

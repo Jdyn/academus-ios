@@ -8,7 +8,6 @@
 
 import UIKit
 import Locksmith
-import MaterialShowcase
 
 class CoursesController: UITableViewController, UIViewControllerPreviewingDelegate, CourseServiceDelegate, UserIntegrationsDelegate {
     
@@ -47,31 +46,6 @@ class CoursesController: UITableViewController, UIViewControllerPreviewingDelega
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: { self.guidedTutorial() })
-    }
-    
-    func guidedTutorial() {
-        guard UserDefaults.standard.bool(forKey: "CoursesOpened") != true else { return }
-        guard !tableView.visibleCells.isEmpty else { return }
-        guard let first = tableView.visibleCells.first else { return }
-        guard let firstCourse = first as? CourseCell else { return }
-        
-        UserDefaults.standard.set(true, forKey: "CoursesOpened")
-        
-        let showcase = MaterialShowcase()
-        showcase.setTargetView(view: firstCourse.background)
-        showcase.primaryText = "Tap on a class to view its assignments."
-        showcase.secondaryText = ""
-        showcase.shouldSetTintColor = false
-        showcase.targetHolderColor = .clear
-        showcase.targetHolderRadius = 0
-        showcase.backgroundPromptColor = .navigationsDarkGrey
-        showcase.backgroundPromptColorAlpha = 0.9
-        showcase.show(completion: nil)
-    }
-    
     func didAddIntegration() {
         self.loadingAlert(title: "Loading Courses", message: "This will take just a moment...")
         DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
@@ -89,7 +63,7 @@ class CoursesController: UITableViewController, UIViewControllerPreviewingDelega
             didAddIntegration()
         }
     }
-
+    
     func fetchCourses(completion: @escaping CompletionHandler) {
         print("Fetching Courses...")
         courseService.delegate = self
@@ -193,7 +167,7 @@ class CoursesController: UITableViewController, UIViewControllerPreviewingDelega
             return courseBreakdownController
         } else {
             let courseInfoController = CourseInfoController(style: .grouped)
-            courseInfoController.course = cell.course
+            courseInfoController.model = cell.course
             return courseInfoController
         }
     }
