@@ -7,13 +7,11 @@
 //
 
 import UIKit
-import CoreData
 import MaterialShowcase
 
-class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDelegate, UIViewControllerPreviewingDelegate {
+class PlannerController: UITableViewController {
 
-    let plannerService = PlannerService()
-    let statusService = StatusService()
+    let apiService = ApiService()
     var statusButton: UIBarButtonItem?
     var severityColor: UIColor?
     
@@ -22,30 +20,46 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
-        
-        fetchCards { _ in UIView.transition(with: self.tableView,duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve, animations: { self.tableView.reloadData(); DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: { if self.traitCollection.forceTouchCapability == .available { self.guidedTutorial() }})})}
-        
-        statusService.statusDelegate = self
-        statusAlert()
-    }
-
-    func didGetStatus(components: [ComponentModel]) {
-        self.components = components
-        
-        let max = self.components.max { ($0.status ?? 0) < ($1.status ?? 0)}
-        let severity = max?.status
-        switch severity {
-        case 2: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
-        case 3: severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
-        case 4: severityColor = .navigationsRed
-        default: severityColor = .navigationsRed
+        fetchStatus()
+        fetchCards { (success) in
+            if success {
+                UIView.transition(with: self.tableView,duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
+                    self.tableView.reloadData(); DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
+                        if self.traitCollection.forceTouchCapability == .available { self.guidedTutorial() }
+                    })
+                })
+            }
         }
     }
     
-    func statusAlert() {
-        statusService.getStatus { (success) in
+    func fetchCards(completion: @escaping CompletionHandler) {
+        apiService.fetchGenericData(url: ApiManager.planner.getUrl()) { (cards: [PlannerCard]?, success, error) in
             if success {
+                self.cards = cards!
+                completion(true)
+            } else {
+                self.tableViewEmptyLabel(message: error, show: true)
+                completion(false)
+            }
+        }
+    }
+    
+    func fetchStatus() {
+        apiService.fetchGenericData(url: ApiManager.statusAlert.getUrl()) { (components: [ComponentModel]?, success, error) in
+            if success {
+                self.components = components!
+                
+                let max = self.components.max { ($0.status ?? 0) < ($1.status ?? 0)}
+                let severity = max?.status
+                switch severity {
+                case 2: self.severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+                case 3: self.severityColor = UIColor().HexToUIColor(hex: "#EF6C00")
+                case 4: self.severityColor = .navigationsRed
+                default: self.severityColor = .navigationsRed
+                }
+                
                 self.checkForStatus()
             }
         }
@@ -130,85 +144,15 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
         showcase.show(animated: true, completion: nil)
     }
     
-    func didGetPlannerCards(cards: [PlannerCard]) {
-        self.cards.removeAll()
-        for card in cards {
-            self.cards.append(card)
-        }
-    }
-    
-    func fetchCards(completion: @escaping CompletionHandler) {
-        plannerService.delegate = self
-        plannerService.getPlannerCards { (success) in
-            if success {
-                completion(true)
-            } else {
-                completion(false)
-                self.errorLabel(show: true)
-            }
-        }
-    }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        if cards.count == 0 {
-            self.tableViewEmptyLabel(message: "", show: true)
-        } else {
-            self.tableViewEmptyLabel(show: false)
-        }
-        return 1
-    }
-    
-    func errorLabel(show: Bool) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection \nand refresh", font: UIFont.standard!, fontColor: .navigationsLightGrey)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        if show {
-            tableView.backgroundView = label
-        } else {
-            tableView.backgroundView = nil
-        }
-    }
-    
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let cell = previewingContext.sourceView as? PlannerCell,
-              let indexPath = tableView.indexPath(for: cell)
-              else { return nil }
-        
-        let frame = cell.colorView.frame.union(cell.background.frame)
-        previewingContext.sourceRect = frame
-        
-        switch cards[indexPath.row].type {
-        case "assignment_posted", "assignment_updated":
-            let assignmentDetailController = AssignmentDetailController(style: .grouped)
-            assignmentDetailController.assignment = cards[indexPath.row].assignment
-            assignmentDetailController.card = cards[indexPath.row]
-            return assignmentDetailController
-        case "course_updated":
-            let courseDetailsController = CourseDetailsController(style: .grouped)
-            courseDetailsController.barbutton = false
-            courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
-            courseDetailsController.course = cards[indexPath.row].course
-            courseDetailsController.courseID = cards[indexPath.row].course?.id
-            return courseDetailsController
-        default: return UIViewController()
-        }
-    }
-
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-        viewControllerToCommit.navigationItem.rightBarButtonItem?.isEnabled = false
-        viewControllerToCommit.navigationItem.rightBarButtonItem?.tintColor = .clear
-        show(viewControllerToCommit, sender: self)
-    }
-    
     @objc func refreshTable() {
         fetchCards { (success) in
             if success {
-                self.errorLabel(show: false)
+                self.tableViewEmptyLabel(show: false)
                 Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { (time) in
                     self.refreshControl?.endRefreshing()
                     DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
                         self.tableView.reloadData()
-                        self.statusAlert()
+                        self.fetchStatus()
                     })
                 })
             } else {
@@ -223,7 +167,7 @@ class PlannerController: UITableViewController, PlannerCardDelegate, getStatusDe
     }
 }
     
-extension PlannerController { // TABLEVIEW FUNCTIONS
+extension PlannerController: UIViewControllerPreviewingDelegate { // TableView Methods
     
     func setupUI() {
         navigationItem.title = "Planner"
@@ -244,6 +188,7 @@ extension PlannerController { // TABLEVIEW FUNCTIONS
         refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
     }
     
+    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return cards.count }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 6  }
@@ -259,11 +204,9 @@ extension PlannerController { // TABLEVIEW FUNCTIONS
             navigationController?.pushViewController(assignmentDetailController, animated: true)
             tableView.deselectRow(at: indexPath, animated: true)
         case "course_updated":
-            let courseDetailsController = CourseDetailsController(style: .grouped)
+            let courseDetailsController = AssignmentsController(style: .grouped)
             courseDetailsController.barbutton = false
-            courseDetailsController.navigationItem.title = cards[indexPath.row].course?.name
             courseDetailsController.course = cards[indexPath.row].course
-            courseDetailsController.courseID = cards[indexPath.row].course?.id
             navigationController?.pushViewController(courseDetailsController, animated: true)
             tableView.deselectRow(at: indexPath, animated: true)
         default: break
@@ -286,6 +229,35 @@ extension PlannerController { // TABLEVIEW FUNCTIONS
         case "upcoming_assignment": return upcomingAssignment(cell: cell, model: model)
         default: return PlannerCell()
         }
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let cell = previewingContext.sourceView as? PlannerCell,
+            let indexPath = tableView.indexPath(for: cell)
+            else { return nil }
+        
+        let frame = cell.colorView.frame.union(cell.background.frame)
+        previewingContext.sourceRect = frame
+        
+        switch cards[indexPath.row].type {
+        case "assignment_posted", "assignment_updated":
+            let assignmentDetailController = AssignmentDetailController(style: .grouped)
+            assignmentDetailController.assignment = cards[indexPath.row].assignment
+            assignmentDetailController.card = cards[indexPath.row]
+            return assignmentDetailController
+        case "course_updated":
+            let courseDetailsController = AssignmentsController(style: .grouped)
+            courseDetailsController.barbutton = false
+            courseDetailsController.course = cards[indexPath.row].course
+            return courseDetailsController
+        default: return UIViewController()
+        }
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        viewControllerToCommit.navigationItem.rightBarButtonItem?.isEnabled = false
+        viewControllerToCommit.navigationItem.rightBarButtonItem?.tintColor = .clear
+        show(viewControllerToCommit, sender: self)
     }
 }
 

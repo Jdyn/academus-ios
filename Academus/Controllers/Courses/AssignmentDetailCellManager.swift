@@ -34,7 +34,7 @@ enum AssignmentDetailCellManager {
         case .dueDate:
                 let formatter = DateFormatter()
                 formatter.dateFormat = "MMMM d, yyyy"
-                return formatter.string(from: assignment?.assigned_date ?? card?.newScore?.loggedAt ?? Date())
+                return formatter.string(from: assignment?.assignedDate ?? card?.newScore?.loggedAt ?? Date())
         case .description:
             guard assignment?.description != "" else { return "No Description Available" }
             return assignment?.description

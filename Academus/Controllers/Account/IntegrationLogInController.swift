@@ -40,7 +40,7 @@ class IntegrationLogInController: UIViewController, getStatusDelegate {
             if success {
                 self.dismiss(animated: true, completion: {
                     self.navigationController?.popToRootViewController(animated: true)
-                    self.coursesController?.didAddIntegration()
+//                    self.coursesController?.didAddIntegration()
                 })
             } else {
                 self.dismiss(animated: true, completion: {

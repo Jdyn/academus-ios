@@ -16,12 +16,12 @@ struct Assignment: Decodable {
     struct AssignmentCourse: Decodable {
         let id: Int?
         let name: String?
-        let custom_name: String?
+        let customName: String?
     }
-    let assigned_date: Date?
-    let due_date: Date?
-    let is_late: Bool?
-    let late_reason: String?
+    let assignedDate: Date?
+    let dueDate: Date?
+    let isLate: Bool?
+    let lateReason: String?
     let category: Course.Category?
     let score: Score?
     struct Score: Decodable {

@@ -17,7 +17,7 @@ DEPENDENCIES:
   - SwiftyJSON
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Alamofire
     - Charts
     - FreshchatSDK
@@ -35,4 +35,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 5c50c55e908c021ebc2e8ec12a39c97c69c21fa1
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.2

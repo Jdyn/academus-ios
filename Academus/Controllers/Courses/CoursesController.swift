@@ -9,157 +9,105 @@
 import UIKit
 import Locksmith
 
-class CoursesController: UITableViewController, UIViewControllerPreviewingDelegate, CourseServiceDelegate, UserIntegrationsDelegate {
+class CoursesController: UITableViewController {
     
     private let integrationService = IntegrationService()
-    private let courseService = CourseService()
-    var label: UILabel?
+    private let apiService = ApiService()
+    private let cellID = "courseCell"
     
     var courses = [Course]()
-    private let cellId = "courseCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Courses"
-        tableView.register(CourseCell.self, forCellReuseIdentifier: cellId)
-        tableView.separatorStyle = .none
+        extendedLayoutIncludesOpaqueBars = true
+        tableView.register(CourseCell.self, forCellReuseIdentifier: cellID)
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        tableView.separatorStyle = .none
         
-//        setupChatButtonInNavBar()
-        
-        self.extendedLayoutIncludesOpaqueBars = true
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .navigationsGreen
-        refreshControl?.addTarget(self, action: #selector(refreshTable), for: .valueChanged)
-        if courses.isEmpty {
-            fetchCourses(completion: { (success) in
-                if success {
-                    self.errorLabel(show: false)
-                    UIView.transition(with: self.tableView,duration: 0.1, options: .transitionCrossDissolve, animations: {
-                        self.tableView.reloadData()
-                        if self.courses.isEmpty { self.checkIntegrations() }
-                    })
-                } else {
-                    self.errorLabel(show: true)
-                }
-            })
-        }
-    }
-    
-    func didAddIntegration() {
-        self.loadingAlert(title: "Loading Courses", message: "This will take just a moment...")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-            self.refreshTable()
-            self.dismiss(animated: true, completion: nil)
-        })
-    }
-    
-    func didGetUserIntegrations(integrations: [UserIntegrations]) {
-        print(integrations)
-        if integrations.isEmpty {
-            addIntegrationLabel(show: true)
-        } else {
-            addIntegrationLabel(show: false)
-            didAddIntegration()
-        }
-    }
-    
-    func fetchCourses(completion: @escaping CompletionHandler) {
-        print("Fetching Courses...")
-        courseService.delegate = self
-        courseService.getCourses { (success) in
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
+        fetchCourses { (success, error)  in
             if success {
-                print("We finished that.")
-                completion(true)
+                UIView.transition(with: self.tableView, duration: 0.1, options: .transitionCrossDissolve, animations: {
+                    self.tableView.reloadData()
+                })
             } else {
-                print("failed to get courses")
-                completion(false)
+                self.tableViewEmptyLabel(message: error, show: true)
             }
         }
     }
     
-    func checkIntegrations() {
-        integrationService.userIntegrationsDelegate = self
-        integrationService.userIntegrations(completion: { _ in })
-    }
-    
-    func errorLabel(show: Bool) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: "Oops... :( \nCheck your Internet connection \nand refresh", font: UIFont.standard!, fontColor: .navigationsLightGrey)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        if show {
-            tableView.backgroundView = label
-        } else {
-            tableView.backgroundView = nil
-        }
-    }
-    
-    func addIntegrationLabel(show: Bool) {
-        let bgView = UIView()
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height)).setUpLabel(text: "You don't have any courses!", font: UIFont.standard!, fontColor: .navigationsLightGrey)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        let button = UIButton().setUpButton(title: "Get Started", font: UIFont.standard!, fontColor: .navigationsGreen)
-        button.addTarget(self, action: #selector(addIntegration), for: .touchUpInside)
+    func integrationCheck() {
         
-        bgView.addSubviews(views: [label, button])
-        label.anchors(centerX: bgView.centerXAnchor, centerY: bgView.centerYAnchor)
-        button.anchors(top: label.bottomAnchor, topPad: 6, centerX: bgView.centerXAnchor)
+    }
+    
+    func fetchCourses(completion: @escaping (_ success: Bool, _ error: String?) -> ()) {
         
-        if show {
-            tableView.backgroundView = bgView
-        } else {
-            tableView.backgroundView = nil
+        apiService.fetchGenericData(url: ApiManager.courses.getUrl()) { (courses: [Course]?, success, error) in
+            if success {
+                self.courses.removeAll()
+                self.courses = courses!
+                if self.courses.isEmpty { self.integrationCheck() }
+                completion(true, nil)
+            } else {
+                completion(false, error)
+            }
         }
     }
     
-    @objc func addIntegration() {
-        let controller = IntegrationSelectController()
-        controller.coursesController = self
-        navigationController?.pushViewController(controller, animated: true)
-        tableView.backgroundView = nil
-    }
-    
-    func didGetCourses(courses: [Course]) {
-        print("Initiating Course Protocol...")
-        self.courses.removeAll()
-        for course in courses {
-            self.courses.append(course)
+    @objc func refresh() {
+        fetchCourses { (success, error)  in
+            if success {
+                self.tableViewEmptyLabel(show: false)
+                Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (time) in
+                    self.refreshControl?.endRefreshing()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
+                        self.tableView.reloadData()
+                        if self.courses.isEmpty { self.integrationCheck() }
+                    })
+                })
+            } else {
+                Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (time) in
+                    self.refreshControl?.endRefreshing()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
+                        self.alertMessage(title: "Could not refresh :(", message: error!)
+                    })
+                })
+            }
         }
     }
+}
+
+extension CoursesController: UIViewControllerPreviewingDelegate { // TableView & Preview Methods
     
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return courses.count }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 90 }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CourseCell
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! CourseCell
+        
+        if traitCollection.forceTouchCapability == .available { registerForPreviewing(with: self, sourceView: cell) }
         let course = self.courses[indexPath.row]
         cell.course = course
-        
-        if traitCollection.forceTouchCapability == .available {
-            registerForPreviewing(with: self, sourceView: cell)
-        }
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let courseDetailsController = CourseDetailsController()
-        courseDetailsController.navigationItem.title = courses[indexPath.row].name
+        let courseDetailsController = AssignmentsController()
         courseDetailsController.course = courses[indexPath.row]
-        courseDetailsController.courseID = courses[indexPath.row].id
         
         navigationController?.pushViewController(courseDetailsController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return courses.count }
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 90 }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         guard let cell = previewingContext.sourceView as? CourseCell else { return nil }
         previewingContext.sourceRect = cell.background.frame
         
         guard let indexPath = tableView.indexPath(for: cell) else { return nil }
-        
-
         
         if (courses[indexPath.row].categories?.count)! > 0 {
             let courseBreakdownController = CourseBreakdownController(style: .grouped)
@@ -175,27 +123,5 @@ class CoursesController: UITableViewController, UIViewControllerPreviewingDelega
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         let controller = viewControllerToCommit
         show(controller, sender: self)
-    }
-    
-    @objc func refreshTable() {
-        fetchCourses() { (success) in
-            if success {
-                self.errorLabel(show: false)
-                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { (time) in
-                    self.refreshControl?.endRefreshing()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
-                        self.tableView.reloadData()
-                        if self.courses.isEmpty { self.checkIntegrations() }
-                    })
-                })
-            } else {
-                Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false, block: { (time) in
-                    self.refreshControl?.endRefreshing()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250), execute: {
-                        self.alertMessage(title: "Could not refresh :(", message: "Check your internet connection and try again")
-                    })
-                })
-            }
-        }
     }
 }

@@ -8,12 +8,12 @@
 
 import UIKit
 
-class CourseAssignmentCell: UITableViewCell {
+class AssignmentCell: UITableViewCell {
     
     var assignment : Assignment? {
         didSet {
-            guard let assignedDate = assignment?.assigned_date else { return }
-            guard let dueDate = assignment?.due_date else { return }
+            guard let assignedDate = assignment?.assignedDate else {print("RETURNED"); return }
+            guard let dueDate = assignment?.dueDate else {print("RETURNED"); return }
             
             if assignedDate > Date() {
                 let date = daysBetween(date: dueDate)
@@ -27,48 +27,20 @@ class CourseAssignmentCell: UITableViewCell {
         }
     }
     
-    let background: UIView = {
-        let view = UIView()
-        view.backgroundColor = .tableViewMediumGrey
-        return view
-    }()
+    let background = UIView().setupBackground(bgColor: .tableViewMediumGrey)
+    let titleLabel = UILabel().setUpLabel(text: "", font: UIFont.standard!, fontColor: .navigationsWhite)
+    let dateLabel = UILabel().setUpLabel(text: "", font: UIFont.subheader!, fontColor: .tableViewLightGrey)
+    let gradeLabel = UILabel().setUpLabel(text: "", font: UIFont.subheader!, fontColor: .navigationsGreen)
+    let arrow = UIImageView().setupImageView(color: .navigationsGreen, image: #imageLiteral(resourceName: "arrowRight"))
 
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.lineBreakMode = .byTruncatingTail
-        label.numberOfLines = 1
-        label.font = UIFont.standard
-        label.textColor = .navigationsWhite
-        return label
-    }()
-    
-    let dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.subheader
-        label.textColor = .tableViewLightGrey
-        return label
-    }()
-    
-    let gradeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.subheader
-        label.textColor = .navigationsGreen
-        return label
-    }()
-    
-    let arrow: UIImageView = {
-        let view = UIImageView()
-        view.image = #imageLiteral(resourceName: "arrowRight")
-        view.tintColor = .navigationsGreen
-        return view
-    }()
-    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .tableViewDarkGrey
         background.roundCorners(corners: .all)
         
+        titleLabel.lineBreakMode = .byTruncatingTail
+        titleLabel.numberOfLines = 1
+
         selectedBackgroundView = selectedBackgroundView()
         separatorInset = UIEdgeInsets.zero
         

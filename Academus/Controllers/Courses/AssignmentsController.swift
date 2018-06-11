@@ -9,13 +9,12 @@
 import UIKit
 import Locksmith
 
-class CourseDetailsController: UITableViewController, UIViewControllerPreviewingDelegate, AssignmentServiceDelegate {
+class AssignmentsController: UITableViewController {
     
-    private let assignmentService = AssignmentService()
+    private let apiService = ApiService()
+    private let cellID = "AssignmentCell"
     var assignments = [Assignment]()
-    var assignmentID = "AssignmentCell"
     var course: Course?
-    var courseID : Int?
     var barbutton: Bool = true
     
     var infoButton: UIBarButtonItem?
@@ -23,9 +22,12 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.separatorColor = .tableViewSeperator
-        tableView.separatorStyle = .none
+        navigationItem.title = course?.name
         self.extendedLayoutIncludesOpaqueBars = true
+        tableView.separatorStyle = .none
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        tableView.register(AssignmentCell.self, forCellReuseIdentifier: cellID)
+        
         if barbutton {
             infoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "about"), style: .plain, target: self, action: #selector(handleCourseInfo))
             summaryButton = UIBarButtonItem(image: #imageLiteral(resourceName: "barChart"), style: .plain, target: self, action: #selector(handleCourseSummary))
@@ -33,11 +35,21 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
                 summaryButton?.isEnabled = false
             }
             navigationItem.rightBarButtonItems = [infoButton!, summaryButton!]
+            
+            
+            Timer.scheduledTimer(withTimeInterval: 6, repeats: false, block: { (time) in
+                self.tableView.reloadData()
+                print("REFREHSED")
+            })
         }
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
-        tableView.register(CourseAssignmentCell.self, forCellReuseIdentifier: assignmentID)
-        
-        fetchAssignments()
+
+        fetchAssignments { (success) in
+            if success {
+                UIView.transition(with: self.tableView, duration: 0.1, options: .transitionCrossDissolve, animations: {
+                    self.tableView.reloadData()
+                })
+            }
+        }
     }
     
     @objc func handleCourseSummary() {
@@ -46,37 +58,29 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
         navigationController?.pushViewController(courseBreakdownController, animated: true)
     }
 
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UIView()
-    }
+
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 3
-    }
-    
-    func fetchAssignments() {
-        guard courseID != nil else {
+    func fetchAssignments(completion: @escaping CompletionHandler) {
+        guard course?.id != nil else {
             alertMessage(title: "Oops", message: "An error has occured. \nIf you encounter this, please contact the chat in the Manage tab.")
             return
         }
-        assignmentService.delegate = self
-        assignmentService.getAssignments(courseID: courseID!) { (success) in
+        
+        apiService.fetchGenericData(url: ApiManager.assignments.getUrl(courseID: course?.id)) { (assignments: [Assignment]?, success, error) in
             if success {
-                self.tableView.reloadData()
-                print("We finished that.")
+                self.assignments = assignments!
+                completion(true)
             } else {
-                print("failed to get courses")
+                completion(false)
             }
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: assignmentID, for: indexPath) as! CourseAssignmentCell
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! AssignmentCell
         cell.assignment = assignments[indexPath.row]
         
-        if traitCollection.forceTouchCapability == .available {
-            registerForPreviewing(with: self, sourceView: cell)
-        }
+        if traitCollection.forceTouchCapability == .available { registerForPreviewing(with: self, sourceView: cell) }
         
         return cell
     }
@@ -89,20 +93,23 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return assignments.count
+    @objc func handleCourseInfo() {
+        let courseInfoController = CourseInfoController(style: .grouped)
+        courseInfoController.model = course
+        navigationController?.pushViewController(courseInfoController, animated: true)
     }
+}
+
+extension AssignmentsController: UIViewControllerPreviewingDelegate { // TableView Methods
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return assignments.count }
+    override func numberOfSections(in tableView: UITableView) -> Int { return 1 }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 100 }
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return UIView() }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 3 }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let cell = previewingContext.sourceView as? CourseAssignmentCell else { return nil }
+        guard let cell = previewingContext.sourceView as? AssignmentCell else { return nil }
         previewingContext.sourceRect = cell.background.frame
         
         let assignmentDetailController = AssignmentDetailController(style: .grouped)
@@ -113,20 +120,5 @@ class CourseDetailsController: UITableViewController, UIViewControllerPreviewing
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         guard let controller = viewControllerToCommit as? AssignmentDetailController else { return }
         show(controller, sender: self)
-    }
-    
-    
-    func didGetAssignments(assignments: [Assignment]) {
-        self.assignments = assignments
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
-    @objc func handleCourseInfo() {
-        let courseInfoController = CourseInfoController(style: .grouped)
-        courseInfoController.model = course
-        navigationController?.pushViewController(courseInfoController, animated: true)
     }
 }

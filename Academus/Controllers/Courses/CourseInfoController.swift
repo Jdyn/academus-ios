@@ -110,6 +110,7 @@ extension CourseInfoController {
 
         let courseTeacher = UILabel().setUpLabel(text: model?.teacher?.name ?? "", font: UIFont.standard!, fontColor: .navigationsGreen)
         let courseName = UILabel().setUpLabel(text: model?.name ?? "Course", font: UIFont.largeHeader!, fontColor: .navigationsWhite)
+        courseName.numberOfLines = 0
         let gradeLabel = UILabel().setUpLabel(text: "\(model?.grade?.letter ?? "")", font: UIFont.subtext!, fontColor: .navigationsGreen)
         let gradeTitle = UILabel().setUpLabel(text: "Grade", font: UIFont.standard!, fontColor: .tableViewLightGrey)
         gradeLabel.font = UIFont(name: "AvenirNext-demibold", size: 48)
@@ -217,12 +218,12 @@ extension CourseInfoController {
         formatter.multiplier = 1
         formatter.percentSymbol = "%"
         
-        let array: [NSUIColor] = [
-            NSUIColor(cgColor: UIColor.navigationsLightGrey.cgColor),
-            NSUIColor(cgColor: UIColor.navigationsGreen.cgColor),
-            NSUIColor(cgColor: UIColor.navigationsLightGrey.cgColor),
-            NSUIColor(cgColor: UIColor.navigationsLightGrey.cgColor)
-        ]
+//        let array: [NSUIColor] = [
+//            NSUIColor(cgColor: UIColor.navigationsLightGrey.cgColor),
+//            NSUIColor(cgColor: UIColor.navigationsGreen.cgColor),
+//            NSUIColor(cgColor: UIColor.navigationsLightGrey.cgColor),
+//            NSUIColor(cgColor: UIColor.navigationsLightGrey.cgColor)
+//        ]
         
         let dataSet = BarChartDataSet(values: dataEntries, label: "test")
         dataSet.colors = ChartColorTemplates.pastel()//array
